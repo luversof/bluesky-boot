@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>net.luversof.boot</groupId>
 		<artifactId>bluesky-boot-dependencies</artifactId>
-		<version>1.5.3.RELEASE</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../bluesky-boot-dependencies</relativePath>
 	</parent>
 	<artifactId>bluesky-boot-parent</artifactId>
@@ -13,37 +13,14 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
-		<!-- Generally Useful Test Dependencies -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-library</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 	</dependencies>
+
 </project>

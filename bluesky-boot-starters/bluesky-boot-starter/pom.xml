@@ -3,7 +3,7 @@
   <parent>
     <groupId>net.luversof.boot</groupId>
     <artifactId>bluesky-boot-starters</artifactId>
-    <version>1.5.3.RELEASE</version>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>bluesky-boot-starter</artifactId>
 </project>

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>net.luversof.boot</groupId>
 		<artifactId>bluesky-boot-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../bluesky-boot-parent</relativePath>
 	</parent>
 	<artifactId>bluesky-boot-autoconfigure</artifactId>
@@ -17,5 +17,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+		<!-- (s) test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- (e) test -->
 	</dependencies>
 </project>
