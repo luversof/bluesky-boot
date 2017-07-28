@@ -13,8 +13,21 @@
 		<version>2.0.0.M3</version>
 	</parent>
 	<properties>
+		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 	</properties>
 	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-autoconfigure</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-starter</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+		</dependencies>
 	</dependencyManagement>
 	<repositories>
 		<repository>

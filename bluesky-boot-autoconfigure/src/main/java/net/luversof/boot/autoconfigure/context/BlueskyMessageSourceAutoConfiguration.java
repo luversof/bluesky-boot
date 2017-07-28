@@ -20,6 +20,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.luversof.context.support.BlueskyReloadableResourceBundleMessageSource;
 
@@ -30,6 +31,7 @@ import net.luversof.context.support.BlueskyReloadableResourceBundleMessageSource
 @ConfigurationProperties(prefix = "bluesky")
 public class BlueskyMessageSourceAutoConfiguration {
 	
+	@Getter
 	@Setter
 	private Map<String, List<String>> messageSource;
 	
