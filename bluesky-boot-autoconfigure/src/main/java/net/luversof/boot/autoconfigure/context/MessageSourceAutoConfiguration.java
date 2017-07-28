@@ -16,6 +16,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.AbstractResourceBasedMessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
@@ -24,12 +25,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.luversof.context.support.BlueskyReloadableResourceBundleMessageSource;
 
-@Configuration
+@Configuration("_blueskyMessageSourceAutoConfiguration")
 @ConditionalOnMissingBean(value = MessageSource.class, search = SearchStrategy.CURRENT)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "bluesky")
-public class BlueskyMessageSourceAutoConfiguration {
+public class MessageSourceAutoConfiguration {
 	
 	@Getter
 	@Setter
@@ -79,5 +80,12 @@ public class BlueskyMessageSourceAutoConfiguration {
 		messageSource.setAlwaysUseMessageFormat(isAlwaysUseMessageFormat());
 		return messageSource;
 	}
-			
+	
+	@Bean
+	@ConditionalOnMissingBean
+	public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource) {
+		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
+		MessageUtil.setMessageSourceAccessor(messageSourceAccessor);
+		return messageSourceAccessor;
+	}
 }

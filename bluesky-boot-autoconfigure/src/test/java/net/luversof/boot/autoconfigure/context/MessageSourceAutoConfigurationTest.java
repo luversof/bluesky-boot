@@ -14,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import net.luversof.boot.autoconfigure.context.BlueskyMessageSourceAutoConfiguration;
+import net.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ImportAutoConfiguration(BlueskyMessageSourceAutoConfiguration.class)
+@ImportAutoConfiguration(MessageSourceAutoConfiguration.class)
 @DirtiesContext
-public class BlueskyMessageSourceAutoConfigurationTest {
+public class MessageSourceAutoConfigurationTest {
 	
 	@Autowired
 	private ApplicationContext context;
