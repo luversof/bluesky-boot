@@ -3,6 +3,7 @@ package net.luversof.boot.autoconfigure.context;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class MessageSourceAutoConfiguration {
 	
 	@Getter
 	@Setter
-	private Map<String, List<String>> messageSource;
+	private Map<String, List<String>> messageSource = new HashMap<>();
 	
 	@Autowired
 	private Environment envirionment;
