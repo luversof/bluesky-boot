@@ -11,5 +11,9 @@
   <modules>
   	<module>bluesky-boot-starter</module>
   	<module>bluesky-boot-starter-parent</module>
+  	<module>bluesky-boot-starter-data-jpa</module>
+  	<module>bluesky-boot-starter-jdbc</module>
+  	<module>bluesky-boot-starter-mybatis</module>
+  	<module>bluesky-boot-starter-mongodb</module>
   </modules>
 </project>

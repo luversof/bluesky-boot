@@ -23,6 +23,43 @@
 			<optional>true</optional>
 		</dependency>
 		
+		<!-- (s) data-jpa -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) data-jpa -->
+		
+		<!-- (s) jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) jdbc -->
+		
+		<!-- (s) mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) mongodb -->
+		
+		<!-- (s) mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-typehandlers-jsr310</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) mybatis -->
+
 		<!-- (s) test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

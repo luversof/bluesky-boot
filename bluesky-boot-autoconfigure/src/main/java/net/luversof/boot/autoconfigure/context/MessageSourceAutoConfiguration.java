@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.luversof.context.support.BlueskyReloadableResourceBundleMessageSource;
 
-@Configuration("_blueskyMessageSourceAutoConfiguration")
+@Configuration("_blueskyBootMessageSourceAutoConfiguration")
 @ConditionalOnMissingBean(value = MessageSource.class, search = SearchStrategy.CURRENT)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties
