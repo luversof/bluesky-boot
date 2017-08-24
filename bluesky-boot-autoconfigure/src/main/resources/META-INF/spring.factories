@@ -2,5 +2,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 net.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
 net.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\
-net.luversof.boot.autoconfigure.data.jpa.JpaAutoConfiguration,\
-net.luversof.boot.autoconfigure.data.mongodb.MongoDBAutoConfiguration
+net.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration,\
+net.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,\
+net.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration

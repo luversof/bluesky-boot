@@ -31,6 +31,22 @@
 		</dependency>
 		<!-- (e) data-jpa -->
 		
+		<!-- (s) data-mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) data-mongodb -->
+		
+		<!-- (s) data-rest -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-webmvc</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) data-rest -->
+		
 		<!-- (s) jdbc -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -38,14 +54,6 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) jdbc -->
-		
-		<!-- (s) mongodb -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) mongodb -->
 		
 		<!-- (s) mybatis -->
 		<dependency>

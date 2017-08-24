@@ -34,6 +34,16 @@
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-starter-data-mongodb</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-starter-data-rest</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-jdbc</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>

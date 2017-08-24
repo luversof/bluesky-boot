@@ -1,27 +1,24 @@
-package net.luversof.boot.autoconfigure.data.mongodb;
+package net.luversof.boot.autoconfigure.data.mongo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import lombok.extern.slf4j.Slf4j;
 import net.luversof.boot.autoconfigure.TestAutoConfigurationPackage;
+import net.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ImportAutoConfiguration(MongoDBAutoConfiguration.class)
+@ImportAutoConfiguration(MongoDataAutoConfiguration.class)
 @Slf4j
 //@DirtiesContext
-public class MongoDBAutoConfigurationTest {
+public class MongoDataAutoConfigurationTest {
 
 	@Autowired
 	private CustomerRepository repository;
@@ -62,7 +59,7 @@ public class MongoDBAutoConfigurationTest {
 	
 	@Configuration
 	@SpringBootApplication
-	@TestAutoConfigurationPackage(MongoDBAutoConfigurationTest.class)
+	@TestAutoConfigurationPackage(MongoDataAutoConfigurationTest.class)
 	protected static class Config {
 
 	}

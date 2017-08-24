@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.data.mongodb;
+package net.luversof.boot.autoconfigure.data.mongo;
 
 import org.springframework.data.annotation.Id;
 
