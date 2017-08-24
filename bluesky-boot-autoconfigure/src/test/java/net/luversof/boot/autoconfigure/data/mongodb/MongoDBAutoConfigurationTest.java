@@ -4,19 +4,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import lombok.extern.slf4j.Slf4j;
+import net.luversof.boot.autoconfigure.TestAutoConfigurationPackage;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ImportAutoConfiguration(MongoDBAutoConfiguration.class)
-@DirtiesContext
 @Slf4j
-public class SimpleTest {
+//@DirtiesContext
+public class MongoDBAutoConfigurationTest {
 
 	@Autowired
 	private CustomerRepository repository;
@@ -56,6 +61,8 @@ public class SimpleTest {
 	}
 	
 	@Configuration
+	@SpringBootApplication
+	@TestAutoConfigurationPackage(MongoDBAutoConfigurationTest.class)
 	protected static class Config {
 
 	}
