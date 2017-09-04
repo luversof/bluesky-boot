@@ -1,10 +1,10 @@
 pipeline {
   agent any
   stages {
-    stage('tt') {
+    stage('test') {
       steps {
         echo 'test'
-        waitForQualityGate()
+        build 'bluesky-boot-sonarqube'
       }
     }
   }
