@@ -25,6 +25,8 @@ public class DataSourceAutoConfigurationTest {
 	@Test
 	public void test() {
 		log.debug("test : {}", test);
+		log.debug("test : {}", System.getProperty("java.version"));
+		
 	}
 	
 	@Configuration
