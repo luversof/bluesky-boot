@@ -23,6 +23,14 @@
 			<optional>true</optional>
 		</dependency>
 		
+		<!-- (s) batch -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-batch</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) batch -->
+		
 		<!-- (s) data-jpa -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

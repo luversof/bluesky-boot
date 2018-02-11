@@ -30,6 +30,11 @@
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-starter-batch</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-data-jpa</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
