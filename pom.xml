@@ -5,19 +5,15 @@
 	<artifactId>bluesky-boot-build</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<profiles>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>bluesky-boot-autoconfigure</module>
-				<module>bluesky-boot-dependencies</module>
-				<module>bluesky-boot-docs</module>
-				<module>bluesky-boot-parent</module>
-				<module>bluesky-boot-starters</module>
-			</modules>
-		</profile>
-	</profiles>
+	<properties>
+		<main.basedir>${basedir}/../..</main.basedir>
+	</properties>
+	<modules>
+		<module>bluesky-boot-actuator-autoconfigure</module>
+		<module>bluesky-boot-autoconfigure</module>
+		<module>bluesky-boot-dependencies</module>
+		<module>bluesky-boot-docs</module>
+		<module>bluesky-boot-parent</module>
+		<module>bluesky-boot-starters</module>
+	</modules>
 </project>
