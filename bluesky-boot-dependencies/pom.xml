@@ -18,6 +18,7 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<!-- (s) spring boot -->
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-autoconfigure</artifactId>
@@ -58,6 +59,7 @@
 				<artifactId>bluesky-boot-starter-mybatis</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
+			<!-- (e) spring boot -->
 
 
 			<!-- (s) mybatis -->
