@@ -9,7 +9,6 @@
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
 	<modules>
-		<module>bluesky-boot-actuator-autoconfigure</module>
 		<module>bluesky-boot-autoconfigure</module>
 		<module>bluesky-boot-dependencies</module>
 		<module>bluesky-boot-docs</module>
