@@ -12,7 +12,7 @@ spring:
             uri: http://localhost:8888
 ---
 management.endpoints.web:
-  expose: '*'
+  exposure.include: '*'
   base-path: /actuator
 eureka:
   client:
