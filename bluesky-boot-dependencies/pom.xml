@@ -14,7 +14,7 @@
 	<properties>
 		<java.version>9</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<spring-cloud.version>Finchley.M8</spring-cloud.version>
+		<spring-cloud.version>Finchley.M9</spring-cloud.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
