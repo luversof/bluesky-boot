@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataSourceAutoConfigurationTest {
 	
-	@Value("${datasource.mysql.driver-class-name}")
+	@Value("${datasource.default.url}")
 	String test;
 	
 	

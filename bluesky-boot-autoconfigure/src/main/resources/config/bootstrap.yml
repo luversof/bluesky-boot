@@ -11,6 +11,12 @@ spring:
         config:
             uri: http://localhost:8888
 ---
+spring:
+    profiles: dockerdev
+    cloud:
+        config:
+            uri: http://docker:8888
+---
 management.endpoints.web:
   exposure.include: '*'
   base-path: /actuator
