@@ -100,6 +100,34 @@
 			<!-- (e) boot-admin -->
 		</dependencies>
 	</dependencyManagement>
+	<profiles>
+		<profile>
+			<id>dockerdev</id>
+			<repositories>
+				<repository>
+					<id>bluesky-docker-nexus</id>
+					<url>http://nexus:8081/repository/maven-public/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+					</snapshots>
+				</repository>
+			</repositories>
+			<distributionManagement>
+				<repository>
+					<id>bluesky-releases</id>
+					<url>http://nexus:8081/repository/maven-releases/</url>
+				</repository>
+				<snapshotRepository>
+					<id>bluesky-snapshots</id>
+					<url>http://nexus:8081/repository/maven-snapshots/</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
 	<repositories>
 		<repository>
 			<id>spring-snapshots</id>
