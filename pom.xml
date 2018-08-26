@@ -4,18 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.luversof.boot</groupId>
 	<artifactId>bluesky-boot-build</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+	</parent>
 	<properties>
+		<revision>0.0.1-SNAPSHOT</revision>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
-	<modules>
-		<module>bluesky-boot-autoconfigure</module>
-		<module>bluesky-boot-dependencies</module>
-		<module>bluesky-boot-docs</module>
-		<module>bluesky-boot-parent</module>
-		<module>bluesky-boot-starters</module>
-	</modules>
 	<profiles>
 		<profile>
 			<id>dockerdev</id>
