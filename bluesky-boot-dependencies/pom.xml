@@ -12,7 +12,6 @@
 	</parent>
 	<properties>
 		<java.version>8</java.version>
-		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
 	</properties>
 	<dependencyManagement>
@@ -21,42 +20,42 @@
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-autoconfigure</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-batch</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-data-jpa</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-data-rest</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-jdbc</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-data-mongodb</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-mybatis</artifactId>
-				<version>${bluesky-boot.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<!-- (e) spring boot -->
 
