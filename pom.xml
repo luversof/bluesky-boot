@@ -1,69 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.luversof.boot</groupId>
 	<artifactId>bluesky-boot-build</artifactId>
-	<version>${revision}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.4.RELEASE</version>
-	</parent>
 	<properties>
-		<revision>0.0.1-SNAPSHOT</revision>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
-	<profiles>
-		<profile>
-			<id>dockerdev</id>
-			<repositories>
-				<repository>
-					<id>bluesky-docker-nexus</id>
-					<url>http://nexus:8081/repository/maven-public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>always</updatePolicy>
-					</snapshots>
-				</repository>
-			</repositories>
-			<distributionManagement>
-				<repository>
-					<id>bluesky-releases</id>
-					<url>http://nexus:8081/repository/maven-releases/</url>
-				</repository>
-				<snapshotRepository>
-					<id>bluesky-snapshots</id>
-					<url>http://nexus:8081/repository/maven-snapshots/</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-	</profiles>
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
+	<modules>
+		<module>bluesky-boot-autoconfigure</module>
+		<module>bluesky-boot-dependencies</module>
+		<module>bluesky-boot-docs</module>
+		<module>bluesky-boot-parent</module>
+		<module>bluesky-boot-starters</module>
+	</modules>
 </project>
