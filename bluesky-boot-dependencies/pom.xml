@@ -12,7 +12,7 @@
 		<version>2.0.4.RELEASE</version>
 	</parent>
 	<properties>
-		<java.version>8</java.version>
+		<java.version>10</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
 	</properties>
