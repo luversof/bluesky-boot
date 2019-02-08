@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @Configuration("_blueskyBootDataSourceAutoConfiguration")
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @PropertySource("classpath:jdbc/jdbc.properties")
-@PropertySource("classpath:jdbc/jdbc-${spring.profiles.active}.properties")
+@PropertySource("classpath:jdbc/jdbc-${net-profile}.properties")
 public class DataSourceAutoConfiguration {
 
 	
