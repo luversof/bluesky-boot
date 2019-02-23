@@ -45,8 +45,11 @@ spring:
   cloud:
     inetutils:
       ignoredInterfaces:
-        - docker0
-        - veth.*
+        - eth0
+        - eth1
+        - eth2
+        - eth3
+        - lo
 management.endpoints.web:
   exposure.include: '*'
   base-path: /actuator
