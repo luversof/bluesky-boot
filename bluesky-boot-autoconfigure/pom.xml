@@ -84,11 +84,6 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-typehandlers-jsr310</artifactId>
-			<optional>true</optional>
-		</dependency>
 		<!-- (e) mybatis -->
 
 		<!-- (s) boot admin -->
