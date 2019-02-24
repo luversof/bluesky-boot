@@ -42,17 +42,14 @@ eureka:
     service-url:
 #      defaultZone: http://netflix-eureka-server:8761/eureka
       defaultZone: http://192.168.0.11:8761/eureka
-      
+  instance:    ip-address: 192.168.0.11
 ---
 spring:
   cloud:
     inetutils:
       ignoredInterfaces:
-        - eth0
-        - eth1
-        - eth2
-        - eth3
-        - lo
+        - docker0
+        - veth.*
 management.endpoints.web:
   exposure.include: '*'
   base-path: /actuator
@@ -61,7 +58,6 @@ eureka:
     region: korea
   instance:
     prefer-ip-address: true
-    hostname: ${vcap.application.uris[0]}
     instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
     status-page-url-path: ${management.endpoints.web.base-path}/info
     health-check-url-path: ${management.endpoints.web.base-path}/health
