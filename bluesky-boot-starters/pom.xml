@@ -13,8 +13,8 @@
   	<module>bluesky-boot-starter-batch</module>
   	<module>bluesky-boot-starter-data-jpa</module>
   	<module>bluesky-boot-starter-data-rest</module>
+  	<module>bluesky-boot-starter-data-mongodb-reactive</module>
   	<module>bluesky-boot-starter-jdbc</module>
-  	<module>bluesky-boot-starter-mongodb</module>
   	<module>bluesky-boot-starter-mybatis</module>
   	<module>bluesky-boot-starter-parent</module>
   </modules>

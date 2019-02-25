@@ -7,8 +7,8 @@
 		<artifactId>bluesky-boot-starters</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>bluesky-boot-starter-mongodb</artifactId>
-	<dependencies>
+	<artifactId>bluesky-boot-starter-data-mongodb-reactive</artifactId>
+		<dependencies>
 		<dependency>
 			<groupId>net.luversof.boot</groupId>
 			<artifactId>bluesky-boot-starter</artifactId>
@@ -16,7 +16,7 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
 		</dependency>
 	</dependencies>
 </project>
