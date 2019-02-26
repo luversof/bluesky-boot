@@ -1,4 +1,4 @@
-package net.luversof.boot.exception;
+package net.luversof.boot.autoconfigure.web.servlet.error;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
@@ -28,6 +30,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
+import net.luversof.boot.exception.BlueskyException;
+import net.luversof.boot.exception.ErrorMessage;
+import net.luversof.boot.exception.ErrorMessageInterface;
+import net.luversof.boot.exception.ErrorPage;
 
 /**
  * 공통 에러 처리 핸들러
@@ -35,9 +41,10 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@ConditionalOnWebApplication(type = Type.SERVLET)
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class BlueskyExceptionHandler {
+public class ServletExceptionHandler {
 	
 	@Resource(name = "messageSourceAccessor")
 	private MessageSourceAccessor messageSourceAccessor;
