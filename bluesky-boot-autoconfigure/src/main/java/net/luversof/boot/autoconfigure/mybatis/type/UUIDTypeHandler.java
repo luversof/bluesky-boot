@@ -8,9 +8,8 @@ import java.util.UUID;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.MappedJdbcTypes;
 
-@MappedJdbcTypes(JdbcType.BINARY)
+//@MappedJdbcTypes(JdbcType.BINARY)
 public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
 
 	@Override

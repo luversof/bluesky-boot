@@ -6,9 +6,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
