@@ -1,0 +1,64 @@
+= 개발자 가이드
+Doc Writer <bluesky@example.org>
+ifndef::testsourcedir[:testsourcedir: ../../test/java]
+
+This is a user manual for an example project.
+
+== 전체 프로젝트
+
+프로젝트를 소개하는 글 입니다. +
+이렇게 만들었습니다. +
+줄바꾸려면 마지막에 + 를 넣는다. +
+이렇게
+링크를 어떻게거나?123
+link:brick/index.adoc[]
+link:test.adoc[]
+
+include :: test.adoc []
+
+
+
+
+== Source Code
+
+[source,java]
+.Java code from project
+----
+include::{testsourcedir}/example/StringUtils.java[tags=contains,indent=0]
+----
+
+----
+include::{sourcedir}/net/luversof/context/support/BlueskyReloadableResourceBundleMessageSource.java[tags=contains,indent=0]
+----
+
+This page was built by the following command:
+
+ $ mvn
+
+== Images
+
+[.thumb]
+image::sunset.jpg[scaledwidth=75%]
+
+== Attributes
+
+.Built-in
+asciidoctor-version:: {asciidoctor-version}
+safe-mode-name:: {safe-mode-name}
+docdir:: {docdir}
+docfile:: {docfile}
+imagesdir:: {imagesdir}
+
+.Custom
+project-version:: {project-version}
+sourcedir:: {sourcedir}
+endpoint-url:: {endpoint-url}
+
+== Includes
+
+.include::brick/_module_a.adoc[]
+====
+include::brick/_module_a.adoc[]
+====
+
+WARNING: Includes can be tricky!

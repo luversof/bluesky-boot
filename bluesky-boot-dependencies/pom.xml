@@ -7,9 +7,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.4.RELEASE</version>
+		<groupId>net.luversof.boot</groupId>
+		<artifactId>bluesky-boot-build</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<properties>
 		<java.version>11</java.version>
@@ -57,6 +57,11 @@
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-mybatis</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-docs</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<!-- (e) spring boot -->
