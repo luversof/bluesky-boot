@@ -10,6 +10,8 @@ This is a user manual for an example project.
 == 소개
 이것은 테스트
 
+include::{snippets}/error-example/curl-request.adoc[]
+
 
 백엔드 개발자 가이드
 프론트 개발자 가이드123
