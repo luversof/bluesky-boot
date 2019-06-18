@@ -11,8 +11,7 @@
 	<artifactId>bluesky-boot-docs</artifactId>
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
-		<asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
-		<asciidoctorj.version>2.0.0</asciidoctorj.version>
+		<asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -55,33 +54,9 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*Documentation.java</include>
-					</includes>
-					<argLine>-Dspring.profiles.active=local</argLine>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.asciidoctor</groupId>
 				<artifactId>asciidoctor-maven-plugin</artifactId>
-				<version>1.5.3</version>
-				<executions>
-					<execution>
-						<id>generate-docs</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>process-asciidoc</goal>
-						</goals>
-						<configuration>
-							<backend>html</backend>
-							<doctype>book</doctype>
-							<preserveDirectories>true</preserveDirectories>
-						</configuration>
-					</execution>
-				</executions>
+				<version>${asciidoctor.maven.plugin.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.springframework.restdocs</groupId>
@@ -89,23 +64,24 @@
 						<version>${spring-restdocs.version}</version>
 					</dependency>
 				</dependencies>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
+						<id>asciidoc-to-html</id>
 						<phase>prepare-package</phase>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>process-asciidoc</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.outputDirectory}/static/docs</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.build.directory}/generated-docs</directory>
-								</resource>
-							</resources>
+							<backend>html5</backend>
+							<sourceHighlighter>coderay</sourceHighlighter>
+							<preserveDirectories>true</preserveDirectories>
+							<outputDirectory>src/main/resources/static</outputDirectory>
+							<attributes>
+								<java-version>${java.version}</java-version>
+								<brick-version>${brick.modules.version}</brick-version>
+								<spring-restdocs-version>${spring-restdocs.version}</spring-restdocs-version>
+								<basedir>${project.basedir}</basedir>
+							</attributes>
 						</configuration>
 					</execution>
 				</executions>

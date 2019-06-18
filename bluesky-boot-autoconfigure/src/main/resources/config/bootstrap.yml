@@ -42,7 +42,8 @@ eureka:
     service-url:
 #      defaultZone: http://netflix-eureka-server:8761/eureka
       defaultZone: http://192.168.0.11:8761/eureka
-  instance:    ip-address: 192.168.0.11
+  instance:
+    ip-address: 192.168.0.11
 ---
 spring:
   cloud:
