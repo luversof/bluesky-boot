@@ -1,15 +1,31 @@
 package net.luversof.boot.autoconfigure.core.context;
 
-import java.util.Map;
-
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.luversof.boot.autoconfigure.core.config.BlueskyProperties;
+import net.luversof.boot.autoconfigure.core.config.CoreProperties;
+import net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties;
+import net.luversof.boot.autoconfigure.core.util.ApplicationContextUtil;
 
 @Data
+@NoArgsConstructor
 public class BlueskyContextImpl implements BlueskyContext {
 	
 	private String moduleName;
 	
-	private Map<Class<? extends BlueskyProperties<?>>, BlueskyProperties<?>> blueskyPropertiesMap;
+	public BlueskyContextImpl(String moduleName) {
+		this.moduleName = moduleName;
+	}
+	
+	@Override
+	public <T, U extends BlueskyProperties<T>> T getModule(Class<U> u) {
+		U brickProperties = ApplicationContextUtil.getApplicationContext().getBean(u);
+		return brickProperties.getModules().get(moduleName);
+	}
+
+	@Override
+	public CoreModuleProperties getCoreModule() {
+		return getModule(CoreProperties.class);
+	}
 	
 }
