@@ -17,5 +17,6 @@
   	<module>bluesky-boot-starter-jdbc</module>
   	<module>bluesky-boot-starter-mybatis</module>
   	<module>bluesky-boot-starter-parent</module>
+  	<module>bluesky-boot-starter-actuator</module>
   </modules>
 </project>

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @ConfigurationProperties(prefix = "bluesky-modules.core")
 public class CoreProperties
-		implements BlueskyProperties<net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties> {
+		implements BlueskyProperties<net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties>, InitializingBean {
 
 	private Map<String, CoreModuleProperties> modules = new HashMap<>();
 	
@@ -159,5 +160,12 @@ public class CoreProperties
 		 * 도메인을 사용하지 않는 API 서버와 같은 경우 추가 구현하여 분기 처리를 할 수 있도록 제공함
 		 */
 		MODULE_NAME_RESOLVER;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if (this.getModules().isEmpty()) {
+			this.getModules().put("defaultModule", new CoreModuleProperties());
+		}
 	}
 }

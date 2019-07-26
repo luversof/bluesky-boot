@@ -88,6 +88,14 @@
 		</dependency>
 		<!-- (e) batch -->
 
+		<!-- (s) data-jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) data-jdbc -->
+
 		<!-- (s) data-jpa -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -148,7 +156,7 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) servlet web -->
-		
+
 		<!-- (s) reactive web -->
 		<dependency>
 			<groupId>org.springframework</groupId>
