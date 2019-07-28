@@ -16,15 +16,15 @@ spring:
     profiles: localdev
     cloud:
         config:
-            uri: http://192.168.0.11:8888
+            uri: http://192.168.0.12:8888
     boot:
       admin:
         client:
-          url: http://192.168.0.11:8889
+          url: http://192.168.0.12:8889
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.0.11:8761/eureka/
+      defaultZone: http://192.168.0.12:8761/eureka/
 ---
 spring:
     profiles: dockerdev
