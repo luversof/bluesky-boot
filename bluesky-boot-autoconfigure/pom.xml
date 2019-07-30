@@ -143,6 +143,14 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) boot admin -->
+		
+		<!-- (s) reactive security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) reactive security -->
 
 		<!-- (s) servlet web -->
 		<dependency>
