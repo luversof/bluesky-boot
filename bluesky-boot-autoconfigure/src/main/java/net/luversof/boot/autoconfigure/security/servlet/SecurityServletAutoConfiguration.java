@@ -37,6 +37,7 @@ public class SecurityServletAutoConfiguration {
 	
 	@Configuration
 	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
 		
