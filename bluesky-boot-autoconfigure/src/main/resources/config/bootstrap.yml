@@ -42,8 +42,8 @@ eureka:
     service-url:
       defaultZone: http://netflix-eureka-server:8761/eureka
 #      defaultZone: http://10.0.75.1:8761/eureka
-  instance:
-    ip-address: 10.0.75.1
+#  instance:
+#    ip-address: 10.0.75.1
 ---
 spring:
   cloud:
@@ -51,6 +51,9 @@ spring:
       ignoredInterfaces:
         - docker0
         - veth.*
+      preferredNetworks:
+        - 192.168
+        - 10.0
 management.endpoints.web:
   exposure.include: '*'
   base-path: /actuator
