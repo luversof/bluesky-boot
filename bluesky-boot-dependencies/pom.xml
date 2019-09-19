@@ -2,7 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.luversof.boot</groupId>
 	<artifactId>bluesky-boot-dependencies</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -14,7 +13,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+		<spring-cloud.version>Greenwich.SR3</spring-cloud.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
