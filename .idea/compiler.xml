@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bluesky-boot-starter-batch" />
+        <module name="bluesky-boot-starter" />
+        <module name="bluesky-boot-starter-data-jpa" />
+        <module name="bluesky-app-blog" />
+        <module name="bluesky-boot-starter-data-mongodb-reactive" />
+        <module name="bluesky-test" />
+        <module name="bluesky-cloud-netflix-hystrix-dashboard" />
+        <module name="bluesky-domain" />
+        <module name="bluesky-cloud-netflix-eureka-server" />
+        <module name="bluesky-boot-starter-data-rest" />
+        <module name="bluesky-cloud-netflix-turbine" />
+        <module name="bluesky-app-api-battlenet" />
+        <module name="bluesky-cloud-config-server" />
+        <module name="bluesky-docs" />
+        <module name="bluesky-opensource-integration" />
+        <module name="bluesky-app-bbs" />
+        <module name="bluesky-opensource-security" />
+        <module name="bluesky-boot-starter-jdbc" />
+        <module name="bluesky-boot-autoconfigure" />
+        <module name="bluesky-opensource-cloud-stream" />
+        <module name="bluesky-boot-docs" />
+        <module name="bluesky-boot-starter-mybatis" />
+        <module name="bluesky-cloud-netflix-zuul" />
+        <module name="bluesky-core" />
+        <module name="bluesky-web-default" />
+        <module name="bluesky-app-user" />
+        <module name="bluesky-cloud-admin-server" />
+        <module name="bluesky-app-bookkeeping" />
+        <module name="bluesky-batch-sample" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bluesky-app" target="11" />
+      <module name="bluesky-app-api-battlenet" target="11" />
+      <module name="bluesky-app-bbs" target="11" />
+      <module name="bluesky-app-blog" target="11" />
+      <module name="bluesky-app-bookkeeping" target="11" />
+      <module name="bluesky-app-user" target="11" />
+      <module name="bluesky-batch" target="11" />
+      <module name="bluesky-batch-sample" target="11" />
+      <module name="bluesky-boot-autoconfigure" target="11" />
+      <module name="bluesky-boot-build" target="1.8" />
+      <module name="bluesky-boot-dependencies" target="11" />
+      <module name="bluesky-boot-docs" target="11" />
+      <module name="bluesky-boot-parent" target="11" />
+      <module name="bluesky-boot-starter" target="11" />
+      <module name="bluesky-boot-starter-batch" target="11" />
+      <module name="bluesky-boot-starter-data-jpa" target="11" />
+      <module name="bluesky-boot-starter-data-mongodb-reactive" target="11" />
+      <module name="bluesky-boot-starter-data-rest" target="11" />
+      <module name="bluesky-boot-starter-jdbc" target="11" />
+      <module name="bluesky-boot-starter-mybatis" target="11" />
+      <module name="bluesky-boot-starter-parent" target="11" />
+      <module name="bluesky-boot-starters" target="11" />
+      <module name="bluesky-cloud-admin-server" target="11" />
+      <module name="bluesky-cloud-config-server" target="11" />
+      <module name="bluesky-cloud-netflix-eureka-server" target="11" />
+      <module name="bluesky-cloud-netflix-hystrix-dashboard" target="11" />
+      <module name="bluesky-cloud-netflix-turbine" target="11" />
+      <module name="bluesky-cloud-netflix-zuul" target="11" />
+      <module name="bluesky-cloud-parent" target="11" />
+      <module name="bluesky-core" target="11" />
+      <module name="bluesky-docs" target="11" />
+      <module name="bluesky-domain" target="11" />
+      <module name="bluesky-opensource" target="11" />
+      <module name="bluesky-opensource-cloud-stream" target="11" />
+      <module name="bluesky-opensource-integration" target="11" />
+      <module name="bluesky-opensource-security" target="11" />
+      <module name="bluesky-parent" target="11" />
+      <module name="bluesky-test" target="11" />
+      <module name="bluesky-web" target="11" />
+      <module name="bluesky-web-default" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bluesky-app-api-battlenet" options="-parameters" />
+      <module name="bluesky-app-bbs" options="-parameters" />
+      <module name="bluesky-app-blog" options="-parameters" />
+      <module name="bluesky-app-bookkeeping" options="-parameters" />
+      <module name="bluesky-app-user" options="-parameters" />
+      <module name="bluesky-batch-sample" options="-parameters" />
+      <module name="bluesky-boot-autoconfigure" options="-parameters" />
+      <module name="bluesky-boot-docs" options="-parameters" />
+      <module name="bluesky-boot-starter" options="-parameters" />
+      <module name="bluesky-boot-starter-batch" options="-parameters" />
+      <module name="bluesky-boot-starter-data-jpa" options="-parameters" />
+      <module name="bluesky-boot-starter-data-mongodb-reactive" options="-parameters" />
+      <module name="bluesky-boot-starter-data-rest" options="-parameters" />
+      <module name="bluesky-boot-starter-jdbc" options="-parameters" />
+      <module name="bluesky-boot-starter-mybatis" options="-parameters" />
+      <module name="bluesky-cloud-admin-server" options="-parameters" />
+      <module name="bluesky-cloud-config-server" options="-parameters" />
+      <module name="bluesky-cloud-netflix-eureka-server" options="-parameters" />
+      <module name="bluesky-cloud-netflix-hystrix-dashboard" options="-parameters" />
+      <module name="bluesky-cloud-netflix-turbine" options="-parameters" />
+      <module name="bluesky-cloud-netflix-zuul" options="-parameters" />
+      <module name="bluesky-core" options="-parameters" />
+      <module name="bluesky-docs" options="-parameters" />
+      <module name="bluesky-domain" options="-parameters" />
+      <module name="bluesky-opensource-cloud-stream" options="-parameters" />
+      <module name="bluesky-opensource-integration" options="-parameters" />
+      <module name="bluesky-opensource-security" options="-parameters" />
+      <module name="bluesky-test" options="-parameters" />
+      <module name="bluesky-web-default" options="-parameters" />
+    </option>
+  </component>
+</project>
