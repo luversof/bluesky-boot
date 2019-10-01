@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 
 @Configuration("_blueskySecurityServletAutoConfiguration")
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@ConditionalOnClass(DefaultAuthenticationEventPublisher.class)
+@ConditionalOnClass({ DefaultAuthenticationEventPublisher.class, WebSecurityConfigurerAdapter.class })
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityServletAutoConfiguration {
@@ -40,7 +40,7 @@ public class SecurityServletAutoConfiguration {
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
-		
+
 		@Autowired
 		private UserDetailsService userDetailsService;
 		

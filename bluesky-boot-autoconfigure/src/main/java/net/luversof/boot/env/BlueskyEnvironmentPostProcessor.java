@@ -21,8 +21,6 @@ public class BlueskyEnvironmentPostProcessor implements EnvironmentPostProcessor
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-		System.out.println("!@#!@#!@#@!#!@#!@#");
-		log.debug("test :::::::::::::: {}", environment);
 		String[] activeProfiles = environment.getActiveProfiles();
 		log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
 		String profile = Arrays.stream(activeProfiles).filter(x -> Arrays.stream(ProfileInfo.NET_PROFILES).anyMatch(y -> y.equals(x))).findAny().orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
