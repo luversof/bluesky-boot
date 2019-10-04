@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>bluesky-boot-dependencies</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>net.luversof.boot</groupId>
@@ -13,7 +12,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+		<spring-boot.version>2.1.9.RELEASE</spring-boot.version>
 		<spring-cloud.version>Greenwich.SR3</spring-cloud.version>
 	</properties>
 	<dependencyManagement>
@@ -57,6 +56,11 @@
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-starter-mybatis</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot-starter-test</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
