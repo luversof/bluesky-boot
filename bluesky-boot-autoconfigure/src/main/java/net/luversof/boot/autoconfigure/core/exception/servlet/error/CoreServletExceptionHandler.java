@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.web.servlet.error;
+package net.luversof.boot.autoconfigure.core.exception.servlet.error;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
@@ -41,19 +37,21 @@ import net.luversof.boot.exception.ErrorPage;
  *
  */
 @Slf4j
-@ConditionalOnWebApplication(type = Type.SERVLET)
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class ServletExceptionHandler {
+public class CoreServletExceptionHandler {
 	
-	@Resource(name = "messageSourceAccessor")
 	private MessageSourceAccessor messageSourceAccessor;
-
+	
 	private DefaultMessageCodesResolver messageCodesResolver = new DefaultMessageCodesResolver();
 	
 	public static final String RESULT = "result";
 	
 	private static final String BRICK_EXCEPTION_MESSAGE = "[BrickException error message] code : {}";
+	
+	public CoreServletExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
+		this.messageSourceAccessor = messageSourceAccessor;
+	}
 
 	/**
 	 * 프로젝트 공통 Exception 처리

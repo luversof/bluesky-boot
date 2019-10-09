@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.security.reactive;
+package net.luversof.boot.autoconfigure.security.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import org.springframework.security.web.server.WebFilterChainProxy;
 import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter.Mode;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
+import net.luversof.boot.autoconfigure.security.reactive.SecurityWebFilterChainCustomizer;
 import reactor.core.publisher.Flux;
 
 @Configuration("_blueskySecurityReactiveAutoConfiguration")

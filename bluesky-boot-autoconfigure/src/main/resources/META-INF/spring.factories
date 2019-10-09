@@ -9,8 +9,8 @@ net.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration,\
 net.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration,\
 net.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration,\
 net.luversof.boot.autoconfigure.batch.BatchAutoConfiguration,\
-net.luversof.boot.autoconfigure.security.servlet.SecurityServletAutoConfiguration,\
-net.luversof.boot.autoconfigure.security.reactive.SecurityReactiveAutoConfiguration
+net.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration,\
+net.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
 
 
 org.springframework.boot.env.EnvironmentPostProcessor=net.luversof.boot.env.BlueskyEnvironmentPostProcessor

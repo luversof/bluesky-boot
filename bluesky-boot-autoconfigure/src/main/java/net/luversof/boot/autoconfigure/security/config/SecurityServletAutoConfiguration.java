@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.security.servlet;
+package net.luversof.boot.autoconfigure.security.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+
+import net.luversof.boot.autoconfigure.security.exception.servlet.SecurityExceptionHandler;
+import net.luversof.boot.autoconfigure.security.servlet.WebSecurityConfigurerCustomizer;
 
 @Configuration("_blueskySecurityServletAutoConfiguration")
 @ConditionalOnWebApplication(type = Type.SERVLET)
@@ -34,6 +38,13 @@ public class SecurityServletAutoConfiguration {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	@ConditionalOnMissingBean
+	public SecurityExceptionHandler securityExceptionHandler(ContentNegotiatingViewResolver contentNegotiatingViewResolver) {
+		return new SecurityExceptionHandler(contentNegotiatingViewResolver);
+	}
+	
 	
 	@Configuration
 	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -70,17 +81,12 @@ public class SecurityServletAutoConfiguration {
 					.antMatchers("/test/**").permitAll()
 //					.anyRequest().authenticated()
 				.and()
-//				.addFilterBefore(new OAuth2ClientContextFilter(), UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling().accessDeniedPage("/error/accessDenied").and()
 				.logout().logoutSuccessHandler(logoutSuccessHandler).and()
 				.formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).and()
 				.rememberMe().and()
-//				.oauth2Login().successHandler(authenticationSuccessHandler).authorizedClientService(blueskyOAuth2AuthorizedClientService).and()
-//				.oauth2Client().authorizedClientService(blueskyOAuth2AuthorizedClientService).and()
-//				.csrf().and()
 				.csrf().disable()
-	            .httpBasic().and()
-	            ;
+	            .httpBasic();
 			
 			for (WebSecurityConfigurerCustomizer webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {
 				webSecurityConfigurerCustomizer.postConfigure(http);
