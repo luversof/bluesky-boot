@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import net.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
@@ -28,7 +27,7 @@ public class CoreServletAutoConfiguration {
 	
 	@Bean
 	@ConditionalOnMissingBean
-	public CoreServletExceptionHandler coreServletExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
-		return new CoreServletExceptionHandler(messageSourceAccessor);
+	public CoreServletExceptionHandler coreServletExceptionHandler() {
+		return new CoreServletExceptionHandler();
 	}
 }
