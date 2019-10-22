@@ -11,7 +11,7 @@
 	<artifactId>bluesky-boot-docs</artifactId>
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
-		<asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
+		<asciidoctor.maven.plugin.version>1.5.8</asciidoctor.maven.plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>

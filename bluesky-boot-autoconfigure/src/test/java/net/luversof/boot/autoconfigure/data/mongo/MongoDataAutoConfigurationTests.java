@@ -25,7 +25,6 @@ import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.BasicMongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
@@ -174,7 +173,7 @@ public class MongoDataAutoConfigurationTests {
 	public void createsMongoDbFactoryForPreferredMongoClient() {
 		this.contextRunner.run((context) -> {
 			MongoDbFactory dbFactory = context.getBean(MongoDbFactory.class);
-			assertThat(dbFactory).isInstanceOf(SimpleMongoDbFactory.class);
+			assertThat(dbFactory).isInstanceOf(SimpleMongoClientDbFactory.class);
 		});
 	}
 
