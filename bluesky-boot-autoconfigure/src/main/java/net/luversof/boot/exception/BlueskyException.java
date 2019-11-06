@@ -46,18 +46,18 @@ public class BlueskyException extends RuntimeException {
 	
 	public BlueskyException(Enum<?> errorCode) {
 		this.errorCodeEnum = errorCode;
-		this.errorCode = errorCode.name();
+		this.errorCode = errorCode.getClass().getSimpleName() + "." + errorCode.name();
 	}
 	
 	public BlueskyException(Enum<?> errorCode, ErrorPage errorPage) {
 		this.errorCodeEnum = errorCode;
-		this.errorCode = errorCode.name();
+		this.errorCode = errorCode.getClass().getSimpleName() + "." + errorCode.name();
 		this.errorPage = errorPage.getViewName();
 	}
 	
 	public BlueskyException(Enum<?> errorCode, String errorPage) {
 		this.errorCodeEnum = errorCode;
-		this.errorCode = errorCode.name();
+		this.errorCode = errorCode.getClass().getSimpleName() + "." + errorCode.name();
 		this.errorPage = errorPage;
 	}
 	
