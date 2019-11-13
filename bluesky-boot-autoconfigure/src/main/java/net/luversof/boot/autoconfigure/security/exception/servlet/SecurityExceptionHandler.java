@@ -52,14 +52,23 @@ public class SecurityExceptionHandler {
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public ModelAndView accessDeniedException(HttpServletResponse response, AccessDeniedException exception, HandlerMethod  handlerMethod, NativeWebRequest request) throws IOException {
 		
-		if (contentNegotiatingViewResolver.getContentNegotiationManager().resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON)
-				|| Arrays.asList(handlerMethod.getMethodAnnotation(RequestMapping.class).produces()).contains(MediaType.APPLICATION_JSON_VALUE)) {
-			log.debug("json exception");
-			Map<String, ErrorMessage> resultMap = new HashMap<>();
-			resultMap.put(RESULT, MessageUtil.getErrorMessage(exception));
-			return new ModelAndView(ErrorPage.DEFAULT.getViewName(), resultMap);
+		boolean isJsonResponse = contentNegotiatingViewResolver.getContentNegotiationManager().resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON);
+		if (!isJsonResponse && handlerMethod.getMethodAnnotation(RequestMapping.class) != null) {
+			isJsonResponse = Arrays.asList(handlerMethod.getMethodAnnotation(RequestMapping.class).produces()).contains(MediaType.APPLICATION_JSON_VALUE);
+		}
+		if (!isJsonResponse && handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class) != null) {
+			isJsonResponse = Arrays.asList(handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class).produces()).contains(MediaType.APPLICATION_JSON_VALUE);
 		}
 		
-		throw exception;
+		//json html return 분기 처리
+		if (!isJsonResponse) {
+			throw exception;
+		}
+		
+		log.debug("json exception");
+		Map<String, ErrorMessage> resultMap = new HashMap<>();
+		resultMap.put(RESULT, MessageUtil.getErrorMessage(exception));
+		return new ModelAndView(ErrorPage.DEFAULT.getViewName(), resultMap);
+
 	}
 }
