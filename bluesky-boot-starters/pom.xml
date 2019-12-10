@@ -20,5 +20,6 @@
 		<module>bluesky-boot-starter-mybatis</module>
 		<module>bluesky-boot-starter-parent</module>
 		<module>bluesky-boot-starter-test</module>
+		<module>bluesky-boot-starter-test-reactive</module>
 	</modules>
 </project>
