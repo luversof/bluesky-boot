@@ -12,7 +12,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<spring-boot.version>2.2.3.RELEASE</spring-boot.version>
+		<spring-boot.version>2.2.4.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 	</properties>
 	<dependencyManagement>
