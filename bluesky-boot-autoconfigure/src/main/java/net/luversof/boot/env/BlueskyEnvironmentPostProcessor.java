@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 import net.luversof.boot.constant.ProfileInfo;
@@ -22,6 +23,7 @@ public class BlueskyEnvironmentPostProcessor implements EnvironmentPostProcessor
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		String[] activeProfiles = environment.getActiveProfiles();
+		Assert.notNull(activeProfiles, "NOT EXIST activeProfiles");
 		log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
 		String profile = Arrays.stream(activeProfiles).filter(x -> Arrays.stream(ProfileInfo.NET_PROFILES).anyMatch(y -> y.equals(x))).findAny().orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
 		
