@@ -23,11 +23,11 @@
 	</modules>
 	<profiles>
 		<profile>
-			<id>dockerdev</id>
+			<id>dockerNexus</id>
 			<repositories>
 				<repository>
 					<id>bluesky-docker-nexus</id>
-					<url>http://nexus:8082/repository/maven-public/</url>
+					<url>http://nexus/repository/maven-public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -40,11 +40,11 @@
 			<distributionManagement>
 				<repository>
 					<id>bluesky-releases</id>
-					<url>http://nexus:8082/repository/maven-releases/</url>
+					<url>http://nexus/repository/maven-releases/</url>
 				</repository>
 				<snapshotRepository>
 					<id>bluesky-snapshots</id>
-					<url>http://nexus:8082/repository/maven-snapshots/</url>
+					<url>http://nexus/repository/maven-snapshots/</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
