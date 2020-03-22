@@ -12,5 +12,4 @@ net.luversof.boot.autoconfigure.batch.BatchAutoConfiguration,\
 net.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration,\
 net.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
 
-
 org.springframework.boot.env.EnvironmentPostProcessor=net.luversof.boot.env.BlueskyEnvironmentPostProcessor
