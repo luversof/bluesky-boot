@@ -46,6 +46,20 @@ eureka:
 #    ip-address: 10.0.75.1
 ---
 spring:
+    profiles: k8sdev
+    cloud:
+        config:
+            uri: http://bluesky-cloud-config-server-service:8888
+    boot:
+      admin:
+        client:
+          url: http://bluesky-cloud-admin-server-service:8889
+eureka:
+  client:
+    service-url:
+      defaultZone: http://bluesky-cloud-netflix-eureka-server:8761/eureka
+---
+spring:
   cloud:
     inetutils:
       ignoredInterfaces:

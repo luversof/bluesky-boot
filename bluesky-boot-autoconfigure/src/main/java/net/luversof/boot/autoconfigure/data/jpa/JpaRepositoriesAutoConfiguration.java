@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration("_blueskyBootJpaRepositoriesAutoConfiguration")
 @ConditionalOnClass(JpaRepository.class)
 @PropertySource("classpath:data/jpa/data-jpa.properties")
-@PropertySource("classpath:data/jpa/data-jpa-${net-profile}.properties")
+@PropertySource(value = "classpath:data/jpa/data-jpa-${net-profile}.properties", ignoreResourceNotFound = true)
 @EnableJpaAuditing
 public class JpaRepositoriesAutoConfiguration {
 
