@@ -54,7 +54,7 @@ spring:
       admin:
         client:
           url: http://bluesky-cloud-admin-server-service:8889
-eureka:
+eureka:  instance:    hostname: localhost
   client:
     service-url:
       defaultZone: http://bluesky-cloud-netflix-eureka-server-service:8761/eureka/
@@ -68,15 +68,15 @@ spring:
       preferredNetworks:
         - 192.168
         - 10.0
-management.endpoints.web:
-  exposure.include: '*'
-  base-path: /actuator
-eureka:
-  client:
-    region: korea
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
-    status-page-url-path: ${management.endpoints.web.base-path}/info
-    health-check-url-path: ${management.endpoints.web.base-path}/health
+#management.endpoints.web:
+#  exposure.include: '*'
+#  base-path: /actuator
+#eureka:
+#  client:
+#    region: korea
+#  instance:
+#    prefer-ip-address: true
+#    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+#    status-page-url-path: ${management.endpoints.web.base-path}/info
+#    health-check-url-path: ${management.endpoints.web.base-path}/health
     
