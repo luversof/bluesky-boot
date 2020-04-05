@@ -13,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.luversof.boot.autoconfigure.context.MessageUtil;
 import net.luversof.boot.exception.ErrorMessage;
 
+/**
+ * @ExceptionHandler 로 처리하지 못하는 에러 처리를 위한 방법 
+ * @author luver
+ *
+ */
 @Slf4j
 public class TestHandlerExceptionResolver implements HandlerExceptionResolver {
 	
