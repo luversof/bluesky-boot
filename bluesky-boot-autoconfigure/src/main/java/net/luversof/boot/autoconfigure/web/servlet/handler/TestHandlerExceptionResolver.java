@@ -25,6 +25,12 @@ public class TestHandlerExceptionResolver implements HandlerExceptionResolver {
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+		
+		// 특정 조건일 때만 수행하고 그 외에는 null 반환 처리
+		if (!ex.getClass().getSimpleName().equals("test")) {
+			return null;
+		}
+		
 		log.debug("TEST : ");
 		Map<String, ErrorMessage> resultMap = new HashMap<>();
 		ErrorMessage errorMessage = MessageUtil.getErrorMessage(ex);
