@@ -25,7 +25,7 @@ public class BlueskyEnvironmentPostProcessor implements EnvironmentPostProcessor
 		String[] activeProfiles = environment.getActiveProfiles();
 		Assert.notNull(activeProfiles, "NOT EXIST activeProfiles");
 		log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
-		String profile = Arrays.stream(activeProfiles).filter(x -> Arrays.stream(ProfileInfo.NET_PROFILES).anyMatch(y -> y.equals(x))).findAny().orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
+		String profile = Arrays.stream(activeProfiles).filter(x -> ProfileInfo.NET_PROFILE_LIST.stream().anyMatch(y -> y.equals(x))).findAny().orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
 		
 		properties.setProperty(NET_PROFILE, profile);
 		

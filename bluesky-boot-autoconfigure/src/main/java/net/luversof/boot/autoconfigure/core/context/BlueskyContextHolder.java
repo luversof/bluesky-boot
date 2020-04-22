@@ -5,8 +5,11 @@ import java.lang.reflect.Constructor;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-public class BlueskyContextHolder {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class BlueskyContextHolder {
 	
 	public static final String MODE_THREADLOCAL = "MODE_THREADLOCAL";
 	public static final String MODE_INHERITABLETHREADLOCAL = "MODE_INHERITABLETHREADLOCAL";

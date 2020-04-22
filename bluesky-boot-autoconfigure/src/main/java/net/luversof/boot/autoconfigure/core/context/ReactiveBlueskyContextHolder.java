@@ -2,12 +2,13 @@ package net.luversof.boot.autoconfigure.core.context;
 
 import java.util.function.Function;
 
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
-@NoArgsConstructor
-public class ReactiveBlueskyContextHolder {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ReactiveBlueskyContextHolder {
 	
 	private static final Class<?> BLUESKY_CONTEXT_KEY = BlueskyContext.class;
 
