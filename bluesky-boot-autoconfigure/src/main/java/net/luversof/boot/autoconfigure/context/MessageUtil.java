@@ -2,6 +2,7 @@ package net.luversof.boot.autoconfigure.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.MessageSourceResolvable;
@@ -106,7 +107,7 @@ public class MessageUtil {
 	 */
 	public static List<ErrorMessage> getErrorMessageListFromErrorMessageList(BlueskyException blueskyException) {
 		if (blueskyException.getErrorMessageList() == null) {
-			return null;
+			return Collections.emptyList();
 		}
 		
 		List<ErrorMessage> errorMessageList = new ArrayList<>();
@@ -129,13 +130,17 @@ public class MessageUtil {
 	
 	public static List<ErrorMessage> getErrorMessageList(Exception exception) {
 		if (!(exception instanceof BindException) && !(exception instanceof MethodArgumentNotValidException)) {
-			return null;
+			return Collections.emptyList();
 		}
 		BindingResult bindingResult = null;
 		if (exception instanceof BindException) {
 			bindingResult = ((BindException) exception).getBindingResult();
 		} else if (exception instanceof MethodArgumentNotValidException) {
 			bindingResult = ((MethodArgumentNotValidException) exception).getBindingResult();
+		}
+		
+		if (bindingResult == null) {
+			return Collections.emptyList();
 		}
 		
 		List<ErrorMessage> errorMessageList = new ArrayList<>();

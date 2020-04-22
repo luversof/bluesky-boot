@@ -2,9 +2,11 @@ package net.luversof.boot.autoconfigure.core.context;
 
 import java.util.function.Function;
 
+import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
+@NoArgsConstructor
 public class ReactiveBlueskyContextHolder {
 	
 	private static final Class<?> BLUESKY_CONTEXT_KEY = BlueskyContext.class;
@@ -19,7 +21,7 @@ public class ReactiveBlueskyContextHolder {
 		return context -> context.delete(BLUESKY_CONTEXT_KEY);
 	}
 
-	public static Context withBlueskyContext(Mono<? extends BlueskyContext> BlueskyContext) {
-		return Context.of(BLUESKY_CONTEXT_KEY, BlueskyContext);
+	public static Context withBlueskyContext(Mono<? extends BlueskyContext> blueskyContext) {
+		return Context.of(BLUESKY_CONTEXT_KEY, blueskyContext);
 	}
 }

@@ -6,9 +6,6 @@ public class GlobalBlueskyContextHolderStrategy implements BlueskyContextHolderS
 
 	private static BlueskyContext contextHolder;
 
-	// ~ Methods
-	// ========================================================================================================
-
 	public void clearContext() {
 		contextHolder = null;
 	}

@@ -40,7 +40,7 @@ public class SecurityReactiveAutoConfiguration {
 	}
 	
 	@Bean
-	public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
+	public SecurityWebFilterChain configure(ServerHttpSecurity http) {
 		securityWebFilterChainCustomizerList.forEach(customizer -> customizer.preConfigure(http));
 		
 	    http

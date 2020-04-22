@@ -1,12 +1,14 @@
 package net.luversof.boot.autoconfigure.mybatis;
 
+import java.io.IOException;
+
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-public abstract class MybatisAutoConfiguration {
-	public SqlSessionFactoryBean getSqlSessionFactoryBean() throws Exception {
-
+public interface MybatisAutoConfiguration {
+	
+	public default SqlSessionFactoryBean getSqlSessionFactoryBean() throws IOException {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:**/*Mapper.xml"));
 		sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
