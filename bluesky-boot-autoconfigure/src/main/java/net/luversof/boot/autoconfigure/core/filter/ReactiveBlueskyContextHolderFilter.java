@@ -28,6 +28,33 @@ import reactor.util.context.Context;
 public class ReactiveBlueskyContextHolderFilter implements WebFilter {
 
 	private static final PathMatcher pathMatcher = new AntPathMatcher();
+	
+	/**
+	 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
+	 */
+	private static Comparator<Entry<String, CoreModuleProperties>> comparator = (Entry<String, CoreModuleProperties> o1, Entry<String, CoreModuleProperties> o2) -> {
+		
+			PathForwardProperties o1PathForward = o1.getValue().getDomain().getPathForward();
+			PathForwardProperties o2PathForward = o2.getValue().getDomain().getPathForward();
+			if (o1PathForward == null) {
+				return 1;
+			}
+			
+			if (o2PathForward == null) {
+				return 0;
+			}
+			
+			int o1RequestPathLength = o1PathForward.getRequestPath().length();
+			int o2RequestPathLength = o2PathForward.getRequestPath().length();
+			if (o1RequestPathLength > o2RequestPathLength) {
+				return 1;
+			} else if (o1RequestPathLength == o2RequestPathLength) {
+				return 0;
+			} else {
+				return -1;
+			}
+			
+	};
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -94,30 +121,6 @@ public class ReactiveBlueskyContextHolderFilter implements WebFilter {
 		if (moduleEntryList.size() == 1) {
 			return moduleEntryList.get(0);
 		}
-		
-		/**
-		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
-		 */
-		Comparator<Entry<String, CoreModuleProperties>> comparator = new Comparator<Entry<String, CoreModuleProperties>>() {
-			@Override
-			public int compare(Entry<String, CoreModuleProperties> o1, Entry<String, CoreModuleProperties> o2) {
-				PathForwardProperties pathForward1 = o1.getValue().getDomain().getPathForward();
-				PathForwardProperties pathForward2 = o2.getValue().getDomain().getPathForward();
-				if (pathForward1 == null) {
-					return 1;
-				}
-				if (pathForward1 != null && pathForward2 != null) {
-					if (pathForward1.getRequestPath().length() > pathForward2.getRequestPath().length()) {
-						return 1;
-					} else if (pathForward1.getRequestPath().length() == pathForward2.getRequestPath().length()) {
-						return 0;
-					} else {
-						return -1;
-					}
-				}
-				return 0;
-			}
-		};
 		
 		return moduleEntryList.stream().sorted(comparator.reversed()).findFirst().get();
 	}
