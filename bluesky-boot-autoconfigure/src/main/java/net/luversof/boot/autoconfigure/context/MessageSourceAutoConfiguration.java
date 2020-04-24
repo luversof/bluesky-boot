@@ -1,9 +1,7 @@
 package net.luversof.boot.autoconfigure.context;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,7 +11,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.AbstractResourceBasedMessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.util.StringUtils;
 
@@ -33,9 +30,9 @@ public class MessageSourceAutoConfiguration {
 	
 	@Bean
 	public MessageSource messageSource(MessageSourceProperties messageSourceProperties,  MessageSourceExtensionProperties messageSourceExtensionProperties) {
-		AbstractResourceBasedMessageSource messageSource = new BlueskyReloadableResourceBundleMessageSource();
+		var messageSource = new BlueskyReloadableResourceBundleMessageSource();
 		
-		List<String> baseNameList = new ArrayList<>();
+		var baseNameList = new ArrayList<>();
 		
 		if (StringUtils.hasText(messageSourceProperties.getBasename())) {
 			baseNameList.addAll(Arrays.asList(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(messageSourceProperties.getBasename()))));
@@ -47,7 +44,7 @@ public class MessageSourceAutoConfiguration {
 			messageSource.setDefaultEncoding(messageSourceProperties.getEncoding().name());
 		}
 		messageSource.setFallbackToSystemLocale(messageSourceProperties.isFallbackToSystemLocale());
-		Duration cacheDuration = messageSourceProperties.getCacheDuration();
+		var cacheDuration = messageSourceProperties.getCacheDuration();
 		if (cacheDuration != null) {
 			messageSource.setCacheMillis(cacheDuration.toMillis());
 		}
@@ -59,7 +56,7 @@ public class MessageSourceAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource) {
-		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
+		var messageSourceAccessor = new MessageSourceAccessor(messageSource);
 		MessageUtil.setMessageSourceAccessor(messageSourceAccessor);
 		return messageSourceAccessor;
 	}

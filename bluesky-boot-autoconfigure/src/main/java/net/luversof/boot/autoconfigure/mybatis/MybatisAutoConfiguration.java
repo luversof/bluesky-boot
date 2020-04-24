@@ -9,7 +9,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 public interface MybatisAutoConfiguration {
 	
 	public default SqlSessionFactoryBean getSqlSessionFactoryBean() throws IOException {
-		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		var sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:**/*Mapper.xml"));
 		sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
 		sqlSessionFactoryBean.setTypeHandlersPackage("net.luversof.opensource.mybatis.type");

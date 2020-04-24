@@ -1,7 +1,5 @@
 package net.luversof.boot.autoconfigure.core.context;
 
-import java.lang.reflect.Constructor;
-
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -53,8 +51,8 @@ public final class BlueskyContextHolder {
 		else {
 			// Try to load a custom strategy
 			try {
-				Class<?> clazz = Class.forName(strategyName);
-				Constructor<?> customStrategy = clazz.getConstructor();
+				var clazz = Class.forName(strategyName);
+				var customStrategy = clazz.getConstructor();
 				strategy = (BlueskyContextHolderStrategy) customStrategy.newInstance();
 			}
 			catch (Exception ex) {

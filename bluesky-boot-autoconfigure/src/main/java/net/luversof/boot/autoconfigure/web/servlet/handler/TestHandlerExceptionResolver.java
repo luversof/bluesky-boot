@@ -1,7 +1,6 @@
 package net.luversof.boot.autoconfigure.web.servlet.handler;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +31,9 @@ public class TestHandlerExceptionResolver implements HandlerExceptionResolver {
 		}
 		
 		log.debug("TEST : ");
-		Map<String, ErrorMessage> resultMap = new HashMap<>();
-		ErrorMessage errorMessage = MessageUtil.getErrorMessage(ex);
-		String errorPage = "/errorPage";
+		var resultMap = new HashMap<String, ErrorMessage>();
+		var errorMessage = MessageUtil.getErrorMessage(ex);
+		var errorPage = "/errorPage";
 		
 		resultMap.put(RESULT, errorMessage);
 		return new ModelAndView(errorPage, resultMap);

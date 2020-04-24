@@ -3,7 +3,6 @@ package net.luversof.boot.autoconfigure.security.exception.servlet;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,7 +51,7 @@ public class SecurityExceptionHandler {
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public ModelAndView accessDeniedException(HttpServletResponse response, AccessDeniedException exception, HandlerMethod  handlerMethod, NativeWebRequest request) throws IOException {
 		
-		boolean isJsonResponse = contentNegotiatingViewResolver.getContentNegotiationManager().resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON);
+		var isJsonResponse = contentNegotiatingViewResolver.getContentNegotiationManager().resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON);
 		if (!isJsonResponse && handlerMethod.getMethodAnnotation(RequestMapping.class) != null) {
 			isJsonResponse = Arrays.asList(handlerMethod.getMethodAnnotation(RequestMapping.class).produces()).contains(MediaType.APPLICATION_JSON_VALUE);
 		}
@@ -66,7 +65,7 @@ public class SecurityExceptionHandler {
 		}
 		
 		log.debug("json exception");
-		Map<String, ErrorMessage> resultMap = new HashMap<>();
+		var resultMap = new HashMap<String, ErrorMessage>();
 		resultMap.put(RESULT, MessageUtil.getErrorMessage(exception));
 		return new ModelAndView(ErrorPage.DEFAULT.getViewName(), resultMap);
 

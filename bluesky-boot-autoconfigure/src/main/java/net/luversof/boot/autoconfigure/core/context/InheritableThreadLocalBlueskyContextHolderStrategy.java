@@ -14,7 +14,7 @@ public class InheritableThreadLocalBlueskyContextHolderStrategy implements Blues
 	}
 
 	public BlueskyContext getContext() {
-		BlueskyContext ctx = contextHolder.get();
+		var ctx = contextHolder.get();
 
 		if (ctx == null) {
 			ctx = createEmptyContext();
@@ -30,8 +30,8 @@ public class InheritableThreadLocalBlueskyContextHolderStrategy implements Blues
 	}
 
 	public BlueskyContext createEmptyContext() {
-		BlueskyContext ctx = new BlueskyContextImpl();
-		CoreProperties  coreProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
+		var ctx = new BlueskyContextImpl();
+		var coreProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 		
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		Assert.state(coreProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");

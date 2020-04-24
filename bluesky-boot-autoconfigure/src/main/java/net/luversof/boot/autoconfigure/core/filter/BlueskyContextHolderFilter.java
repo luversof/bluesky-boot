@@ -21,7 +21,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import net.luversof.boot.autoconfigure.core.config.CoreProperties;
 import net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties;
 import net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModulePropertiesResolveType;
-import net.luversof.boot.autoconfigure.core.config.CoreProperties.PathForwardProperties;
 import net.luversof.boot.autoconfigure.core.context.BlueskyBootErrorCode;
 import net.luversof.boot.autoconfigure.core.context.BlueskyContextHolder;
 import net.luversof.boot.autoconfigure.core.support.ModuleNameResolver;
@@ -35,10 +34,10 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 	/**
 	 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 	 */
-	private static Comparator<Entry<String, CoreModuleProperties>> comparator = (Entry<String, CoreModuleProperties> o1, Entry<String, CoreModuleProperties> o2) -> {
+	private static Comparator<Entry<String, CoreModuleProperties>> comparator = (var o1, var o2) -> {
 		
-			PathForwardProperties o1PathForward = o1.getValue().getDomain().getPathForward();
-			PathForwardProperties o2PathForward = o2.getValue().getDomain().getPathForward();
+			var o1PathForward = o1.getValue().getDomain().getPathForward();
+			var o2PathForward = o2.getValue().getDomain().getPathForward();
 			if (o1PathForward == null) {
 				return 1;
 			}
@@ -47,8 +46,8 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 				return 0;
 			}
 			
-			int o1RequestPathLength = o1PathForward.getRequestPath().length();
-			int o2RequestPathLength = o2PathForward.getRequestPath().length();
+			var o1RequestPathLength = o1PathForward.getRequestPath().length();
+			var o2RequestPathLength = o2PathForward.getRequestPath().length();
 			if (o1RequestPathLength > o2RequestPathLength) {
 				return 1;
 			} else if (o1RequestPathLength == o2RequestPathLength) {
@@ -61,7 +60,7 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		CoreProperties coreProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
+		var coreProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 		
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		
@@ -70,7 +69,7 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 			return;
 		}
 		
-		CoreModulePropertiesResolveType resolveType = coreProperties.getResolveType();
+		var resolveType = coreProperties.getResolveType();
 		
 		Entry<String, CoreModuleProperties> module;
 		if (CoreModulePropertiesResolveType.ADD_PATH_PATTERN == resolveType) {
@@ -97,7 +96,7 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 	
 	private static Entry<String, CoreModuleProperties> getModuleEntryByDomain(HttpServletRequest request, CoreProperties coreProperties) {
 		// 해당 도메인에 해당하는 모듈 entry list 확인
-		List<Entry<String, CoreModuleProperties>> moduleEntryList = coreProperties.getModules().entrySet().stream().filter(moduleEntry ->
+		var moduleEntryList = coreProperties.getModules().entrySet().stream().filter(moduleEntry ->
 			moduleEntry.getValue().getDomain() != null && (
 				checkDomain(request, moduleEntry.getValue().getDomain().getWebList())
 				|| checkDomain(request, moduleEntry.getValue().getDomain().getMobileWebList())
@@ -143,7 +142,7 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 	}
 	
 	public static Entry<String, CoreModuleProperties> getModuleEntryByModuleNameResolver(CoreProperties coreProperties) {
-		ModuleNameResolver moduleNameResolver = ApplicationContextUtil.getApplicationContext().getBean(ModuleNameResolver.class);
+		var moduleNameResolver = ApplicationContextUtil.getApplicationContext().getBean(ModuleNameResolver.class);
 		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
 	}
 

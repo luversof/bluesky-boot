@@ -13,7 +13,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import lombok.AccessLevel;
@@ -52,16 +51,16 @@ public class MessageUtil {
 	}
 	
 	public static ErrorMessage getErrorMessage(Throwable exception) {
-		ErrorMessage errorMessage = new ErrorMessage();
+		var errorMessage = new ErrorMessage();
 		errorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 		
 		if (exception instanceof BlueskyException) {
-			BlueskyException blueskyException = (BlueskyException) exception;
+			var blueskyException = (BlueskyException) exception;
 
-			String[] errorCodes = getBrickExceptionErrorCodes(blueskyException);
+			var errorCodes = getBrickExceptionErrorCodes(blueskyException);
 			log.debug("[BlueskyException error message] code : {}", Arrays.deepToString(errorCodes));
-			DefaultMessageSourceResolvable defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes, blueskyException.getErrorMessageArgs(), blueskyException.getMessage() == null ? blueskyException.getErrorCode() : blueskyException.getMessage());
-	    	String localizedMessage = messageSourceAccessor.getMessage(defaultMessageSourceResolvable);
+			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes, blueskyException.getErrorMessageArgs(), blueskyException.getMessage() == null ? blueskyException.getErrorCode() : blueskyException.getMessage());
+	    	var localizedMessage = messageSourceAccessor.getMessage(defaultMessageSourceResolvable);
 			
 			errorMessage.setErrorCode(blueskyException.getErrorCode());
 			errorMessage.setErrorMessageArgs(blueskyException.getErrorMessageArgs());
@@ -75,10 +74,10 @@ public class MessageUtil {
 			errorMessage.setExceptionClassName(blueskyException.getClass().getSimpleName());
 		} else {
 			
-			String[] errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), null);
+			var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), null);
 			log.debug("[Exception error message] code : {}", Arrays.asList(errorCodes));
-			DefaultMessageSourceResolvable defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes,  exception.getLocalizedMessage());
-			String localizedMessage = getMessage(defaultMessageSourceResolvable);
+			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes,  exception.getLocalizedMessage());
+			var localizedMessage = getMessage(defaultMessageSourceResolvable);
 			errorMessage.setMessage(localizedMessage);
 			if (localizedMessage != null && !localizedMessage.equals(exception.getLocalizedMessage())) {
 				errorMessage.setDisplayableMessage(true);
@@ -110,7 +109,8 @@ public class MessageUtil {
 			return Collections.emptyList();
 		}
 		
-		List<ErrorMessage> errorMessageList = new ArrayList<>();
+//		List<ErrorMessage> errorMessageList = new ArrayList<>();
+		var errorMessageList = new ArrayList<ErrorMessage>();
 		for (ErrorMessageInterface errorMessage : blueskyException.getErrorMessageList()) {
 			errorMessageList.add(getErrorMessage(blueskyException.getClass().getSimpleName(), errorMessage));
 		}
@@ -118,10 +118,10 @@ public class MessageUtil {
 	}
 	
 	private static ErrorMessage getErrorMessage(String exceptionName, ErrorMessageInterface errorMessage) {
-		ErrorMessage targetErrorMessage = (ErrorMessage) errorMessage;
+		var targetErrorMessage = (ErrorMessage) errorMessage;
 		// 로컬메세지 처리
 		if (targetErrorMessage.getErrorCode() != null) {
-			String errorCode = exceptionName + "." + targetErrorMessage.getErrorCode();
+			var errorCode = exceptionName + "." + targetErrorMessage.getErrorCode();
 			log.debug("[BlueskyException error message from errorMessageInterface] code : {}", exceptionName + "." + targetErrorMessage.getErrorCode());
 			targetErrorMessage.setMessage(messageSourceAccessor.getMessage(errorCode, targetErrorMessage.getErrorMessageArgs(), targetErrorMessage.getMessage() == null ? targetErrorMessage.getErrorCode() : targetErrorMessage.getMessage()));
 		}
@@ -143,9 +143,9 @@ public class MessageUtil {
 			return Collections.emptyList();
 		}
 		
-		List<ErrorMessage> errorMessageList = new ArrayList<>();
-		List<? extends ObjectError> objectErrorList = bindingResult.getFieldErrors().isEmpty() ? bindingResult.getAllErrors() : bindingResult.getFieldErrors();
-		for (ObjectError objectError : objectErrorList) {
+		var errorMessageList = new ArrayList<ErrorMessage>();
+		var objectErrorList = bindingResult.getFieldErrors().isEmpty() ? bindingResult.getAllErrors() : bindingResult.getFieldErrors();
+		for (var objectError : objectErrorList) {
 			ErrorMessage errorMessage = new ErrorMessage();
 			errorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 			errorMessage.setMessage(messageSourceAccessor.getMessage(objectError));
@@ -174,13 +174,13 @@ public class MessageUtil {
 	 * @return
 	 */
 	private static String[] getBrickExceptionErrorCodes(BlueskyException exception) {
-		String[] errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), exception.getErrorCode());
+		var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), exception.getErrorCode());
 		
 		if (exception.getClass().isAssignableFrom(BlueskyException.class)) {
 			return errorCodes;
 		}
-		String[] brickErrorCodes = messageCodesResolver.resolveMessageCodes(BlueskyException.class.getSimpleName(), exception.getErrorCode());
-		List<String> errorCodeList = new ArrayList<>();
+		var brickErrorCodes = messageCodesResolver.resolveMessageCodes(BlueskyException.class.getSimpleName(), exception.getErrorCode());
+		var errorCodeList = new ArrayList<String>();
 		errorCodeList.addAll(Arrays.asList(errorCodes));
 		errorCodeList.addAll(Arrays.asList(brickErrorCodes));
 		errorCodeList.sort((v1, v2) -> v1.chars().filter(e -> e == '.').count() > v2.chars().filter(e -> e == '.').count() ? -1 : 0 );

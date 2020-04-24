@@ -2,7 +2,6 @@ package net.luversof.boot.autoconfigure.core.exception.servlet.error;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -114,13 +113,13 @@ public class CoreServletExceptionHandler {
 	
 	
 	private ModelAndView getModelAndView(String errorPage, ErrorMessage errorMessage) {
-		Map<String, ErrorMessage> resultMap = new HashMap<>();
+		var resultMap = new HashMap<String, ErrorMessage>();
 		resultMap.put(RESULT, errorMessage);
 		return new ModelAndView(errorPage, resultMap);
 	}
 	
 	private ModelAndView getModelAndView(String errorPage, List<ErrorMessage> errorMessageList) {
-		Map<String, List<ErrorMessage>> resultMap = new HashMap<>();
+		var resultMap = new HashMap<String, List<ErrorMessage>>();
 		resultMap.put(RESULT, errorMessageList);
 		return new ModelAndView(errorPage, resultMap);
 	}

@@ -20,7 +20,7 @@ public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
 
 	@Override
 	public UUID getNullableResult(ResultSet rs, String columnName) throws SQLException {
-		String value = rs.getString(columnName);
+		var value = rs.getString(columnName);
 		if (value != null)
 			return UUID.fromString(value);
 		return null;
@@ -28,7 +28,7 @@ public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
 
 	@Override
 	public UUID getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-		String value = rs.getString(columnIndex);
+		var value = rs.getString(columnIndex);
 		if (value != null)
 			return UUID.fromString(value);
 		return null;
@@ -36,7 +36,7 @@ public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
 
 	@Override
 	public UUID getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-		String value = cs.getString(columnIndex);
+		var value = cs.getString(columnIndex);
 		if (value != null)
 			return UUID.fromString(value);
 		return null;

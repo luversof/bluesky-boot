@@ -66,13 +66,13 @@ public class SecurityServletAutoConfiguration {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			for (WebSecurityConfigurerCustomizer webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {
+			for (var webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {
 				webSecurityConfigurerCustomizer.preConfigure(http);
 			}
-			SimpleUrlLogoutSuccessHandler logoutSuccessHandler = new SimpleUrlLogoutSuccessHandler();
+			var logoutSuccessHandler = new SimpleUrlLogoutSuccessHandler();
 			logoutSuccessHandler.setUseReferer(true);
 			
-			SimpleUrlAuthenticationSuccessHandler authenticationSuccessHandler = new SimpleUrlAuthenticationSuccessHandler();
+			var authenticationSuccessHandler = new SimpleUrlAuthenticationSuccessHandler();
 			authenticationSuccessHandler.setUseReferer(true);
 			
 			http
@@ -88,7 +88,7 @@ public class SecurityServletAutoConfiguration {
 				.csrf().disable()
 	            .httpBasic();
 			
-			for (WebSecurityConfigurerCustomizer webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {
+			for (var webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {
 				webSecurityConfigurerCustomizer.postConfigure(http);
 			}
 		}
