@@ -109,7 +109,6 @@ public class MessageUtil {
 			return Collections.emptyList();
 		}
 		
-//		List<ErrorMessage> errorMessageList = new ArrayList<>();
 		var errorMessageList = new ArrayList<ErrorMessage>();
 		for (ErrorMessageInterface errorMessage : blueskyException.getErrorMessageList()) {
 			errorMessageList.add(getErrorMessage(blueskyException.getClass().getSimpleName(), errorMessage));
