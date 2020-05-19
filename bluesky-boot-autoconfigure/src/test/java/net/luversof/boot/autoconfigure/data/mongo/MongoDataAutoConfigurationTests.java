@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Set;
 
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
@@ -22,9 +23,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mapping.model.CamelCaseAbbreviatingFieldNamingStrategy;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
 import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.BasicMongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
@@ -32,8 +32,8 @@ import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.reactivestreams.client.MongoClients;
 
 import net.luversof.boot.autoconfigure.data.mongo.city.City;
 import net.luversof.boot.autoconfigure.data.mongo.country.Country;
@@ -172,8 +172,8 @@ public class MongoDataAutoConfigurationTests {
 	@Test
 	public void createsMongoDbFactoryForPreferredMongoClient() {
 		this.contextRunner.run((context) -> {
-			MongoDbFactory dbFactory = context.getBean(MongoDbFactory.class);
-			assertThat(dbFactory).isInstanceOf(SimpleMongoClientDbFactory.class);
+			MongoDatabaseFactory dbFactory = context.getBean(MongoDatabaseFactory.class);
+			assertThat(dbFactory).isInstanceOf(SimpleMongoClientDatabaseFactory.class);
 		});
 	}
 
@@ -181,8 +181,8 @@ public class MongoDataAutoConfigurationTests {
 	public void createsMongoDbFactoryForFallbackMongoClient() {
 		this.contextRunner.withUserConfiguration(FallbackMongoClientConfiguration.class)
 				.run((context) -> {
-					MongoDbFactory dbFactory = context.getBean(MongoDbFactory.class);
-					assertThat(dbFactory).isInstanceOf(SimpleMongoClientDbFactory.class);
+					MongoDatabaseFactory dbFactory = context.getBean(MongoDatabaseFactory.class);
+					assertThat(dbFactory).isInstanceOf(SimpleMongoClientDatabaseFactory.class);
 				});
 	}
 
@@ -207,7 +207,7 @@ public class MongoDataAutoConfigurationTests {
 	static class FallbackMongoClientConfiguration {
 
 		@Bean
-		com.mongodb.client.MongoClient fallbackMongoClient() {
+		com.mongodb.reactivestreams.client.MongoClient fallbackMongoClient() {
 			return MongoClients.create();
 		}
 
