@@ -68,9 +68,12 @@ spring:
       preferredNetworks:
         - 192.168
         - 10.0
-management.endpoints.web:
-  exposure.include: '*'
-  base-path: /actuator
+
+management:
+  health.probes.enabled: true
+  endpoints.web:
+    exposure.include: '*'
+    base-path: /actuator
 eureka:
   client:
     region: korea
