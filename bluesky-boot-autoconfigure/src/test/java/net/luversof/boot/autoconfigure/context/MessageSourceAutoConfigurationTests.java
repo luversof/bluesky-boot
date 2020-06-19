@@ -1,5 +1,7 @@
 package net.luversof.boot.autoconfigure.context;
-
+import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.BASE_PROPERTY;
+import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.CORE_MESSAGESOURCE_CONFIGURATION;
+import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.CORE_MESSAGESOURCE_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Locale;
@@ -13,11 +15,11 @@ import org.springframework.context.annotation.PropertySource;
 public class MessageSourceAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withPropertyValues("net-profile:opdev")
+			.withPropertyValues(BASE_PROPERTY)
 			.withConfiguration(
-					AutoConfigurations.of(org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class,
-							Config.class,
-							MessageSourceAutoConfiguration.class));
+					AutoConfigurations.of(CORE_MESSAGESOURCE_CONFIGURATION))
+			.withUserConfiguration(CORE_MESSAGESOURCE_USER_CONFIGURATION)
+			.withUserConfiguration(Config.class);
 	
 	@Test
 	public void testDefaultMessageSource() {
@@ -35,7 +37,7 @@ public class MessageSourceAutoConfigurationTests {
 	
 	
 	@Configuration
-	@PropertySource("classpath:messageTest.properties")
+	@PropertySource("classpath:context/messageTest.properties")
 	protected static class Config {
 
 	}
