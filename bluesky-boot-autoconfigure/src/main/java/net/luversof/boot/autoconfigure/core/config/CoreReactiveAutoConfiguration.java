@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
-@Configuration
+@Configuration(value = "_blueskyCoreReactiveAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 @AutoConfigureAfter(CoreAutoConfiguration.class)

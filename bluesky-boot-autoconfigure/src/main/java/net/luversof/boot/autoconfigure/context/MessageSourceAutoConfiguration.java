@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 
 import net.luversof.context.support.BlueskyReloadableResourceBundleMessageSource;
 
-@Configuration("_blueskyBootMessageSourceAutoConfiguration")
+@Configuration(value = "_blueskyBootMessageSourceAutoConfiguration", proxyBeanMethods = false)
 //@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @AutoConfigureBefore(org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
 @EnableConfigurationProperties(MessageSourceExtensionProperties.class)

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 
-@Configuration("_blueskyBootRepositoryRestMvcAutoConfiguration")
+@Configuration(value = "_blueskyBootRepositoryRestMvcAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnClass(RepositoryRestMvcConfiguration.class)
 @PropertySource(value = "classpath:data/rest/data-rest.properties", ignoreResourceNotFound = true)
 public class RepositoryRestMvcAutoConfiguration {

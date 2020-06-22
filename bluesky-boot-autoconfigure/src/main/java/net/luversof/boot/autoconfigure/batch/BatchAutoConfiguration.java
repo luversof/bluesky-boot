@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcOperations;
 
 
-@Configuration("_blueskyBootBatchAutoConfiguration")
+@Configuration(value = "_blueskyBootBatchAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnClass({ JobLauncher.class, DataSource.class, JdbcOperations.class })
 @EnableBatchProcessing
 public class BatchAutoConfiguration {

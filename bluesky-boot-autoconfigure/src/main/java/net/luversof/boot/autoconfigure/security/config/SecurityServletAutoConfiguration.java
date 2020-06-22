@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import net.luversof.boot.autoconfigure.security.exception.servlet.SecurityExceptionHandler;
 import net.luversof.boot.autoconfigure.security.servlet.WebSecurityConfigurerCustomizer;
 
-@Configuration("_blueskySecurityServletAutoConfiguration")
+@Configuration(value = "_blueskySecurityServletAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnClass({ DefaultAuthenticationEventPublisher.class, WebSecurityConfigurerAdapter.class })
 @EnableWebSecurity

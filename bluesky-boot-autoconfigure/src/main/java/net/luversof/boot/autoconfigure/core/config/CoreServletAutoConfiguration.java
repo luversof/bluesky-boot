@@ -14,7 +14,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import net.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
 import net.luversof.boot.autoconfigure.core.filter.BlueskyContextHolderFilter;
 
-@Configuration
+@Configuration(value = "_blueskyCoreServletAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @AutoConfigureAfter(CoreAutoConfiguration.class)

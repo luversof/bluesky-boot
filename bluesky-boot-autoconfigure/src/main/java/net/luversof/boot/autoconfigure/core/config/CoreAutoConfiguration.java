@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import net.luversof.boot.autoconfigure.core.util.ApplicationContextUtil;
 
-@Configuration
+@Configuration(value = "_blueskyCoreAutoConfiguration", proxyBeanMethods = false)
 @EnableConfigurationProperties(CoreProperties.class)
 public class CoreAutoConfiguration {
 

@@ -5,7 +5,9 @@ net.luversof.boot.autoconfigure.core.config.CoreServletAutoConfiguration,\
 net.luversof.boot.autoconfigure.core.config.CoreReactiveAutoConfiguration,\
 net.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
 net.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\
+net.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration,\
 net.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration,\
+net.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,\
 net.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration,\
 net.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration,\
 net.luversof.boot.autoconfigure.batch.BatchAutoConfiguration,\

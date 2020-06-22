@@ -23,7 +23,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 import net.luversof.boot.autoconfigure.security.reactive.SecurityWebFilterChainCustomizer;
 import reactor.core.publisher.Flux;
 
-@Configuration("_blueskySecurityReactiveAutoConfiguration")
+@Configuration(value = "_blueskySecurityReactiveAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 @ConditionalOnClass({ Flux.class, EnableWebFluxSecurity.class, WebFilterChainProxy.class, WebFluxConfigurer.class })
 @EnableWebFluxSecurity

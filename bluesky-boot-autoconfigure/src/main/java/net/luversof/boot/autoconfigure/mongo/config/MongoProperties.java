@@ -40,7 +40,7 @@ public class MongoProperties implements InitializingBean {
 			setHost(host);
 			setPort(port);
 			setUri(uri);
-			setDatabase(gridFsDatabase);
+			setDatabase(database);
 			setAuthenticationDatabase(authenticationDatabase);
 			setGridFsDatabase(gridFsDatabase);
 			setUsername(username);
@@ -68,6 +68,10 @@ public class MongoProperties implements InitializingBean {
 			propertyMapper.from(blueskyMongoProperties::getPort).to(builder::port);
 			propertyMapper.from(defaultProperties::getUri).to(builder::uri);
 			propertyMapper.from(blueskyMongoProperties::getUri).to(builder::uri);
+			propertyMapper.from(defaultProperties::getDatabase).to(builder::database);
+			propertyMapper.from(blueskyMongoProperties::getDatabase).to(builder::database);
+			propertyMapper.from(defaultProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
+			propertyMapper.from(blueskyMongoProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
 			propertyMapper.from(defaultProperties::getGridFsDatabase).to(builder::gridFsDatabase);
 			propertyMapper.from(blueskyMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
 			propertyMapper.from(defaultProperties::getUsername).to(builder::username);
