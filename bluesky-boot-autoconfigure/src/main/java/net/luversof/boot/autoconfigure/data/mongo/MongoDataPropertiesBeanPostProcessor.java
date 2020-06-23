@@ -67,7 +67,7 @@ public class MongoDataPropertiesBeanPostProcessor implements BeanPostProcessor, 
 
 	@Override
 	public int getOrder() {
-		return 1000;
+		return 1;
 	}
 
 }
