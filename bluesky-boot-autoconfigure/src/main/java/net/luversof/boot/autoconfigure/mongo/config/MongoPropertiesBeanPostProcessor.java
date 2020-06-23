@@ -10,11 +10,11 @@ import org.springframework.boot.autoconfigure.mongo.MongoClientFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.Ordered;
+import org.springframework.core.PriorityOrdered;
 
 import com.mongodb.MongoClientSettings;
 
-public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, Ordered {
+public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, PriorityOrdered {
 
 	private ApplicationContext applicationContext;
 	

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.Ordered;
+import org.springframework.core.PriorityOrdered;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 
@@ -20,7 +20,7 @@ import net.luversof.boot.autoconfigure.mongo.config.MongoProperties;
  * @author luver
  *
  */
-public class MongoDataPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, Ordered {
+public class MongoDataPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, PriorityOrdered {
 	
 	private ApplicationContext applicationContext;
 	
