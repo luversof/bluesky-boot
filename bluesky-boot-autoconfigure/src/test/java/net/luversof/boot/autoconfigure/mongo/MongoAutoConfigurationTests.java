@@ -42,7 +42,7 @@ public class MongoAutoConfigurationTests {
 	}
 	
 	@Configuration(proxyBeanMethods =  false)
-	@PropertySource(value = "classpath:mongo/mongo-${net-profile}.properties", ignoreResourceNotFound = true)
+	@PropertySource(value = "classpath:mongodb/mongodb-${net-profile}.properties", ignoreResourceNotFound = true)
 	public static class Config {
 		
 	}
