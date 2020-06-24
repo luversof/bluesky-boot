@@ -47,10 +47,14 @@ public class MongoDataPropertiesBeanPostProcessor implements BeanPostProcessor, 
 			var mongoClient = mongoClientMap.get(MessageFormat.format(mongoClientBeanNameFormat, key));
 			
 			var mongoDatabaseFactory = new SimpleMongoClientDatabaseFactory(mongoClient, blueskyMongoProperties.getMongoClientDatabase());
-			autowireCapableBeanFactory.registerSingleton(MessageFormat.format(mongoDatabaseFactoryBeanNameFormat, key), mongoDatabaseFactory);
+			var mongoDatabaseFactoryBeanName = MessageFormat.format(mongoDatabaseFactoryBeanNameFormat, key);
+			autowireCapableBeanFactory.destroySingleton(mongoDatabaseFactoryBeanName);
+			autowireCapableBeanFactory.registerSingleton(mongoDatabaseFactoryBeanName, mongoDatabaseFactory);
 			
 			var mongoTemplate = new MongoTemplate(mongoDatabaseFactory);
-			autowireCapableBeanFactory.registerSingleton(MessageFormat.format(mongoTemplateBeanNameFormat, key), mongoTemplate);
+			var mongoTemplateBeanName = MessageFormat.format(mongoTemplateBeanNameFormat, key);
+			autowireCapableBeanFactory.destroySingleton(mongoTemplateBeanName);
+			autowireCapableBeanFactory.registerSingleton(mongoTemplateBeanName, mongoTemplate);
 		});
 		
 		return bean;

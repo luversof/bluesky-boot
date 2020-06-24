@@ -20,7 +20,7 @@ import net.luversof.boot.autoconfigure.mongo.config.MongoProperties.BlueskyMongo
  *
  */
 @Data
-@ConfigurationProperties(prefix = "bluesky-modules.mongo")
+@ConfigurationProperties(prefix = "bluesky-modules.mongodb")
 public class MongoProperties implements InitializingBean {
 
 	private BlueskyMongoProperties defaultProperties;

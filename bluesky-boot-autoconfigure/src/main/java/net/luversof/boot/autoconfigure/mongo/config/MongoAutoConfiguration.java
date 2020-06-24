@@ -17,6 +17,11 @@ import com.mongodb.client.MongoClients;
 public class MongoAutoConfiguration {
 	
 	@Bean
+	public MongoPropertiesBeanFactoryPostProcessor mongoPropertiesBeanFactoryPostProcessor() {
+		return new MongoPropertiesBeanFactoryPostProcessor();
+	}
+	
+	@Bean
 	public MongoPropertiesBeanPostProcessor mongoPropertiesBeanPostProcessor() {
 		return new MongoPropertiesBeanPostProcessor();
 	}

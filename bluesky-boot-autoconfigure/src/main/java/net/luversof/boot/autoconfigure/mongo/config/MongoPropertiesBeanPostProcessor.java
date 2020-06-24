@@ -40,7 +40,10 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 			var blueskyMongoProperties = mongoProperties.getConnectionMap().get(key);
 
 			var mongoClient = new MongoClientFactory(blueskyMongoProperties, environment, builderCustomizers.orderedStream().collect(Collectors.toList())).createMongoClient(settings.getIfAvailable());
-			autowireCapableBeanFactory.registerSingleton(MessageFormat.format(mongoClientBeanNameFormat, key), mongoClient);
+			
+			var mongoClientBeanName = MessageFormat.format(mongoClientBeanNameFormat, key);
+			autowireCapableBeanFactory.destroySingleton(mongoClientBeanName);
+			autowireCapableBeanFactory.registerSingleton(mongoClientBeanName, mongoClient);
 		});
 		
 		return bean;

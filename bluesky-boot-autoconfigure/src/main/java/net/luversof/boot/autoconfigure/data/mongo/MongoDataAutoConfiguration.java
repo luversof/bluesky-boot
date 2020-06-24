@@ -14,6 +14,11 @@ import com.mongodb.client.MongoClient;
 @ConditionalOnClass({ MongoClient.class, MongoTemplate.class })
 // @AutoConfigureAfter(MongoAutoConfiguration.class)
 public class MongoDataAutoConfiguration {
+	
+	@Bean
+	public MongoDataPropertiesBeanFactoryPostProcessor mongoDataPropertiesBeanFactoryPostProcessor() {
+		return new MongoDataPropertiesBeanFactoryPostProcessor();
+	}
 
 	@Bean
 	public MongoDataPropertiesBeanPostProcessor mongoDataPropertiesBeanPostProcessor() {
