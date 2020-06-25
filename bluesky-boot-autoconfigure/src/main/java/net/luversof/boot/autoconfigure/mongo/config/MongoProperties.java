@@ -2,11 +2,14 @@ package net.luversof.boot.autoconfigure.mongo.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.bson.UuidRepresentation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+
+import com.mongodb.ReadConcernLevel;
 
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +26,15 @@ import net.luversof.boot.autoconfigure.mongo.config.MongoProperties.BlueskyMongo
 @ConfigurationProperties(prefix = "bluesky-modules.mongodb")
 public class MongoProperties implements InitializingBean {
 
-	private BlueskyMongoProperties defaultProperties;
+	private BlueskyMongoProperties defaultMongoProperties;
+	
+	private BlueskyConnectionPoolSettings defaultConnectionPoolSettings;
+	
+	private ReadConcernLevel defaultReadConcernLevel;
+	
+	private String defaultReadPreference;
+	
+	private BlueskyWriteConcern defaultWriteConcern;
 	
 	private Map<String, BlueskyMongoProperties> connectionMap = new HashMap<>();
 	
@@ -51,6 +62,26 @@ public class MongoProperties implements InitializingBean {
 			setAutoIndexCreation(autoIndexCreation);
 		}
 	}
+	
+	@Data
+	public static class BlueskyConnectionPoolSettings {
+
+		private int maxSize = 100;
+        private int minSize;
+        private long maxWaitTimeMS = 1000 * 60 * 2;
+        private long maxConnectionLifeTimeMS;
+        private long maxConnectionIdleTimeMS;
+        private long maintenanceInitialDelayMS;
+        private long maintenanceFrequencyMS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES);
+
+	}
+	
+	@Data
+	public static class BlueskyWriteConcern {
+		private String w;
+	    private int wTimeoutMS;
+	    private boolean journal;
+	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -62,29 +93,29 @@ public class MongoProperties implements InitializingBean {
 			
 			BlueskyMongoPropertiesBuilder builder = BlueskyMongoProperties.builder();
 			
-			propertyMapper.from(defaultProperties::getHost).to(builder::host);
+			propertyMapper.from(defaultMongoProperties::getHost).to(builder::host);
 			propertyMapper.from(blueskyMongoProperties::getHost).to(builder::host);
-			propertyMapper.from(defaultProperties::getPort).to(builder::port);
+			propertyMapper.from(defaultMongoProperties::getPort).to(builder::port);
 			propertyMapper.from(blueskyMongoProperties::getPort).to(builder::port);
-			propertyMapper.from(defaultProperties::getUri).to(builder::uri);
+			propertyMapper.from(defaultMongoProperties::getUri).to(builder::uri);
 			propertyMapper.from(blueskyMongoProperties::getUri).to(builder::uri);
-			propertyMapper.from(defaultProperties::getDatabase).to(builder::database);
+			propertyMapper.from(defaultMongoProperties::getDatabase).to(builder::database);
 			propertyMapper.from(blueskyMongoProperties::getDatabase).to(builder::database);
-			propertyMapper.from(defaultProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
+			propertyMapper.from(defaultMongoProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
 			propertyMapper.from(blueskyMongoProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
-			propertyMapper.from(defaultProperties::getGridFsDatabase).to(builder::gridFsDatabase);
+			propertyMapper.from(defaultMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
 			propertyMapper.from(blueskyMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
-			propertyMapper.from(defaultProperties::getUsername).to(builder::username);
+			propertyMapper.from(defaultMongoProperties::getUsername).to(builder::username);
 			propertyMapper.from(blueskyMongoProperties::getUsername).to(builder::username);
-			propertyMapper.from(defaultProperties::getPassword).to(builder::password);
+			propertyMapper.from(defaultMongoProperties::getPassword).to(builder::password);
 			propertyMapper.from(blueskyMongoProperties::getPassword).to(builder::password);
-			propertyMapper.from(defaultProperties::getReplicaSetName).to(builder::replicaSetName);
+			propertyMapper.from(defaultMongoProperties::getReplicaSetName).to(builder::replicaSetName);
 			propertyMapper.from(blueskyMongoProperties::getReplicaSetName).to(builder::replicaSetName);
-			propertyMapper.from(defaultProperties::getFieldNamingStrategy).to(builder::fieldNamingStrategy);
+			propertyMapper.from(defaultMongoProperties::getFieldNamingStrategy).to(builder::fieldNamingStrategy);
 			propertyMapper.from(blueskyMongoProperties::getFieldNamingStrategy).to(builder::fieldNamingStrategy);
-			propertyMapper.from(defaultProperties::getUuidRepresentation).to(builder::uuidRepresentation);
+			propertyMapper.from(defaultMongoProperties::getUuidRepresentation).to(builder::uuidRepresentation);
 			propertyMapper.from(blueskyMongoProperties::getUuidRepresentation).to(builder::uuidRepresentation);
-			propertyMapper.from(defaultProperties::isAutoIndexCreation).to(builder::autoIndexCreation);
+			propertyMapper.from(defaultMongoProperties::isAutoIndexCreation).to(builder::autoIndexCreation);
 			propertyMapper.from(blueskyMongoProperties::isAutoIndexCreation).to(builder::autoIndexCreation);
 			
 			connectionMap.put(key, builder.build());

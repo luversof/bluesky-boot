@@ -1,6 +1,7 @@
 package net.luversof.boot.autoconfigure.mongo.config;
 
 import java.text.MessageFormat;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeansException;
@@ -13,6 +14,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.PriorityOrdered;
 
 import com.mongodb.MongoClientSettings;
+import com.mongodb.ReadConcern;
+import com.mongodb.ReadPreference;
+import com.mongodb.WriteConcern;
 
 public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, PriorityOrdered {
 
@@ -33,13 +37,15 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 		var autowireCapableBeanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
 		var mongoProperties = (MongoProperties) bean;
 		var environment = applicationContext.getEnvironment();
-		var builderCustomizers = applicationContext.getBeanProvider(MongoClientSettingsBuilderCustomizer.class);
-		var settings = applicationContext.getBeanProvider(MongoClientSettings.class);
+		var builderCustomizersBeanProvider = applicationContext.getBeanProvider(MongoClientSettingsBuilderCustomizer.class);
+		var settingsBeanProvider = applicationContext.getBeanProvider(MongoClientSettings.class);
+		
+		var settings = settingsBeanProvider.getIfAvailable() == null ? defaultMongoClientSettings(mongoProperties) : settingsBeanProvider.getIfAvailable();
 		
 		mongoProperties.getConnectionMap().forEach((key, value) -> {
 			var blueskyMongoProperties = mongoProperties.getConnectionMap().get(key);
 
-			var mongoClient = new MongoClientFactory(blueskyMongoProperties, environment, builderCustomizers.orderedStream().collect(Collectors.toList())).createMongoClient(settings.getIfAvailable());
+			var mongoClient = new MongoClientFactory(blueskyMongoProperties, environment, builderCustomizersBeanProvider.orderedStream().collect(Collectors.toList())).createMongoClient(settings);
 			
 			var mongoClientBeanName = MessageFormat.format(mongoClientBeanNameFormat, key);
 			autowireCapableBeanFactory.destroySingleton(mongoClientBeanName);
@@ -47,6 +53,41 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 		});
 		
 		return bean;
+	}
+	
+	
+	private MongoClientSettings defaultMongoClientSettings(MongoProperties mongoProperties) {
+
+		var builder = MongoClientSettings.builder();
+
+		var connectionPoolSettings = mongoProperties.getDefaultConnectionPoolSettings();
+		if (connectionPoolSettings != null) {
+			builder.applyToConnectionPoolSettings(b -> b.maxSize(connectionPoolSettings.getMaxSize())
+					.minSize(connectionPoolSettings.getMinSize())
+					.maxWaitTime(connectionPoolSettings.getMaxWaitTimeMS(), TimeUnit.MILLISECONDS)
+					.maxConnectionLifeTime(connectionPoolSettings.getMaxConnectionLifeTimeMS(), TimeUnit.MILLISECONDS)
+					.maxConnectionIdleTime(connectionPoolSettings.getMaxConnectionIdleTimeMS(), TimeUnit.MILLISECONDS)
+					.maintenanceInitialDelay(connectionPoolSettings.getMaintenanceInitialDelayMS(),
+							TimeUnit.MILLISECONDS)
+					.maintenanceFrequency(connectionPoolSettings.getMaintenanceFrequencyMS(), TimeUnit.MILLISECONDS));
+		}
+
+		if (mongoProperties.getDefaultReadConcernLevel() != null) {
+			builder.readConcern(new ReadConcern(mongoProperties.getDefaultReadConcernLevel()));
+		}
+
+		if (mongoProperties.getDefaultReadPreference() != null) {
+			builder.readPreference(ReadPreference.valueOf(mongoProperties.getDefaultReadPreference()));
+		}
+
+		var writeConcern = mongoProperties.getDefaultWriteConcern();
+		if (writeConcern != null) {
+			builder.writeConcern(WriteConcern.valueOf(writeConcern.getW())
+					.withWTimeout(writeConcern.getWTimeoutMS(), TimeUnit.MILLISECONDS)
+					.withJournal(writeConcern.isJournal()));
+		}
+
+		return builder.build();
 	}
 
 	@Override

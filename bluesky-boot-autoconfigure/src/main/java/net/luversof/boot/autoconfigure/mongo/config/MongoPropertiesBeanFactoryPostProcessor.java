@@ -27,14 +27,9 @@ public class MongoPropertiesBeanFactoryPostProcessor implements BeanFactoryPostP
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		System.out.println("TEST!!!!");
 		getPropertiesMapKeySet().forEach(key -> {
-			System.out.println("key : " + key);
 			beanFactory.registerSingleton(MessageFormat.format(mongoClientBeanNameFormat, key), MongoClients.create());
 		});
-		
-		System.out.println("TEST!!!!");
-
 	}
 	
 	private Map<String, String> getPropertiesMap() {
@@ -67,7 +62,5 @@ public class MongoPropertiesBeanFactoryPostProcessor implements BeanFactoryPostP
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
-	
-	
 
 }
