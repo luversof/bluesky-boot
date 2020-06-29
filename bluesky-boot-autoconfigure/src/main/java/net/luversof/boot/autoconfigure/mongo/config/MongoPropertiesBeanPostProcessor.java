@@ -1,22 +1,27 @@
 package net.luversof.boot.autoconfigure.mongo.config;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.boot.autoconfigure.mongo.MongoClientFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.PriorityOrdered;
 
+import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCredential;
 import com.mongodb.ReadConcern;
 import com.mongodb.ReadPreference;
+import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
+import com.mongodb.client.MongoClients;
 
 public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, PriorityOrdered {
 
@@ -36,7 +41,6 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 		
 		var autowireCapableBeanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
 		var mongoProperties = (MongoProperties) bean;
-		var environment = applicationContext.getEnvironment();
 		var builderCustomizersBeanProvider = applicationContext.getBeanProvider(MongoClientSettingsBuilderCustomizer.class);
 		var settingsBeanProvider = applicationContext.getBeanProvider(MongoClientSettings.class);
 		
@@ -45,7 +49,41 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 		mongoProperties.getConnectionMap().forEach((key, value) -> {
 			var blueskyMongoProperties = mongoProperties.getConnectionMap().get(key);
 
-			var mongoClient = new MongoClientFactory(blueskyMongoProperties, environment, builderCustomizersBeanProvider.orderedStream().collect(Collectors.toList())).createMongoClient(settings);
+			// Spring의 MongoClientFactory는 단일 host에 대해서만 설정이 가능하여 별도 처리함
+
+			var builder = settings != null ? MongoClientSettings.builder(settings) : MongoClientSettings.builder();
+			builder.uuidRepresentation(blueskyMongoProperties.getUuidRepresentation());
+			if (blueskyMongoProperties.getUri() != null) {
+				builder.applyConnectionString(new ConnectionString(blueskyMongoProperties.getUri()));
+			} else if (blueskyMongoProperties.getHosts() != null && blueskyMongoProperties.getHosts().length > 0) {
+				var serverAddressList = new ArrayList<ServerAddress>();
+				for (String host : blueskyMongoProperties.getHosts()) {
+					if (host.contains(":")) {
+						String[] sa = host.split(":");
+						serverAddressList.add(new ServerAddress(sa[0], Integer.parseInt(sa[1])));
+					} else {
+						serverAddressList.add(new ServerAddress(host));
+					}
+				}
+				builder.applyToClusterSettings(cluster -> cluster.hosts(serverAddressList));
+			} else if (blueskyMongoProperties.getHost() != null && blueskyMongoProperties.getPort() != null) {
+				builder.applyToClusterSettings(cluster -> cluster.hosts(Collections.singletonList(new ServerAddress(blueskyMongoProperties.getHost(), blueskyMongoProperties.getPort()))));
+			}
+			
+			if (blueskyMongoProperties.getUsername() != null && blueskyMongoProperties.getPassword() != null) {
+				String database = (blueskyMongoProperties.getAuthenticationDatabase() != null) ? blueskyMongoProperties.getAuthenticationDatabase() : blueskyMongoProperties.getMongoClientDatabase();
+				builder.credential((MongoCredential.createCredential(blueskyMongoProperties.getUsername(), database, blueskyMongoProperties.getPassword())));
+			}
+			
+			if (blueskyMongoProperties.getReplicaSetName() != null) {
+				builder.applyToClusterSettings(cluster -> cluster.requiredReplicaSetName(blueskyMongoProperties.getReplicaSetName()));
+			}
+			
+			for (MongoClientSettingsBuilderCustomizer customizer : builderCustomizersBeanProvider.orderedStream().collect(Collectors.toList())) {
+				customizer.customize(builder);
+			}
+			
+			var mongoClient = MongoClients.create(builder.build());
 			
 			var mongoClientBeanName = MessageFormat.format(mongoClientBeanNameFormat, key);
 			autowireCapableBeanFactory.destroySingleton(mongoClientBeanName);

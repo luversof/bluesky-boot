@@ -42,12 +42,18 @@ public class MongoProperties implements InitializingBean {
 	@EqualsAndHashCode(callSuper = true)
 	@NoArgsConstructor
 	public static class BlueskyMongoProperties extends org.springframework.boot.autoconfigure.mongo.MongoProperties {
+		
+		/**
+		 * 여러 서버로 구성된 경우 hosts를 설정하면 해당 설정으로 처리
+		 */
+		private String[] hosts;
 			
 		@Builder
-		public BlueskyMongoProperties(String host, Integer port, String uri, String database,
+		public BlueskyMongoProperties(String[] hosts, String host, Integer port, String uri, String database,
 				String authenticationDatabase, String gridFsDatabase, String username, char[] password,
 				String replicaSetName, Class<?> fieldNamingStrategy, UuidRepresentation uuidRepresentation,
 				Boolean autoIndexCreation) {
+			this.hosts = hosts;
 			setHost(host);
 			setPort(port);
 			setUri(uri);
@@ -93,6 +99,7 @@ public class MongoProperties implements InitializingBean {
 			
 			BlueskyMongoPropertiesBuilder builder = BlueskyMongoProperties.builder();
 			
+			propertyMapper.from(blueskyMongoProperties::getHosts).to(builder::hosts);
 			propertyMapper.from(defaultMongoProperties::getHost).to(builder::host);
 			propertyMapper.from(blueskyMongoProperties::getHost).to(builder::host);
 			propertyMapper.from(defaultMongoProperties::getPort).to(builder::port);
