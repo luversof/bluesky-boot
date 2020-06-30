@@ -22,6 +22,7 @@ import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClients;
+import com.mongodb.connection.ClusterConnectionMode;
 
 public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, PriorityOrdered {
 
@@ -65,7 +66,7 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 						serverAddressList.add(new ServerAddress(host));
 					}
 				}
-				builder.applyToClusterSettings(cluster -> cluster.hosts(serverAddressList));
+				builder.applyToClusterSettings(cluster -> cluster.hosts(serverAddressList).mode(ClusterConnectionMode.MULTIPLE));
 			} else if (blueskyMongoProperties.getHost() != null && blueskyMongoProperties.getPort() != null) {
 				builder.applyToClusterSettings(cluster -> cluster.hosts(Collections.singletonList(new ServerAddress(blueskyMongoProperties.getHost(), blueskyMongoProperties.getPort()))));
 			}
