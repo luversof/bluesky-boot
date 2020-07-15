@@ -134,7 +134,7 @@
 								<icons>font</icons>
 								<highlightjsdir>js/highlight</highlightjsdir>
 								<highlightjs-theme>github</highlightjs-theme>
-								
+
 								<java-version>${java.version}</java-version>
 								<spring-restdocs-version>${spring-restdocs.version}</spring-restdocs-version>
 								<basedir>${project.basedir}</basedir>
