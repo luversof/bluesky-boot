@@ -14,7 +14,7 @@
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<spring-boot.version>2.3.1.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
-		
+
 		<asciidoctor.maven.plugin.version>1.6.0</asciidoctor.maven.plugin.version>
 		<spring-doc-resources.version>0.2.2.RELEASE</spring-doc-resources.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
@@ -122,44 +122,124 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-<!-- 	<profiles>
+	<!-- <profiles> <profile> <id>dockerdev</id> <repositories> <repository> 
+		<id>bluesky-docker-nexus</id> <url>http://nexus:8081/repository/maven-public/</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>true</enabled> 
+		<updatePolicy>always</updatePolicy> </snapshots> </repository> </repositories> 
+		<distributionManagement> <repository> <id>bluesky-releases</id> <url>http://nexus:8081/repository/maven-releases/</url> 
+		</repository> <snapshotRepository> <id>bluesky-snapshots</id> <url>http://nexus:8081/repository/maven-snapshots/</url> 
+		</snapshotRepository> </distributionManagement> </profile> </profiles> <pluginRepositories> 
+		<pluginRepository> <id>spring-snapshots</id> <url>http://repo.spring.io/snapshot</url> 
+		</pluginRepository> <pluginRepository> <id>spring-milestones</id> <url>http://repo.spring.io/milestone</url> 
+		</pluginRepository> </pluginRepositories> -->
+
+	<profiles>
 		<profile>
-			<id>dockerdev</id>
-			<repositories>
-				<repository>
-					<id>bluesky-docker-nexus</id>
-					<url>http://nexus:8081/repository/maven-public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>always</updatePolicy>
-					</snapshots>
-				</repository>
-			</repositories>
-			<distributionManagement>
-				<repository>
-					<id>bluesky-releases</id>
-					<url>http://nexus:8081/repository/maven-releases/</url>
-				</repository>
-				<snapshotRepository>
-					<id>bluesky-snapshots</id>
-					<url>http://nexus:8081/repository/maven-snapshots/</url>
-				</snapshotRepository>
-			</distributionManagement>
+			<id>asciidoctor</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>unpack-doc-resources</id>
+								<goals>
+									<goal>unpack-dependencies</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<includeGroupIds>io.spring.docresources</includeGroupIds>
+									<includeArtifactIds>spring-doc-resources</includeArtifactIds>
+									<includeTypes>zip</includeTypes>
+									<excludeTransitive>true</excludeTransitive>
+									<outputDirectory>${refdocs.build.directory}</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-asciidoc-resources</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${refdocs.build.directory}</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/asciidoc</directory>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+						<configuration>
+							<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctor-maven-plugin</artifactId>
+						<version>${asciidoctor.maven.plugin.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.springframework.restdocs</groupId>
+								<artifactId>spring-restdocs-asciidoctor</artifactId>
+								<version>${spring-restdocs.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>io.spring.asciidoctor</groupId>
+								<artifactId>spring-asciidoctor-extensions-block-switch</artifactId>
+								<version>0.4.3.RELEASE</version>
+							</dependency>
+							<dependency>
+								<groupId>io.spring.asciidoctor</groupId>
+								<artifactId>spring-asciidoctor-extensions-spring-boot</artifactId>
+								<version>0.4.3.RELEASE</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>asciidoc-to-html</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>process-asciidoc</goal>
+								</goals>
+								<configuration>
+									<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
+									<backend>html5</backend>
+									<sourceHighlighter>highlight.js</sourceHighlighter>
+									<preserveDirectories>true</preserveDirectories>
+									<outputDirectory>src/main/resources/static</outputDirectory>
+									<attributes>
+										// these attributes are required to use the doc resources
+										<docinfo>shared</docinfo>
+										<stylesdir>css/</stylesdir>
+										<stylesheet>spring.css</stylesheet>
+										<linkcss>true</linkcss>
+										<icons>font</icons>
+										<highlightjsdir>js/highlight</highlightjsdir>
+										<highlightjs-theme>github</highlightjs-theme>
+									</attributes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
+
 	</profiles>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories> -->
 	<repositories>
 		<repository>
 			<id>spring-snapshots</id>
@@ -177,4 +257,21 @@
 			<url>https://repo.spring.io/release</url>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<url>http://repo.spring.io/milestone</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/release</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>

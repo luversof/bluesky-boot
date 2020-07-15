@@ -1,3 +1,4 @@
+include::_attributes.adoc[]
 = 개발자 가이드
 Doc Writer <doc.writer@example.org>
 2014-09-09
@@ -8,12 +9,16 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 
 This is a user manual for an example project.
 
+변수 확인1 : java-version : {java-version}
+변수 확인 : highlightjsdir : {highlightjsdir}
+
 == 소개
 
 프로젝트를 소개하는 글 입니다.
 이렇게 만들었습니다.
 줄바꾸려면 마지막에 + 를 넣는다. +
 이렇게
+
 
 == Source Code
 
@@ -49,3 +54,39 @@ endpoint-url:: {endpoint-url}
 == Includes
 
 WARNING: Includes can be tricky!
+
+
+source 테스트
+
+
+To enable @AspectJ support with Java `@Configuration`, add the `@EnableAspectJAutoProxy`
+annotation, as the following example shows:
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+	@Configuration
+	@EnableAspectJAutoProxy
+	public class AppConfig {
+
+	}
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+	@Configuration
+	@EnableAspectJAutoProxy
+	class AppConfig
+----
+
+
+[source,properties,configprops]
+----
+bluesky-modules.core.modules.test.domain.web=http://localhost
+----
+
+
+Use the configprop:server.port[] property to configure the server's port.
+
+The configprop:example.property[deprecated] property has been deprecated.
+
+Use the configprop:server.port[format=envvar] environment variable to configure the server's port.
