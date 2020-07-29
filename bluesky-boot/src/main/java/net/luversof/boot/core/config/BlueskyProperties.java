@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.core.config;
+package net.luversof.boot.core.config;
 
 import java.util.Map;
 

@@ -20,6 +20,7 @@
 		<module>bluesky-boot-docs</module>
 		<module>bluesky-boot-parent</module>
 		<module>bluesky-boot-starters</module>
+		<module>bluesky-boot</module>
 	</modules>
 	<profiles>
 		<profile>

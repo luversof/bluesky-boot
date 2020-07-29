@@ -2,10 +2,10 @@ package net.luversof.boot.autoconfigure.core.context;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.luversof.boot.autoconfigure.core.config.BlueskyProperties;
 import net.luversof.boot.autoconfigure.core.config.CoreProperties;
 import net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties;
 import net.luversof.boot.autoconfigure.core.util.ApplicationContextUtil;
+import net.luversof.boot.core.config.BlueskyProperties;
 
 @Data
 @NoArgsConstructor

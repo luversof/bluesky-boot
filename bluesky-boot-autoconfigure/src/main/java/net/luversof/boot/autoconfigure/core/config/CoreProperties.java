@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.luversof.boot.autoconfigure.core.constant.CoreModuleInfo;
+import net.luversof.boot.core.config.BlueskyProperties;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-modules.core")

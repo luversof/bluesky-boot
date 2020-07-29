@@ -24,6 +24,11 @@
 			<!-- (s) spring boot -->
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
+				<artifactId>bluesky-boot</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.luversof.boot</groupId>
 				<artifactId>bluesky-boot-autoconfigure</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
