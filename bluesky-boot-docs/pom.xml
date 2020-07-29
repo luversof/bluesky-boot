@@ -9,6 +9,9 @@
 		<relativePath>../bluesky-boot-parent</relativePath>
 	</parent>
 	<artifactId>bluesky-boot-docs</artifactId>
+	<properties>
+		<asciidocs.output.directory>src/main/resources/static</asciidocs.output.directory>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>net.luversof.boot</groupId>
@@ -66,7 +69,6 @@
 									<attributes>
 										<java-version>${java.version}</java-version>
 										<spring-restdocs-version>${spring-restdocs.version}</spring-restdocs-version>
-										<basedir>${project.basedir}</basedir>
 									</attributes>
 								</configuration>
 							</execution>

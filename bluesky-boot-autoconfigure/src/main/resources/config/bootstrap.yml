@@ -70,7 +70,7 @@ spring:
         - 10.0
 
 management:
-  health.probes.enabled: true
+  endpoint.health.probes.enabled: true
   endpoints.web:
     exposure.include: '*'
     base-path: /actuator

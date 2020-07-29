@@ -12,12 +12,14 @@
 	<properties>
 		<java.version>11</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<spring-boot.version>2.3.1.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+		<spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 
 		<asciidoctor.maven.plugin.version>1.6.0</asciidoctor.maven.plugin.version>
 		<spring-doc-resources.version>0.2.2.RELEASE</spring-doc-resources.version>
+		<spring-asciidoctor-extensions.version>0.4.3.RELEASE</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
+		<asciidocs.output.directory>${project.build.directory}/generated-docs</asciidocs.output.directory>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -144,10 +146,6 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-					</plugin>
-					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
 						<executions>
@@ -205,12 +203,12 @@
 							<dependency>
 								<groupId>io.spring.asciidoctor</groupId>
 								<artifactId>spring-asciidoctor-extensions-block-switch</artifactId>
-								<version>0.4.3.RELEASE</version>
+								<version>${spring-asciidoctor-extensions.version}</version>
 							</dependency>
 							<dependency>
 								<groupId>io.spring.asciidoctor</groupId>
 								<artifactId>spring-asciidoctor-extensions-spring-boot</artifactId>
-								<version>0.4.3.RELEASE</version>
+								<version>${spring-asciidoctor-extensions.version}</version>
 							</dependency>
 						</dependencies>
 						<executions>
@@ -225,7 +223,7 @@
 									<backend>html5</backend>
 									<sourceHighlighter>highlight.js</sourceHighlighter>
 									<preserveDirectories>true</preserveDirectories>
-									<outputDirectory>src/main/resources/static</outputDirectory>
+									<outputDirectory>${asciidocs.output.directory}</outputDirectory>
 									<attributes>
 										// these attributes are required to use the doc resources
 										<docinfo>shared</docinfo>
