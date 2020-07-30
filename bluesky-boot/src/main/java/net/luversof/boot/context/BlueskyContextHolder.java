@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.core.context;
+package net.luversof.boot.context;
 
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
@@ -14,7 +14,7 @@ public final class BlueskyContextHolder {
 	public static final String MODE_GLOBAL = "MODE_GLOBAL";
 	public static final String SYSTEM_PROPERTY = "bluesky.context.strategy";
 	private static String strategyName = System.getProperty(SYSTEM_PROPERTY);
-	private static BlueskyContextHolderStrategy strategy;
+	private static BlueskyContextHolderStrategy<BlueskyContext> strategy;
 	private static int initializeCount = 0;
 	
 	static {
@@ -33,6 +33,7 @@ public final class BlueskyContextHolder {
 		return initializeCount;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void initialize() {
 		if (!StringUtils.hasText(strategyName)) {
 			// Set default
@@ -53,7 +54,7 @@ public final class BlueskyContextHolder {
 			try {
 				var clazz = Class.forName(strategyName);
 				var customStrategy = clazz.getConstructor();
-				strategy = (BlueskyContextHolderStrategy) customStrategy.newInstance();
+				strategy = (BlueskyContextHolderStrategy<BlueskyContext>) customStrategy.newInstance();
 			}
 			catch (Exception ex) {
 				ReflectionUtils.handleReflectionException(ex);
@@ -76,7 +77,7 @@ public final class BlueskyContextHolder {
 		initialize();
 	}
 	
-	public static BlueskyContextHolderStrategy getContextHolderStrategy() {
+	public static BlueskyContextHolderStrategy<BlueskyContext> getContextHolderStrategy() {
 		return strategy;
 	}
 

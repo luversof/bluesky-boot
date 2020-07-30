@@ -44,7 +44,7 @@ public class CoreServletExceptionHandler {
 		 * api 호출 반환시 에러 처리
 		 */
 		if (exception.getErrorMessage() != null || exception.getErrorMessageList() != null) {
-			return handleApiBrickException(exception);
+			return handleApiBlueskyException(exception);
 		}
 		
 		return getModelAndView(exception.getErrorPage(), MessageUtil.getErrorMessage(exception));
@@ -56,7 +56,7 @@ public class CoreServletExceptionHandler {
 	 * @param exception
 	 * @return
 	 */
-	private ModelAndView handleApiBrickException(BlueskyException exception) {
+	private ModelAndView handleApiBlueskyException(BlueskyException exception) {
 		if (exception.getErrorMessage() != null) {
 			return getModelAndView(exception.getErrorPage(), MessageUtil.getErrorMessageFromErrorMessage(exception));
 		}

@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.core.support;
+package net.luversof.boot.support;
 
 public interface ModuleNameResolver {
 	String resolve();

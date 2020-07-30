@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.core.context;
+package net.luversof.boot.context;
 
 import java.util.function.Function;
 

@@ -1,4 +1,4 @@
-package net.luversof.boot.autoconfigure.core.util;
+package net.luversof.boot.util;
 
 import org.springframework.context.ApplicationContext;
 

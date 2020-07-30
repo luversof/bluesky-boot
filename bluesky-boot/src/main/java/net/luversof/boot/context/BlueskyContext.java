@@ -1,7 +1,7 @@
-package net.luversof.boot.autoconfigure.core.context;
+package net.luversof.boot.context;
 
-import net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties;
-import net.luversof.boot.core.config.BlueskyProperties;
+import net.luversof.boot.config.BlueskyCoreModuleProperties;
+import net.luversof.boot.config.BlueskyProperties;
 
 public interface BlueskyContext {
 	
@@ -18,5 +18,5 @@ public interface BlueskyContext {
 	 * coreModule의 경우 가장 자주 쓰이기 때문에 기본 제공
 	 * @return
 	 */
-	CoreModuleProperties getCoreModule();
+	<T extends BlueskyCoreModuleProperties> T getCoreModule();
 }

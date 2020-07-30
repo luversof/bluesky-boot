@@ -4,7 +4,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
-import net.luversof.boot.autoconfigure.core.util.ApplicationContextUtil;
+import net.luversof.boot.util.ApplicationContextUtil;
+
 
 @Configuration(value = "_blueskyCoreAutoConfiguration", proxyBeanMethods = false)
 @EnableConfigurationProperties(CoreProperties.class)

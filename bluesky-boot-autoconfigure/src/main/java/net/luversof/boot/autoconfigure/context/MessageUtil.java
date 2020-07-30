@@ -57,7 +57,7 @@ public class MessageUtil {
 		if (exception instanceof BlueskyException) {
 			var blueskyException = (BlueskyException) exception;
 
-			var errorCodes = getBrickExceptionErrorCodes(blueskyException);
+			var errorCodes = getBlueskyExceptionErrorCodes(blueskyException);
 			log.debug("[BlueskyException error message] code : {}", Arrays.deepToString(errorCodes));
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes, blueskyException.getErrorMessageArgs(), blueskyException.getMessage() == null ? blueskyException.getErrorCode() : blueskyException.getMessage());
 	    	var localizedMessage = messageSourceAccessor.getMessage(defaultMessageSourceResolvable);
@@ -161,27 +161,27 @@ public class MessageUtil {
 	}
 	
 	/**
-	 * BrickException을 extends 한 Exception과 BrickException 간 errorCodes 를 반환하기 위해 구현
-	 * 예를 들어 PreOrderException.preorder.preOrderRecord.NOT_EXIST_SCHEDULE 가 발생한 경우 결과는 아래와 같다.
+	 * BlueskyException을 extends 한 Exception과 BlueskyException 간 errorCodes 를 반환하기 위해 구현
+	 * 예를 들어 AnotherException.preorder.preOrderRecord.NOT_EXIST_SCHEDULE 가 발생한 경우 결과는 아래와 같다.
 	 * <ul>
-	 * <li>PreOrderException.preorder.preOrderRecord.NOT_EXIST_SCHEDULE</li>
-	 * <li>BrickException.preorder.preOrderRecord.NOT_EXIST_SCHEDULE</li>
+	 * <li>AnotherException.preorder.preOrderRecord.NOT_EXIST_SCHEDULE</li>
+	 * <li>BlueskyException.preorder.preOrderRecord.NOT_EXIST_SCHEDULE</li>
 	 * <li>PreOrderException</li>
-	 * <li>BrickException</li>
+	 * <li>BlueskyException</li>
 	 * </ul>
 	 * @param exception
 	 * @return
 	 */
-	private static String[] getBrickExceptionErrorCodes(BlueskyException exception) {
+	private static String[] getBlueskyExceptionErrorCodes(BlueskyException exception) {
 		var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), exception.getErrorCode());
 		
 		if (exception.getClass().isAssignableFrom(BlueskyException.class)) {
 			return errorCodes;
 		}
-		var brickErrorCodes = messageCodesResolver.resolveMessageCodes(BlueskyException.class.getSimpleName(), exception.getErrorCode());
+		var blueskyErrorCodes = messageCodesResolver.resolveMessageCodes(BlueskyException.class.getSimpleName(), exception.getErrorCode());
 		var errorCodeList = new ArrayList<String>();
 		errorCodeList.addAll(Arrays.asList(errorCodes));
-		errorCodeList.addAll(Arrays.asList(brickErrorCodes));
+		errorCodeList.addAll(Arrays.asList(blueskyErrorCodes));
 		errorCodeList.sort((v1, v2) -> v1.chars().filter(e -> e == '.').count() > v2.chars().filter(e -> e == '.').count() ? -1 : 0 );
 		return errorCodeList.toArray(new String[errorCodeList.size()]);
 	}
