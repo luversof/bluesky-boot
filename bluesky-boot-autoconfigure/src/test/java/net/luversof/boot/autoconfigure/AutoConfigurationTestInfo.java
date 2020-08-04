@@ -21,6 +21,7 @@ public class AutoConfigurationTestInfo {
 	public static Class<?>[] MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
 
 	
+	@SuppressWarnings("unused")
 	private static String[] addAll(String[] target, String...strings) {
 		var set = new HashSet<>();
 		
@@ -64,6 +65,7 @@ public class AutoConfigurationTestInfo {
 		return addClassAll(target, addClassAll(target2, target3, target4, target5, classes));
 	}
 	
+	@SuppressWarnings("unused")
 	private static Class<?>[] addClassAll(Class<?>[] target, Class<?>[] target2, Class<?>[] target3, Class<?>[] target4, Class<?>[] target5, Class<?>[] target6, Class<?>... classes) {
 		return addClassAll(target, addClassAll(target2, target3, target4, target5, target6, classes));
 	}

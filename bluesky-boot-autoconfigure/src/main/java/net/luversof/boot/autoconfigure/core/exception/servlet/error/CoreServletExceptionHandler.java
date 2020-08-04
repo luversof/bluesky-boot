@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.luversof.boot.autoconfigure.context.MessageUtil;
+import net.luversof.boot.exception.BlueskyErrorMessage;
+import net.luversof.boot.exception.BlueskyErrorPage;
 import net.luversof.boot.exception.BlueskyException;
 import net.luversof.boot.exception.ErrorMessage;
-import net.luversof.boot.exception.ErrorPage;
 
 /**
  * 공통 에러 처리 핸들러
+ * BlueskyErrorMessage로 반환하여 리턴하는 전제로 만들어졌음
  * @author bluesky
  *
  */
@@ -112,23 +114,23 @@ public class CoreServletExceptionHandler {
 	}
 	
 	
-	private ModelAndView getModelAndView(String errorPage, ErrorMessage errorMessage) {
+	private ModelAndView getModelAndView(String errorPage, BlueskyErrorMessage errorMessage) {
 		var resultMap = new HashMap<String, ErrorMessage>();
 		resultMap.put(RESULT, errorMessage);
 		return new ModelAndView(errorPage, resultMap);
 	}
 	
-	private ModelAndView getModelAndView(String errorPage, List<ErrorMessage> errorMessageList) {
-		var resultMap = new HashMap<String, List<ErrorMessage>>();
+	private ModelAndView getModelAndView(String errorPage, List<BlueskyErrorMessage> errorMessageList) {
+		var resultMap = new HashMap<String, List<BlueskyErrorMessage>>();
 		resultMap.put(RESULT, errorMessageList);
 		return new ModelAndView(errorPage, resultMap);
 	}
 	
-	private ModelAndView getDefaultModelAndView(ErrorMessage errorMessage) {
-		return getModelAndView(ErrorPage.DEFAULT.getViewName(), errorMessage);
+	private ModelAndView getDefaultModelAndView(BlueskyErrorMessage errorMessage) {
+		return getModelAndView(BlueskyErrorPage.DEFAULT.getViewName(), errorMessage);
 	}
 	
-	private ModelAndView getDefaultModelAndView(List<ErrorMessage> errorMessageList) {
-		return getModelAndView(ErrorPage.DEFAULT.getViewName(), errorMessageList);
+	private ModelAndView getDefaultModelAndView(List<BlueskyErrorMessage> errorMessageList) {
+		return getModelAndView(BlueskyErrorPage.DEFAULT.getViewName(), errorMessageList);
 	}
 }

@@ -4,10 +4,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @AllArgsConstructor(access= AccessLevel.PRIVATE)
-public enum ErrorPage {
-
+public enum BlueskyErrorPage implements ErrorPage {
+	
 	DEFAULT("support/defaultError"),
 	SIMPLE("support/simpleError"),
 	NOT_SUPPORTED("support/notSupported");

@@ -19,9 +19,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.luversof.boot.exception.BlueskyErrorMessage;
 import net.luversof.boot.exception.BlueskyException;
 import net.luversof.boot.exception.ErrorMessage;
-import net.luversof.boot.exception.ErrorMessageInterface;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -50,8 +50,8 @@ public class MessageUtil {
 		return messageSourceAccessor.getMessage(resolvable);
 	}
 	
-	public static ErrorMessage getErrorMessage(Throwable exception) {
-		var errorMessage = new ErrorMessage();
+	public static BlueskyErrorMessage getErrorMessage(Throwable exception) {
+		var errorMessage = new BlueskyErrorMessage();
 		errorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 		
 		if (exception instanceof BlueskyException) {
@@ -92,11 +92,15 @@ public class MessageUtil {
 	 * @param blueskyException
 	 * @return
 	 */
-	public static ErrorMessage getErrorMessageFromErrorMessage(BlueskyException blueskyException) {
+	public static BlueskyErrorMessage getErrorMessageFromErrorMessage(BlueskyException blueskyException) {
 		if (blueskyException.getErrorMessage() == null) {
 			return null;
 		}
-		return getErrorMessage(blueskyException.getClass().getSimpleName(), blueskyException.getErrorMessage());
+		if (!(blueskyException.getErrorMessage() instanceof BlueskyErrorMessage)) {
+			// TODO 기타 유형의 errorMessage에 대한 처리는 어떻게 하면 좋을까?
+			return null;
+		}
+		return getErrorMessage(blueskyException.getClass().getSimpleName(), (BlueskyErrorMessage) blueskyException.getErrorMessage());
 	}
 	
 	/**
@@ -104,20 +108,24 @@ public class MessageUtil {
 	 * @param blueskyException
 	 * @return
 	 */
-	public static List<ErrorMessage> getErrorMessageListFromErrorMessageList(BlueskyException blueskyException) {
+	public static List<BlueskyErrorMessage> getErrorMessageListFromErrorMessageList(BlueskyException blueskyException) {
 		if (blueskyException.getErrorMessageList() == null) {
 			return Collections.emptyList();
 		}
+		if (blueskyException.getErrorMessageList().get(0) instanceof BlueskyErrorMessage) {
+			// TODO 기타 유형의 errorMessage에 대한 처리는 어떻게 하면 좋을까?
+			return Collections.emptyList();
+		}
 		
-		var errorMessageList = new ArrayList<ErrorMessage>();
-		for (ErrorMessageInterface errorMessage : blueskyException.getErrorMessageList()) {
-			errorMessageList.add(getErrorMessage(blueskyException.getClass().getSimpleName(), errorMessage));
+		var errorMessageList = new ArrayList<BlueskyErrorMessage>();
+		for (ErrorMessage errorMessage : blueskyException.getErrorMessageList()) {
+			errorMessageList.add(getErrorMessage(blueskyException.getClass().getSimpleName(), (BlueskyErrorMessage) errorMessage));
 		}
 		return errorMessageList;
 	}
 	
-	private static ErrorMessage getErrorMessage(String exceptionName, ErrorMessageInterface errorMessage) {
-		var targetErrorMessage = (ErrorMessage) errorMessage;
+	private static BlueskyErrorMessage getErrorMessage(String exceptionName, BlueskyErrorMessage errorMessage) {
+		var targetErrorMessage = (BlueskyErrorMessage) errorMessage;
 		// 로컬메세지 처리
 		if (targetErrorMessage.getErrorCode() != null) {
 			var errorCode = exceptionName + "." + targetErrorMessage.getErrorCode();
@@ -127,7 +135,7 @@ public class MessageUtil {
 		return targetErrorMessage;
 	}
 	
-	public static List<ErrorMessage> getErrorMessageList(Exception exception) {
+	public static List<BlueskyErrorMessage> getErrorMessageList(Exception exception) {
 		if (!(exception instanceof BindException) && !(exception instanceof MethodArgumentNotValidException)) {
 			return Collections.emptyList();
 		}
@@ -142,10 +150,10 @@ public class MessageUtil {
 			return Collections.emptyList();
 		}
 		
-		var errorMessageList = new ArrayList<ErrorMessage>();
+		var errorMessageList = new ArrayList<BlueskyErrorMessage>();
 		var objectErrorList = bindingResult.getFieldErrors().isEmpty() ? bindingResult.getAllErrors() : bindingResult.getFieldErrors();
 		for (var objectError : objectErrorList) {
-			ErrorMessage errorMessage = new ErrorMessage();
+			BlueskyErrorMessage errorMessage = new BlueskyErrorMessage();
 			errorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 			errorMessage.setMessage(messageSourceAccessor.getMessage(objectError));
 			errorMessage.setObject(objectError.getObjectName());

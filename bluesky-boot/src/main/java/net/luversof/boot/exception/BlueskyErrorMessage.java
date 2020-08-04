@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-public class ErrorMessage implements ErrorMessageInterface {
-
-	public ErrorMessage(String exceptionClassName, String message){
+public class BlueskyErrorMessage implements ErrorMessage {
+	public BlueskyErrorMessage(String exceptionClassName, String message){
 		this.exceptionClassName = exceptionClassName;
 		this.message = message;
 	}
@@ -30,4 +29,5 @@ public class ErrorMessage implements ErrorMessageInterface {
 	private String message;
 	private String object;		//bindException의 경우 에러 발생 ObjectName을 전달, 보통의 경우 code를 전달
 	private String field;		//bindException의 경우 에러 발생 field를 전달
+
 }

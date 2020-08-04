@@ -1,7 +1,6 @@
 package net.luversof.boot.autoconfigure.mongo;
 
 import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.BASE_PROPERTY;
-import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.CORE_USER_CONFIGURATION;
 import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.MONGO_CONFIGURATION;
 import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.MONGO_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
