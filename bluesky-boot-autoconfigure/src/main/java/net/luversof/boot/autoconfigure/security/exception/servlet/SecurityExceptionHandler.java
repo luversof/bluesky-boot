@@ -24,8 +24,8 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.luversof.boot.autoconfigure.context.MessageUtil;
+import net.luversof.boot.exception.BlueskyErrorPage;
 import net.luversof.boot.exception.ErrorMessage;
-import net.luversof.boot.exception.ErrorPage;
 
 @Slf4j
 @ControllerAdvice
@@ -67,7 +67,7 @@ public class SecurityExceptionHandler {
 		log.debug("json exception");
 		var resultMap = new HashMap<String, ErrorMessage>();
 		resultMap.put(RESULT, MessageUtil.getErrorMessage(exception));
-		return new ModelAndView(ErrorPage.DEFAULT.getViewName(), resultMap);
+		return new ModelAndView(BlueskyErrorPage.DEFAULT.getViewName(), resultMap);
 
 	}
 }

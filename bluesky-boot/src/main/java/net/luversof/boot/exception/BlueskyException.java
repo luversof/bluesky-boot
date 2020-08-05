@@ -15,7 +15,7 @@ public class BlueskyException extends RuntimeException {
 
 	private String localizedMessage;
 	
-	private String errorPage = ErrorPage.DEFAULT.getViewName();
+	private String errorPage = BlueskyErrorPage.SIMPLE.getViewName();
 	
 	private String[] errorMessageArgs;
 	
@@ -27,8 +27,8 @@ public class BlueskyException extends RuntimeException {
 	/**
 	 * api 호출 시엔 errorMessage를 그대로 담아서 반환함
 	 */
-	private ErrorMessageInterface errorMessage;
-	private List<ErrorMessageInterface> errorMessageList;
+	private ErrorMessage errorMessage;
+	private List<ErrorMessage> errorMessageList;
 
 	public BlueskyException(String errorCode) {
 		this.errorCode = errorCode;
@@ -61,12 +61,12 @@ public class BlueskyException extends RuntimeException {
 		this.errorPage = errorPage;
 	}
 	
-	public BlueskyException(ErrorMessageInterface errorMessage) {
+	public BlueskyException(ErrorMessage errorMessage) {
 		this.errorCode = "API_EXCEPTION";
 		this.errorMessage = errorMessage;
 	}
 	
-	public BlueskyException(List<ErrorMessageInterface> errorMessageList) {
+	public BlueskyException(List<ErrorMessage> errorMessageList) {
 		this.errorCode = "API_EXCEPTION";
 		this.errorMessageList = errorMessageList;
 	}
