@@ -69,6 +69,7 @@
 									<attributes>
 										<java-version>${java.version}</java-version>
 										<spring-restdocs-version>${spring-restdocs.version}</spring-restdocs-version>
+										<bluesky-boot-version>${bluesky-boot.version}</bluesky-boot-version>
 									</attributes>
 								</configuration>
 							</execution>
