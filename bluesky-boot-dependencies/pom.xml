@@ -12,8 +12,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<spring-boot.version>2.3.2.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+		<spring-boot.version>2.3.3.RELEASE</spring-boot.version>
+		<spring-cloud.version>Hoxton.SR7</spring-cloud.version>
 
 		<asciidoctor.maven.plugin.version>1.6.0</asciidoctor.maven.plugin.version>
 		<spring-doc-resources.version>0.2.2.RELEASE</spring-doc-resources.version>
