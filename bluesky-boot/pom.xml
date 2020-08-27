@@ -9,6 +9,9 @@
 		<relativePath>../bluesky-boot-parent</relativePath>
 	</parent>
 	<artifactId>bluesky-boot</artifactId>
+	<properties>
+		<bluesky-boot2.version>${git.commit.time}.${git.commit.id.abbrev}</bluesky-boot2.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
