@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.luversof.boot</groupId>
 	<artifactId>bluesky-boot-build</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${bluesky-boot.version}</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -12,6 +12,7 @@
 		<version>2.3.3.RELEASE</version>
 	</parent>
 	<properties>
+		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
 	<modules>
