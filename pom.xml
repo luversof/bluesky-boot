@@ -13,7 +13,6 @@
 	</parent>
 	<properties>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<bluesky-boot2.version>${git.commit.time}.${git.commit.id.abbrev}</bluesky-boot2.version>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
 	<modules>
@@ -30,22 +29,6 @@
 			<id>nexus-local</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>pl.project13.maven</groupId>
-						<artifactId>git-commit-id-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>validate</phase>
-								<goals>
-									<goal>revision</goal>
-								</goals>
-								<configuration>
-									<verbose>true</verbose>
-									<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>flatten-maven-plugin</artifactId>
