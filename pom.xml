@@ -118,7 +118,11 @@
 						<artifactId>flatten-maven-plugin</artifactId>
 						<configuration>
 							<updatePomFile>true</updatePomFile>
-							<flattenMode>clean</flattenMode>
+							<flattenMode>resolveCiFriendliesOnly</flattenMode>
+							<pomElements>
+								<properties>remove</properties>
+								<dependencyManagement>resolve</dependencyManagement>
+							</pomElements>
 						</configuration>
 						<executions>
 							<execution>
