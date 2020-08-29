@@ -120,7 +120,7 @@
 							<updatePomFile>true</updatePomFile>
 							<flattenMode>resolveCiFriendliesOnly</flattenMode>
 							<pomElements>
-								<properties>remove</properties>
+								<properties>resolve</properties>
 								<dependencyManagement>resolve</dependencyManagement>
 							</pomElements>
 						</configuration>
