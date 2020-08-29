@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.luversof.boot</groupId>
 	<artifactId>bluesky-boot-build</artifactId>
-	<version>${bluesky-boot.version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -12,7 +12,6 @@
 		<version>2.3.3.RELEASE</version>
 	</parent>
 	<properties>
-		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
 	<modules>
@@ -27,38 +26,6 @@
 	<profiles>
 		<profile>
 			<id>nexus-local</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>flatten-maven-plugin</artifactId>
-						<configuration>
-							<updatePomFile>true</updatePomFile>
-							<flattenMode>resolveCiFriendliesOnly</flattenMode>
-							<pomElements>
-								<properties>remove</properties>
-								<dependencyManagement>resolve</dependencyManagement>
-							</pomElements>
-						</configuration>
-						<executions>
-							<execution>
-								<id>flatten</id>
-								<phase>process-resources</phase>
-								<goals>
-									<goal>flatten</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>flatten.clean</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>clean</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 			<repositories>
 				<repository>
 					<id>bluesky-nexus-docker</id>
@@ -111,37 +78,6 @@
 		</profile>
 		<profile>
 			<id>nexus-k8s</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>flatten-maven-plugin</artifactId>
-						<configuration>
-							<updatePomFile>true</updatePomFile>
-							<flattenMode>resolveCiFriendliesOnly</flattenMode>
-							<pomElements>
-								<properties>flatten</properties>
-							</pomElements>
-						</configuration>
-						<executions>
-							<execution>
-								<id>flatten</id>
-								<phase>process-resources</phase>
-								<goals>
-									<goal>flatten</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>flatten.clean</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>clean</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 			<repositories>
 				<repository>
 					<id>bluesky-nexus-k8s</id>

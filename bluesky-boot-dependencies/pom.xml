@@ -7,13 +7,13 @@
 	<parent>
 		<groupId>net.luversof.boot</groupId>
 		<artifactId>bluesky-boot-build</artifactId>
-		<version>${bluesky-boot.version}</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<properties>
 		<java.version>11</java.version>
 		<spring-boot.version>2.3.3.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.SR7</spring-cloud.version>
-
+		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<asciidoctor.maven.plugin.version>1.6.0</asciidoctor.maven.plugin.version>
 		<spring-doc-resources.version>0.2.2.RELEASE</spring-doc-resources.version>
 		<spring-asciidoctor-extensions.version>0.4.3.RELEASE</spring-asciidoctor-extensions.version>
