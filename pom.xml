@@ -120,8 +120,7 @@
 							<updatePomFile>true</updatePomFile>
 							<flattenMode>resolveCiFriendliesOnly</flattenMode>
 							<pomElements>
-								<properties>interpolate</properties>
-								<dependencyManagement>resolve</dependencyManagement>
+								<properties>flatten</properties>
 							</pomElements>
 						</configuration>
 						<executions>
