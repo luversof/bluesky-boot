@@ -12,7 +12,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-boot.version>2.3.3.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.SR7</spring-cloud.version>
+		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<asciidoctor.maven.plugin.version>1.6.0</asciidoctor.maven.plugin.version>
 		<spring-doc-resources.version>0.2.2.RELEASE</spring-doc-resources.version>
@@ -104,12 +104,12 @@
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
-				<version>2.2.4</version>
+				<version>2.3.0</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>2.2.4</version>
+				<version>2.3.0</version>
 			</dependency>
 			<!-- (e) boot-admin -->
 
