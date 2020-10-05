@@ -14,11 +14,14 @@
 		<spring-boot.version>2.3.3.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<asciidoctor.maven.plugin.version>1.6.0</asciidoctor.maven.plugin.version>
+		<!-- tag:asciidoctor-properties[] -->
+		<asciidoctor-maven-plugin.version>1.6.0</asciidoctor-maven-plugin.version>
 		<spring-doc-resources.version>0.2.2.RELEASE</spring-doc-resources.version>
 		<spring-asciidoctor-extensions.version>0.4.3.RELEASE</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidocs.output.directory>${project.build.directory}/generated-docs</asciidocs.output.directory>
+		<!-- end:asciidoctor-properties[] -->
+		<jib-maven-plugin.version>2.5.2</jib-maven-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -139,6 +142,16 @@
 		</pluginRepository> <pluginRepository> <id>spring-milestones</id> <url>http://repo.spring.io/milestone</url> 
 		</pluginRepository> </pluginRepositories> -->
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>${jib-maven-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>asciidoctor</id>
@@ -216,7 +229,7 @@
 					<plugin>
 						<groupId>org.asciidoctor</groupId>
 						<artifactId>asciidoctor-maven-plugin</artifactId>
-						<version>${asciidoctor.maven.plugin.version}</version>
+						<version>${asciidoctor-maven-plugin.version}</version>
 						<dependencies>
 							<dependency>
 								<groupId>org.springframework.restdocs</groupId>
