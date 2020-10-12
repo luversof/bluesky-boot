@@ -72,8 +72,8 @@ public class CoreDevCheckController {
 		return ZonedDateTime.now();
 	}
 	
-	@DevCheckDescription("brickContext 확인")
-	@GetMapping("/brickContext")
+	@DevCheckDescription("blueskyContext 확인")
+	@GetMapping("/blueskyContext")
 	public BlueskyContext blueskyContext() {
 		return BlueskyContextHolder.getContext();
 	}
