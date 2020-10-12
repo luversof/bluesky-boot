@@ -20,6 +20,11 @@
 			<artifactId>bluesky-boot</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+		</dependency>
+
 		<!-- (s) Annotation processing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -25,6 +25,14 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<!-- (s) devCheck 기능 관련 -->
+			<dependency>
+				<groupId>org.reflections</groupId>
+				<artifactId>reflections</artifactId>
+				<version>0.9.12</version>
+			</dependency>
+			<!-- (e) devCheck 기능 관련 -->
+		
 			<!-- (s) spring boot -->
 			<dependency>
 				<groupId>net.luversof.boot</groupId>
