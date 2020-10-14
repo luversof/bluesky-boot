@@ -30,22 +30,33 @@ body { margin: 0; padding: 0;}
 </style>
 <script>
 	function devCheckSearch() {
-		// Declare variables
-		var input, filter, li, a, i, txtValue;
-		input = document.getElementById('devCheckSearchInput');
-		filter = input.value.toUpperCase();
-		li = document.getElementsByClassName('devcheck-list');
+		var searchValue = document.getElementById("devCheckSearchInput").value.toUpperCase();
+		var list = document.getElementsByClassName("devcheck-list");
 
-		// Loop through all list items, and hide those who don't match the search query
-		for (i = 0; i < li.length; i++) {
-			a = li[i].getElementsByClassName('url')[0].getElementsByTagName('a')[0];
-			txtValue = a.textContent || a.innerText;
-			if (txtValue.toUpperCase().indexOf(filter) > -1) {
-				li[i].style.display = "";
+		for (i = 0; i < list.length; i++) {
+			var a = list[i].getElementsByClassName("url")[0].getElementsByTagName("a")[0];
+			var targetValue = a.textContent || a.innerText;
+			if (targetValue.toUpperCase().indexOf(searchValue) > -1) {
+				list[i].style.display = "";
 			} else {
-				li[i].style.display = "none";
+				list[i].style.display = "none";
 			}
 		}
+	}
+	
+	function devCheckSearchWithHash() {
+		if (location.hash != "") {
+			document.getElementById("devCheckSearchInput").value = location.hash.substring(1);
+			devCheckSearch();
+		}
+	}
+	
+	window.onload = function(){
+		devCheckSearchWithHash();
+	};
+	
+	window.onhashchange = function() {
+		devCheckSearchWithHash();
 	}
 </script>
 </head>
@@ -54,7 +65,6 @@ body { margin: 0; padding: 0;}
     <h2>DevCheck 목록</h2>
     
     <div>
-    	<a href="http://wiki/pages/viewpage.action?pageId=91720350" target="_blank">DevCheck 웹개발 가이드 바로가기</a><br />
     	<a th:href="@{/_check/util}">유틸 목록 바로가기</a>
     </div>
     
