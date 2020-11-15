@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration(value = "_blueskyBootDataSourceAutoConfiguration", proxyBeanMethods = false)
@@ -28,7 +29,7 @@ public class DataSourceAutoConfiguration {
 	@Bean
 	@Primary
 	public DataSource defaultDataSource(@Qualifier("defaultDataSourceProperties") DataSourceProperties defaultDataSourceProperties) {
-		return defaultDataSourceProperties.initializeDataSourceBuilder().build();
+		return defaultDataSourceProperties.initializeDataSourceBuilder().type(SimpleDriverDataSource.class).build();
 	}
 
 }
