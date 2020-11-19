@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="Doc Writer">
-<title>개발자 가이드</title>
+<title>bluesky-boot</title>
 <link rel="stylesheet" href="css/spring.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -127,183 +126,88 @@ $(globalSwitch);
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>개발자 가이드</h1>
-<div class="details">
-<span id="author" class="author">Doc Writer</span><br>
-<span id="email" class="email"><a href="mailto:doc.writer@example.org">doc.writer@example.org</a></span><br>
-<span id="revnumber">version {project-version},</span>
-<span id="revdate">2014-09-09</span>
-</div>
+<h1>bluesky-boot</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#소개">1. 소개</a></li>
-<li><a href="#source-code">2. Source Code</a></li>
-<li><a href="#images">3. Images</a></li>
-<li><a href="#attributes">4. Attributes</a></li>
-<li><a href="#includes">5. Includes</a></li>
+<li><a href="#상세-기능">2. 상세 기능</a>
+<ul class="sectlevel2">
+<li><a href="#spring-multi-profile-지원">2.1. spring multi profile 지원</a></li>
+<li><a href="#multi-module-지원">2.2. multi module 지원</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>This is a user manual for an example project.</p>
-</div>
-<div class="paragraph">
-<p>변수 확인1 : java-version : 11<br>
-변수 확인 : highlightjsdir : js/highlight</p>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="소개"><a class="anchor" href="#소개"></a>1. 소개</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>프로젝트를 소개하는 글 입니다.<br>
-이렇게 만들었습니다.<br>
-줄바꾸려면 마지막에 + 를 넣는다.<br>
-이렇게</p>
+<p>bluesky-boot는 spring-boot를 기반으로 multi module 프로젝트를 사용하기 위한 기능들을 추가하여 관리하는 프로젝트입니다.<br>
+이 모듈의 기능을 기반으로 bluesky-boot-autoconfigure가 제공되며 autoconfigure를 사용하지 않고 직접 구현하여 사용할 수 있습니다.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="source-code"><a class="anchor" href="#source-code"></a>2. Source Code</h2>
+<h2 id="상세-기능"><a class="anchor" href="#상세-기능"></a>2. 상세 기능</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="spring-multi-profile-지원"><a class="anchor" href="#spring-multi-profile-지원"></a>2.1. spring multi profile 지원</h3>
+<div class="paragraph">
+<p>스프링의 <code>spring.profiles.active</code> 설정을 복수로 사용하여도 <code>blueksy-boot-autoconfigure</code> 의 설정 파일 관리에 영향이 없도록 하기 위해 <code>BlueskyEnvironmentPostProcessor</code> 를 통해 지정된 profile을 사용하여 관리하도록 합니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="multi-module-지원"><a class="anchor" href="#multi-module-지원"></a>2.2. multi module 지원</h3>
+<div class="paragraph">
+<p>여기에서 module은 maven의 module이 아닙니다.<br>
+하나의 웹 또는 앱 서비스가 실행되면 해당 서비스에서 요청에 따라 분기 처리가 필요한 경우가 있습니다.<br>
+예를 들어 웹서버 하나에서 도메인 별로 여러 웹을 제공해 줄 수 있습니다.<br>
+이런 경우 여러 웹에 대해 각각의 웹에 대해 다른 설정을 관리해야 합니다.</p>
+</div>
+<div class="paragraph">
+<p>bluesky-boot에서는 BlueskyProperties 를 제공합니다.<br>
+해당 interface의 내용은 다음과 같습니다.</p>
+</div>
 <div class="listingblock">
-<div class="title">Java code from project</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Unresolved directive in test.adoc - include::../../main/java/example/StringUtils.java[tags=contains,indent=0]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This page was built by the following command:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ mvn</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="images"><a class="anchor" href="#images"></a>3. Images</h2>
-<div class="sectionbody">
-<div class="imageblock thumb">
-<div class="content">
-<img src="images/sunset.jpg" alt="sunset">
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="attributes"><a class="anchor" href="#attributes"></a>4. Attributes</h2>
-<div class="sectionbody">
-<div class="dlist">
-<div class="title">Built-in</div>
-<dl>
-<dt class="hdlist1">asciidoctor-version</dt>
-<dd>
-<p>1.5.8</p>
-</dd>
-<dt class="hdlist1">safe-mode-name</dt>
-<dd>
-<p>unsafe</p>
-</dd>
-<dt class="hdlist1">docdir</dt>
-<dd>
-<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-docs/target/refdocs</p>
-</dd>
-<dt class="hdlist1">docfile</dt>
-<dd>
-<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-docs/target/refdocs/test.adoc</p>
-</dd>
-<dt class="hdlist1">imagesdir</dt>
-<dd>
-<p>images</p>
-</dd>
-</dl>
-</div>
-<div class="dlist">
-<div class="title">Custom</div>
-<dl>
-<dt class="hdlist1">project-version</dt>
-<dd>
-<p>{project-version}</p>
-</dd>
-<dt class="hdlist1">sourcedir</dt>
-<dd>
-<p>../../main/java</p>
-</dd>
-<dt class="hdlist1">endpoint-url</dt>
-<dd>
-<p>{endpoint-url}</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="includes"><a class="anchor" href="#includes"></a>5. Includes</h2>
-<div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Includes can be tricky!
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>source 테스트</p>
-</div>
-<div class="paragraph">
-<p>To enable @AspectJ support with Java <code>@Configuration</code>, add the <code>@EnableAspectJAutoProxy</code><br>
-annotation, as the following example shows:</p>
-</div>
-<div class="listingblock primary">
-<div class="title">Java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Configuration
-@EnableAspectJAutoProxy
-public class AppConfig {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface BlueskyProperties&lt;T&gt; {
+
+    Map&lt;String, T&gt; getModules();
 
 }</code></pre>
 </div>
 </div>
-<div class="listingblock secondary">
-<div class="title">Kotlin</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Configuration
-@EnableAspectJAutoProxy
-class AppConfig</code></pre>
+<div class="paragraph">
+<p>Spring Boot에서 관리하는 ConfigurationProperties를 만드는 객체 interface이며 이 interface를 확장하여 modules map을 만들어 여러 개의 모듈을 관리할 수 있습니다.<br>
+또한 BlueskyProperties를 확장한 객체도 여러 개 만들 수 있습니다.</p>
 </div>
+<div class="paragraph">
+<p>이 중 가장 핵심이 되는 기능을 제공하기 위해 BlueskyCoreProperties와 BlueskyCoreModuleProperties를 제공합니다.<br>
+bluesky-boot를 bluesky-boot-autoconfigure 없이 사용하고자 하는 경우 해당 interface의 구현이 필수입니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">bluesky-modules.core.modules.test.domain.web=http://localhost</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface BlueskyCoreProperties&lt;T extends BlueskyCoreModuleProperties&gt; extends BlueskyProperties&lt;T&gt; {
+
+    /**
+     * module 호출 처리 방식 정의 &lt;br /&gt;
+     * [domain , addPathPattern, moduleNameResolver]
+     */
+    CoreModulePropertiesResolveType getResolveType();
+    void setResolveType(CoreModulePropertiesResolveType resolveType);
+
+}</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Use the <code>server.port</code> property to configure the server&#8217;s port.</p>
-</div>
-<div class="paragraph">
-<p>The <code>example.property</code> property has been deprecated.</p>
-</div>
-<div class="paragraph">
-<p>Use the <code>SERVER_PORT</code> environment variable to configure the server&#8217;s port.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version {project-version}<br>
 Last updated 2020-11-20 00:11:39 +0900
 </div>
 </div>

@@ -41,14 +41,6 @@
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>io.spring.docresources</groupId>
-			<artifactId>spring-doc-resources</artifactId>
-			<version>${spring-doc-resources.version}</version>
-			<type>zip</type>
-			<optional>true</optional>
-		</dependency>
-
 	</dependencies>
 	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>io.spring.asciidoctor</groupId> 
 		<artifactId>spring-asciidoctor-extensions-block-switch</artifactId> <version>0.4.3.RELEASE</version> 
@@ -61,7 +53,6 @@
 					<plugin>
 						<groupId>org.asciidoctor</groupId>
 						<artifactId>asciidoctor-maven-plugin</artifactId>
-						<version>${asciidoctor.maven.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>asciidoc-to-html</id>

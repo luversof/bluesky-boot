@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="Doc Writer">
-<title>개발자 가이드</title>
+<title>Bluesky-Boot 문서</title>
 <link rel="stylesheet" href="css/spring.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -125,149 +124,25 @@ $(globalSwitch);
 </script>
 
 </head>
-<body class="article">
+<body class="book">
 <div id="header">
-<h1>개발자 가이드</h1>
+<h1>Bluesky-Boot 문서</h1>
 <div class="details">
-<span id="author" class="author">Doc Writer</span><br>
-<span id="email" class="email"><a href="mailto:bluesky@example.org">bluesky@example.org</a></span><br>
+<span id="revnumber">version 0.0.1-SNAPSHOT</span>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>This is a user manual for an example project.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_전체_프로젝트">전체 프로젝트</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>프로젝트를 소개하는 글 입니다.<br>
-이렇게 만들었습니다.<br>
-줄바꾸려면 마지막에 + 를 넣는다.<br>
-이렇게
-링크를 어떻게거나?123
-<a href="brick/index.adoc" class="bare">brick/index.adoc</a>
-<a href="test.adoc" class="bare">test.adoc</a></p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">include </dt>
-<dd>
-<p>test.adoc []</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_source_code">Source Code</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="title">Java code from project</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Unresolved directive in index.adoc - include::../../test/java/example/StringUtils.java[tags=contains,indent=0]</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>Unresolved directive in index.adoc - include::{sourcedir}/net/luversof/context/support/BlueskyReloadableResourceBundleMessageSource.java[tags=contains,indent=0]</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This page was built by the following command:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ mvn</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_images">Images</h2>
-<div class="sectionbody">
-<div class="imageblock thumb">
-<div class="content">
-<img src="images/sunset.jpg" alt="sunset">
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_attributes">Attributes</h2>
-<div class="sectionbody">
-<div class="dlist">
-<div class="title">Built-in</div>
-<dl>
-<dt class="hdlist1">asciidoctor-version</dt>
-<dd>
-<p>1.5.8</p>
-</dd>
-<dt class="hdlist1">safe-mode-name</dt>
-<dd>
-<p>unsafe</p>
-</dd>
-<dt class="hdlist1">docdir</dt>
-<dd>
-<p>C:/Users/bluesky/Documents/workspace-bluesky/bluesky-boot/bluesky-boot-docs/target/refdocs</p>
-</dd>
-<dt class="hdlist1">docfile</dt>
-<dd>
-<p>C:/Users/bluesky/Documents/workspace-bluesky/bluesky-boot/bluesky-boot-docs/target/refdocs/index.adoc</p>
-</dd>
-<dt class="hdlist1">imagesdir</dt>
-<dd>
-<p>images</p>
-</dd>
-</dl>
-</div>
-<div class="dlist">
-<div class="title">Custom</div>
-<dl>
-<dt class="hdlist1">project-version</dt>
-<dd>
-<p>{project-version}</p>
-</dd>
-<dt class="hdlist1">sourcedir</dt>
-<dd>
-<p>{sourcedir}</p>
-</dd>
-<dt class="hdlist1">endpoint-url</dt>
-<dd>
-<p>{endpoint-url}</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_includes">Includes</h2>
-<div class="sectionbody">
-<div class="exampleblock">
-<div class="title">Example 1. include::brick/_module_a.adoc[]</div>
-<div class="content">
-<div class="paragraph">
-<p>= 1번 모듈
-이것은 1번 모듈</p>
-</div>
-<div class="paragraph">
-<p>== 1번 모듈 기능 1
-1번 모듈 설명</p>
-</div>
-</div>
-</div>
-<div class="admonitionblock warning">
+<div class="hdlist">
+<div class="title">core</div>
 <table>
 <tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<td class="hdlist1">
+<a href="bluesky-boot.html">bluesky-boot</a> 
 </td>
-<td class="content">
-Includes can be tricky!
+<td class="hdlist2">
+<p>bluesky-boot 소개</p>
 </td>
 </tr>
 </table>
@@ -277,7 +152,8 @@ Includes can be tricky!
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-15 11:14:03 +0900
+Version 0.0.1-SNAPSHOT<br>
+Last updated 2020-11-20 00:11:39 +0900
 </div>
 </div>
 <script type="text/javascript" src="js/tocbot/tocbot.min.js"></script>
