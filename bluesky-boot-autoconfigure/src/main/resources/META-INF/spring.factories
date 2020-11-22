@@ -1,3 +1,5 @@
+org.springframework.boot.env.EnvironmentPostProcessor=net.luversof.boot.env.BlueskyEnvironmentPostProcessor
+
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 net.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration,\
