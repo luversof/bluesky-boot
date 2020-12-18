@@ -1,11 +1,13 @@
 package net.luversof.boot.autoconfigure.core;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelCompilerMode;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.validation.DefaultMessageCodesResolver;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,5 +41,14 @@ public class SimpleTest {
 //		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
 		var value = exp.getValue();
 		log.debug("result : {}", value);
+	}
+	
+	@Test
+	public void messageCodeResolveTest() {
+		
+		var codeResolver = new DefaultMessageCodesResolver();
+		
+		String[] codes = codeResolver.resolveMessageCodes("NotBlank", "someObjectName", "someField", null);
+		log.debug("resulit : {}", Arrays.asList(codes));
 	}
 }
