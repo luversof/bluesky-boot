@@ -27,10 +27,10 @@ public class DataSourceAutoConfiguration {
 		return new DataSourceProperties();
 	}
 
-//	@Bean
-//	@Primary
-//	public DataSource defaultDataSource(@Qualifier("defaultDataSourceProperties") DataSourceProperties defaultDataSourceProperties) {
-//		return defaultDataSourceProperties.initializeDataSourceBuilder().type(SimpleDriverDataSource.class).build();
-//	}
+	@Bean
+	@Primary
+	public DataSource defaultDataSource(@Qualifier("defaultDataSourceProperties") DataSourceProperties defaultDataSourceProperties) {
+		return defaultDataSourceProperties.initializeDataSourceBuilder().type(SimpleDriverDataSource.class).build();
+	}
 
 }

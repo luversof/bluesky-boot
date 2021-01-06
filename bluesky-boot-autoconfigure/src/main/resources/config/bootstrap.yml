@@ -1,4 +1,29 @@
 spring:
+  cloud:
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - veth.*
+      preferredNetworks:
+        - 192.168
+        - 10.0
+
+management:
+  endpoint:
+    health.probes.enabled: true
+  endpoints.web:
+    exposure.include: "*"
+    base-path: /actuator
+eureka:
+  client:
+    region: korea
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    status-page-url-path: ${management.endpoints.web.base-path}/info
+    health-check-url-path: ${management.endpoints.web.base-path}/health
+---    
+spring:
   config.activate.on-profile: opdev
   cloud:
     config:
@@ -15,7 +40,6 @@ eureka:
 spring:
   config:
     activate.on-profile: localdev
-#    import: optional:configserver:http://localhost:8888
   cloud:
     config:
       uri: http://localhost:8888
@@ -61,29 +85,3 @@ eureka:  instance:    hostname: localhost
   client:
     service-url:
       defaultZone: http://bluesky-cloud-netflix-eureka-server-service:8761/eureka/
----
-spring:
-  cloud:
-    inetutils:
-      ignoredInterfaces:
-        - docker0
-        - veth.*
-      preferredNetworks:
-        - 192.168
-        - 10.0
-
-management:
-  endpoint:
-    health.probes.enabled: true
-  endpoints.web:
-    exposure.include: "*"
-    base-path: /actuator
-eureka:
-  client:
-    region: korea
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
-    status-page-url-path: ${management.endpoints.web.base-path}/info
-    health-check-url-path: ${management.endpoints.web.base-path}/health
-    
