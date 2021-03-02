@@ -6,12 +6,12 @@ import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MON
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
@@ -19,6 +19,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 
+import net.luversof.boot.autoconfigure.AutoConfigurationTestInfo;
 import net.luversof.boot.autoconfigure.TestAutoConfigurationPackage;
 import net.luversof.boot.autoconfigure.data.alt.mongo.CityMongoDbRepository;
 import net.luversof.boot.autoconfigure.data.alt.mongo.ReactiveCityMongoDbRepository;
@@ -31,11 +32,14 @@ public class MongoReactiveRepositoriesAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
-			.withConfiguration(AutoConfigurations.of(DATA_MONGO_REACTIVE_CONFIGURATION))
-			.withUserConfiguration(DATA_MONGO_REACTIVE_USER_CONFIGURATION);
+			.withConfiguration(AutoConfigurations.of(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new)))
+			.withUserConfiguration(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_USER_CONFIGURATION, MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new));
 
 	@Test
 	void testDefaultRepositoryConfiguration() {
+		;
+		
+		
 		this.contextRunner.withUserConfiguration(TestConfiguration.class).run((context) -> {
 			assertThat(context).hasSingleBean(ReactiveCityRepository.class);
 			assertThat(context).hasSingleBean(MongoClient.class);

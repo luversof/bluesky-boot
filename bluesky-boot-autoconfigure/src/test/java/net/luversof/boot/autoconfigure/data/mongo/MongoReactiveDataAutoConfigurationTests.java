@@ -31,7 +31,7 @@ class MongoReactiveDataAutoConfigurationTests {
 
 	@Test
 	void whenNoGridFsDatabaseIsConfiguredTheGridFsTemplateUsesTheMainDatabase() {
-		this.contextRunner.run((context) -> assertThat(grisFsTemplateDatabaseName(context)).isEqualTo("config"));
+		this.contextRunner.run((context) -> assertThat(grisFsTemplateDatabaseName(context)).isEqualTo("test"));
 	}
 
 	@Test
