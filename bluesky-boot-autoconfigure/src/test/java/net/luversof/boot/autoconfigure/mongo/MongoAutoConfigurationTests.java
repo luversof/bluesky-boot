@@ -36,14 +36,14 @@ public class MongoAutoConfigurationTests {
 		this.contextRunner.run(context -> {
 			assertThat(context).hasSingleBean(MongoProperties.class);
 			var mongoProperties = context.getBean(MongoProperties.class);
-			assertThat(mongoProperties.getConnectionMap().get("test1").getPort()).isEqualTo(27017);
+			assertThat(mongoProperties.getDefaultMongoProperties().getPort()).isEqualTo(27017);
 		});
 	}
 	
 	@Configuration(proxyBeanMethods =  false)
 	@PropertySource(value = "classpath:mongodb/mongodb-${net-profile}.properties", ignoreResourceNotFound = true)
-	public static class Config {
-		
+	static class Config {
+
 	}
 			
 }

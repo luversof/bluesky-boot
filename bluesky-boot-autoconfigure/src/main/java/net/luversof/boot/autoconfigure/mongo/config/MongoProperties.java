@@ -74,7 +74,7 @@ public class MongoProperties implements InitializingBean {
 
 		private int maxSize = 100;
         private int minSize;
-        private long maxWaitTimeMS = 1_000 * 60 * 2;
+        private long maxWaitTimeMS = 1_000L * 60 * 2;
         private long maxConnectionLifeTimeMS;
         private long maxConnectionIdleTimeMS;
         private long maintenanceInitialDelayMS;

@@ -6,12 +6,16 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Set;
 
+
+import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.BASE_PROPERTY;
+import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MONGO_CONFIGURATION;
+import static net.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MONGO_USER_CONFIGURATION;
+
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -41,9 +45,9 @@ import net.luversof.boot.autoconfigure.data.mongo.country.Country;
 public class MongoDataAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withPropertyValues("net-profile:opdev")
-			.withConfiguration(AutoConfigurations.of(PropertyPlaceholderAutoConfiguration.class,
-					MongoAutoConfiguration.class, org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration.class, MongoReactiveRepositoriesAutoConfiguration.class));
+			.withPropertyValues(BASE_PROPERTY)
+			.withConfiguration(AutoConfigurations.of(DATA_MONGO_CONFIGURATION))
+			.withUserConfiguration(DATA_MONGO_USER_CONFIGURATION);
 
 //	@Configuration
 //	@EnableMongoRepositories(basePackages = "net.luversof.boot.autoconfigure.data.mongo", mongoTemplateRef = "userMongoTemplate")
@@ -160,15 +164,6 @@ public class MongoDataAutoConfigurationTests {
 
 	}
 	
-	@Test
-	public void backsOffIfMongoClientBeanIsNotPresent() {
-		ApplicationContextRunner runner = new ApplicationContextRunner()
-				.withConfiguration(
-						AutoConfigurations.of(MongoDataAutoConfiguration.class));
-		runner.run((context) -> assertThat(context)
-				.doesNotHaveBean(MongoDataAutoConfiguration.class));
-	}
-
 	@Test
 	public void createsMongoDbFactoryForPreferredMongoClient() {
 		this.contextRunner.run((context) -> {

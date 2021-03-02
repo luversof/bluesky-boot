@@ -2,8 +2,11 @@ package net.luversof.boot.autoconfigure;
 
 import java.util.HashSet;
 
+import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
+
 import net.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import net.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration;
+import net.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration;
 import net.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration;
 
 public class AutoConfigurationTestInfo {
@@ -18,7 +21,17 @@ public class AutoConfigurationTestInfo {
 	
 	public static Class<?>[] MONGO_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration.class };
 	
+	public static Class<?>[] MONGO_REACTIVE_CONFIGURATION = addClassAll(MONGO_CONFIGURATION, org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration.class);
+	
 	public static Class<?>[] MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
+	
+	public static Class<?>[] DATA_MONGO_CONFIGURATION = addClassAll(MONGO_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration.class);
+		
+	public static Class<?>[] DATA_MONGO_REACTIVE_CONFIGURATION = addClassAll(DATA_MONGO_CONFIGURATION, MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration.class, PropertyPlaceholderAutoConfiguration.class);
+	
+	public static Class<?>[] DATA_MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
+	
+	public static Class<?>[] DATA_MONGO_REACTIVE_USER_CONFIGURATION = addClassAll(DATA_MONGO_USER_CONFIGURATION, MongoReactiveRepositoriesAutoConfiguration.class);
 
 	
 	@SuppressWarnings("unused")

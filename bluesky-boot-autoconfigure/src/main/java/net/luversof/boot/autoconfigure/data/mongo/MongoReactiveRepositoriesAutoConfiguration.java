@@ -22,15 +22,15 @@ import com.mongodb.reactivestreams.client.MongoClient;
 @EnableMongoAuditing
 public class MongoReactiveRepositoriesAutoConfiguration {
 
-	@Primary
 	@Bean
+	@Primary
 	public SimpleReactiveMongoDatabaseFactory configReactiveMongoDatabaseFactory(MongoClient mongoClient) {
 		return new SimpleReactiveMongoDatabaseFactory(mongoClient, "config");
 	}
 	
-	@Primary
 	@Bean
-	public ReactiveMongoTemplate configReactiveMongoTemplate(@Qualifier("configReactiveMongoDatabaseFactory") ReactiveMongoDatabaseFactory reactiveMongoDatabaseFactory, MongoConverter converter) {
+	@Primary
+	public ReactiveMongoTemplate reactiveMongoTemplate(@Qualifier("configReactiveMongoDatabaseFactory") ReactiveMongoDatabaseFactory reactiveMongoDatabaseFactory, MongoConverter converter) {
 		return new ReactiveMongoTemplate(reactiveMongoDatabaseFactory, converter);
 	}
 }

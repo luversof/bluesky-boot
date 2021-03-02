@@ -1,5 +1,6 @@
 package net.luversof.boot.autoconfigure.data.mongo;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,13 +28,13 @@ public class MongoDataAutoConfiguration {
 	
 	@Bean
 	@Primary
-	public MongoDatabaseFactory emptyMongoDatabaseFactory(MongoClient emptyMongoClient) {
-		return new SimpleMongoClientDatabaseFactory(emptyMongoClient, "test");
+	public MongoDatabaseFactory configMongoDatabaseFactory(MongoClient emptyMongoClient) {
+		return new SimpleMongoClientDatabaseFactory(emptyMongoClient, "config");
 	}
 	
 	@Bean
 	@Primary
-	public MongoTemplate emptyMongoTemplate(MongoDatabaseFactory emptyMongoDatabaseFactory) {
-		return new MongoTemplate(emptyMongoDatabaseFactory);
+	public MongoTemplate emptyMongoTemplate(@Qualifier("configMongoDatabaseFactory") MongoDatabaseFactory configMongoDatabaseFactory) {
+		return new MongoTemplate(configMongoDatabaseFactory);
 	}
 }
