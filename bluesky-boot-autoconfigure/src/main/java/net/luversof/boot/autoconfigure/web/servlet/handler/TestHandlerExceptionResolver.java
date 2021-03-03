@@ -26,7 +26,8 @@ public class TestHandlerExceptionResolver implements HandlerExceptionResolver {
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		
 		// 특정 조건일 때만 수행하고 그 외에는 null 반환 처리
-		if (!ex.getClass().getSimpleName().equals("test")) {
+		var className = ex.getClass().getSimpleName();
+		if (className != null && className.equals("test")) {
 			return null;
 		}
 		

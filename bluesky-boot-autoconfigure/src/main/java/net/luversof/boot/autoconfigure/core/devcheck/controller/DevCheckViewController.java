@@ -77,8 +77,9 @@ public class DevCheckViewController {
 				}
 			}
 			this.handlerMethodMap = handlerMethodMap;
-			if (handlerMethodMap.getValue().hasMethodAnnotation(DevCheckDescription.class))	{
-				this.description = handlerMethodMap.getValue().getMethodAnnotation(DevCheckDescription.class).value();
+			var methodAnnotation = handlerMethodMap.getValue().getMethodAnnotation(DevCheckDescription.class);
+			if (methodAnnotation != null)	{
+				this.description = methodAnnotation.value();
 			}
 		}
 		
@@ -136,7 +137,10 @@ public class DevCheckViewController {
 			this.returnType =  method.getReturnType().getSimpleName(); 
 			
 			if (AnnotatedElementUtils.hasAnnotation(method, DevCheckDescription.class)) {
-				this.description = AnnotatedElementUtils.findMergedAnnotation(method, DevCheckDescription.class).value();
+				var mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(method, DevCheckDescription.class);
+				if (mergedAnnotation != null) {
+					this.description = mergedAnnotation.value();
+				}
 			}
 		}
 		private String description;
