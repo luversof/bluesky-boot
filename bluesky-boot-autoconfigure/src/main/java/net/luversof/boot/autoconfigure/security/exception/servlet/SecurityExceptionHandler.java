@@ -51,12 +51,14 @@ public class SecurityExceptionHandler {
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public ModelAndView accessDeniedException(HttpServletResponse response, AccessDeniedException exception, HandlerMethod  handlerMethod, NativeWebRequest request) throws IOException {
 		
-		var isJsonResponse = contentNegotiatingViewResolver.getContentNegotiationManager().resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON);
-		if (!isJsonResponse && handlerMethod.getMethodAnnotation(RequestMapping.class) != null) {
-			isJsonResponse = Arrays.asList(handlerMethod.getMethodAnnotation(RequestMapping.class).produces()).contains(MediaType.APPLICATION_JSON_VALUE);
+		var isJsonResponse = contentNegotiatingViewResolver.getContentNegotiationManager() == null ? false : contentNegotiatingViewResolver.getContentNegotiationManager().resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON);
+		var methodAnnotation = handlerMethod.getMethodAnnotation(RequestMapping.class);
+		if (!isJsonResponse && methodAnnotation != null) {
+			isJsonResponse = Arrays.asList(methodAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE);
 		}
-		if (!isJsonResponse && handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class) != null) {
-			isJsonResponse = Arrays.asList(handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class).produces()).contains(MediaType.APPLICATION_JSON_VALUE);
+		var classAnnotation = handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class);
+		if (!isJsonResponse && classAnnotation != null) {
+			isJsonResponse = Arrays.asList(classAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE);
 		}
 		
 		//json html return 분기 처리

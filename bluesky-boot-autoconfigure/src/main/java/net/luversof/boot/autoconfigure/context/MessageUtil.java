@@ -64,7 +64,7 @@ public class MessageUtil {
 			
 			errorMessage.setErrorCode(blueskyException.getErrorCode());
 			errorMessage.setErrorMessageArgs(blueskyException.getErrorMessageArgs());
-			if (StringUtils.isEmpty(localizedMessage) || localizedMessage.equals(blueskyException.getErrorCode())) {
+			if (!StringUtils.hasText(localizedMessage) || localizedMessage.equals(blueskyException.getErrorCode())) {
 				errorMessage.setMessage(blueskyException.getMessage());
 			} else {
 				errorMessage.setMessage(localizedMessage);

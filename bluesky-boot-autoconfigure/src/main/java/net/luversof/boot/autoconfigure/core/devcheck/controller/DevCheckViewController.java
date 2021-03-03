@@ -70,8 +70,11 @@ public class DevCheckViewController {
 		public DevCheckInfo(PathForwardProperties pathForwardProperties, Entry<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
 			this.beanName = handlerMethodMap.getValue().getBean().toString().replace("DevCheckController", "");
 			this.urlList = new ArrayList<>();
-			for (String url : handlerMethodMap.getKey().getPatternsCondition().getPatterns()) {
-				urlList.add(DevCheckUtil.getUrlWithParameter(pathForwardProperties, url, handlerMethodMap.getValue().getMethod()));
+			var patternsCondition = handlerMethodMap.getKey().getPatternsCondition();
+			if (patternsCondition != null) {
+				for (String url : patternsCondition.getPatterns()) {
+					urlList.add(DevCheckUtil.getUrlWithParameter(pathForwardProperties, url, handlerMethodMap.getValue().getMethod()));
+				}
 			}
 			this.handlerMethodMap = handlerMethodMap;
 			if (handlerMethodMap.getValue().hasMethodAnnotation(DevCheckDescription.class))	{

@@ -71,8 +71,9 @@ public final class ServletRequestUtil {
 		BlueskyCoreProperties<T> coreProperties = ApplicationContextUtil.getApplicationContext().getBean(BlueskyCoreProperties.class);
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		
-		if (coreProperties.getModules().size() == 1) {
-			return coreProperties.getModules().entrySet().stream().findAny().get();
+		var modules = coreProperties.getModules();
+		if (modules.size() == 1) {
+			return modules.entrySet().stream().findAny().get();
 		}
 		
 		var resolveType = coreProperties.getResolveType();
@@ -83,14 +84,14 @@ public final class ServletRequestUtil {
 			module = getModuleEntryByAddPathPattern(request, coreProperties);
 		} else if (CoreModulePropertiesResolveType.MODULE_NAME_RESOLVER == resolveType) {
 			module = getModuleEntryByModuleNameResolver(coreProperties);
-		} else if(coreProperties.getModules().size() > 1 && isInternalRequest(request)) { // 내부 접근의 별도 resolveType 설정이 없는 멀티 모듈의 경우 임의 coreModuleProperties로 처리함
-			module = coreProperties.getModules().entrySet().stream().findFirst().get();
+		} else if(modules.size() > 1 && isInternalRequest(request)) { // 내부 접근의 별도 resolveType 설정이 없는 멀티 모듈의 경우 임의 coreModuleProperties로 처리함
+			module = modules.entrySet().stream().findFirst().get();
 		} else {
 			module = getModuleEntryByDomain(request, coreProperties);
 		}
 		
 		if (module == null) {
-			module= coreProperties.getModules().entrySet().stream().findFirst().get();
+			module= modules.entrySet().stream().findFirst().get();
 		}
 		return module;
 	}
@@ -155,7 +156,11 @@ public final class ServletRequestUtil {
 			}
 		};
 		
-		return moduleEntryList.stream().sorted(comparator.reversed()).findFirst().get();
+		var moduleEntry = moduleEntryList.stream().sorted(comparator.reversed()).findFirst();
+		if (moduleEntry.isPresent()) {
+			return moduleEntry.get();
+		}
+		return null;
 	}
 	
 	private static boolean checkDomain(HttpServletRequest request, List<URI> uriList) {

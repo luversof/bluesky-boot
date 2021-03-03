@@ -46,15 +46,16 @@ public class ServerWebExchangeUtil {
 		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		
-		if (coreProperties.getModules().size() == 1) {
-			return coreProperties.getModules().entrySet().stream().findAny().get();
+		var modules = coreProperties.getModules();
+		if (modules.size() == 1) {
+			return modules.entrySet().stream().findAny().get();
 		}
 		
 		var resolveType = coreProperties.getResolveType();
 		
 		Entry<String, T> module;
-		if (coreProperties.getModules().size() > 1 && isInternalRequest(exchange)) {
-			module = coreProperties.getModules().entrySet().stream().findFirst().get();
+		if (modules.size() > 1 && isInternalRequest(exchange)) {
+			module = modules.entrySet().stream().findFirst().get();
 		} else if (CoreModulePropertiesResolveType.ADD_PATH_PATTERN == resolveType) {
 			module = getModuleEntryByAddPathPattern(exchange);
 		} else if (CoreModulePropertiesResolveType.DOMAIN == resolveType) {
@@ -64,7 +65,7 @@ public class ServerWebExchangeUtil {
 		}
 		
 		if (module == null) {
-			module= coreProperties.getModules().entrySet().stream().findFirst().get();
+			module= modules.entrySet().stream().findFirst().get();
 		}
 		return module;
 	}
@@ -132,7 +133,11 @@ public class ServerWebExchangeUtil {
 			}
 		};
 		
-		return moduleEntryList.stream().sorted(comparator.reversed()).findFirst().get();
+		var moduleEntry = moduleEntryList.stream().sorted(comparator.reversed()).findFirst();
+		if (moduleEntry.isPresent()) {
+			return moduleEntry.get();
+		}
+		return null;
 	}
 	
 	private static boolean checkDomain(ServerWebExchange exchange, List<URI> uriList) {
