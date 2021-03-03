@@ -48,14 +48,14 @@ public class ServerWebExchangeUtil {
 		
 		var modules = coreProperties.getModules();
 		if (modules.size() == 1) {
-			return modules.entrySet().stream().findAny().get();
+			return modules.entrySet().stream().findAny().orElse(null);
 		}
 		
 		var resolveType = coreProperties.getResolveType();
 		
 		Entry<String, T> module;
 		if (modules.size() > 1 && isInternalRequest(exchange)) {
-			module = modules.entrySet().stream().findFirst().get();
+			module = modules.entrySet().stream().findFirst().orElse(null);
 		} else if (CoreModulePropertiesResolveType.ADD_PATH_PATTERN == resolveType) {
 			module = getModuleEntryByAddPathPattern(exchange);
 		} else if (CoreModulePropertiesResolveType.DOMAIN == resolveType) {
@@ -65,7 +65,7 @@ public class ServerWebExchangeUtil {
 		}
 		
 		if (module == null) {
-			module= modules.entrySet().stream().findFirst().get();
+			module= modules.entrySet().stream().findFirst().orElse(null);
 		}
 		return module;
 	}

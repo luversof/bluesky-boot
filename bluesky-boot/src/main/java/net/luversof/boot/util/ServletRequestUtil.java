@@ -73,7 +73,7 @@ public final class ServletRequestUtil {
 		
 		var modules = coreProperties.getModules();
 		if (modules.size() == 1) {
-			return modules.entrySet().stream().findAny().get();
+			return modules.entrySet().stream().findAny().orElse(null);
 		}
 		
 		var resolveType = coreProperties.getResolveType();
@@ -85,13 +85,13 @@ public final class ServletRequestUtil {
 		} else if (CoreModulePropertiesResolveType.MODULE_NAME_RESOLVER == resolveType) {
 			module = getModuleEntryByModuleNameResolver(coreProperties);
 		} else if(modules.size() > 1 && isInternalRequest(request)) { // 내부 접근의 별도 resolveType 설정이 없는 멀티 모듈의 경우 임의 coreModuleProperties로 처리함
-			module = modules.entrySet().stream().findFirst().get();
+			module = modules.entrySet().stream().findFirst().orElse(null);
 		} else {
 			module = getModuleEntryByDomain(request, coreProperties);
 		}
 		
 		if (module == null) {
-			module= modules.entrySet().stream().findFirst().get();
+			module= modules.entrySet().stream().findFirst().orElse(null);
 		}
 		return module;
 	}
