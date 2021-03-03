@@ -40,7 +40,7 @@ public abstract class AbstractBlueskyContextHolderStrategy implements BlueskyCon
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		Assert.state(coreProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");
 		var module = coreProperties.getModules().entrySet().stream().findAny().orElse(null);
-		Assert.state(module == null, "module configuration is required");
+		Assert.state(module != null, "module configuration is required");
 		ctx.setModuleName(module.getKey());
 		return ctx;
 	}
