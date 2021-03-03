@@ -31,8 +31,8 @@ public final class DevCheckUtil {
 	 * @return
 	 */
 	public static String getUrlWithParameter(PathForwardProperties pathForwardProperties, String url, Method method) {
-		StringBuilder stringBuilder = new StringBuilder();
-		String requestPath = pathForwardProperties == null ? null : pathForwardProperties.getRequestPath();
+		var stringBuilder = new StringBuilder();
+		var requestPath = pathForwardProperties == null ? null : pathForwardProperties.getRequestPath();
 		if (requestPath != null && requestPath.length() > 1 ) {
 			stringBuilder.append(requestPath);
 		}
@@ -43,8 +43,8 @@ public final class DevCheckUtil {
 	
 	private static void appendParameter(StringBuilder stringBuilder, Method method) {
 		
-		String[] parameterNames = getParameterNames(method);
-		if (parameterNames.length == 0) {
+		var parameterNames = getParameterNames(method);
+		if (parameterNames == null || parameterNames.length == 0) {
 			return;
 		}
 		
