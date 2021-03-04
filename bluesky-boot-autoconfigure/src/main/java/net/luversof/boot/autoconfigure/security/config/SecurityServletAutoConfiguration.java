@@ -85,7 +85,7 @@ public class SecurityServletAutoConfiguration {
 				.logout().logoutSuccessHandler(logoutSuccessHandler).and()
 				.formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).and()
 				.rememberMe().and()
-				.csrf().disable()
+//				.csrf().disable()
 	            .httpBasic();
 			
 			for (var webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {

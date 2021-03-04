@@ -32,6 +32,11 @@ public class MongoAutoConfiguration {
 	}
 	
 	@Bean
+	public MongoClientSettings mongoClientSettings() {
+		return MongoClientSettings.builder().build();
+	}
+	
+	@Bean
 	@Primary
 	public MongoClient emptyMongoClient(ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers, MongoClientSettings settings) {
 		return new MongoClientFactory(builderCustomizers.orderedStream().collect(Collectors.toList())).createMongoClient(settings);

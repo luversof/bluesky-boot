@@ -118,10 +118,9 @@ public class DevCheckViewController {
 		public DevCheckUtilInfo(Class<? extends RequestAttributeUtil> util) {
 			this.methodName = util.getSimpleName();
 			this.methodInfoList = new ArrayList<>();
-			Arrays.asList(util.getDeclaredMethods()).stream().filter(method -> Modifier.isPublic(method.getModifiers()) && (!AnnotatedElementUtils.hasAnnotation(method, DevCheckDescription.class) || (AnnotatedElementUtils.hasAnnotation(method, DevCheckDescription.class) && AnnotatedElementUtils.findMergedAnnotation(method, DevCheckDescription.class).displayable()))).forEach(method -> {
-				this.methodInfoList.add(new DevCheckUtilMethodInfo(method));
-			});
-			
+			Arrays.asList(util.getDeclaredMethods()).stream()
+				.filter(method -> Modifier.isPublic(method.getModifiers()) && (!AnnotatedElementUtils.hasAnnotation(method, DevCheckDescription.class) || (AnnotatedElementUtils.hasAnnotation(method, DevCheckDescription.class) && AnnotatedElementUtils.findMergedAnnotation(method, DevCheckDescription.class).displayable())))
+				.forEach(method -> this.methodInfoList.add(new DevCheckUtilMethodInfo(method)));
 		}
 		
 		private String methodName;

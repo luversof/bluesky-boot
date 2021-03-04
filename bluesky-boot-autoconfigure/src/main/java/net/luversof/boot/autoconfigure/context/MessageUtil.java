@@ -79,7 +79,7 @@ public class MessageUtil {
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes,  exception.getLocalizedMessage());
 			var localizedMessage = getMessage(defaultMessageSourceResolvable);
 			errorMessage.setMessage(localizedMessage);
-			if (localizedMessage != null && !localizedMessage.equals(exception.getLocalizedMessage())) {
+			if (!localizedMessage.equals(exception.getLocalizedMessage())) {
 				errorMessage.setDisplayableMessage(true);
 			}
 			
@@ -125,14 +125,13 @@ public class MessageUtil {
 	}
 	
 	private static BlueskyErrorMessage getErrorMessage(String exceptionName, BlueskyErrorMessage errorMessage) {
-		var targetErrorMessage = (BlueskyErrorMessage) errorMessage;
 		// 로컬메세지 처리
-		if (targetErrorMessage.getErrorCode() != null) {
-			var errorCode = exceptionName + "." + targetErrorMessage.getErrorCode();
-			log.debug("[BlueskyException error message from errorMessageInterface] code : {}", exceptionName + "." + targetErrorMessage.getErrorCode());
-			targetErrorMessage.setMessage(messageSourceAccessor.getMessage(errorCode, targetErrorMessage.getErrorMessageArgs(), targetErrorMessage.getMessage() == null ? targetErrorMessage.getErrorCode() : targetErrorMessage.getMessage()));
+		if (errorMessage.getErrorCode() != null) {
+			var errorCode = exceptionName + "." + errorMessage.getErrorCode();
+			log.debug("[BlueskyException error message from errorMessageInterface] code : {}", exceptionName + "." + errorMessage.getErrorCode());
+			errorMessage.setMessage(messageSourceAccessor.getMessage(errorCode, errorMessage.getErrorMessageArgs(), errorMessage.getMessage() == null ? errorMessage.getErrorCode() : errorMessage.getMessage()));
 		}
-		return targetErrorMessage;
+		return errorMessage;
 	}
 	
 	public static List<BlueskyErrorMessage> getErrorMessageList(Exception exception) {
