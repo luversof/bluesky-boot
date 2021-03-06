@@ -1,5 +1,7 @@
 package net.luversof.boot.autoconfigure.core;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.expression.Expression;
@@ -12,43 +14,47 @@ import org.springframework.validation.DefaultMessageCodesResolver;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SimpleTest {
+class SimpleTest {
 
 	@Test
-	public void stringTest() {
+	void stringTest() {
 		
 		String a = "bluesky-modules.mongo.connection-map.test2.host";
 		String replace = a.replace("bluesky-modules.mongo.connection-map", "");
 		log.debug("result : {}", replace);
 		String[] split = replace.split("\\.");
 		log.debug("result : {}", split[1]);
+		assertThat(split).isNotNull();
 	}
 	
 	@Test
-	public void spelTest() {
+	void spelTest() {
 		ExpressionParser parser = new SpelExpressionParser();
 		Expression exp = parser.parseExpression("T(net.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST");
 //		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
 		var value = exp.getValue();
 		log.debug("result : {}", value);
+		assertThat(value).isNotNull();
 	}
 	
 	@Test
-	public void spelTest2() {
+	void spelTest2() {
 		SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, this.getClass().getClassLoader());
 		SpelExpressionParser parser = new SpelExpressionParser(config);
 		Expression exp = parser.parseExpression("T(net.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST");
 //		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
 		var value = exp.getValue();
 		log.debug("result : {}", value);
+		assertThat(value).isNotNull();
 	}
 	
 	@Test
-	public void messageCodeResolveTest() {
+	void messageCodeResolveTest() {
 		
 		var codeResolver = new DefaultMessageCodesResolver();
 		
 		String[] codes = codeResolver.resolveMessageCodes("NotBlank", "someObjectName", "someField", null);
 		log.debug("resulit : {}", Arrays.asList(codes));
+		assertThat(codes).isNotNull();
 	}
 }

@@ -42,7 +42,7 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import net.luversof.boot.autoconfigure.data.mongo.city.City;
 import net.luversof.boot.autoconfigure.data.mongo.country.Country;
 
-public class MongoDataAutoConfigurationTests {
+class MongoDataAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
@@ -56,19 +56,19 @@ public class MongoDataAutoConfigurationTests {
 //	}
 	
 	@Test
-	public void templateExists() {
+	void templateExists() {
 		this.contextRunner.run((context) -> assertThat(context).hasSingleBean(MongoTemplate.class));
 	}
 	
 	@Test
-	public void gridFsTemplateExists() {
+	void gridFsTemplateExists() {
 		this.contextRunner.withPropertyValues("spring.data.mongodb.gridFsDatabase:grid")
 				.run((context) -> assertThat(context)
 						.hasSingleBean(GridFsTemplate.class));
 	}
 	
 	@Test
-	public void customConversions() {
+	void customConversions() {
 		this.contextRunner.withUserConfiguration(CustomConversionsConfig.class)
 				.run((context) -> {
 					MongoTemplate template = context.getBean(MongoTemplate.class);
@@ -78,7 +78,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 
 	@Test
-	public void usesAutoConfigurationPackageToPickUpDocumentTypes() {
+	void usesAutoConfigurationPackageToPickUpDocumentTypes() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		String cityPackage = City.class.getPackage().getName();
 		AutoConfigurationPackages.register(context, cityPackage);
@@ -94,7 +94,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 	
 	@Test
-	public void defaultFieldNamingStrategy() {
+	void defaultFieldNamingStrategy() {
 		this.contextRunner.run((context) -> {
 			MongoMappingContext mappingContext = context
 					.getBean(MongoMappingContext.class);
@@ -106,7 +106,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 	
 	@Test
-	public void customFieldNamingStrategy() {
+	void customFieldNamingStrategy() {
 		this.contextRunner
 				.withPropertyValues("spring.data.mongodb.field-naming-strategy:"
 						+ CamelCaseAbbreviatingFieldNamingStrategy.class.getName())
@@ -129,7 +129,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 	
 	@Test
-	public void interfaceFieldNamingStrategy() {
+	void interfaceFieldNamingStrategy() {
 		this.contextRunner
 				.withPropertyValues("spring.data.mongodb.field-naming-strategy:"
 						+ FieldNamingStrategy.class.getName())
@@ -139,7 +139,7 @@ public class MongoDataAutoConfigurationTests {
 	
 	@Test
 	@SuppressWarnings("unchecked")
-	public void entityScanShouldSetInitialEntitySet() {
+	void entityScanShouldSetInitialEntitySet() {
 		this.contextRunner.withUserConfiguration(EntityScanConfig.class)
 				.run((context) -> {
 					MongoMappingContext mappingContext = context
@@ -152,7 +152,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 	
 	@Test
-	public void registersDefaultSimpleTypesWithMappingContext() {
+	void registersDefaultSimpleTypesWithMappingContext() {
 		this.contextRunner.run((context) -> {
 			MongoMappingContext mappingContext = context
 					.getBean(MongoMappingContext.class);
@@ -165,7 +165,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 	
 	@Test
-	public void createsMongoDbFactoryForPreferredMongoClient() {
+	void createsMongoDbFactoryForPreferredMongoClient() {
 		this.contextRunner.run((context) -> {
 			MongoDatabaseFactory dbFactory = context.getBean(MongoDatabaseFactory.class);
 			assertThat(dbFactory).isInstanceOf(SimpleMongoClientDatabaseFactory.class);
@@ -173,7 +173,7 @@ public class MongoDataAutoConfigurationTests {
 	}
 
 	@Test
-	public void createsMongoDbFactoryForFallbackMongoClient() {
+	void createsMongoDbFactoryForFallbackMongoClient() {
 		this.contextRunner.withUserConfiguration(FallbackMongoClientConfiguration.class)
 				.run((context) -> {
 					MongoDatabaseFactory dbFactory = context.getBean(MongoDatabaseFactory.class);

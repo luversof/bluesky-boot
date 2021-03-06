@@ -28,7 +28,7 @@ import net.luversof.boot.autoconfigure.data.mongo.city.City;
 import net.luversof.boot.autoconfigure.data.mongo.city.ReactiveCityRepository;
 
 
-public class MongoReactiveRepositoriesAutoConfigurationTests {
+class MongoReactiveRepositoriesAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)

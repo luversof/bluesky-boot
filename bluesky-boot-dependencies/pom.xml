@@ -140,16 +140,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<!-- <profiles> <profile> <id>dockerdev</id> <repositories> <repository> 
-		<id>bluesky-docker-nexus</id> <url>http://nexus:8081/repository/maven-public/</url> 
-		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>true</enabled> 
-		<updatePolicy>always</updatePolicy> </snapshots> </repository> </repositories> 
-		<distributionManagement> <repository> <id>bluesky-releases</id> <url>http://nexus:8081/repository/maven-releases/</url> 
-		</repository> <snapshotRepository> <id>bluesky-snapshots</id> <url>http://nexus:8081/repository/maven-snapshots/</url> 
-		</snapshotRepository> </distributionManagement> </profile> </profiles> <pluginRepositories> 
-		<pluginRepository> <id>spring-snapshots</id> <url>http://repo.spring.io/snapshot</url> 
-		</pluginRepository> <pluginRepository> <id>spring-milestones</id> <url>http://repo.spring.io/milestone</url> 
-		</pluginRepository> </pluginRepositories> -->
 
 	<build>
 		<pluginManagement>
@@ -235,22 +225,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
-						<executions> <execution> <id>copy-asciidoc-resources</id> <phase>generate-resources</phase> 
-						<goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>${refdocs.build.directory}</outputDirectory> 
-						<resources> <resource> <directory>src/main/asciidoc</directory> <filtering>false</filtering> 
-						</resource> </resources> </configuration> </execution> </executions> </plugin> -->
-					<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>flatten-maven-plugin</artifactId> 
-						<configuration> <updatePomFile>true</updatePomFile> <flattenMode>resolveCiFriendliesOnly</flattenMode> 
-						</configuration> <executions> <execution> <id>flatten</id> <phase>process-resources</phase> 
-						<goals> <goal>flatten</goal> </goals> </execution> <execution> <id>flatten.clean</id> 
-						<phase>clean</phase> <goals> <goal>clean</goal> </goals> </execution> </executions> 
-						</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> 
-						<executions> <execution> <id>unpack-doc-resources</id> <goals> <goal>unpack-dependencies</goal> 
-						</goals> <phase>generate-resources</phase> <configuration> <includeGroupIds>io.spring.docresources</includeGroupIds> 
-						<includeArtifactIds>spring-doc-resources</includeArtifactIds> <includeTypes>zip</includeTypes> 
-						<excludeTransitive>true</excludeTransitive> <outputDirectory>${refdocs.build.directory}</outputDirectory> 
-						</configuration> </execution> </executions> </plugin> -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>

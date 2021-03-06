@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-public class MessageSourceAutoConfigurationTests {
+class MessageSourceAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
@@ -22,14 +22,14 @@ public class MessageSourceAutoConfigurationTests {
 			.withUserConfiguration(Config.class);
 	
 	@Test
-	public void testDefaultMessageSource() {
+	void testDefaultMessageSource() {
 		this.contextRunner.run((context) -> assertThat(
 				context.getMessage("messageKey", null, "Foo message", Locale.UK))
 						.isEqualTo("messageValue"));
 	}
 	
 	@Test
-	public void testExtensionMessageSource() {
+	void testExtensionMessageSource() {
 		this.contextRunner.run((context) -> assertThat(
 				context.getMessage("messageExtensionKey", null, "Foo message", Locale.UK))
 						.isEqualTo("messageExtensionValue"));

@@ -15,7 +15,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.luversof.boot.autoconfigure.mongo.config.MongoProperties.BlueskyMongoProperties.BlueskyMongoPropertiesBuilder;
 
 /**
  * 굳이 module 구성 할 이유가 없어보이는데?
@@ -94,10 +93,10 @@ public class MongoProperties implements InitializingBean {
 		
 		PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
-		for (var key : connectionMap.keySet()) {
-			var blueskyMongoProperties = connectionMap.get(key);
+		for (var entry : connectionMap.entrySet()) {
+			var blueskyMongoProperties = entry.getValue();
 			
-			BlueskyMongoPropertiesBuilder builder = BlueskyMongoProperties.builder();
+			var builder = BlueskyMongoProperties.builder();
 			
 			propertyMapper.from(blueskyMongoProperties::getHosts).to(builder::hosts);
 			propertyMapper.from(defaultMongoProperties::getHost).to(builder::host);
@@ -125,7 +124,7 @@ public class MongoProperties implements InitializingBean {
 			propertyMapper.from(defaultMongoProperties::isAutoIndexCreation).to(builder::autoIndexCreation);
 			propertyMapper.from(blueskyMongoProperties::isAutoIndexCreation).to(builder::autoIndexCreation);
 			
-			connectionMap.put(key, builder.build());
+			connectionMap.put(entry.getKey(), builder.build());
 			
 		}
 		

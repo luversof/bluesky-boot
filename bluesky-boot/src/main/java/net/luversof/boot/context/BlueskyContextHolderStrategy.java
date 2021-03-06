@@ -12,5 +12,5 @@ public interface BlueskyContextHolderStrategy<T> {
 
 	default T createEmptyContext() {
 		return null;
-	};
+	}
 }

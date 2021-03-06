@@ -15,7 +15,7 @@ import com.mongodb.client.MongoClient;
 
 import net.luversof.boot.autoconfigure.mongo.config.MongoProperties;
 
-public class MongoAutoConfigurationTests {
+class MongoAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
@@ -25,14 +25,14 @@ public class MongoAutoConfigurationTests {
 	
 	
 	@Test
-	public void clientExists() {
+	void clientExists() {
 		this.contextRunner.run(context -> {
 			assertThat(context).hasSingleBean(MongoClient.class);
 		});
 	}
 	
 	@Test
-	public void mongoProperties() {
+	void mongoProperties() {
 		this.contextRunner.run(context -> {
 			assertThat(context).hasSingleBean(MongoProperties.class);
 			var mongoProperties = context.getBean(MongoProperties.class);

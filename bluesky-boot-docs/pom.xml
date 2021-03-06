@@ -42,9 +42,6 @@
 		</dependency>
 
 	</dependencies>
-	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>io.spring.asciidoctor</groupId> 
-		<artifactId>spring-asciidoctor-extensions-block-switch</artifactId> <version>0.4.3.RELEASE</version> 
-		</dependency> </dependencies> </dependencyManagement> -->
 	<profiles>
 		<profile>
 			<id>asciidoctor</id>

@@ -13,7 +13,7 @@ import net.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProp
 import net.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo;
 import net.luversof.boot.context.BlueskyContextHolder;
 
-public class CoreAutoConfigurationTests {
+class CoreAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
@@ -24,19 +24,19 @@ public class CoreAutoConfigurationTests {
 	
 			
 	@AfterEach
-	public void afterEach() {
+	void afterEach() {
 		BlueskyContextHolder.clearContext();
 	}
 	
 	@Test
-	public void coreProperties() {
+	void coreProperties() {
 		this.contextRunner.run(context -> {
 			assertThat(context).hasSingleBean(CoreProperties.class);
 		});
 	}
 	
 	@Test
-	public void blueskyContextHolder() {
+	void blueskyContextHolder() {
 		this.contextRunner.run(context -> {
 			var blueskyContext = BlueskyContextHolder.getContext();
 			assertThat(((CoreModuleProperties) blueskyContext.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
@@ -45,7 +45,7 @@ public class CoreAutoConfigurationTests {
 	}
 	
 	@Test
-	public void multiModuleBlueskyContextHolder() {
+	void multiModuleBlueskyContextHolder() {
 		this.contextRunner.withPropertyValues("bluesky-modules.core.modules.test2.domain.web=http://localhost").run(context -> {
 			BlueskyContextHolder.setContext("test");
 			var blueskyContext = BlueskyContextHolder.getContext();

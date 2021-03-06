@@ -42,7 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ExtendWith({ SpringExtension.class, RestDocumentationExtension.class })
 @SpringBootTest
 //@ActiveProfiles("local")
-public class ApiDocumentation {
+class ApiDocumentation {
 
 	@Autowired
 	private NoteRepository noteRepository;
@@ -64,7 +64,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void errorExample() throws Exception {
+	void errorExample() throws Exception {
 		this.mockMvc
 				.perform(get("/error")
 						.requestAttr(RequestDispatcher.ERROR_STATUS_CODE, 400)
@@ -87,7 +87,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void indexExample() throws Exception {
+	void indexExample() throws Exception {
 		this.mockMvc.perform(get("/"))
 			.andExpect(status().isOk())
 			.andDo(document("index-example",
@@ -101,7 +101,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void notesListExample() throws Exception {
+	void notesListExample() throws Exception {
 		this.noteRepository.deleteAll();
 
 		createNote("REST maturity model",
@@ -122,7 +122,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void notesCreateExample() throws Exception {
+	void notesCreateExample() throws Exception {
 		Map<String, String> tag = new HashMap<String, String>();
 		tag.put("name", "REST");
 
@@ -150,7 +150,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void noteGetExample() throws Exception {
+	void noteGetExample() throws Exception {
 		Map<String, String> tag = new HashMap<String, String>();
 		tag.put("name", "REST");
 
@@ -192,7 +192,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void tagsListExample() throws Exception {
+	void tagsListExample() throws Exception {
 		this.noteRepository.deleteAll();
 		this.tagRepository.deleteAll();
 
@@ -212,7 +212,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void tagsCreateExample() throws Exception {
+	void tagsCreateExample() throws Exception {
 		Map<String, String> tag = new HashMap<String, String>();
 		tag.put("name", "REST");
 
@@ -226,7 +226,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void noteUpdateExample() throws Exception {
+	void noteUpdateExample() throws Exception {
 		Map<String, Object> note = new HashMap<String, Object>();
 		note.put("title", "REST maturity model");
 		note.put("body", "https://martinfowler.com/articles/richardsonMaturityModel.html");
@@ -269,7 +269,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void tagGetExample() throws Exception {
+	void tagGetExample() throws Exception {
 		Map<String, String> tag = new HashMap<String, String>();
 		tag.put("name", "REST");
 
@@ -294,7 +294,7 @@ public class ApiDocumentation {
 	}
 
 	@Test
-	public void tagUpdateExample() throws Exception {
+	void tagUpdateExample() throws Exception {
 		Map<String, String> tag = new HashMap<String, String>();
 		tag.put("name", "REST");
 

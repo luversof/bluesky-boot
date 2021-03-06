@@ -60,9 +60,7 @@ public class MongoDataPropertiesBeanFactoryPostProcessor implements BeanFactoryP
 	private Set<String> getPropertiesMapKeySet() {
 		Map<String, String> propertiesMap = getPropertiesMap();
 		var keySet = new HashSet<String>();
-		propertiesMap.forEach((key, value) -> {
-			 keySet.add(key.replace(propertiesPrefix, "").split("\\.")[1]);
-		});
+		propertiesMap.forEach((key, value) -> keySet.add(key.replace(propertiesPrefix, "").split("\\.")[1]));
 		return keySet;
 	}
 
