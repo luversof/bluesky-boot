@@ -21,7 +21,7 @@ import net.luversof.boot.filter.BlueskyContextHolderFilter;
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @AutoConfigureAfter(CoreAutoConfiguration.class)
 public class CoreServletAutoConfiguration {
-
+	
 	@Bean
 	public BlueskyContextHolderFilter blueskyContextHolderFilter() {
 		return new BlueskyContextHolderFilter();

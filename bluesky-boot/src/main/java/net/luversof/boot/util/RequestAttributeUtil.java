@@ -13,15 +13,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 public class RequestAttributeUtil {
 	
 	public static void setRequestAttribute(String name, Object value) {
-		RequestContextHolder.getRequestAttributes().setAttribute(name, value, RequestAttributes.SCOPE_REQUEST);
+		RequestContextHolder.currentRequestAttributes().setAttribute(name, value, RequestAttributes.SCOPE_REQUEST);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T getRequestAttribute(String name) {
-		if (RequestContextHolder.getRequestAttributes() == null) {
-			return null;
-		}
-		return (T) RequestContextHolder.getRequestAttributes().getAttribute(name, RequestAttributes.SCOPE_REQUEST);
+		return (T) RequestContextHolder.currentRequestAttributes().getAttribute(name, RequestAttributes.SCOPE_REQUEST);
 	}
 
 	public static String getAttributeName(String pattern, Object ... arguments) {

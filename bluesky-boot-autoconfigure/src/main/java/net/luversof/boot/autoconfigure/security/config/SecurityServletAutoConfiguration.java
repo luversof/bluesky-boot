@@ -77,10 +77,6 @@ public class SecurityServletAutoConfiguration {
 			
 			http
 				.headers().frameOptions().sameOrigin().and()
-				.authorizeRequests()
-					.antMatchers("/test/**").permitAll()
-//					.anyRequest().authenticated()
-				.and()
 				.exceptionHandling().accessDeniedPage("/error/accessDenied").and()
 				.logout().logoutSuccessHandler(logoutSuccessHandler).and()
 				.formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).and()

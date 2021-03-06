@@ -13,13 +13,17 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.reactive.ServerWebExchangeContextFilter;
 import org.springframework.web.server.ServerWebExchange;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.luversof.boot.config.BlueskyCoreModuleProperties;
 import net.luversof.boot.config.BlueskyCoreProperties;
 import net.luversof.boot.config.BlueskyCoreProperties.CoreModulePropertiesResolveType;
+import net.luversof.boot.exception.BlueskyException;
 import net.luversof.boot.support.ModuleNameResolver;
 import reactor.core.publisher.Mono;
 
-public class ServerWebExchangeUtil {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ServerWebExchangeUtil {
 	
 	private static final PathMatcher pathMatcher = new AntPathMatcher();
 	private static final String ipv4Pattern = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
@@ -34,14 +38,16 @@ public class ServerWebExchangeUtil {
 	}
 	
 	public static boolean isInternalRequest(ServerWebExchange exchange) {
-		String serverName = exchange.getRequest().getHeaders().getHost().getHostName();
-		if (serverName.equals("localhost")) {
+		Assert.notNull(exchange.getRequest().getHeaders(), "header value must exist");
+		var hostName = exchange.getRequest().getHeaders().getHost().getHostName();
+		if (hostName.equals("localhost")) {
 			return true;
 		}
-		return serverName.matches(ipv4Pattern);
+		return hostName.matches(ipv4Pattern);
 	}
 	
 	public static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModulePropertiesEntry(ServerWebExchange exchange) {
+		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
 		@SuppressWarnings("unchecked")
 		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
@@ -71,12 +77,14 @@ public class ServerWebExchangeUtil {
 	}
 	
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByAddPathPattern(ServerWebExchange exchange) {
+		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
 		@SuppressWarnings("unchecked")
 		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
 		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath()))).findAny().orElse(null);
 	}
 	
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByDomain(ServerWebExchange exchange) {
+		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
 		@SuppressWarnings("unchecked")
 		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
 		// 해당 도메인에 해당하는 모듈 entry list 확인
@@ -159,6 +167,7 @@ public class ServerWebExchangeUtil {
 	}
 	
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByModuleNameResolver(ServerWebExchange exchange) {
+		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
 		var moduleNameResolver = exchange.getApplicationContext().getBean(ModuleNameResolver.class);
 		@SuppressWarnings("unchecked")
 		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
