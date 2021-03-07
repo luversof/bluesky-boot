@@ -30,7 +30,7 @@ public class MongoDataPropertiesBeanFactoryPostProcessor implements BeanFactoryP
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		var emptyMongoDatabaseFactory = new SimpleMongoClientDatabaseFactory(MongoClients.create(), "test");
+		var emptyMongoDatabaseFactory = new SimpleMongoClientDatabaseFactory(MongoClients.create(), "config");
 		var emptyMongoTemplate = new MongoTemplate(emptyMongoDatabaseFactory);
 		
 		getPropertiesMapKeySet().forEach(key -> {

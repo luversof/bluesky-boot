@@ -4,6 +4,7 @@ package net.luversof.boot.util;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,7 +22,9 @@ import lombok.NoArgsConstructor;
 public final class ServletRequestDataBinderUtil {
 
 	public static <T> T getObject(String objectName, Class<T> clazz, Object... validationHints) {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		var requestAttributes = RequestContextHolder.currentRequestAttributes();
+		Assert.notNull(requestAttributes, "requestAttributes must exist");
+		HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
 
 		T instantiateClass = BeanUtils.instantiateClass(clazz);
 		
