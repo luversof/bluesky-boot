@@ -39,8 +39,9 @@ public final class ServerWebExchangeUtil {
 	public static boolean isInternalRequest(ServerWebExchange exchange) {
 		var headers = exchange.getRequest().getHeaders();
 		Assert.notNull(headers, "header value must exist");
-		Assert.notNull(headers.getHost(), "header host value must exist");
-		var hostName = headers.getHost().getHostName();
+		var host = headers.getHost();
+		Assert.notNull(host, "header host value must exist");
+		var hostName = host.getHostName();
 		if (hostName.equals("localhost")) {
 			return true;
 		}
