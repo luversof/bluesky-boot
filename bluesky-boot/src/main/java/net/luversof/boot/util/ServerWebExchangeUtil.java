@@ -37,8 +37,9 @@ public final class ServerWebExchangeUtil {
 	}
 	
 	public static boolean isInternalRequest(ServerWebExchange exchange) {
-		Assert.notNull(exchange.getRequest().getHeaders(), "header value must exist");
-		var hostName = exchange.getRequest().getHeaders().getHost().getHostName();
+		var headers = exchange.getRequest().getHeaders();
+		Assert.notNull(headers, "header value must exist");
+		var hostName = headers.getHost().getHostName();
 		if (hostName.equals("localhost")) {
 			return true;
 		}
@@ -46,9 +47,10 @@ public final class ServerWebExchangeUtil {
 	}
 	
 	public static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModulePropertiesEntry(ServerWebExchange exchange) {
-		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
+		var applicationContext = exchange.getApplicationContext();
+		Assert.notNull(applicationContext, "ApplicationContext must exist");
 		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
+		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		
 		var modules = coreProperties.getModules();
@@ -76,16 +78,18 @@ public final class ServerWebExchangeUtil {
 	}
 	
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByAddPathPattern(ServerWebExchange exchange) {
-		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
+		var applicationContext = exchange.getApplicationContext();
+		Assert.notNull(applicationContext, "ApplicationContext must exist");
 		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
+		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
 		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath()))).findAny().orElse(null);
 	}
 	
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByDomain(ServerWebExchange exchange) {
-		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
+		var applicationContext = exchange.getApplicationContext();
+		Assert.notNull(applicationContext, "ApplicationContext must exist");
 		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
+		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
 		// 해당 도메인에 해당하는 모듈 entry list 확인
 		List<Entry<String, T>> moduleEntryList = coreProperties.getModules().entrySet().stream().filter(moduleEntry ->
 			moduleEntry.getValue().getDomain() != null && (
@@ -166,10 +170,11 @@ public final class ServerWebExchangeUtil {
 	}
 	
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByModuleNameResolver(ServerWebExchange exchange) {
-		Assert.notNull(exchange.getApplicationContext(), "ApplicationContext must exist");
-		var moduleNameResolver = exchange.getApplicationContext().getBean(ModuleNameResolver.class);
+		var applicationContext = exchange.getApplicationContext();
+		Assert.notNull(applicationContext, "ApplicationContext must exist");
+		var moduleNameResolver = applicationContext.getBean(ModuleNameResolver.class);
 		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = exchange.getApplicationContext().getBean(BlueskyCoreProperties.class);
+		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
 		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
 	}
 }
