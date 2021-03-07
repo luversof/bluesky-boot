@@ -2,6 +2,7 @@ package net.luversof.boot.util;
 
 import java.text.MessageFormat;
 
+import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -13,12 +14,16 @@ import org.springframework.web.context.request.RequestContextHolder;
 public class RequestAttributeUtil {
 	
 	public static void setRequestAttribute(String name, Object value) {
-		RequestContextHolder.currentRequestAttributes().setAttribute(name, value, RequestAttributes.SCOPE_REQUEST);
+		var requestAttributes = RequestContextHolder.currentRequestAttributes();
+		Assert.notNull(requestAttributes, "requestAttributes must exist");
+		requestAttributes.setAttribute(name, value, RequestAttributes.SCOPE_REQUEST);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T getRequestAttribute(String name) {
-		return (T) RequestContextHolder.currentRequestAttributes().getAttribute(name, RequestAttributes.SCOPE_REQUEST);
+		var requestAttributes = RequestContextHolder.currentRequestAttributes();
+		Assert.notNull(requestAttributes, "requestAttributes must exist");
+		return (T) requestAttributes.getAttribute(name, RequestAttributes.SCOPE_REQUEST);
 	}
 
 	public static String getAttributeName(String pattern, Object ... arguments) {

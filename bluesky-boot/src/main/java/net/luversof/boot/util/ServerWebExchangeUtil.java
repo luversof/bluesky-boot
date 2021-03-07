@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 import net.luversof.boot.config.BlueskyCoreModuleProperties;
 import net.luversof.boot.config.BlueskyCoreProperties;
 import net.luversof.boot.config.BlueskyCoreProperties.CoreModulePropertiesResolveType;
-import net.luversof.boot.exception.BlueskyException;
 import net.luversof.boot.support.ModuleNameResolver;
 import reactor.core.publisher.Mono;
 
