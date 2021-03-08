@@ -33,7 +33,7 @@ public class CoreServletAutoConfiguration {
 		return new CoreServletExceptionHandler();
 	}
 	
-	// TODO @Profile 설정 필요함
+	// TODO devCheck는 개발용으로만 @Profile 범위 설정이 필요함
 	@Bean
 	@ConditionalOnMissingBean
 	@ConditionalOnClass(name = "org.thymeleaf.spring5.view.ThymeleafViewResolver")

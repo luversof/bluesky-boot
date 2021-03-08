@@ -27,7 +27,8 @@ public class CoreDevCheckController {
 	
 	private CoreProperties coreProperties;
 	
-	private Map<String, BlueskyProperties<?>> blueskyPropertiesMap;
+	@SuppressWarnings("rawtypes")
+	private Map<String, BlueskyProperties> blueskyPropertiesMap;
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
 	@GetMapping("/activeProfiles")
@@ -36,9 +37,10 @@ public class CoreDevCheckController {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
 	@GetMapping("/blueskyPropertiesMap")
-	public Map<String, BlueskyProperties<?>> blueskyPropertiesMap() {
+	public Map<String, BlueskyProperties> blueskyPropertiesMap() {
 		return blueskyPropertiesMap;
 	}
 	
