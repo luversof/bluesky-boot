@@ -132,7 +132,7 @@ public final class ServerWebExchangeUtil {
 				if (pathForward1 == null) {
 					return 1;
 				}
-				if (pathForward1 != null && pathForward2 != null) {
+				if (pathForward2 != null) {
 					if (pathForward1.getRequestPath().length() > pathForward2.getRequestPath().length()) {
 						return 1;
 					} else if (pathForward1.getRequestPath().length() == pathForward2.getRequestPath().length()) {
