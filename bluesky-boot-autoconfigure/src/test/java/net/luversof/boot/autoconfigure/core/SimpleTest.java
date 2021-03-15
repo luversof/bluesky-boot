@@ -2,6 +2,8 @@ package net.luversof.boot.autoconfigure.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
+
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.expression.Expression;
@@ -56,5 +58,15 @@ class SimpleTest {
 		String[] codes = codeResolver.resolveMessageCodes("NotBlank", "someObjectName", "someField", null);
 		log.debug("resulit : {}", Arrays.asList(codes));
 		assertThat(codes).isNotNull();
+	}
+	
+	@Test
+	void mapTest() {
+		var map = new HashMap<String, String>();
+		map.put("key1", "value1");
+		
+		var target = map.entrySet().iterator().next().getValue();
+		log.debug("target : {}", target);
+		assertThat(target).isEqualTo("value1");
 	}
 }

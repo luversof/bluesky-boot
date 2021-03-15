@@ -74,7 +74,7 @@ public class MessageUtil {
 			errorMessage.setExceptionClassName(blueskyException.getClass().getSimpleName());
 		} else {
 			
-			var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), null, "", null);
+			var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), null);
 			log.debug("[Exception error message] code : {}", Arrays.asList(errorCodes));
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes,  exception.getLocalizedMessage());
 			var localizedMessage = getMessage(defaultMessageSourceResolvable);

@@ -29,7 +29,7 @@ import net.luversof.boot.support.ModuleNameResolver;
 public final class ServletRequestUtil {
 	
 	private static final PathMatcher pathMatcher = new AntPathMatcher();
-	private static final String ipv4Pattern = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
+	private static final String IPV4_PATTERN = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
 
 	public static String getRemoteAddr() {
 		var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -58,7 +58,7 @@ public final class ServletRequestUtil {
 		if (serverName.equals("localhost")) {
 			return true;
 		}
-		return serverName.matches(ipv4Pattern);
+		return serverName.matches(IPV4_PATTERN);
 	}
 	
 	/**
