@@ -5,7 +5,7 @@
 	<artifactId>bluesky-boot-dependencies</artifactId>
 	<packaging>pom</packaging>
 	<parent>
-		<groupId>net.luversof.boot</groupId>
+		<groupId>io.github.luversof</groupId>
 		<artifactId>bluesky-boot-build</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -36,57 +36,57 @@
 
 			<!-- (s) spring boot -->
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-autoconfigure</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-batch</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-data-jpa</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-data-mongodb-reactive</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-data-rest</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-jdbc</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-mybatis</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-starter-test</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.luversof.boot</groupId>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-docs</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>

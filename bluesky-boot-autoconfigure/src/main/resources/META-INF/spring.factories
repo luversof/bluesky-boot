@@ -1,18 +1,18 @@
-org.springframework.boot.env.EnvironmentPostProcessor=net.luversof.boot.env.BlueskyEnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=io.github.luversof.boot.env.BlueskyEnvironmentPostProcessor
 
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration,\
-net.luversof.boot.autoconfigure.core.config.CoreServletAutoConfiguration,\
-net.luversof.boot.autoconfigure.core.config.CoreReactiveAutoConfiguration,\
-net.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
-net.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\
-net.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration,\
-net.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration,\
-net.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,\
-net.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration,\
-net.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration,\
-net.luversof.boot.autoconfigure.batch.BatchAutoConfiguration,\
-net.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration,\
-net.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
+io.github.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.core.config.CoreServletAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.core.config.CoreReactiveAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.batch.BatchAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration,\
+io.github.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
 
