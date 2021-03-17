@@ -110,13 +110,4 @@ class SimpleTest {
 				Arguments.of("not blank", false));
 	}
 	
-	@SuppressWarnings("unused")
-	@Test
-	void shouldThrowException() throws Throwable {
-		Throwable exception = new UnsupportedOperationException("Not supported");
-		if (true) {
-			throw exception;
-		}
-		assertThat(exception).hasMessage("Not supported");
-	}
 }

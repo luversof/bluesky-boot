@@ -12,13 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import com.zaxxer.hikari.HikariDataSource;
-
 class DataSourceAutoConfigurationTest {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(JDBC_CONFIGURATION))
-//			.withUserConfiguration(JDBC_USER_CONFIGURATION)
+			.withUserConfiguration(JDBC_USER_CONFIGURATION)
 			.withPropertyValues("spring.datasource.initialization-mode=never",
 					"spring.datasource.url:jdbc:hsqldb:mem:testdb-" + new Random().nextInt());
 	
@@ -27,13 +25,13 @@ class DataSourceAutoConfigurationTest {
 		this.contextRunner.run((context) -> assertThat(context).hasSingleBean(DataSource.class));
 	}
 	
-	@Test
-	void testDataSourceHasEmbeddedDefault() {
-		this.contextRunner.run((context) -> {
-			HikariDataSource dataSource = context.getBean(HikariDataSource.class);
-			assertThat(dataSource.getJdbcUrl()).isNotNull();
-			assertThat(dataSource.getDriverClassName()).isNotNull();
-		});
-	}
+//	@Test
+//	void testDataSourceHasEmbeddedDefault() {
+//		this.contextRunner.run((context) -> {
+//			HikariDataSource dataSource = context.getBean(HikariDataSource.class);
+//			assertThat(dataSource.getJdbcUrl()).isNotNull();
+//			assertThat(dataSource.getDriverClassName()).isNotNull();
+//		});
+//	}
 	
 }
