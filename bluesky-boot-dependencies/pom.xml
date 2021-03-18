@@ -16,13 +16,13 @@
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<asciidoctor-maven-plugin.version>1.6.0</asciidoctor-maven-plugin.version>
-		<spring-doc-resources.version>0.2.4</spring-doc-resources.version>
-		<spring-asciidoctor-extensions.version>0.5.0</spring-asciidoctor-extensions.version>
+		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
+		<spring-asciidoctor-extensions.version>0.5.1</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidocs.output.directory>${project.build.directory}/generated-docs</asciidocs.output.directory>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
+		<jib-maven-plugin.version>2.8.0</jib-maven-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -280,10 +280,10 @@
 								</goals>
 								<configuration>
 									<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
-									<backend>html5</backend>
-									<sourceHighlighter>highlight.js</sourceHighlighter>
-									<preserveDirectories>true</preserveDirectories>
 									<outputDirectory>${asciidocs.output.directory}</outputDirectory>
+									<preserveDirectories>true</preserveDirectories>
+									<backend>html5</backend>
+									<doctype>book</doctype>
 									<attributes>
 										// these attributes are required to use the doc resources
 										<docinfo>shared</docinfo>
@@ -293,6 +293,7 @@
 										<icons>font</icons>
 										<highlightjsdir>js/highlight</highlightjsdir>
 										<highlightjs-theme>github</highlightjs-theme>
+										<source-highlighter>highlight.js</source-highlighter>
 									</attributes>
 								</configuration>
 							</execution>
