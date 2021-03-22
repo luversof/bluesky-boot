@@ -1,7 +1,12 @@
 package io.github.luversof.boot.autoconfigure.security.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -16,9 +21,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
@@ -77,11 +86,15 @@ public class SecurityServletAutoConfiguration {
 			
 			http
 				.headers().frameOptions().sameOrigin().and()
-				.exceptionHandling().accessDeniedPage("/error/accessDenied").and()
+				.exceptionHandling()
+//					.accessDeniedHandler(new AccessDeniedHandlerImpl())
+					.authenticationEntryPoint((HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) ->  {
+						throw authException;
+					})
+				.and()
 				.logout().logoutSuccessHandler(logoutSuccessHandler).and()
 				.formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).and()
 				.rememberMe().and()
-//				.csrf().disable()
 	            .httpBasic();
 			
 			for (var webSecurityConfigurerCustomizer : webSecurityConfigurerCustomizerList) {

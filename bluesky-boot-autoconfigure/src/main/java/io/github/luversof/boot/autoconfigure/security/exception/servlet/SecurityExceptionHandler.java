@@ -67,7 +67,7 @@ public class SecurityExceptionHandler {
 		}
 		
 		//json html return 분기 처리
-		if (!isJsonResponse) {
+		if (isJsonResponse) {
 			throw exception;
 		}
 		
