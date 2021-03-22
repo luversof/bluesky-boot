@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Default logback configuration provided for import
+-->
+
+<included>
+	<property name="SPRING_DEFAULT_LOG_LEVEL" value="${SPRING_DEFAULT_LOG_LEVEL:-WARN}" />
+	<property name="SPRING_DEV_LOG_LEVEL" value="${SPRING_DEV_LOG_LEVEL:-INFO}" />
+	
+	<property name="BLUSKY_DEFAULT_LOG_LEVEL" value="${BLUESKYBOOT_DEFAULT_LOG_LEVEL:-WARN}" />
+	<property name="BLUSKY_DEV_LOG_LEVEL" value="${BLUESKYBOOT_DEV_LOG_LEVEL:-INFO}" />
+	
+	<property name="OTHER_DEFAULT_LOG_LEVEL" value="${OTHER_DEFAULT_LOG_LEVEL:-WARN}" />
+	<property name="OTHER_DEV_LOG_LEVEL" value="${OTHER_DEV_LOG_LEVEL:-INFO}" />
+	
+	<property name="PROJECT_DEFAULT_LOG_LEVEL" value="${PROJECT_DEFAULT_LOG_LEVEL:-WARN}" />
+	<property name="PROJECT_DEV_LOG_LEVEL" value="${PROJECT_DEV_LOG_LEVEL:-DEBUG}" />
+	
+	<property name="SQL_DEFAULT_LOG_LEVEL" value="${SQL_DEFAULT_LOG_LEVEL:-WARN}" />
+	<property name="SQL_DEV_LOG_LEVEL" value="${SQL_DEV_LOG_LEVEL:-TRACE}" />
+	
+	<springProfile name="!live">
+		<property name="SPRING_ACTIVE_LOG_LEVEL" value="${SPRING_DEV_LOG_LEVEL:-${SPRING_LOG_LEVEL:-${SPRING_DEFAULT_LOG_LEVEL}}}" />
+		<property name="BLUSKY_ACTIVE_LOG_LEVEL" value="${BLUSKY_DEV_LOG_LEVEL:-${BLUSKY_LOG_LEVEL:-${BLUSKY_DEFAULT_LOG_LEVEL}}}" />
+		<property name="OTHER_ACTIVE_LOG_LEVEL" value="${OTHER_DEV_LOG_LEVEL:-${OTHER_LOG_LEVEL:-${OTHER_DEFAULT_LOG_LEVEL}}}" />
+		<property name="PROJECT_ACTIVE_LOG_LEVEL" value="${PROJECT_DEV_LOG_LEVEL:-${PROJECT_LOG_LEVEL:-${PROJECT_DEFAULT_LOG_LEVEL}}}" />
+		<property name="SQL_ACTIVE_LOG_LEVEL" value="${SQL_DEV_LOG_LEVEL:-${SQL_LOG_LEVEL:-${SQL_DEFAULT_LOG_LEVEL}}}" />
+		
+		<logger name="org.springframework.web.client.RestTemplate" level="DEBUG" />
+	</springProfile>
+	<springProfile name="live">
+		<property name="SPRING_ACTIVE_LOG_LEVEL" value="${SPRING_LOG_LEVEL:-${SPRING_DEFAULT_LOG_LEVEL}}" />
+		<property name="BLUSKY_ACTIVE_LOG_LEVEL" value="${BLUSKY_LOG_LEVEL:-${BLUSKY_DEFAULT_LOG_LEVEL}}" />
+		<property name="OTHER_ACTIVE_LOG_LEVEL" value="${OTHER_LOG_LEVEL:-${OTHER_DEFAULT_LOG_LEVEL}}" />
+		<property name="PROJECT_ACTIVE_LOG_LEVEL" value="${PROJECT_LOG_LEVEL:-${PROJECT_DEFAULT_LOG_LEVEL}}" />
+		<property name="SQL_ACTIVE_LOG_LEVEL" value="${SQL_LOG_LEVEL:-${SQL_DEFAULT_LOG_LEVEL}}" />
+	</springProfile>
+	
+	<logger name="org.springframework" level="${SPRING_ACTIVE_LOG_LEVEL}" />
+	
+	<logger name="io.github.luversof.boot" level="${BLUESKYBOOT_ACTIVE_LOG_LEVEL}" />
+	
+	<logger name="org.mybatis.spring" level="${OTHER_ACTIVE_LOG_LEVEL}" />
+	<logger name="org.hibernate" level="${OTHER_ACTIVE_LOG_LEVEL}" />
+	<logger name="com.google.code.ssm" level="${OTHER_ACTIVE_LOG_LEVEL}" />
+	
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="${SQL_ACTIVE_LOG_LEVEL}" />
+	
+</included>

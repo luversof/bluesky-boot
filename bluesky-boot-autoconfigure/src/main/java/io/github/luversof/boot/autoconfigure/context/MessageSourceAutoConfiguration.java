@@ -14,7 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.util.StringUtils;
 
-import io.github.luversof.context.support.BlueskyReloadableResourceBundleMessageSource;
+import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
+
 
 @Configuration(value = "_blueskyBootMessageSourceAutoConfiguration", proxyBeanMethods = false)
 //@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)

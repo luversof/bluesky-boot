@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.reflections.Reflections;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,14 @@ import io.github.luversof.boot.annotation.DevCheckDescription;
 import io.github.luversof.boot.autoconfigure.core.config.CoreProperties;
 import io.github.luversof.boot.autoconfigure.core.util.DevCheckUtil;
 import io.github.luversof.boot.config.BlueskyCoreModuleProperties.PathForwardProperties;
+import io.github.luversof.boot.constant.ProfileInfo;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.util.RequestAttributeUtil;
 import lombok.Data;
 
 @Controller
 @RequestMapping(value = "/_check")
+@Profile("!" + ProfileInfo.LIVE)
 public class DevCheckViewController {
 
 	private ApplicationContext applicationContext;
