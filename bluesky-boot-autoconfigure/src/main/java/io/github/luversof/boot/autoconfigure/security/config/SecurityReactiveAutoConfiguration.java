@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.WebFilterChainProxy;
+import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter.Mode;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
@@ -48,11 +50,11 @@ public class SecurityReactiveAutoConfiguration {
 	    	.authorizeExchange()
 	    		.anyExchange().permitAll()
 	    		.and()
-//	    	 .exceptionHandling().accessDeniedHandler(accessDeniedHandler) // 이거 어떻게 바뀌었을까?
+	    	 .exceptionHandling().authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)).and() // 이거 어떻게 바뀌었을까?
 //	    	.logout().logoutSuccessHandler(logoutSuccessHandler) // 5.0 이후
 	    	.formLogin().and()
 	    	.csrf().disable()
-	    	.httpBasic().and();
+	    	.httpBasic().disable();
 	    securityWebFilterChainCustomizerList.forEach(customizer -> customizer.postConfigure(http));
 	    
 	    return http.build();
