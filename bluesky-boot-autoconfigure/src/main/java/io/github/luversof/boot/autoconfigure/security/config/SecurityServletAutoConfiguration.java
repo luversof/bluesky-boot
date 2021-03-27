@@ -23,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
-import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 
 import io.github.luversof.boot.autoconfigure.security.exception.servlet.SecurityExceptionHandler;
 import io.github.luversof.boot.autoconfigure.security.servlet.WebSecurityConfigurerCustomizer;
@@ -43,8 +42,8 @@ public class SecurityServletAutoConfiguration {
 	
 	@Bean
 	@ConditionalOnMissingBean
-	public SecurityExceptionHandler securityExceptionHandler(ContentNegotiatingViewResolver contentNegotiatingViewResolver) {
-		return new SecurityExceptionHandler(contentNegotiatingViewResolver);
+	public SecurityExceptionHandler securityExceptionHandler() {
+		return new SecurityExceptionHandler();
 	}
 	
 	

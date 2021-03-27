@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.core.devcheck.controller.DevCheckViewController;
 import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
@@ -39,5 +40,10 @@ public class CoreServletAutoConfiguration {
 	@ConditionalOnClass(name = "org.thymeleaf.spring5.view.ThymeleafViewResolver")
 	public DevCheckViewController blueskyModulesDevCheckViewController(ApplicationContext applicationContext) {
 		return new DevCheckViewController(applicationContext);
+	}
+	
+	@Bean
+	public MappingJackson2JsonView jsonView() {
+		return new MappingJackson2JsonView();
 	}
 }

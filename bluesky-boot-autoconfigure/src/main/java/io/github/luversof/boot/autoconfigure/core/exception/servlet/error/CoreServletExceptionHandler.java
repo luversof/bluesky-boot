@@ -1,8 +1,5 @@
 package io.github.luversof.boot.autoconfigure.core.exception.servlet.error;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -13,13 +10,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.github.luversof.boot.autoconfigure.context.MessageUtil;
-import io.github.luversof.boot.exception.BlueskyErrorMessage;
-import io.github.luversof.boot.exception.BlueskyErrorPage;
 import io.github.luversof.boot.exception.BlueskyException;
-import io.github.luversof.boot.exception.ErrorMessage;
+import io.github.luversof.boot.exception.BlueskyExceptionHandler;
 
 /**
  * 공통 에러 처리 핸들러
@@ -29,10 +26,10 @@ import io.github.luversof.boot.exception.ErrorMessage;
  */
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class CoreServletExceptionHandler {
+public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	
 	public static final String RESULT = "result";
-
+	
 	/**
 	 * 프로젝트 공통 Exception 처리
 	 * @param exception
@@ -41,15 +38,15 @@ public class CoreServletExceptionHandler {
 	 */
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(BlueskyException exception) {
+	public ModelAndView handleException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
 		/**
 		 * api 호출 반환시 에러 처리
 		 */
 		if (exception.getErrorMessage() != null || exception.getErrorMessageList() != null) {
-			return handleApiBlueskyException(exception);
+			return handleApiBlueskyException(exception, handlerMethod, request);
 		}
 		
-		return getModelAndView(exception.getErrorPage(), MessageUtil.getErrorMessage(exception));
+		return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessage(exception));
 	}
 	
 	
@@ -58,12 +55,12 @@ public class CoreServletExceptionHandler {
 	 * @param exception
 	 * @return
 	 */
-	private ModelAndView handleApiBlueskyException(BlueskyException exception) {
+	private ModelAndView handleApiBlueskyException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
 		if (exception.getErrorMessage() != null) {
-			return getModelAndView(exception.getErrorPage(), MessageUtil.getErrorMessageFromErrorMessage(exception));
+			return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessageFromErrorMessage(exception));
 		}
 		if (exception.getErrorMessageList() != null) {
-			return getModelAndView(exception.getErrorPage(), MessageUtil.getErrorMessageListFromErrorMessageList(exception));
+			return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessageListFromErrorMessageList(exception));
 		}
 		return null;
 	}
@@ -75,19 +72,20 @@ public class CoreServletExceptionHandler {
 	 */
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(BindException exception) {
-		return getDefaultModelAndView(MessageUtil.getErrorMessageList(exception));
+	public ModelAndView handleException(BindException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
 	}
 	
 	/**
 	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
 	 * @param exception
 	 * @return
+	 * @throws HttpMediaTypeNotAcceptableException 
 	 */
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(MethodArgumentNotValidException exception) {
-		return getDefaultModelAndView(MessageUtil.getErrorMessageList(exception));
+	public ModelAndView handleException(MethodArgumentNotValidException exception, HandlerMethod handlerMethod, NativeWebRequest request) throws HttpMediaTypeNotAcceptableException {
+		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
 	}
 	
 	/**
@@ -97,8 +95,8 @@ public class CoreServletExceptionHandler {
 	 */
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(HttpMessageNotReadableException exception) {
-		return getDefaultModelAndView(MessageUtil.getErrorMessage(exception));
+	public ModelAndView handleException(HttpMessageNotReadableException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessage(exception));
 	}
 	
 	/**
@@ -109,28 +107,9 @@ public class CoreServletExceptionHandler {
 	 */
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ModelAndView handleException(Throwable exception) {
-		return getDefaultModelAndView(MessageUtil.getErrorMessage(exception));
+	public ModelAndView handleException(Throwable exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessage(exception));
 	}
 	
 	
-	private ModelAndView getModelAndView(String errorPage, BlueskyErrorMessage errorMessage) {
-		var resultMap = new HashMap<String, ErrorMessage>();
-		resultMap.put(RESULT, errorMessage);
-		return new ModelAndView(errorPage, resultMap);
-	}
-	
-	private ModelAndView getModelAndView(String errorPage, List<BlueskyErrorMessage> errorMessageList) {
-		var resultMap = new HashMap<String, List<BlueskyErrorMessage>>();
-		resultMap.put(RESULT, errorMessageList);
-		return new ModelAndView(errorPage, resultMap);
-	}
-	
-	private ModelAndView getDefaultModelAndView(BlueskyErrorMessage errorMessage) {
-		return getModelAndView(BlueskyErrorPage.DEFAULT.getViewName(), errorMessage);
-	}
-	
-	private ModelAndView getDefaultModelAndView(List<BlueskyErrorMessage> errorMessageList) {
-		return getModelAndView(BlueskyErrorPage.DEFAULT.getViewName(), errorMessageList);
-	}
 }
