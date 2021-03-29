@@ -34,7 +34,7 @@
 			</dependency>
 			<!-- (e) devCheck 기능 관련 -->
 
-			<!-- (s) spring boot -->
+			<!-- (s) bluesky boot -->
 			<dependency>
 				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot</artifactId>
@@ -90,7 +90,12 @@
 				<artifactId>bluesky-boot-docs</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
-			<!-- (e) spring boot -->
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-test-autoconfigure</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<!-- (e) bluesky boot -->
 
 			<!-- (s) spring cloud -->
 			<!-- 버전관리를 편하게 하려고 cloud 의존성을 여기서 관리하고 있으나 분리하는 것이 좋다. -->

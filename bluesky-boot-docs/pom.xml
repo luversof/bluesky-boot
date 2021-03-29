@@ -27,6 +27,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.github.luversof</groupId>
+			<artifactId>bluesky-boot-test-autoconfigure</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.restdocs</groupId>
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
@@ -50,18 +55,13 @@
 					<plugin>
 						<groupId>org.asciidoctor</groupId>
 						<artifactId>asciidoctor-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>asciidoc-to-html</id>
-								<configuration>
-									<attributes>
-										<java-version>${java.version}</java-version>
-										<spring-restdocs-version>${spring-restdocs.version}</spring-restdocs-version>
-										<bluesky-boot-version>${bluesky-boot.version}</bluesky-boot-version>
-									</attributes>
-								</configuration>
-							</execution>
-						</executions>
+						<configuration>
+							<attributes>
+								<java-version>${java.version}</java-version>
+								<spring-restdocs-version>${spring-restdocs.version}</spring-restdocs-version>
+								<bluesky-boot-version>${bluesky-boot.version}</bluesky-boot-version>
+							</attributes>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

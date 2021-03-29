@@ -21,6 +21,7 @@
 		<module>bluesky-boot-parent</module>
 		<module>bluesky-boot-starters</module>
 		<module>bluesky-boot</module>
+		<module>bluesky-boot-test-autoconfigure</module>
 	</modules>
 
 	<profiles>
