@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 
-@ExtendWith({ RestDocumentationExtension.class, SpringExtension.class })
+@ExtendWith(RestDocumentationExtension.class)
 public abstract class RestDocsTest {
 
 	private static final String DEFAULT_MOCK_RESPONSE_PATH = "src/test/resources/mockResponse/";
