@@ -15,6 +15,7 @@
 		<spring-cloud.version>2020.0.2</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<!-- tag:asciidoctor-properties[] -->
+		<download-maven-plugin.version>1.6.2</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
 		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
 		<spring-asciidoctor-extensions.version>0.5.1</spring-asciidoctor-extensions.version>
@@ -199,6 +200,7 @@
 				<plugin>
 					<groupId>com.googlecode.maven-download-plugin</groupId>
 					<artifactId>download-maven-plugin</artifactId>
+					<version>${download-maven-plugin.version}</version>
 					<executions>
 						<execution>
 							<id>unpack-doc-resources</id>
