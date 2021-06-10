@@ -268,6 +268,18 @@
 								<outputDirectory>${asciidocs.output.directory}</outputDirectory>
 								<preserveDirectories>true</preserveDirectories>
 								<backend>spring-html</backend>
+								<doctype>book</doctype>
+								<attributes>
+									// these attributes are required to use the doc resources
+									<docinfo>shared</docinfo>
+									<stylesdir>css/</stylesdir>
+									<stylesheet>spring.css</stylesheet>
+									<linkcss>true</linkcss>
+									<icons>font</icons>
+									<highlightjsdir>js/highlight</highlightjsdir>
+									<highlightjs-theme>github</highlightjs-theme>
+									<source-highlighter>highlight.js</source-highlighter>
+								</attributes>
 							</configuration>
 						</execution>
 					</executions>
