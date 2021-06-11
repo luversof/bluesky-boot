@@ -18,7 +18,7 @@
 		<download-maven-plugin.version>1.6.3</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
 		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
-		<spring-asciidoctor-backends.version>0.0.2</spring-asciidoctor-backends.version>
+		<spring-asciidoctor-extensions.version>0.6.0</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidocs.output.directory>${project.build.directory}/generated-docs</asciidocs.output.directory>
 		<!-- end:asciidoctor-properties[] -->
@@ -249,9 +249,9 @@
 							<version>${spring-restdocs.version}</version>
 						</dependency>
 						<dependency>
-							<groupId>io.spring.asciidoctor.backends</groupId>
-							<artifactId>spring-asciidoctor-backends</artifactId>
-							<version>${spring-asciidoctor-backends.version}</version>
+							<groupId>io.spring.asciidoctor</groupId>
+							<artifactId>spring-asciidoctor-extensions-spring-boot</artifactId>
+							<version>${spring-asciidoctor-extensions.version}</version>
 						</dependency>
 					</dependencies>
 					<configuration>
@@ -259,7 +259,7 @@
 					</configuration>
 					<executions>
 						<execution>
-							<id>asciidoc-to-html</id>
+							<id>generate-html-documentation</id>
 							<phase>prepare-package</phase>
 							<goals>
 								<goal>process-asciidoc</goal>
@@ -267,7 +267,7 @@
 							<configuration>
 								<outputDirectory>${asciidocs.output.directory}</outputDirectory>
 								<preserveDirectories>true</preserveDirectories>
-								<backend>spring-html</backend>
+								<backend>html5</backend>
 								<doctype>book</doctype>
 								<attributes>
 									// these attributes are required to use the doc resources
