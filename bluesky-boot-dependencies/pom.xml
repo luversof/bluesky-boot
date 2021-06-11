@@ -253,6 +253,16 @@
 							<artifactId>spring-asciidoctor-extensions-spring-boot</artifactId>
 							<version>${spring-asciidoctor-extensions.version}</version>
 						</dependency>
+						<dependency>
+							<groupId>io.spring.asciidoctor</groupId>
+							<artifactId>spring-asciidoctor-extensions-block-switch</artifactId>
+							<version>${spring-asciidoctor-extensions.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>io.spring.asciidoctor</groupId>
+							<artifactId>spring-asciidoctor-extensions-section-ids</artifactId>
+							<version>${spring-asciidoctor-extensions.version}</version>
+						</dependency>
 					</dependencies>
 					<configuration>
 						<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
@@ -272,7 +282,7 @@
 								<attributes>
 									// these attributes are required to use the doc resources
 									<docinfo>shared</docinfo>
-									<stylesdir>css/</stylesdir>
+									<stylesdir>	css/</stylesdir>
 									<stylesheet>spring.css</stylesheet>
 									<linkcss>true</linkcss>
 									<icons>font</icons>
