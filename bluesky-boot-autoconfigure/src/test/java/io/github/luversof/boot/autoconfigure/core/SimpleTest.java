@@ -3,6 +3,7 @@ package io.github.luversof.boot.autoconfigure.core;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.Arrays;
@@ -108,6 +109,14 @@ class SimpleTest {
 				Arguments.of("", true), 
 				Arguments.of("  ", true), 
 				Arguments.of("not blank", false));
+	}
+	
+	@Test
+	public void locale() {
+		var locale = new Locale("zh-hant", "KR");
+//		var locale = Locale.KOREA;
+		log.debug("test : {}, language :{}, country : {}", locale, locale.getLanguage(), locale.getCountry());
+		
 	}
 	
 }

@@ -11,7 +11,7 @@
 	</parent>
 	<properties>
 		<java.version>11</java.version>
-		<spring-boot.version>2.5.0</spring-boot.version>
+		<spring-boot.version>2.5.1</spring-boot.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<!-- tag:asciidoctor-properties[] -->
