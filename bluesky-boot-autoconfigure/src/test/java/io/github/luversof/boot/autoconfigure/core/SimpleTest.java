@@ -2,6 +2,7 @@ package io.github.luversof.boot.autoconfigure.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -13,6 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelCompilerMode;
@@ -112,10 +114,12 @@ class SimpleTest {
 	}
 	
 	@Test
-	public void locale() {
-		var locale = new Locale("zh-hant", "KR");
+	void localeTest() {
+//		var locale = new Locale("zh", "KR", "hant");
+//		var locale = new Locale("id", "ID");
+		var locale = Locale.forLanguageTag("zh-Hant-TW");
 //		var locale = Locale.KOREA;
-		log.debug("test : {}, language :{}, country : {}", locale, locale.getLanguage(), locale.getCountry());
+		log.debug("test : {}, language :{}, country : {}, LanguageTag : {}, Locale.forLanguageTag : {}", locale, locale.getLanguage(), locale.getCountry(), locale.toLanguageTag(), Locale.forLanguageTag(locale.toLanguageTag()));
 		
 	}
 	
