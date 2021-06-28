@@ -20,6 +20,7 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelCompilerMode;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.DefaultMessageCodesResolver;
 
 import lombok.extern.slf4j.Slf4j;
@@ -114,13 +115,10 @@ class SimpleTest {
 	}
 	
 	@Test
-	void localeTest() {
-//		var locale = new Locale("zh", "KR", "hant");
-//		var locale = new Locale("id", "ID");
-		var locale = Locale.forLanguageTag("zh-Hant-TW");
-//		var locale = Locale.KOREA;
+	void locale() {
+//		var locale = new Locale("zh_Hant", "TW");
+		var locale = new Locale("id", "ID");
 		log.debug("test : {}, language :{}, country : {}, LanguageTag : {}, Locale.forLanguageTag : {}", locale, locale.getLanguage(), locale.getCountry(), locale.toLanguageTag(), Locale.forLanguageTag(locale.toLanguageTag()));
-		
 	}
 	
 }
