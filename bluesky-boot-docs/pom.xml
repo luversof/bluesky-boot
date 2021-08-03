@@ -63,6 +63,10 @@
 							</attributes>
 						</configuration>
 					</plugin>
+					<plugin>
+						<groupId>io.github.luversof</groupId>
+						<artifactId>filecopy-maven-plugin</artifactId>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>

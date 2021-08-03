@@ -24,6 +24,7 @@
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.1.1</jib-maven-plugin.version>
+		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -282,7 +283,7 @@
 								<attributes>
 									// these attributes are required to use the doc resources
 									<docinfo>shared</docinfo>
-									<stylesdir>	css/</stylesdir>
+									<stylesdir>css/</stylesdir>
 									<stylesheet>spring.css</stylesheet>
 									<linkcss>true</linkcss>
 									<icons>font</icons>
@@ -299,6 +300,29 @@
 					<groupId>com.google.cloud.tools</groupId>
 					<artifactId>jib-maven-plugin</artifactId>
 					<version>${jib-maven-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>io.github.luversof</groupId>
+  					<artifactId>filecopy-maven-plugin</artifactId>
+  					<version>${filecopy-maven-plugin.version}</version>
+  					<executions>
+  						<execution>
+  							<id>filecopy</id>
+  							<phase>generate-sources</phase>
+  							<goals>
+  								<goal>filecopy</goal>
+  							</goals>
+  							<configuration>
+  								<fileInfos>
+  									<fileInfo>
+  										<sourceRegex>^([a-zA-Z]*)(_zh-TW.properties)$</sourceRegex>
+  										<targetRegex>$1_zh.properties</targetRegex>
+  									</fileInfo>
+  								</fileInfos>
+  							</configuration>
+  						</execution>
+  					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -327,6 +351,12 @@
 			<id>asciidoctor</id>
 			<build>
 				<plugins>
+					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
+						</plugin> -->
+					<plugin>
+						<groupId>com.coderplus.maven.plugins</groupId>
+						<artifactId>copy-rename-maven-plugin</artifactId>
+					</plugin>
 					<plugin>
 						<groupId>com.googlecode.maven-download-plugin</groupId>
 						<artifactId>download-maven-plugin</artifactId>
