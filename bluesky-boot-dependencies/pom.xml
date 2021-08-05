@@ -97,6 +97,11 @@
 				<artifactId>bluesky-boot-test-autoconfigure</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-autoconfigure-devcheck</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
 			<!-- (e) bluesky boot -->
 
 			<!-- (s) spring cloud -->

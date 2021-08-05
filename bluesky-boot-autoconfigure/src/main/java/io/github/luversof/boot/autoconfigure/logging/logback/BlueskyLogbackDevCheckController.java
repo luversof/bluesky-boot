@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.CoreConstants;
-import io.github.luversof.boot.annotation.DevCheckDescription;
+import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
 import io.github.luversof.boot.logging.logback.BlueskyLogbackAppenderService;
 import lombok.AllArgsConstructor;
 

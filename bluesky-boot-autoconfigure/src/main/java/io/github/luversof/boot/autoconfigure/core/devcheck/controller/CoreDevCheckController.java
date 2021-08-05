@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.luversof.boot.annotation.DevCheckDescription;
 import io.github.luversof.boot.autoconfigure.core.config.CoreProperties;
+import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
 import io.github.luversof.boot.config.BlueskyProperties;
 import io.github.luversof.boot.context.BlueskyContext;
 import io.github.luversof.boot.context.BlueskyContextHolder;
