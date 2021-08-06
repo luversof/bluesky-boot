@@ -5,7 +5,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 io.github.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration,\
 io.github.luversof.boot.autoconfigure.core.config.CoreServletAutoConfiguration,\
 io.github.luversof.boot.autoconfigure.core.config.CoreReactiveAutoConfiguration,\
-io.github.luversof.boot.autoconfigure.logging.logback.BlueskyLogbackAutoConfiguration,\
 io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
 io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\
 io.github.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration,\
