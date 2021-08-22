@@ -188,5 +188,13 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) reactive web -->
+
+		<!-- (s) kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) kafka -->
 	</dependencies>
 </project>

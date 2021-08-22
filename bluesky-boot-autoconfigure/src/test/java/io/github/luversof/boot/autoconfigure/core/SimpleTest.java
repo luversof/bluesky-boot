@@ -117,7 +117,7 @@ class SimpleTest {
 	@Test
 	void locale() {
 //		var locale = new Locale("zh_Hant", "TW");
-		var locale = new Locale("id", "ID");
+		var locale = new Locale("id", "TW");
 		log.debug("test : {}, language :{}, country : {}, LanguageTag : {}, Locale.forLanguageTag : {}", locale, locale.getLanguage(), locale.getCountry(), locale.toLanguageTag(), Locale.forLanguageTag(locale.toLanguageTag()));
 	}
 	
