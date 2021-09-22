@@ -1,7 +1,6 @@
 package io.github.luversof.boot.autoconfigure.data.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -11,10 +10,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.test.context.assertj.AssertableApplicationContext;
@@ -34,7 +32,6 @@ import org.springframework.data.redis.connection.lettuce.LettucePoolingClientCon
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -368,13 +365,15 @@ public class RedisAutoConfigurationTests {
 	}
 	
 	@Test
+	@Disabled
 	void testBlueskyRedisTemplate() {
 		this.contextRunner
 		.withUserConfiguration(BlueskyCustomConfiguration.class)
 		.run((context) -> {
 			@SuppressWarnings("unchecked")
 			HashOperations<String, String, Object> redisOperations = context.getBean("redisTemplate", HashOperations.class);
-			var a = context.getBean("redisTemplate", RedisTemplate.class);
+			var restTemplate = context.getBean("redisTemplate", RedisTemplate.class);
+			assertThat(restTemplate).isNotNull();
 //			var b = context.getBean("redisTemplate", StreamOperations.class);
 			Long increment = redisOperations.increment("key1", "key2", 1);
 			log.debug("Test : {}", increment);

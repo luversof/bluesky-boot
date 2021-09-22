@@ -24,7 +24,6 @@ import io.github.luversof.boot.autoconfigure.TestAutoConfigurationPackage;
 import io.github.luversof.boot.autoconfigure.data.alt.mongo.CityMongoDbRepository;
 import io.github.luversof.boot.autoconfigure.data.alt.mongo.ReactiveCityMongoDbRepository;
 import io.github.luversof.boot.autoconfigure.data.empty.EmptyDataPackage;
-import io.github.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.data.mongo.city.City;
 import io.github.luversof.boot.autoconfigure.data.mongo.city.ReactiveCityRepository;
 

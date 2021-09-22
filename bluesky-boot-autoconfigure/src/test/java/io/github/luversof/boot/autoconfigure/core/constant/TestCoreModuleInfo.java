@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import io.github.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties;
 import io.github.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
-import io.github.luversof.boot.autoconfigure.core.constant.CoreModuleInfo;
 
 public enum TestCoreModuleInfo implements CoreModuleInfo {
 	TEST {

@@ -2,12 +2,8 @@ package io.github.luversof.boot.autoconfigure.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.ZonedDateTime;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.stream.Stream;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
@@ -16,21 +12,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.context.i18n.LocaleContext;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelCompilerMode;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.DefaultMessageCodesResolver;
-import org.springframework.web.servlet.LocaleContextResolver;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -122,44 +110,4 @@ class SimpleTest {
 				Arguments.of("not blank", false));
 	}
 	
-	@Test
-	void locale() {
-//		var locale = new Locale("zh_Hant", "TW");
-		var locale = new Locale("id", "TW");
-		log.debug("test : {}, language :{}, country : {}, LanguageTag : {}, Locale.forLanguageTag : {}", locale, locale.getLanguage(), locale.getCountry(), locale.toLanguageTag(), Locale.forLanguageTag(locale.toLanguageTag()));
-	}
-	
-	public void lambdaTest() {
-		LocaleResolver lr = new AcceptHeaderLocaleResolver();  
-		LocaleContext localeContext = () -> lr.resolveLocale(null); 
-		
-		LocaleContext localeContext2 = new LocaleContext() {
-			@Override
-			public Locale getLocale() {
-				return lr.resolveLocale(null);
-			}
-			
-		};
-		
-		
-	}
-	
-	LocaleResolver  localeResolver;
-	
-	protected LocaleContext buildLocaleContext(final HttpServletRequest request) {
-	    LocaleResolver lr = this.localeResolver;
-	    if (lr instanceof LocaleContextResolver) {
-	        return ((LocaleContextResolver) lr).resolveLocaleContext(request);
-	    }
-	    else {
-	        return new LocaleContext() {
-
-				@Override
-				public Locale getLocale() {
-					return  (lr != null ? lr.resolveLocale(request) : request.getLocale());
-				}
-	        	
-	        };
-	    }
-	}
 }
