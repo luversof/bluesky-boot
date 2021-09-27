@@ -26,10 +26,10 @@ public class GlobalBlueskyContextHolderStrategy implements BlueskyContextHolderS
 		contextHolder = context;
 	}
 
-	@Override
-	public BlueskyContext createEmptyContext() {
-		return new BlueskyContextImpl();
-	}
+//	@Override
+//	public BlueskyContext createEmptyContext() {
+//		return new BlueskyContextImpl();
+//	}
 
 	@Override
 	public boolean hasContext() {

@@ -34,15 +34,13 @@ public abstract class AbstractBlueskyContextHolderStrategy implements BlueskyCon
 
 	@Override
 	public BlueskyContext createEmptyContext() {
-		var ctx = new BlueskyContextImpl();
 		BlueskyCoreProperties<?> coreProperties = ApplicationContextUtil.getApplicationContext().getBean(BlueskyCoreProperties.class);
 		
 		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
 		Assert.state(coreProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");
 		var module = coreProperties.getModules().entrySet().stream().findAny().orElse(null);
 		Assert.state(module != null, "module configuration is required");
-		ctx.setModuleName(module.getKey());
-		return ctx;
+		return () -> module.getKey();
 	}
 	
 	@Override
