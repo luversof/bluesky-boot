@@ -40,12 +40,12 @@ class MongoReactiveDataAutoConfigurationTests {
 				.run((context) -> assertThat(grisFsTemplateDatabaseName(context)).isEqualTo("grid"));
 	}
 
-	@Test
-	@Deprecated
-	void whenGridFsDatabaseIsConfiguredWithDeprecatedPropertyThenGridFsTemplateUsesIt() {
-		this.contextRunner.withPropertyValues("spring.data.mongodb.gridFsDatabase:grid")
-				.run((context) -> assertThat(grisFsTemplateDatabaseName(context)).isEqualTo("grid"));
-	}
+//	@Test
+//	@Deprecated
+//	void whenGridFsDatabaseIsConfiguredWithDeprecatedPropertyThenGridFsTemplateUsesIt() {
+//		this.contextRunner.withPropertyValues("spring.data.mongodb.gridFsDatabase:grid")
+//				.run((context) -> assertThat(grisFsTemplateDatabaseName(context)).isEqualTo("grid"));
+//	}
 
 	@Test
 	void whenGridFsBucketIsConfiguredThenGridFsTemplateUsesIt() {

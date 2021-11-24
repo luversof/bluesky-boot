@@ -49,7 +49,7 @@ public class MongoProperties implements InitializingBean {
 			
 		@Builder
 		public BlueskyMongoProperties(String[] hosts, String host, Integer port, String uri, String database,
-				String authenticationDatabase, String gridFsDatabase, String username, char[] password,
+				String authenticationDatabase, /* String gridFsDatabase, */String username, char[] password,
 				String replicaSetName, Class<?> fieldNamingStrategy, UuidRepresentation uuidRepresentation,
 				Boolean autoIndexCreation) {
 			this.hosts = hosts;
@@ -58,7 +58,7 @@ public class MongoProperties implements InitializingBean {
 			setUri(uri);
 			setDatabase(database);
 			setAuthenticationDatabase(authenticationDatabase);
-			setGridFsDatabase(gridFsDatabase);
+//			setGridFsDatabase(gridFsDatabase);
 			setUsername(username);
 			setPassword(password);
 			setReplicaSetName(replicaSetName);
@@ -109,8 +109,8 @@ public class MongoProperties implements InitializingBean {
 			propertyMapper.from(blueskyMongoProperties::getDatabase).to(builder::database);
 			propertyMapper.from(defaultMongoProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
 			propertyMapper.from(blueskyMongoProperties::getAuthenticationDatabase).to(builder::authenticationDatabase);
-			propertyMapper.from(defaultMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
-			propertyMapper.from(blueskyMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
+//			propertyMapper.from(defaultMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
+//			propertyMapper.from(blueskyMongoProperties::getGridFsDatabase).to(builder::gridFsDatabase);
 			propertyMapper.from(defaultMongoProperties::getUsername).to(builder::username);
 			propertyMapper.from(blueskyMongoProperties::getUsername).to(builder::username);
 			propertyMapper.from(defaultMongoProperties::getPassword).to(builder::password);

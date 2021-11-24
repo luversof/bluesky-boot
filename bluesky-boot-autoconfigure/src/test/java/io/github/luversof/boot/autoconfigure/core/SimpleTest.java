@@ -3,6 +3,7 @@ package io.github.luversof.boot.autoconfigure.core;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.Arrays;
@@ -110,4 +111,15 @@ class SimpleTest {
 				Arguments.of("not blank", false));
 	}
 	
+	public static interface TestSupplier<T> extends Supplier<T> {
+		
+	}
+	
+	@Test
+	void supplierTest() {
+		Supplier a = () -> "";
+		
+		log.debug(null);
+	}
+
 }
