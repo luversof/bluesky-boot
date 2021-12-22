@@ -298,6 +298,11 @@
 					<groupId>com.google.cloud.tools</groupId>
 					<artifactId>jib-maven-plugin</artifactId>
 					<version>${jib-maven-plugin.version}</version>
+					<configuration>
+						<from>
+							<image>openjdk:17-slim</image>
+						</from>
+					</configuration>
 				</plugin>
 
 				<plugin>
