@@ -5,6 +5,7 @@ import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.MO
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.MONGO_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -15,6 +16,7 @@ import com.mongodb.client.MongoClient;
 
 import io.github.luversof.boot.autoconfigure.mongo.config.MongoProperties;
 
+@Disabled
 class MongoAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()

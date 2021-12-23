@@ -44,7 +44,8 @@ import io.lettuce.core.cluster.ClusterTopologyRefreshOptions.RefreshTrigger;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RedisAutoConfigurationTests {
+@Disabled
+class RedisAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(RedisAutoConfiguration.class));
