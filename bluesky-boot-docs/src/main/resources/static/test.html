@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 2.0.15">
 <meta name="author" content="Doc Writer">
 <title>개발자 가이드</title>
 <link rel="stylesheet" href="css/spring.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="js/highlight/styles/github.min.css">
 
 <style>
 .hidden {
@@ -177,6 +178,7 @@ window.onload = function() {
 <li><a href="#images">3. Images</a></li>
 <li><a href="#attributes">4. Attributes</a></li>
 <li><a href="#includes">5. Includes</a></li>
+<li><a href="#diagram-extensions">6. diagram extensions</a></li>
 </ul>
 </div>
 </div>
@@ -187,7 +189,7 @@ window.onload = function() {
 <p>This is a user manual for an example project.</p>
 </div>
 <div class="paragraph">
-<p>변수 확인1 : java-version : 11<br>
+<p>변수 확인1 : java-version : 17<br>
 변수 확인 : highlightjsdir : js/highlight</p>
 </div>
 </div>
@@ -209,7 +211,7 @@ window.onload = function() {
 <div class="listingblock">
 <div class="title">Java code from project</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">Unresolved directive in test.adoc - include::../../main/java/example/StringUtils.java[tags=contains,indent=0]</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Unresolved directive in test.adoc - include::../../main/java/example/StringUtils.java[tags=contains,indent=0]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -240,7 +242,7 @@ window.onload = function() {
 <dl>
 <dt class="hdlist1">asciidoctor-version</dt>
 <dd>
-<p>2.0.10</p>
+<p>2.0.15</p>
 </dd>
 <dt class="hdlist1">safe-mode-name</dt>
 <dd>
@@ -308,7 +310,7 @@ annotation, as the following example shows:</p>
 <div class="listingblock primary">
 <div class="title">Java</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Configuration
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Configuration
 @EnableAspectJAutoProxy
 public class AppConfig {
 
@@ -318,14 +320,14 @@ public class AppConfig {
 <div class="listingblock secondary">
 <div class="title">Kotlin</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="kotlin" class="language-kotlin hljs">@Configuration
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Configuration
 @EnableAspectJAutoProxy
 class AppConfig</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="properties" class="language-properties hljs">bluesky-modules.core.modules.test.domain.web=http://localhost</code></pre>
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">bluesky-modules.core.modules.test.domain.web=http://localhost</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -342,16 +344,41 @@ class AppConfig</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="diagram-extensions"><a class="anchor" href="#diagram-extensions"></a>6. diagram extensions</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/mermaid-test.svg" alt="mermaid test" width="124" height="233">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Failed to generate image: Could not find the 'dot' executable in PATH; add it to the PATH or specify its location using the 'graphvizdot' document attribute
+digraph g {
+    a -&gt; b
+    b -&gt; c
+    c -&gt; d
+    d -&gt; a
+}</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version {project-version}<br>
-Last updated 2021-08-03 13:48:41 +0900
+Last updated 2022-02-19 15:51:03 +0900
 </div>
 </div>
-<link rel="stylesheet" href="js/highlight/styles/github.min.css">
 <script src="js/highlight/highlight.min.js"></script>
-<script>hljs.initHighlighting()</script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 <script type="text/javascript" src="js/tocbot/tocbot.min.js"></script>
 <script type="text/javascript" src="js/toc.js"></script>
 </body>

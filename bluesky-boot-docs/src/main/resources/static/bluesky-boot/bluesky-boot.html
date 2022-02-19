@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 2.0.15">
 <title>bluesky-boot</title>
 <link rel="stylesheet" href="css/spring.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="js/highlight/styles/github.min.css">
 
 <style>
 .hidden {
@@ -208,7 +209,7 @@ window.onload = function() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">public interface BlueskyProperties&lt;T&gt; {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface BlueskyProperties&lt;T&gt; {
 
     Map&lt;String, T&gt; getModules();
 
@@ -225,7 +226,7 @@ bluesky-boot를 bluesky-boot-autoconfigure 없이 사용하고자 하는 경우 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">public interface BlueskyCoreProperties&lt;T extends BlueskyCoreModuleProperties&gt; extends BlueskyProperties&lt;T&gt; {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface BlueskyCoreProperties&lt;T extends BlueskyCoreModuleProperties&gt; extends BlueskyProperties&lt;T&gt; {
 
     /**
      * module 호출 처리 방식 정의 &lt;br /&gt;
@@ -243,12 +244,16 @@ bluesky-boot를 bluesky-boot-autoconfigure 없이 사용하고자 하는 경우 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-03 13:48:41 +0900
+Last updated 2022-02-19 15:51:03 +0900
 </div>
 </div>
-<link rel="stylesheet" href="js/highlight/styles/github.min.css">
 <script src="js/highlight/highlight.min.js"></script>
-<script>hljs.initHighlighting()</script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 <script type="text/javascript" src="js/tocbot/tocbot.min.js"></script>
 <script type="text/javascript" src="js/toc.js"></script>
 </body>

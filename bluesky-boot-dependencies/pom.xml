@@ -18,6 +18,7 @@
 		<!-- tag:asciidoctor-properties[] -->
 		<download-maven-plugin.version>1.6.7</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.1</asciidoctor-maven-plugin.version>
+		<asciidoctorj-diagram.version>2.2.1</asciidoctorj-diagram.version>
 		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
 		<spring-asciidoctor-extensions.version>0.6.0</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
@@ -243,6 +244,11 @@
 					<version>${asciidoctor-maven-plugin.version}</version>
 					<dependencies>
 						<dependency>
+							<groupId>org.asciidoctor</groupId>
+							<artifactId>asciidoctorj-diagram</artifactId>
+							<version>${asciidoctorj-diagram.version}</version>
+						</dependency>
+						<dependency>
 							<groupId>org.springframework.restdocs</groupId>
 							<artifactId>spring-restdocs-asciidoctor</artifactId>
 							<version>${spring-restdocs.version}</version>
@@ -265,6 +271,9 @@
 					</dependencies>
 					<configuration>
 						<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
+						<requires>
+							<require>asciidoctor-diagram</require>
+						</requires>
 					</configuration>
 					<executions>
 						<execution>
@@ -307,25 +316,25 @@
 
 				<plugin>
 					<groupId>io.github.luversof</groupId>
-  					<artifactId>filecopy-maven-plugin</artifactId>
-  					<version>${filecopy-maven-plugin.version}</version>
-  					<executions>
-  						<execution>
-  							<id>filecopy</id>
-  							<phase>generate-sources</phase>
-  							<goals>
-  								<goal>filecopy</goal>
-  							</goals>
-  							<configuration>
-  								<fileInfos>
-  									<fileInfo>
-  										<sourceRegex>^([a-zA-Z]*)(_zh-TW.properties)$</sourceRegex>
-  										<targetRegex>$1_zh.properties</targetRegex>
-  									</fileInfo>
-  								</fileInfos>
-  							</configuration>
-  						</execution>
-  					</executions>
+					<artifactId>filecopy-maven-plugin</artifactId>
+					<version>${filecopy-maven-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>filecopy</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>filecopy</goal>
+							</goals>
+							<configuration>
+								<fileInfos>
+									<fileInfo>
+										<sourceRegex>^([a-zA-Z]*)(_zh-TW.properties)$</sourceRegex>
+										<targetRegex>$1_zh.properties</targetRegex>
+									</fileInfo>
+								</fileInfos>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
