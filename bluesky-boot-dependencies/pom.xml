@@ -14,7 +14,7 @@
 		<spring-boot.version>2.6.3</spring-boot.version>
 		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
-		<bluesky-boot-autoconfigure-devcheck.version>1.0.1-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
+		<bluesky-boot-autoconfigure-devcheck.version>1.0.2-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<download-maven-plugin.version>1.6.7</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.1</asciidoctor-maven-plugin.version>

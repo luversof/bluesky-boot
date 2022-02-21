@@ -1,11 +1,9 @@
 include::_attributes.adoc[]
 = 개발자 가이드
-Doc Writer <doc.writer@example.org>
-2014-09-09
 :revnumber: {project-version}
 :example-caption!:
-ifndef::imagesdir[:imagesdir: images]
-ifndef::sourcedir[:sourcedir: ../../main/java]
+Doc Writer <doc.writer@example.org>
+2014-09-09
 
 This is a user manual for an example project.
 
@@ -25,7 +23,7 @@ This is a user manual for an example project.
 [source,java]
 .Java code from project
 ----
-include::{sourcedir}/example/StringUtils.java[tags=contains,indent=0]
+include::{testsourcedir}/example/StringUtils.java[tags=contains,indent=0]
 ----
 
 This page was built by the following command:
@@ -45,6 +43,7 @@ safe-mode-name:: {safe-mode-name}
 docdir:: {docdir}
 docfile:: {docfile}
 imagesdir:: {imagesdir}
+revnumber:: {revnumber}
 
 .Custom
 project-version:: {project-version}

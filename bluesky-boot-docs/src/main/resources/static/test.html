@@ -211,7 +211,9 @@ window.onload = function() {
 <div class="listingblock">
 <div class="title">Java code from project</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Unresolved directive in test.adoc - include::../../main/java/example/StringUtils.java[tags=contains,indent=0]</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public boolean contains(String haystack, String needle) {
+    return haystack.contains(needle);
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -229,7 +231,7 @@ window.onload = function() {
 <div class="sectionbody">
 <div class="imageblock thumb">
 <div class="content">
-<img src="images/sunset.jpg" alt="sunset">
+<img src="./images/sunset.jpg" alt="sunset">
 </div>
 </div>
 </div>
@@ -258,7 +260,11 @@ window.onload = function() {
 </dd>
 <dt class="hdlist1">imagesdir</dt>
 <dd>
-<p>images</p>
+<p>./images</p>
+</dd>
+<dt class="hdlist1">revnumber</dt>
+<dd>
+<p>{project-version}</p>
 </dd>
 </dl>
 </div>
@@ -271,7 +277,7 @@ window.onload = function() {
 </dd>
 <dt class="hdlist1">sourcedir</dt>
 <dd>
-<p>../../main/java</p>
+<p>{sourcedir}</p>
 </dd>
 <dt class="hdlist1">endpoint-url</dt>
 <dd>
@@ -349,7 +355,7 @@ class AppConfig</code></pre>
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
-<img src="images/mermaid-test.svg" alt="mermaid test" width="124" height="233">
+<img src="./images/mermaid-test.svg" alt="mermaid test" width="124" height="233">
 </div>
 </div>
 <div class="listingblock">
@@ -369,7 +375,7 @@ digraph g {
 <div id="footer">
 <div id="footer-text">
 Version {project-version}<br>
-Last updated 2022-02-19 15:51:03 +0900
+Last updated 2022-02-21 15:07:26 +0900
 </div>
 </div>
 <script src="js/highlight/highlight.min.js"></script>

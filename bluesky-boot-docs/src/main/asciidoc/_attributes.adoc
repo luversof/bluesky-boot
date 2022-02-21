@@ -12,6 +12,8 @@
 :docinfo: shared,private
 :hardbreaks:
 
+:imagesdir: ./images
+
 :basedir: {docdir}/../..
 :snippets: {basedir}/target/generated-snippets
 :sources-root: {basedir}/src
@@ -19,4 +21,4 @@
 :resources-test: {sources-root}/test/resources
 :java: {sources-root}/main/java
 :java-test: {sources-root}/test/java
-ifndef::testsourcedir[:testsourcedir: ../../test/java]
+ifndef::testsourcedir[:testsourcedir: {sources-root}/test/java]
