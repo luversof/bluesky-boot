@@ -11,7 +11,7 @@
 	</parent>
 	<properties>
 		<java.version>17</java.version>
-		<spring-boot.version>2.6.5</spring-boot.version>
+		<spring-boot.version>2.6.6</spring-boot.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-autoconfigure-devcheck.version>1.0.2-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
