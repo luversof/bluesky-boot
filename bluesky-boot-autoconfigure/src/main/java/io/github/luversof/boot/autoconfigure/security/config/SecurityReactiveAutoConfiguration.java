@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -25,7 +25,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 import io.github.luversof.boot.autoconfigure.security.reactive.SecurityWebFilterChainCustomizer;
 import reactor.core.publisher.Flux;
 
-@Configuration(value = "_blueskySecurityReactiveAutoConfiguration", proxyBeanMethods = false)
+@AutoConfiguration
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 @ConditionalOnClass({ Flux.class, EnableWebFluxSecurity.class, WebFilterChainProxy.class, WebFluxConfigurer.class })
 @EnableWebFluxSecurity

@@ -1,9 +1,9 @@
 package io.github.luversof.boot.autoconfigure.data.mongo;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.ReactiveMongoDatabaseFactory;
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import com.mongodb.reactivestreams.client.MongoClient;
 
 
-@Configuration(value = "_blueskyBootMongoReactiveRepositoriesAutoConfiguration", proxyBeanMethods = false)
+@AutoConfiguration
 @ConditionalOnClass({ MongoClient.class, ReactiveMongoRepository.class })
 @PropertySource(value = "classpath:data/mongo/data-mongo-${net-profile}.properties", ignoreResourceNotFound = true)
 @EnableMongoAuditing

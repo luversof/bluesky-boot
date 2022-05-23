@@ -1,0 +1,13 @@
+io.github.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration
+io.github.luversof.boot.autoconfigure.core.config.CoreServletAutoConfiguration
+io.github.luversof.boot.autoconfigure.core.config.CoreReactiveAutoConfiguration
+io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration
+io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+io.github.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration
+io.github.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+io.github.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+io.github.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
+io.github.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration
+io.github.luversof.boot.autoconfigure.batch.BatchAutoConfiguration
+io.github.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration
+io.github.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
