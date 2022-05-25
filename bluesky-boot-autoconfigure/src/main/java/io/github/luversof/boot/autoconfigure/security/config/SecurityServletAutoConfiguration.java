@@ -28,7 +28,7 @@ import io.github.luversof.boot.autoconfigure.security.servlet.WebSecurityConfigu
 
 @AutoConfiguration
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@ConditionalOnClass({ DefaultAuthenticationEventPublisher.class })
+@ConditionalOnClass({ DefaultAuthenticationEventPublisher.class, HttpSecurity.class })
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityServletAutoConfiguration {
@@ -46,7 +46,7 @@ public class SecurityServletAutoConfiguration {
 	}
 	
 	@Bean
-	SecurityFilterChain blueskySecurityFilterchain(HttpSecurity http, UserDetailsService userDetailsService,
+	public SecurityFilterChain blueskySecurityFilterchain(HttpSecurity http, UserDetailsService userDetailsService,
 			PasswordEncoder passwordEncoder,
 			@Autowired(required = false) List<WebSecurityConfigurerCustomizer> webSecurityConfigurerCustomizerList)
 			throws Exception {

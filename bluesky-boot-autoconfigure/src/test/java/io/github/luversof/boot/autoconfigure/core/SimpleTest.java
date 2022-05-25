@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelCompilerMode;
@@ -117,9 +118,14 @@ class SimpleTest {
 	
 	@Test
 	void supplierTest() {
-		Supplier a = () -> "";
+		Supplier<String> a = () -> "test";
 		
-		log.debug(null);
+		log.debug("result : {}", a.get());
+	}
+	
+	@Test
+	void classNameTest() {
+		log.debug("name : {}", Configuration.class.getName());
 	}
 
 }
