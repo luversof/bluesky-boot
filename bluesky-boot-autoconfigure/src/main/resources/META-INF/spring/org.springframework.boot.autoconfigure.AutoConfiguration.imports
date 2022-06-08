@@ -11,3 +11,4 @@ io.github.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfigurati
 io.github.luversof.boot.autoconfigure.batch.BatchAutoConfiguration
 io.github.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration
 io.github.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
+io.github.luversof.boot.autoconfigure.validation.config.ValidationAutoConfiguration

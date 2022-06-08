@@ -191,5 +191,13 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) kafka -->
+		
+		<!-- (s) validation -->
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) validation -->
 	</dependencies>
 </project>
