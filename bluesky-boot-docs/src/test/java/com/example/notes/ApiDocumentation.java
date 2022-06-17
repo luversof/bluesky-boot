@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -29,6 +28,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.luversof.boot.test.autoconfigure.restdocs.RestDocsTest;
@@ -60,7 +60,7 @@ class ApiDocumentation extends RestDocsTest {
 				.andExpect(jsonPath("timestamp", is(notNullValue())))
 				.andExpect(jsonPath("status", is(400)))
 				.andExpect(jsonPath("path", is(notNullValue())))
-				.andDo(document("error-example",
+				.andDo(MockMvcRestDocumentationWrapper.document("error-example",
 						responseFields(
 								fieldWithPath("error").description("The HTTP error that occurred, e.g. `Bad Request`"),
 //								fieldWithPath("message").description("A description of the cause of the error"),
@@ -73,7 +73,7 @@ class ApiDocumentation extends RestDocsTest {
 	void indexExample() throws Exception {
 		this.mockMvc.perform(get("/"))
 			.andExpect(status().isOk())
-			.andDo(document("index-example",
+			.andDo(MockMvcRestDocumentationWrapper.document("index-example",
 					links(
 							linkWithRel("notes").description("The <<resources-notes,Notes resource>>"),
 							linkWithRel("tags").description("The <<resources-tags,Tags resource>>"),
@@ -95,7 +95,7 @@ class ApiDocumentation extends RestDocsTest {
 
 		this.mockMvc.perform(get("/notes"))
 			.andExpect(status().isOk())
-			.andDo(document("notes-list-example",
+			.andDo(MockMvcRestDocumentationWrapper.document("notes-list-example",
 					links(
 							linkWithRel("self").description("Canonical link for this resource"),
 							linkWithRel("profile").description("The ALPS profile for this resource")),
@@ -125,7 +125,7 @@ class ApiDocumentation extends RestDocsTest {
 				post("/notes").contentType(MediaTypes.HAL_JSON).content(
 						this.objectMapper.writeValueAsString(note))).andExpect(
 				status().isCreated())
-				.andDo(document("notes-create-example",
+				.andDo(MockMvcRestDocumentationWrapper.document("notes-create-example",
 						requestFields(
 									fieldWithPath("title").description("The title of the note"),
 									fieldWithPath("body").description("The body of the note"),
@@ -163,7 +163,7 @@ class ApiDocumentation extends RestDocsTest {
 			.andExpect(jsonPath("_links.self.href", is(noteLocation)))
 			.andExpect(jsonPath("_links.tags", is(notNullValue())))
 			.andDo(print())
-			.andDo(document("note-get-example",
+			.andDo(MockMvcRestDocumentationWrapper.document("note-get-example",
 					links(
 							linkWithRel("self").description("Canonical link for this <<resources-note,note>>"),
 							linkWithRel("note").description("This <<resources-note,note>>"),
@@ -185,7 +185,7 @@ class ApiDocumentation extends RestDocsTest {
 
 		this.mockMvc.perform(get("/tags"))
 			.andExpect(status().isOk())
-			.andDo(document("tags-list-example",
+			.andDo(MockMvcRestDocumentationWrapper.document("tags-list-example",
 					links(
 							linkWithRel("self").description("Canonical link for this resource"),
 							linkWithRel("profile").description("The ALPS profile for this resource")),
@@ -203,7 +203,7 @@ class ApiDocumentation extends RestDocsTest {
 				post("/tags").contentType(MediaTypes.HAL_JSON).content(
 						this.objectMapper.writeValueAsString(tag)))
 				.andExpect(status().isCreated())
-				.andDo(document("tags-create-example",
+				.andDo(MockMvcRestDocumentationWrapper.document("tags-create-example",
 						requestFields(
 								fieldWithPath("name").description("The name of the tag"))));
 	}
@@ -244,7 +244,7 @@ class ApiDocumentation extends RestDocsTest {
 				patch(noteLocation).contentType(MediaTypes.HAL_JSON).content(
 						this.objectMapper.writeValueAsString(noteUpdate)))
 				.andExpect(status().isNoContent())
-				.andDo(document("note-update-example",
+				.andDo(MockMvcRestDocumentationWrapper.document("note-update-example",
 						requestFields(
 								fieldWithPath("title").description("The title of the note").type(JsonFieldType.STRING).optional(),
 								fieldWithPath("body").description("The body of the note").type(JsonFieldType.STRING).optional(),
@@ -266,7 +266,7 @@ class ApiDocumentation extends RestDocsTest {
 		this.mockMvc.perform(get(tagLocation))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("name", is(tag.get("name"))))
-			.andDo(document("tag-get-example",
+			.andDo(MockMvcRestDocumentationWrapper.document("tag-get-example",
 					links(
 							linkWithRel("self").description("Canonical link for this <<resources-tag,tag>>"),
 							linkWithRel("tag").description("This <<resources-tag,tag>>"),
@@ -295,7 +295,7 @@ class ApiDocumentation extends RestDocsTest {
 				patch(tagLocation).contentType(MediaTypes.HAL_JSON).content(
 						this.objectMapper.writeValueAsString(tagUpdate)))
 				.andExpect(status().isNoContent())
-				.andDo(document("tag-update-example",
+				.andDo(MockMvcRestDocumentationWrapper.document("tag-update-example",
 						requestFields(
 								fieldWithPath("name").description("The name of the tag"))));
 	}

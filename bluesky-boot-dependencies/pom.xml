@@ -22,7 +22,11 @@
 		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
 		<spring-asciidoctor-extensions.version>0.6.0</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
-		<asciidocs.output.directory>${project.build.directory}/generated-docs</asciidocs.output.directory>
+		<asciidoctor.outputDirectory>${project.build.directory}/generated-docs</asciidoctor.outputDirectory>
+		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
+		<asciidoctor.doctype>book</asciidoctor.doctype>
+		<restdocs-api-spec.version>0.16.2</restdocs-api-spec.version>
+		<restdocs-spec-maven-plugin.version>0.21</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
@@ -144,6 +148,14 @@
 				<artifactId>spring-boot-starter-test</artifactId>
 				<version>${spring-boot.version}</version>
 			</dependency>
+			
+			<!-- (s) restdocs-api-spec -->
+			<dependency>
+				<groupId>com.epages</groupId>
+				<artifactId>restdocs-api-spec-mockmvc</artifactId>
+				<version>${restdocs-api-spec.version}</version>
+			</dependency>
+			<!-- (e) restdocs-api-spec -->
 		</dependencies>
 	</dependencyManagement>
 
@@ -283,10 +295,6 @@
 								<goal>process-asciidoc</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${asciidocs.output.directory}</outputDirectory>
-								<preserveDirectories>true</preserveDirectories>
-								<backend>html5</backend>
-								<doctype>book</doctype>
 								<attributes>
 									// these attributes are required to use the doc resources
 									<docinfo>shared</docinfo>
@@ -298,6 +306,21 @@
 									<highlightjs-theme>github</highlightjs-theme>
 									<source-highlighter>highlight.js</source-highlighter>
 								</attributes>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>io.github.berkleytechnologyservices</groupId>
+					<artifactId>restdocs-spec-maven-plugin</artifactId>
+					<version>${restdocs-spec-maven-plugin.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<specification>OPENAPI_V3</specification>
 							</configuration>
 						</execution>
 					</executions>
@@ -376,6 +399,10 @@
 					<plugin>
 						<groupId>org.asciidoctor</groupId>
 						<artifactId>asciidoctor-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>io.github.berkleytechnologyservices</groupId>
+						<artifactId>restdocs-spec-maven-plugin</artifactId>
 					</plugin>
 				</plugins>
 			</build>
