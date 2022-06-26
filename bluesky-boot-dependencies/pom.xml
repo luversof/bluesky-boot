@@ -15,10 +15,11 @@
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-autoconfigure-devcheck.version>1.0.2-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
+		<spring-boot-admin-starter.version>2.7.1</spring-boot-admin-starter.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<download-maven-plugin.version>1.6.8</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.2</asciidoctor-maven-plugin.version>
-		<asciidoctorj-diagram.version>2.2.1</asciidoctorj-diagram.version>
+		<asciidoctorj-diagram.version>2.2.3</asciidoctorj-diagram.version>
 		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
 		<spring-asciidoctor-extensions.version>0.6.0</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
@@ -28,7 +29,7 @@
 		<restdocs-api-spec.version>0.16.2</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.21</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
-		<jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 	</properties>
@@ -126,12 +127,12 @@
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
-				<version>2.6.2</version>
+				<version>${spring-boot-admin-starter.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>2.6.2</version>
+				<version>${spring-boot-admin-starter.version}</version>
 			</dependency>
 			<!-- (e) boot-admin -->
 
