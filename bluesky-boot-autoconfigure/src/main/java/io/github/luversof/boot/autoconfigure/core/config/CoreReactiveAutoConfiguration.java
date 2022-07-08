@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
-@AutoConfiguration(after = CoreAutoConfiguration.class)
+@AutoConfiguration(value = "_blueskyBootCoreReactiveAutoConfiguration", after = CoreAutoConfiguration.class)
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 public class CoreReactiveAutoConfiguration {

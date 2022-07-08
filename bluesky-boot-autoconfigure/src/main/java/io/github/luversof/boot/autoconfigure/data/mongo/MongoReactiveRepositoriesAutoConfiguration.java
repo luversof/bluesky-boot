@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import com.mongodb.reactivestreams.client.MongoClient;
 
 
-@AutoConfiguration
+@AutoConfiguration("_blueskyBootMongoReactiveRepositoriesAutoConfiguration")
 @ConditionalOnClass({ MongoClient.class, ReactiveMongoRepository.class })
 @PropertySource(value = "classpath:data/mongo/data-mongo-${net-profile}.properties", ignoreResourceNotFound = true)
 @EnableMongoAuditing

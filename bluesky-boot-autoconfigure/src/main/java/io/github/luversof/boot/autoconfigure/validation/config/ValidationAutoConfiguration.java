@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import io.github.luversof.boot.autoconfigure.validation.aspect.BlueskyValidatedAspect;
 
-@AutoConfiguration
+@AutoConfiguration("_blueskyBootValidationAutoConfiguration")
 @ConditionalOnClass({ ExecutableValidator.class, Advice.class })
 @ConditionalOnResource(resources = "classpath:META-INF/services/javax.validation.spi.ValidationProvider")
 @ConditionalOnProperty(prefix = "spring.aop", name = "auto", havingValue = "true", matchIfMissing = true)

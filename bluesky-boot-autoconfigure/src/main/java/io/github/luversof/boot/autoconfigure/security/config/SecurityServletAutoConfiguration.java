@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 import io.github.luversof.boot.autoconfigure.security.exception.servlet.SecurityExceptionHandler;
 import io.github.luversof.boot.autoconfigure.security.servlet.WebSecurityConfigurerCustomizer;
 
-@AutoConfiguration
+@AutoConfiguration("_blueskyBootSecurityServletAutoConfiguration")
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnClass({ DefaultAuthenticationEventPublisher.class, HttpSecurity.class })
 @EnableWebSecurity

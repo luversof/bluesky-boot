@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 
 import io.github.luversof.boot.autoconfigure.web.servlet.handler.TestHandlerExceptionResolver;
 
-@Configuration(value = "_blueskyWebMvcAutoConfiguration", proxyBeanMethods = false)
+@Configuration(value = "_blueskyBootWebMvcAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class })
 public class WebMvcAutoConfiguration {

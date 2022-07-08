@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 
 import com.mongodb.client.MongoClient;
 
-@AutoConfiguration
+@AutoConfiguration("_blueskyBootMongoDataAutoConfiguration")
 @ConditionalOnClass({ MongoClient.class, MongoTemplate.class })
 // @AutoConfigureAfter(MongoAutoConfiguration.class)
 public class MongoDataAutoConfiguration {

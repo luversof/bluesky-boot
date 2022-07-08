@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
 
-@AutoConfiguration(after = CoreAutoConfiguration.class)
+@AutoConfiguration(value = "_blueskyBootCoreServletAutoConfiguration", after = CoreAutoConfiguration.class)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class CoreServletAutoConfiguration {

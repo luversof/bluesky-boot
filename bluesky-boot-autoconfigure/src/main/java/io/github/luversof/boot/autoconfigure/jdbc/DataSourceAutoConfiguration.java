@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-@AutoConfiguration
+@AutoConfiguration("_blueskyBootDataSourceAutoConfiguration")
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @PropertySource(value = "classpath:jdbc/jdbc.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "classpath:jdbc/jdbc-${net-profile}.properties", ignoreResourceNotFound = true)

@@ -16,7 +16,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 
 
-@AutoConfiguration
+@AutoConfiguration("_blueskyBootMongoAutoConfiguration")
 @ConditionalOnClass(MongoClient.class)
 @EnableConfigurationProperties(MongoProperties.class)
 public class MongoAutoConfiguration {
