@@ -35,7 +35,7 @@ public class WebMvcAutoConfiguration {
 		
 		@Override
 		public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-			var exceptionHandlerExceptionResolver = resolvers.stream().filter(x -> x instanceof ExceptionHandlerExceptionResolver).findAny().orElse(null);
+			var exceptionHandlerExceptionResolver = resolvers.stream().filter(ExceptionHandlerExceptionResolver.class::isInstance).findAny().orElse(null);
 			var index = resolvers.indexOf(exceptionHandlerExceptionResolver);
 			resolvers.add(index, testHandlerExceptionResolver);
 			WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
