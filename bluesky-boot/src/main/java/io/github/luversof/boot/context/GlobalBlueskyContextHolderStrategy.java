@@ -2,7 +2,10 @@ package io.github.luversof.boot.context;
 
 import org.springframework.util.Assert;
 
-public class GlobalBlueskyContextHolderStrategy implements BlueskyContextHolderStrategy<BlueskyContext> {
+import io.github.luversof.boot.config.BlueskyCoreProperties;
+import io.github.luversof.boot.util.ApplicationContextUtil;
+
+final class GlobalBlueskyContextHolderStrategy implements BlueskyContextHolderStrategy {
 
 	private static BlueskyContext contextHolder;
 
@@ -26,13 +29,15 @@ public class GlobalBlueskyContextHolderStrategy implements BlueskyContextHolderS
 		contextHolder = context;
 	}
 
-//	@Override
-//	public BlueskyContext createEmptyContext() {
-//		return new BlueskyContextImpl();
-//	}
-
 	@Override
-	public boolean hasContext() {
-		return contextHolder != null;
+	public BlueskyContext createEmptyContext() {
+		BlueskyCoreProperties<?> coreProperties = ApplicationContextUtil.getApplicationContext().getBean(BlueskyCoreProperties.class);
+		
+		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
+		Assert.state(coreProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");
+		var module = coreProperties.getModules().entrySet().stream().findAny().orElse(null);
+		Assert.state(module != null, "module configuration is required");
+		return module::getKey;
 	}
+
 }
