@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -21,6 +22,10 @@ import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.validation.DefaultMessageCodesResolver;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -72,6 +77,7 @@ class SimpleTest {
 	void mapTest() {
 		var map = new HashMap<String, String>();
 		map.put("key1", "value1");
+		map.put("key2", null);
 		
 		var target = map.entrySet().iterator().next().getValue();
 		log.debug("target : {}", target);
@@ -128,4 +134,57 @@ class SimpleTest {
 		log.debug("name : {}", Configuration.class.getName());
 	}
 
+	@Test
+	void builderTest() {
+		
+		PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+		// 기본 호출
+		var testPropeties = new TestProperties();
+		var builder = TestProperties.builder();
+		
+		propertyMapper.from(testPropeties::isEnabled).to(builder::enabled);
+		propertyMapper.from(testPropeties::isEnabled2).to(builder::enabled2);
+		propertyMapper.from(testPropeties::getEnabled3).to(builder::enabled3);
+		propertyMapper.from(testPropeties::getEnabled4).to(builder::enabled4);
+		
+		log.debug("result : {}", builder.build());
+		
+		//반대값을 설정한 경우
+		var testPropeties2 = new TestProperties();
+		testPropeties2.setEnabled(true);
+		testPropeties2.setEnabled2(false);
+		testPropeties2.setEnabled3(true);
+		testPropeties2.setEnabled4(false);
+		var builder2 = TestProperties.builder();
+		
+		propertyMapper.from(testPropeties2::isEnabled).to(builder2::enabled);
+		propertyMapper.from(testPropeties2::isEnabled2).to(builder2::enabled2);
+		propertyMapper.from(testPropeties2::getEnabled3).to(builder2::enabled3);
+		propertyMapper.from(testPropeties2::getEnabled4).to(builder2::enabled4);
+		
+		log.debug("result2 : {}", builder2.build());
+		
+	}
+	
+	
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	static class TestProperties {
+		
+		@Builder.Default
+		boolean enabled = false;
+		
+		@Builder.Default
+		boolean enabled2 = true;
+		
+		@Builder.Default
+		Boolean enabled3 = false;
+		
+		@Builder.Default
+		Boolean enabled4 = true;
+		
+	}
 }
