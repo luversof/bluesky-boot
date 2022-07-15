@@ -54,9 +54,7 @@ public class MessageUtil {
 		var errorMessage = new BlueskyErrorMessage();
 		errorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 		
-		if (exception instanceof BlueskyException) {
-			var blueskyException = (BlueskyException) exception;
-
+		if (exception instanceof BlueskyException blueskyException) {
 			var errorCodes = getBlueskyExceptionErrorCodes(blueskyException);
 			log.debug("[BlueskyException error message] code : {}", Arrays.deepToString(errorCodes));
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes, blueskyException.getErrorMessageArgs(), blueskyException.getMessage() == null ? blueskyException.getErrorCode() : blueskyException.getMessage());
@@ -139,10 +137,8 @@ public class MessageUtil {
 			return Collections.emptyList();
 		}
 		BindingResult bindingResult = null;
-		if (exception instanceof BindException) {
-			bindingResult = ((BindException) exception).getBindingResult();
-		} else if (exception instanceof MethodArgumentNotValidException) {
-			bindingResult = ((MethodArgumentNotValidException) exception).getBindingResult();
+		if (exception instanceof BindException bindException) {
+			bindingResult = bindException.getBindingResult();
 		}
 		
 		if (bindingResult == null) {
@@ -158,8 +154,8 @@ public class MessageUtil {
 			errorMessage.setObject(objectError.getObjectName());
 			errorMessage.setDisplayableMessage(true);
 			errorMessage.setErrorCode(objectError.getCode());
-			if (objectError instanceof FieldError) {
-				errorMessage.setField(((FieldError) objectError).getField());
+			if (objectError instanceof FieldError fieldError) {
+				errorMessage.setField(fieldError.getField());
 			}
 			errorMessageList.add(errorMessage);
 			log.debug("[MethodArgumentNotValidException error message] code : {}, arguments : {}", Arrays.asList(objectError.getCodes()), Arrays.asList(objectError.getArguments()));

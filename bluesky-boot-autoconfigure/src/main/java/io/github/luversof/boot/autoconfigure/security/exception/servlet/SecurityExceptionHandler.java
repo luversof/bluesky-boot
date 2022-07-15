@@ -1,7 +1,5 @@
 package io.github.luversof.boot.autoconfigure.security.exception.servlet;
 
-import java.io.IOException;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -31,7 +29,7 @@ public class SecurityExceptionHandler extends BlueskyExceptionHandler {
 	@SneakyThrows
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-	public ModelAndView accessDeniedException(AccessDeniedException exception, HandlerMethod handlerMethod, NativeWebRequest request) throws IOException {
+	public ModelAndView accessDeniedException(AccessDeniedException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
 		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessage(exception));
 	}
 }

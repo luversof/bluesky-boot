@@ -33,8 +33,8 @@ public class MongoPropertiesBeanFactoryPostProcessor implements BeanFactoryPostP
 	private Map<String, String> getPropertiesMap() {
 		var properties = new HashMap<String, String>();
 		var environment = applicationContext.getEnvironment();
-		if (environment instanceof ConfigurableEnvironment) {
-		    for (PropertySource<?> propertySource : ((ConfigurableEnvironment) environment).getPropertySources()) {
+		if (environment instanceof ConfigurableEnvironment configurableEnvironment) {
+		    for (PropertySource<?> propertySource : configurableEnvironment.getPropertySources()) {
 		        if (propertySource instanceof EnumerablePropertySource) {
 		            for (String key : ((EnumerablePropertySource<?>) propertySource).getPropertyNames()) {
 		                if (key.startsWith(propertiesPrefix)) {

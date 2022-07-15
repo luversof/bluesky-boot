@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -80,7 +79,7 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 				builder.applyToClusterSettings(cluster -> cluster.requiredReplicaSetName(blueskyMongoProperties.getReplicaSetName()));
 			}
 			
-			for (MongoClientSettingsBuilderCustomizer customizer : builderCustomizersBeanProvider.orderedStream().collect(Collectors.toList())) {
+			for (MongoClientSettingsBuilderCustomizer customizer : builderCustomizersBeanProvider.orderedStream().toList()) {
 				customizer.customize(builder);
 			}
 			

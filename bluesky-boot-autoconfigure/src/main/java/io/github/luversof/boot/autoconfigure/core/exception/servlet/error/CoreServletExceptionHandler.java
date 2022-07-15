@@ -80,11 +80,10 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
 	 * @param exception
 	 * @return
-	 * @throws HttpMediaTypeNotAcceptableException 
 	 */
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(MethodArgumentNotValidException exception, HandlerMethod handlerMethod, NativeWebRequest request) throws HttpMediaTypeNotAcceptableException {
+	public ModelAndView handleException(MethodArgumentNotValidException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
 		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
 	}
 	
