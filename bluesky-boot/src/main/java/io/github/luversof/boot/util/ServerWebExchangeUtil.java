@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
@@ -98,7 +97,7 @@ public final class ServerWebExchangeUtil {
 				|| checkDomain(exchange, moduleEntry.getValue().getDomain().getMobileWebList())
 				|| checkDomain(exchange, moduleEntry.getValue().getDomain().getDevDomainList())
 			)
-		).collect(Collectors.toList());
+		).toList();
 		
 		if (moduleEntryList.isEmpty()) {
 			return null;
@@ -110,7 +109,7 @@ public final class ServerWebExchangeUtil {
 				checkDomainWithPath(exchange, moduleEntry.getValue().getDomain().getWebList())
 				|| checkDomainWithPath(exchange, moduleEntry.getValue().getDomain().getMobileWebList())
 				|| checkDomainWithPath(exchange, moduleEntry.getValue().getDomain().getDevDomainList())
-			).collect(Collectors.toList());
+			).toList();
 		}
 		
 		if (moduleEntryList.isEmpty()) {
@@ -124,25 +123,22 @@ public final class ServerWebExchangeUtil {
 		/**
 		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 		 */
-		var comparator = new Comparator<Entry<String, T>>() {
-			@Override
-			public int compare(Entry<String, T> o1, Entry<String, T> o2) {
-				var pathForward1 = o1.getValue().getDomain().getPathForward();
-				var pathForward2 = o2.getValue().getDomain().getPathForward();
-				if (pathForward1 == null) {
-					return 1;
-				}
-				if (pathForward2 != null) {
-					if (pathForward1.getRequestPath().length() > pathForward2.getRequestPath().length()) {
-						return 1;
-					} else if (pathForward1.getRequestPath().length() == pathForward2.getRequestPath().length()) {
-						return 0;
-					} else {
-						return -1;
-					}
-				}
-				return 0;
+		Comparator<Entry<String, T>> comparator = (Entry<String, T> o1, Entry<String, T> o2) -> {
+			var pathForward1 = o1.getValue().getDomain().getPathForward();
+			var pathForward2 = o2.getValue().getDomain().getPathForward();
+			if (pathForward1 == null) {
+				return 1;
 			}
+			if (pathForward2 != null) {
+				if (pathForward1.getRequestPath().length() > pathForward2.getRequestPath().length()) {
+					return 1;
+				} else if (pathForward1.getRequestPath().length() == pathForward2.getRequestPath().length()) {
+					return 0;
+				} else {
+					return -1;
+				}
+			}
+			return 0;
 		};
 		
 		var moduleEntry = moduleEntryList.stream().sorted(comparator.reversed()).findFirst();

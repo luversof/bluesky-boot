@@ -117,7 +117,7 @@ class RedisAutoConfigurationTests {
 			LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 			assertThat(cf.getHostName()).isEqualTo("example");
 			assertThat(cf.getPort()).isEqualTo(33);
-			assertThat(getUserName(cf)).isEqualTo("");
+			assertThat(getUserName(cf)).isEmpty();
 			assertThat(cf.getPassword()).isEqualTo("pass:word");
 		});
 	}
@@ -366,7 +366,7 @@ class RedisAutoConfigurationTests {
 	}
 	
 	@Test
-	@Disabled
+	@Disabled("테스트 용으로 작성, 비활성화 처리함")
 	void testBlueskyRedisTemplate() {
 		this.contextRunner
 		.withUserConfiguration(BlueskyCustomConfiguration.class)
