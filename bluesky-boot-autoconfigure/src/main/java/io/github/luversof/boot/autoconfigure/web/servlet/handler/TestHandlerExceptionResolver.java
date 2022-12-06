@@ -2,14 +2,13 @@ package io.github.luversof.boot.autoconfigure.web.servlet.handler;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.github.luversof.boot.autoconfigure.context.MessageUtil;
 import io.github.luversof.boot.exception.ErrorMessage;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**

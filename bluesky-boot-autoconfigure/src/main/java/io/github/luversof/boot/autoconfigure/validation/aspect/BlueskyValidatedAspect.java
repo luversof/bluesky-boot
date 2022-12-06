@@ -3,10 +3,6 @@ package io.github.luversof.boot.autoconfigure.validation.aspect;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,6 +11,9 @@ import org.springframework.util.ClassUtils;
 
 import io.github.luversof.boot.autoconfigure.validation.annotation.BlueskyValidated;
 import io.github.luversof.boot.exception.BlueskyException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

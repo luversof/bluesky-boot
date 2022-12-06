@@ -24,8 +24,8 @@
 
 		<!-- spring-restdocs-mockmvc 2.0.6.RELEASE 이후 아래 dependency가 runtime으로 변경되어 별도 선언 처리함 -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
+			<groupId>jakarta.servlet</groupId>
+        	<artifactId>jakarta.servlet-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

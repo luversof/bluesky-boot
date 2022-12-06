@@ -1,7 +1,6 @@
 package io.github.luversof.boot.util;
 
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.support.FormattingConversionService;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

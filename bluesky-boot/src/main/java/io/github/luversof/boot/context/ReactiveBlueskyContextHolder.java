@@ -13,7 +13,8 @@ public final class ReactiveBlueskyContextHolder {
 	private static final Class<?> BLUESKY_CONTEXT_KEY = BlueskyContext.class;
 
 	public static Mono<BlueskyContext> getContext() {
-		return Mono.subscriberContext()
+		return Mono.deferContextual(Mono::just)
+				.cast(Context.class)
 				.filter(ReactiveBlueskyContextHolder::hasBlueskyContext)
 				.flatMap(ReactiveBlueskyContextHolder::getBlueskyContext);
 	}

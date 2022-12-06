@@ -2,11 +2,11 @@ package io.github.luversof.boot.autoconfigure.data.mongo.country;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Document
 public class Country implements Serializable {

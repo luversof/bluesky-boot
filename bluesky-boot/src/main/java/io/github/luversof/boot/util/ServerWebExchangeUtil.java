@@ -19,6 +19,7 @@ import io.github.luversof.boot.support.ModuleNameResolver;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
+import reactor.util.context.Context;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ServerWebExchangeUtil {
@@ -27,11 +28,13 @@ public final class ServerWebExchangeUtil {
 	private static final PathMatcher pathMatcher = new AntPathMatcher();
 	private static final String IPV4_PATTERN = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
 	
-	public static final String EXCHANGE_CONTEXT_ATTRIBUTE = ServerWebExchangeContextFilter.class.getName()
-			+ ".EXCHANGE_CONTEXT";
+	public static final String EXCHANGE_CONTEXT_ATTRIBUTE = ServerWebExchangeContextFilter.class.getName()	+ ".EXCHANGE_CONTEXT";
 
 	public static Mono<ServerWebExchange> getServerWebExchange() {
-		return Mono.subscriberContext().filter(c -> c.hasKey(EXCHANGE_CONTEXT_ATTRIBUTE)).flatMap(c -> Mono.just(c.get(EXCHANGE_CONTEXT_ATTRIBUTE)));
+		return Mono.deferContextual(Mono::just)
+				.cast(Context.class)
+				.filter(c -> c.hasKey(EXCHANGE_CONTEXT_ATTRIBUTE))
+				.flatMap(c -> Mono.just(c.get(EXCHANGE_CONTEXT_ATTRIBUTE)));
 	}
 	
 	public static boolean isInternalRequest(ServerWebExchange exchange) {

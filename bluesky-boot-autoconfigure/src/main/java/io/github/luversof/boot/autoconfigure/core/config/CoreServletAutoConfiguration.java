@@ -1,7 +1,5 @@
 package io.github.luversof.boot.autoconfigure.core.config;
 
-import javax.servlet.Servlet;
-
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +11,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
+import jakarta.servlet.Servlet;
 
 @AutoConfiguration(value = "_blueskyBootCoreServletAutoConfiguration", after = CoreAutoConfiguration.class)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })

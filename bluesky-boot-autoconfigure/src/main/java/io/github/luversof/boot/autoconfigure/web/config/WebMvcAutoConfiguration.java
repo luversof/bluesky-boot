@@ -2,8 +2,6 @@ package io.github.luversof.boot.autoconfigure.web.config;
 
 import java.util.List;
 
-import javax.servlet.Servlet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -16,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.handler.TestHandlerExceptionResolver;
+import jakarta.servlet.Servlet;
 
 @Configuration(value = "_blueskyBootWebMvcAutoConfiguration", proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = Type.SERVLET)

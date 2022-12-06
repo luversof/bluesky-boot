@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
@@ -19,6 +17,7 @@ import io.github.luversof.boot.config.BlueskyCoreModuleProperties;
 import io.github.luversof.boot.config.BlueskyCoreProperties;
 import io.github.luversof.boot.config.BlueskyCoreProperties.CoreModulePropertiesResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

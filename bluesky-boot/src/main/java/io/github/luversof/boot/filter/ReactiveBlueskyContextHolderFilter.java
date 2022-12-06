@@ -15,11 +15,11 @@ public class ReactiveBlueskyContextHolderFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		return chain.filter(exchange)
-				.subscriberContext(c -> c.hasKey(BlueskyContext.class) ? c : withBlueskyContext(c, exchange));
+				.contextWrite((context) -> context.hasKey(BlueskyContext.class) ? context : withBlueskyContext(context, exchange));
 	}
 
 	private Context withBlueskyContext(Context mainContext, ServerWebExchange exchange) {
-		return mainContext.putAll(load(exchange).as(ReactiveBlueskyContextHolder::withBlueskyContext));
+		return mainContext.putAll(load(exchange).as(ReactiveBlueskyContextHolder::withBlueskyContext).readOnly());
 	}
 
 	private Mono<BlueskyContext> load(ServerWebExchange exchange) {
