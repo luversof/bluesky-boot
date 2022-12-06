@@ -15,7 +15,7 @@
 		<spring-cloud.version>2022.0.0-RC3</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-autoconfigure-devcheck.version>2.0.1-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
-		<spring-boot-admin-starter.version>2.7.4</spring-boot-admin-starter.version>
+		<spring-boot-admin-starter.version>3.0.0-M5</spring-boot-admin-starter.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<download-maven-plugin.version>1.6.8</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.2</asciidoctor-maven-plugin.version>
