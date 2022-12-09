@@ -30,7 +30,7 @@
 		<restdocs-spec-maven-plugin.version>0.21</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.3.0</jib-maven-plugin.version>
+		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 	</properties>
 	<dependencyManagement>
