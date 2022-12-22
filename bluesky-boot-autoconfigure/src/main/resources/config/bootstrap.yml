@@ -13,15 +13,9 @@ management:
     health.probes.enabled: true
   endpoints.web:
     exposure.include: "*"
-    base-path: /actuator
 eureka:
-  client:
-    region: korea
   instance:
-    prefer-ip-address: true
     instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
-    status-page-url-path: ${management.endpoints.web.base-path}/info
-    health-check-url-path: ${management.endpoints.web.base-path}/health
 ---    
 spring:
   config.activate.on-profile: opdev
@@ -78,7 +72,6 @@ spring:
     admin:
       client:
         url: http://bluesky-cloud-admin-server-service.default:30102
-eureka:  instance:    hostname: localhost
-  client:
+eureka:  client:
     service-url:
       defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default:30100/eureka/
