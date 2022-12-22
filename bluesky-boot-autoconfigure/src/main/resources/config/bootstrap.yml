@@ -27,48 +27,45 @@ spring:
   config.activate.on-profile: opdev
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://localhost:30101
   boot:
     admin:
       client:
-        url: http://localhost:8889
+        url: http://localhost:30102
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:30100/eureka/
 ---
 spring:
   config:
     activate.on-profile: localdev
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://localhost:30101
       profile: localdev
   boot:
     admin:
       client:
-        url: http://localhost:8889
+        url: http://localhost:30102
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:30100/eureka/
 ---
 spring:
   config.activate.on-profile: dockerdev
   cloud:
     config:
-      uri: http://config-server:8888
-#      uri: http://10.0.75.1:8888
+      uri: http://config-server:30101
   boot:
     admin:
       client:
-        url: http://admin-server:8889
-#        url: http://10.0.75.1:8889
+        url: http://admin-server:30102
 eureka:
   client:
     service-url:
-      defaultZone: http://netflix-eureka-server:8761/eureka
-#      defaultZone: http://10.0.75.1:8761/eureka
+      defaultZone: http://netflix-eureka-server:30100/eureka
 #  instance:
 #    ip-address: 10.0.75.1
 ---
@@ -76,12 +73,12 @@ spring:
   config.activate.on-profile: k8sdev
   cloud:
     config:
-      uri: http://bluesky-cloud-config-server-service:8888
+      uri: http://bluesky-cloud-config-server-service.default:30101
   boot:
     admin:
       client:
-        url: http://bluesky-cloud-admin-server-service:8889
+        url: http://bluesky-cloud-admin-server-service.default:30102
 eureka:  instance:    hostname: localhost
   client:
     service-url:
-      defaultZone: http://bluesky-cloud-netflix-eureka-server-service:8761/eureka/
+      defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default:30100/eureka/
