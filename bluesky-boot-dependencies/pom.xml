@@ -16,6 +16,7 @@
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-autoconfigure-devcheck.version>3.0.0-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
 		<spring-boot-admin-starter.version>3.0.0-M5</spring-boot-admin-starter.version>
+		<springdoc-openapi.version>2.0.2</springdoc-openapi.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<download-maven-plugin.version>1.6.8</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.2</asciidoctor-maven-plugin.version>
@@ -135,6 +136,19 @@
 				<version>${spring-boot-admin-starter.version}</version>
 			</dependency>
 			<!-- (e) boot-admin -->
+			
+			<!-- (s) springdoc-openapi -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc-openapi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+				<version>${springdoc-openapi.version}</version>
+			</dependency>
+			<!-- (e) springdoc-openapi -->
 
 			<!-- (s) thymeleaf-layout-dialect -->
 			<dependency>
