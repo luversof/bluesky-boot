@@ -181,10 +181,10 @@ class MongoDataAutoConfigurationTests {
 	@Configuration
 	static class CustomConversionsConfig {
 
-		@Bean
-		public MongoCustomConversions customConversions() {
-			return new MongoCustomConversions(Arrays.asList(new MyConverter()));
-		}
+        @Bean
+        MongoCustomConversions customConversions() {
+            return new MongoCustomConversions(Arrays.asList(new MyConverter()));
+        }
 
 	}
 	

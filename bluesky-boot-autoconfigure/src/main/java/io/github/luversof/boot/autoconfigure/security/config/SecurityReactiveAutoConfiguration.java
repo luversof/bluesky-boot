@@ -35,28 +35,28 @@ public class SecurityReactiveAutoConfiguration {
 	@Autowired(required = false)
 	private List<SecurityWebFilterChainCustomizer> securityWebFilterChainCustomizerList = new ArrayList<>();
 
-	@Bean
-	@ConditionalOnMissingBean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public SecurityWebFilterChain configure(ServerHttpSecurity http) {
-		securityWebFilterChainCustomizerList.forEach(customizer -> customizer.preConfigure(http));
-		
-	    http
-	    	.headers().frameOptions().mode(Mode.SAMEORIGIN).and()
-	    	.authorizeExchange()
-	    		.anyExchange().permitAll()
-	    		.and()
-	    	 .exceptionHandling().authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)).and() // 이거 어떻게 바뀌었을까?
+    @Bean
+    @ConditionalOnMissingBean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    SecurityWebFilterChain configure(ServerHttpSecurity http) {
+        securityWebFilterChainCustomizerList.forEach(customizer -> customizer.preConfigure(http));
+
+        http
+                .headers().frameOptions().mode(Mode.SAMEORIGIN).and()
+                .authorizeExchange()
+                .anyExchange().permitAll()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)).and() // 이거 어떻게 바뀌었을까?
 //	    	.logout().logoutSuccessHandler(logoutSuccessHandler) // 5.0 이후
-	    	.formLogin().and()
-	    	.csrf().disable()
-	    	.httpBasic().disable();
-	    securityWebFilterChainCustomizerList.forEach(customizer -> customizer.postConfigure(http));
-	    
-	    return http.build();
-	}
+                .formLogin().and()
+                .csrf().disable()
+                .httpBasic().disable();
+        securityWebFilterChainCustomizerList.forEach(customizer -> customizer.postConfigure(http));
+
+        return http.build();
+    }
 }

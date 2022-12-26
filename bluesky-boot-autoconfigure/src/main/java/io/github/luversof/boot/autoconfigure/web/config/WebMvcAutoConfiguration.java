@@ -20,11 +20,11 @@ import jakarta.servlet.Servlet;
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class })
 public class WebMvcAutoConfiguration {
-	
-	@Bean
-	public TestHandlerExceptionResolver testHandlerExceptionResolver() {
-		return new TestHandlerExceptionResolver();
-	}
+
+    @Bean
+    TestHandlerExceptionResolver testHandlerExceptionResolver() {
+        return new TestHandlerExceptionResolver();
+    }
 	
 	@Configuration
 	public static class WebMvcAutoConfigurationAdapter implements WebMvcConfigurer {

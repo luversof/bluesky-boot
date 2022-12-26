@@ -18,26 +18,26 @@ import com.mongodb.client.MongoClient;
 @ConditionalOnClass(MongoClient.class)
 @EnableConfigurationProperties(MongoProperties.class)
 public class MongoAutoConfiguration {
-	
-	@Bean
-	public MongoPropertiesBeanFactoryPostProcessor mongoPropertiesBeanFactoryPostProcessor() {
-		return new MongoPropertiesBeanFactoryPostProcessor();
-	}
-	
-	@Bean
-	public MongoPropertiesBeanPostProcessor mongoPropertiesBeanPostProcessor() {
-		return new MongoPropertiesBeanPostProcessor();
-	}
-	
-	@Bean
-	public MongoClientSettings mongoClientSettings() {
-		return MongoClientSettings.builder().build();
-	}
-	
-	@Bean
-	@Primary
-	public MongoClient emptyMongoClient(ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers, MongoClientSettings settings) {
-		return new MongoClientFactory(builderCustomizers.orderedStream().toList()).createMongoClient(settings);
-	}
+
+    @Bean
+    MongoPropertiesBeanFactoryPostProcessor mongoPropertiesBeanFactoryPostProcessor() {
+        return new MongoPropertiesBeanFactoryPostProcessor();
+    }
+
+    @Bean
+    MongoPropertiesBeanPostProcessor mongoPropertiesBeanPostProcessor() {
+        return new MongoPropertiesBeanPostProcessor();
+    }
+
+    @Bean
+    MongoClientSettings mongoClientSettings() {
+        return MongoClientSettings.builder().build();
+    }
+
+    @Bean
+    @Primary
+    MongoClient emptyMongoClient(ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers, MongoClientSettings settings) {
+        return new MongoClientFactory(builderCustomizers.orderedStream().toList()).createMongoClient(settings);
+    }
 
 }

@@ -145,8 +145,8 @@ class RedisAutoConfigurationTests {
 					assertThat(poolConfig.getMinIdle()).isEqualTo(1);
 					assertThat(poolConfig.getMaxIdle()).isEqualTo(4);
 					assertThat(poolConfig.getMaxTotal()).isEqualTo(16);
-					assertThat(poolConfig.getMaxWaitMillis()).isEqualTo(2000);
-					assertThat(poolConfig.getTimeBetweenEvictionRunsMillis()).isEqualTo(30000);
+					assertThat(poolConfig.getMaxWaitDuration()).isEqualTo(2000);
+					assertThat(poolConfig.getDurationBetweenEvictionRuns()).isEqualTo(30000);
 					assertThat(cf.getShutdownTimeout()).isEqualTo(1000);
 				});
 	}
@@ -429,24 +429,24 @@ class RedisAutoConfigurationTests {
 	
 	@Configuration(proxyBeanMethods = false)
 	static class BlueskyCustomConfiguration {
-		@Bean
-		public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-			RedisTemplate<Object, Object> template = new RedisTemplate<>();
-			template.setDefaultSerializer(RedisSerializer.json());
-			template.setKeySerializer(RedisSerializer.string());
+        @Bean
+        RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+            RedisTemplate<Object, Object> template = new RedisTemplate<>();
+            template.setDefaultSerializer(RedisSerializer.json());
+            template.setKeySerializer(RedisSerializer.string());
 //			template.setHashKeySerializer(RedisSerializer.string());
-			template.setConnectionFactory(redisConnectionFactory);
-			return template;
-		}
+            template.setConnectionFactory(redisConnectionFactory);
+            return template;
+        }
 
-		@Bean
-		public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-			StringRedisTemplate template = new StringRedisTemplate();
-			template.setDefaultSerializer(RedisSerializer.json());
-			template.setKeySerializer(RedisSerializer.string());
-			template.setHashKeySerializer(RedisSerializer.string());
-			template.setConnectionFactory(redisConnectionFactory);
-			return template;
-		}
+        @Bean
+        StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+            StringRedisTemplate template = new StringRedisTemplate();
+            template.setDefaultSerializer(RedisSerializer.json());
+            template.setKeySerializer(RedisSerializer.string());
+            template.setHashKeySerializer(RedisSerializer.string());
+            template.setConnectionFactory(redisConnectionFactory);
+            return template;
+        }
 	}
 }

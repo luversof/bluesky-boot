@@ -16,10 +16,10 @@ import jakarta.validation.executable.ExecutableValidator;
 @ConditionalOnResource(resources = "classpath:META-INF/services/javax.validation.spi.ValidationProvider")
 @ConditionalOnProperty(prefix = "spring.aop", name = "auto", havingValue = "true", matchIfMissing = true)
 public class ValidationAutoConfiguration {
-	
-	@Bean
-	public BlueskyValidatedAspect blueskyValidatedAspect(Validator validator) {
-		return new BlueskyValidatedAspect(validator);
-	}
+
+    @Bean
+    BlueskyValidatedAspect blueskyValidatedAspect(Validator validator) {
+        return new BlueskyValidatedAspect(validator);
+    }
 
 }

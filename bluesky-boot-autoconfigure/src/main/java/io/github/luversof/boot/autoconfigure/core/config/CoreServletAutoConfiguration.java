@@ -17,20 +17,20 @@ import jakarta.servlet.Servlet;
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class CoreServletAutoConfiguration {
-	
-	@Bean
-	public BlueskyContextHolderFilter blueskyContextHolderFilter() {
-		return new BlueskyContextHolderFilter();
-	}
-	
-	@Bean
-	@ConditionalOnMissingBean
-	public CoreServletExceptionHandler coreServletExceptionHandler() {
-		return new CoreServletExceptionHandler();
-	}
-	
-	@Bean
-	public MappingJackson2JsonView jsonView() {
-		return new MappingJackson2JsonView();
-	}
+
+    @Bean
+    BlueskyContextHolderFilter blueskyContextHolderFilter() {
+        return new BlueskyContextHolderFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    CoreServletExceptionHandler coreServletExceptionHandler() {
+        return new CoreServletExceptionHandler();
+    }
+
+    @Bean
+    MappingJackson2JsonView jsonView() {
+        return new MappingJackson2JsonView();
+    }
 }

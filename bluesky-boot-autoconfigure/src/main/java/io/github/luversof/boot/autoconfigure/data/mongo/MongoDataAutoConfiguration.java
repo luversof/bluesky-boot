@@ -15,26 +15,26 @@ import com.mongodb.client.MongoClient;
 @ConditionalOnClass({ MongoClient.class, MongoTemplate.class })
 // @AutoConfigureAfter(MongoAutoConfiguration.class)
 public class MongoDataAutoConfiguration {
-	
-	@Bean
-	public MongoDataPropertiesBeanFactoryPostProcessor mongoDataPropertiesBeanFactoryPostProcessor() {
-		return new MongoDataPropertiesBeanFactoryPostProcessor();
-	}
 
-	@Bean
-	public MongoDataPropertiesBeanPostProcessor mongoDataPropertiesBeanPostProcessor() {
-		return new MongoDataPropertiesBeanPostProcessor();
-	}
-	
-	@Bean
-	@Primary
-	public MongoDatabaseFactory configMongoDatabaseFactory(MongoClient emptyMongoClient) {
-		return new SimpleMongoClientDatabaseFactory(emptyMongoClient, "config");
-	}
-	
-	@Bean
-	@Primary
-	public MongoTemplate emptyMongoTemplate(@Qualifier("configMongoDatabaseFactory") MongoDatabaseFactory configMongoDatabaseFactory) {
-		return new MongoTemplate(configMongoDatabaseFactory);
-	}
+    @Bean
+    MongoDataPropertiesBeanFactoryPostProcessor mongoDataPropertiesBeanFactoryPostProcessor() {
+        return new MongoDataPropertiesBeanFactoryPostProcessor();
+    }
+
+    @Bean
+    MongoDataPropertiesBeanPostProcessor mongoDataPropertiesBeanPostProcessor() {
+        return new MongoDataPropertiesBeanPostProcessor();
+    }
+
+    @Bean
+    @Primary
+    MongoDatabaseFactory configMongoDatabaseFactory(MongoClient emptyMongoClient) {
+        return new SimpleMongoClientDatabaseFactory(emptyMongoClient, "config");
+    }
+
+    @Bean
+    @Primary
+    MongoTemplate emptyMongoTemplate(@Qualifier("configMongoDatabaseFactory") MongoDatabaseFactory configMongoDatabaseFactory) {
+        return new MongoTemplate(configMongoDatabaseFactory);
+    }
 }

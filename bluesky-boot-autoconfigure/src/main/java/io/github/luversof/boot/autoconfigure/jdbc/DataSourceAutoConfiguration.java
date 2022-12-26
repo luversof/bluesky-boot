@@ -19,17 +19,17 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @PropertySource(value = "classpath:jdbc/jdbc-${net-profile}.properties", ignoreResourceNotFound = true)
 public class DataSourceAutoConfiguration {
 
-	@Bean
-	@Primary
-	@ConfigurationProperties("datasource.default")
-	public DataSourceProperties defaultDataSourceProperties() {
-		return new DataSourceProperties();
-	}
+    @Bean
+    @Primary
+    @ConfigurationProperties("datasource.default")
+    DataSourceProperties defaultDataSourceProperties() {
+        return new DataSourceProperties();
+    }
 
-	@Bean
-	@Primary
-	public DataSource defaultDataSource(@Qualifier("defaultDataSourceProperties") DataSourceProperties defaultDataSourceProperties) {
-		return defaultDataSourceProperties.initializeDataSourceBuilder().type(SimpleDriverDataSource.class).build();
-	}
+    @Bean
+    @Primary
+    DataSource defaultDataSource(@Qualifier("defaultDataSourceProperties") DataSourceProperties defaultDataSourceProperties) {
+        return defaultDataSourceProperties.initializeDataSourceBuilder().type(SimpleDriverDataSource.class).build();
+    }
 
 }
