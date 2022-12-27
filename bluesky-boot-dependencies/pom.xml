@@ -33,6 +33,11 @@
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
+		
+		<!-- (s) build properties -->
+		<build.number>LOCAL_BUILD</build.number>
+		<build.version>${project.version}</build.version>
+		<!-- (e) build properties -->
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -349,6 +354,11 @@
 						<from>
 							<image>openjdk:17-slim</image>
 						</from>
+						<to>
+							<tags>
+								<tag>${project.version}.${build.number}</tag>
+							</tags>
+						</to>
 					</configuration>
 				</plugin>
 
