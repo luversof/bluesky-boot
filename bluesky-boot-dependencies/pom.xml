@@ -32,8 +32,8 @@
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
+		<properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
-		
 		<!-- (s) build properties -->
 		<build.number>LOCAL_BUILD</build.number>
 		<build.version>${project.version}</build.version>
@@ -108,7 +108,6 @@
 				<version>${bluesky-boot-autoconfigure-devcheck.version}</version>
 			</dependency>
 			<!-- (e) bluesky boot -->
-
 			<!-- (s) spring cloud -->
 			<!-- 버전관리를 편하게 하려고 cloud 의존성을 여기서 관리하고 있으나 분리하는 것이 좋다. -->
 			<dependency>
@@ -119,8 +118,6 @@
 				<scope>import</scope>
 			</dependency>
 			<!-- (e) spring cloud -->
-
-
 			<!-- (s) mybatis -->
 			<dependency>
 				<groupId>org.mybatis.spring.boot</groupId>
@@ -128,7 +125,6 @@
 				<version>3.0.0</version>
 			</dependency>
 			<!-- (e) mybatis -->
-
 			<!-- (s) boot-admin -->
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -141,7 +137,6 @@
 				<version>${spring-boot-admin-starter.version}</version>
 			</dependency>
 			<!-- (e) boot-admin -->
-			
 			<!-- (s) springdoc-openapi -->
 			<dependency>
 				<groupId>org.springdoc</groupId>
@@ -154,7 +149,6 @@
 				<version>${springdoc-openapi.version}</version>
 			</dependency>
 			<!-- (e) springdoc-openapi -->
-
 			<!-- (s) thymeleaf-layout-dialect -->
 			<dependency>
 				<groupId>com.github.zhanhb</groupId>
@@ -162,13 +156,11 @@
 				<version>3.0.0</version>
 			</dependency>
 			<!-- (e) thymeleaf-layout-dialect -->
-
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
 				<version>${spring-boot.version}</version>
 			</dependency>
-			
 			<!-- (s) restdocs-api-spec -->
 			<dependency>
 				<groupId>com.epages</groupId>
@@ -178,7 +170,6 @@
 			<!-- (e) restdocs-api-spec -->
 		</dependencies>
 	</dependencyManagement>
-
 	<build>
 		<resources>
 			<resource>
@@ -227,7 +218,6 @@
 					</executions>
 				</plugin>
 				<!-- (e) sonarqube plugin -->
-
 				<!-- (s) asciidoctor plugin -->
 				<plugin>
 					<groupId>com.googlecode.maven-download-plugin</groupId>
@@ -361,7 +351,16 @@
 						</to>
 					</configuration>
 				</plugin>
-
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>properties-maven-plugin</artifactId>
+					<version>${properties-maven-plugin}</version>
+					<configuration>
+						<outputFile>
+                			build.properties
+						</outputFile>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>io.github.luversof</groupId>
 					<artifactId>filecopy-maven-plugin</artifactId>
@@ -387,7 +386,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 	<profiles>
 		<profile>
 			<id>sonarqube</id>
