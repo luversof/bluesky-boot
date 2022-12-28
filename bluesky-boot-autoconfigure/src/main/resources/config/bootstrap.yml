@@ -10,7 +10,9 @@ spring:
 
 management:
   endpoint:
-    health.probes.enabled: true
+    health:
+      show-details: always
+      probes.enabled: true
   endpoints.web:
     exposure.include: "*"
 eureka:
@@ -37,7 +39,6 @@ spring:
   cloud:
     config:
       uri: http://localhost:30101
-      profile: localdev
   boot:
     admin:
       client:
