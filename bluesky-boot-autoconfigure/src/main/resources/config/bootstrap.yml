@@ -68,6 +68,8 @@ spring:
   cloud:
     config:
       uri: http://bluesky-cloud-config-server-service.default:30101
+    kubernetes.discovery:
+      all-namespaces: true
   boot:
     admin:
       client:
