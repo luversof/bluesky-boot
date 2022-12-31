@@ -13,6 +13,8 @@ management:
     health:
       show-details: always
       probes.enabled: true
+    env:
+      show-values: always
   endpoints.web.exposure.include: "*"
 eureka:
   instance:
