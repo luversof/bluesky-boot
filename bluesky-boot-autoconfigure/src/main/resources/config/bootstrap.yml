@@ -1,10 +1,10 @@
 spring:
   cloud:
     inetutils:
-      ignoredInterfaces:
+      ignored-interfaces:
         - docker0
         - veth.*
-      preferredNetworks:
+      preferred-networks:
         - 192.168
         - 10.0
 
@@ -13,38 +13,26 @@ management:
     health:
       show-details: always
       probes.enabled: true
-  endpoints.web:
-    exposure.include: "*"
+  endpoints.web.exposure.include: "*"
 eureka:
   instance:
     instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
 ---    
 spring:
-  config.activate.on-profile: opdev
+  config.activate.on-profile: localdev | opdev 
   cloud:
     config:
       uri: http://localhost:30101
+    discovery:
+      enabled: false
   boot:
     admin:
       client:
         url: http://localhost:30102
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:30100/eureka/
----
-spring:
-  config:
-    activate.on-profile: localdev
-  cloud:
-    config:
-      uri: http://localhost:30101
-  boot:
-    admin:
-      client:
-        url: http://localhost:30102
-eureka:
-  client:
+    registerWithEureka: false
+    fetchRegistry: false
     service-url:
       defaultZone: http://localhost:30100/eureka/
 ---
