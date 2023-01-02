@@ -36,7 +36,7 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     service-url:
-      defaultZone: http://eureka.cloud.bluesky.local/eureka/
+      defaultZone: http://eureka.cloud.bluesky.local/eureka
 ---
 spring:
   config.activate.on-profile: dockerdev
@@ -68,4 +68,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default.svc.cluster.local:30100/eureka/
+      defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default.svc.cluster.local:30100/eureka
