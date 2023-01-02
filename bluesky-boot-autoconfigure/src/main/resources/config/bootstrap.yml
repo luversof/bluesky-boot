@@ -36,7 +36,7 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     service-url:
-      defaultZone: http://localhost:30100/eureka/
+      defaultZone: http://eureka.cloud.bluesky.local/eureka/,http://localhost:30100/eureka/
 ---
 spring:
   config.activate.on-profile: dockerdev
@@ -58,13 +58,15 @@ spring:
   config.activate.on-profile: k8sdev
   cloud:
     config:
-      uri: http://bluesky-cloud-config-server-service.default:30101
+      uri: http://bluesky-cloud-config-server-service.default.svc.cluster.local:30101
     kubernetes.discovery:
       all-namespaces: true
   boot:
     admin:
       client:
-        url: http://bluesky-cloud-admin-server-service.default:30102
-eureka:  client:
+        url: http://bluesky-cloud-admin-server-service.default.svc.cluster.local:30102
+eureka:
+  instance:
+    prefer-ip-address: true  client:
     service-url:
-      defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default:30100/eureka/
+      defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default.svc.cluster.local:30100/eureka/,http://eureka.cloud.bluesky.local/eureka/
