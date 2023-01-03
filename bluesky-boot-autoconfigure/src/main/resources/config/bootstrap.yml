@@ -59,8 +59,11 @@ spring:
   cloud:
     config:
       uri: http://bluesky-cloud-config-server-service.default.svc.cluster.local:30101
-    kubernetes.discovery:
-      all-namespaces: true
+    kubernetes:
+      loadbalancer:
+        mode: SERVICE
+      discovery:
+        all-namespaces: true
   boot:
     admin:
       client:
