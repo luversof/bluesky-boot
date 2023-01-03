@@ -71,4 +71,4 @@ eureka:
     hostname: ${spring.application.name}-service.default.svc.cluster.local
   client:
     serviceUrl:
-      defaultZone: http://bluesky-cloud-netflix-eureka-server-service.default.svc.cluster.local:30100/eureka/
+      defaultZone: http://bluesky-cloud-netflix-eureka-server-1-service.default.svc.cluster.local:30100/eureka/,http://bluesky-cloud-netflix-eureka-server-2-service.default.svc.cluster.local:30100/eureka/
