@@ -16,9 +16,9 @@ management:
     env:
       show-values: always
   endpoints.web.exposure.include: "*"
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+#eureka:
+#  instance:
+#    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
 ---    
 spring:
   config.activate.on-profile: localdev | opdev 
@@ -67,6 +67,7 @@ spring:
         url: http://bluesky-cloud-admin-server-service.default.svc.cluster.local:30102
 eureka:
   instance:
+    prefer-ip-address: true
     hostname: ${spring.application.name}-service.default.svc.cluster.local
   client:
     serviceUrl:
