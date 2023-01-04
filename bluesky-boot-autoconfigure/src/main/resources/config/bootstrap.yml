@@ -64,6 +64,8 @@ spring:
         mode: SERVICE
       discovery:
         all-namespaces: true
+        service-labels:
+          spring-boot: true
   boot:
     admin:
       client:
