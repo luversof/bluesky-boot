@@ -12,7 +12,8 @@ management:
   endpoint:
     health:
       show-details: always
-      probes.enabled: true
+      probes:
+        enabled: true
     env:
       show-values: always
   endpoints.web.exposure.include: "*"
@@ -73,7 +74,8 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: ${spring.application.name}-service.default.svc.cluster.local
+    name: ${spring.application.name}-service
+#    hostname: ${spring.application.name}-service.default.svc.cluster.local
   client:
-    serviceUrl:
+    service-url:
       defaultZone: http://bluesky-cloud-netflix-eureka-server-1-service.default.svc.cluster.local:30100/eureka/,http://bluesky-cloud-netflix-eureka-server-2-service.default.svc.cluster.local:30100/eureka/
