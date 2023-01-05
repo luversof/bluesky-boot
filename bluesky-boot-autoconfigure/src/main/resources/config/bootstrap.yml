@@ -74,7 +74,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
-    name: ${spring.application.name}-service
+    appname: ${spring.application.name}-service
 #    hostname: ${spring.application.name}-service.default.svc.cluster.local
   client:
     service-url:
