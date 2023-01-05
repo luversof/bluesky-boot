@@ -71,6 +71,9 @@ spring:
     admin:
       client:
         url: http://bluesky-cloud-admin-server-service.default.svc.cluster.local:30102
+        instance:
+          name: ${spring.application.name}-service
+          service-host-type: ip
 eureka:
   instance:
     prefer-ip-address: true
