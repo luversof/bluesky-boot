@@ -25,13 +25,14 @@ spring:
   config.activate.on-profile: localdev | opdev 
   cloud:
     config:
-      uri: http://localhost:30101
+      uri: http://config.cloud.bluesky.local/
     discovery:
       enabled: false
   boot:
     admin:
       client:
-        url: http://localhost:30102
+        enabled: false
+        url: http://admin.cloud.bluesky.local/
 eureka:
   client:
     registerWithEureka: false
