@@ -89,11 +89,6 @@
 			</dependency>
 			<dependency>
 				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-test</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-docs</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
