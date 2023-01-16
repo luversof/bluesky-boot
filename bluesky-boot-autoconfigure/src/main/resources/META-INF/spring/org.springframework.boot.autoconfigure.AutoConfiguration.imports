@@ -10,6 +10,4 @@ io.github.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration
 io.github.luversof.boot.autoconfigure.batch.BatchAutoConfiguration
-io.github.luversof.boot.autoconfigure.security.config.SecurityServletAutoConfiguration
-io.github.luversof.boot.autoconfigure.security.config.SecurityReactiveAutoConfiguration
 io.github.luversof.boot.autoconfigure.validation.config.ValidationAutoConfiguration
