@@ -8,13 +8,11 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedC
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.github.luversof.boot.autoconfigure.context.MessageUtil;
 import io.github.luversof.boot.exception.BlueskyExceptionHandler;
-import lombok.SneakyThrows;
+import io.github.luversof.boot.exception.BlueskyProblemDetail;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE + 10)
@@ -26,10 +24,8 @@ public class SecurityExceptionHandler extends BlueskyExceptionHandler {
 		return new ModelAndView("login");
 	}
 
-	@SneakyThrows
 	@ExceptionHandler
-	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-	public ModelAndView accessDeniedException(AccessDeniedException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessage(exception));
+	public BlueskyProblemDetail accessDeniedException(AccessDeniedException exception) {
+		return MessageUtil.getProblemDetail(HttpStatus.UNAUTHORIZED, exception);
 	}
 }

@@ -3,6 +3,7 @@ package io.github.luversof.boot.autoconfigure.core.exception.servlet.error;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -37,78 +38,69 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	 * @throws HttpMediaTypeNotAcceptableException 
 	 */
 	@ExceptionHandler
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		/**
-		 * api 호출 반환시 에러 처리
-		 */
-		if (exception.getErrorMessage() != null || exception.getErrorMessageList() != null) {
-			return handleApiBlueskyException(exception, handlerMethod, request);
-		}
-		
-		return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessage(exception));
+	public ProblemDetail handleException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+		return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 	}
 	
 	
-	/**
-	 * api 호출 에러 처리
-	 * @param exception
-	 * @return
-	 */
-	private ModelAndView handleApiBlueskyException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		if (exception.getErrorMessage() != null) {
-			return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessageFromErrorMessage(exception));
-		}
-		if (exception.getErrorMessageList() != null) {
-			return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessageListFromErrorMessageList(exception));
-		}
-		return null;
-	}
+//	/**
+//	 * api 호출 에러 처리
+//	 * @param exception
+//	 * @return
+//	 */
+//	private ModelAndView handleApiBlueskyException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+//		if (exception.getErrorMessage() != null) {
+//			return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessageFromErrorMessage(exception));
+//		}
+//		if (exception.getErrorMessageList() != null) {
+//			return getModelAndView(handlerMethod, request, exception.getErrorPage(), MessageUtil.getErrorMessageListFromErrorMessageList(exception));
+//		}
+//		return null;
+//	}
 
-	/**
-	 * hibernate validator 관련 BindException 처리
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(BindException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
-	}
+//	/**
+//	 * hibernate validator 관련 BindException 처리
+//	 * @param exception
+//	 * @return
+//	 */
+//	@ExceptionHandler
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public ModelAndView handleException(BindException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+//		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
+//	}
 	
-	/**
-	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(MethodArgumentNotValidException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
-	}
+//	/**
+//	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
+//	 * @param exception
+//	 * @return
+//	 */
+//	@ExceptionHandler
+//	public ProblemDetail handleException(MethodArgumentNotValidException exception) {
+//		return exception.getBody();
+//	}
 	
-	/**
-	 * 요청시 필요한 @RequestBody 가 없는 상태로 요청한 경우
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleException(HttpMessageNotReadableException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessage(exception));
-	}
-	
-	/**
-	 * General Exception 처리
-	 * @param exception
-	 * @return
-	 * @throws Throwable 
-	 */
-	@ExceptionHandler
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ModelAndView handleException(Throwable exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessage(exception));
-	}
+//	/**
+//	 * 요청시 필요한 @RequestBody 가 없는 상태로 요청한 경우
+//	 * @param exception
+//	 * @return
+//	 */
+//	@ExceptionHandler
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public ModelAndView handleException(HttpMessageNotReadableException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+//		return getModelAndView(handlerMethod, request, MessageUtil.getProblemDetail(exception));
+//	}
+//	
+//	/**
+//	 * General Exception 처리
+//	 * @param exception
+//	 * @return
+//	 * @throws Throwable 
+//	 */
+//	@ExceptionHandler
+//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//	public ProblemDetail handleException(Throwable exception, HandlerMethod handlerMethod, NativeWebRequest request) {
+//		return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+//	}
 	
 	
 }

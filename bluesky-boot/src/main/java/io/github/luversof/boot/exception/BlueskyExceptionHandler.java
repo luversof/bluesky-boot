@@ -42,31 +42,31 @@ public abstract class BlueskyExceptionHandler {
 		return isJsonResponse;
 	}
 	
-	protected ModelAndView getModelAndView(String viewName, BlueskyErrorMessage errorMessage) {
+	protected ModelAndView getModelAndView(String viewName, BlueskyProblemDetail errorMessage) {
 		var modelAndView = new ModelAndView(viewName);
 		modelAndView.addObject(errorMessage);
 		return modelAndView;
 	}
 	
-	protected ModelAndView getModelAndView(String viewName, List<BlueskyErrorMessage> errorMessageList) {
+	protected ModelAndView getModelAndView(String viewName, List<BlueskyProblemDetail> errorMessageList) {
 		var modelAndView = new ModelAndView(viewName);
 		modelAndView.addObject(errorMessageList);
 		return modelAndView;
 	}
 	
-	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, String viewName, BlueskyErrorMessage errorMessage) {
+	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, String viewName, BlueskyProblemDetail errorMessage) {
 		return getModelAndView(isJsonResponse(handlerMethod, request) ? JSON_VIEW : viewName, errorMessage);
 	}
 	
-	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, BlueskyErrorMessage errorMessage) {
+	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, BlueskyProblemDetail errorMessage) {
 		return getModelAndView(handlerMethod, request, BlueskyErrorPage.DEFAULT.getViewName(), errorMessage);
 	}
 	
-	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, String viewName, List<BlueskyErrorMessage> errorMessageList) {
+	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, String viewName, List<BlueskyProblemDetail> errorMessageList) {
 		return getModelAndView(isJsonResponse(handlerMethod, request) ? JSON_VIEW : viewName, errorMessageList);
 	}
 	
-	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, List<BlueskyErrorMessage> errorMessageList) {
+	protected ModelAndView getModelAndView(HandlerMethod handlerMethod, NativeWebRequest request, List<BlueskyProblemDetail> errorMessageList) {
 		return getModelAndView(handlerMethod, request, BlueskyErrorPage.DEFAULT.getViewName(), errorMessageList);
 	}
 }
