@@ -54,41 +54,6 @@
 			</dependency>
 			<dependency>
 				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-batch</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-data-jpa</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-data-mongodb-reactive</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-data-rest</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-jdbc</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-starter-mybatis</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-docs</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
