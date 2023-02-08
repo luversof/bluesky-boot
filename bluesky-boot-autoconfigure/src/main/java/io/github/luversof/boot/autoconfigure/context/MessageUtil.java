@@ -2,23 +2,16 @@ package io.github.luversof.boot.autoconfigure.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.DefaultMessageCodesResolver;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import io.github.luversof.boot.exception.BlueskyProblemDetail;
 import io.github.luversof.boot.exception.BlueskyException;
-import io.github.luversof.boot.exception.ErrorMessage;
+import io.github.luversof.boot.exception.BlueskyProblemDetail;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
