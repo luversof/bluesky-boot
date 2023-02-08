@@ -35,6 +35,7 @@
 		<properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		<!-- (s) build properties -->
+		<build.image>nexus-service:8083/luversof</build.image>
 		<build.number>LOCAL_BUILD</build.number>
 		<build.version>${project.version}</build.version>
 		<!-- (e) build properties -->
@@ -316,11 +317,20 @@
 					<groupId>com.google.cloud.tools</groupId>
 					<artifactId>jib-maven-plugin</artifactId>
 					<version>${jib-maven-plugin.version}</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>build</goal>
+							</goals>
+						</execution>
+					</executions>
 					<configuration>
 						<from>
 							<image>openjdk:17-slim</image>
 						</from>
 						<to>
+							<image>${build.image}/${project.artifactId}</image>
 							<tags>
 								<tag>${project.version}.${build.number}</tag>
 							</tags>
