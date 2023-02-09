@@ -4,7 +4,6 @@ package io.github.luversof.boot.autoconfigure.mongo.config;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.mongo.MongoClientFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -36,8 +35,8 @@ public class MongoAutoConfiguration {
 
     @Bean
     @Primary
-    MongoClient emptyMongoClient(ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers, MongoClientSettings settings) {
-        return new MongoClientFactory(builderCustomizers.orderedStream().toList()).createMongoClient(settings);
+    MongoClient emptyMongoClient(MongoProperties mongoProperties, ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers, MongoClientSettings settings) {
+        return MongoUtil.getMongoClient(mongoProperties.getDefaultMongoProperties(), builderCustomizers, settings);
     }
 
 }
