@@ -1,6 +1,8 @@
 package io.github.luversof.boot.autoconfigure.mongo.config;
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -9,7 +11,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 
 
@@ -28,15 +29,19 @@ public class MongoAutoConfiguration {
         return new MongoPropertiesBeanPostProcessor();
     }
 
-    @Bean
-    MongoClientSettings mongoClientSettings() {
-        return MongoClientSettings.builder().build();
-    }
+//    @Bean
+//    MongoClientSettings mongoClientSettings() {
+//        return MongoClientSettings.builder().build();
+//    }
 
     @Bean
     @Primary
-    MongoClient emptyMongoClient(MongoProperties mongoProperties, ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers, MongoClientSettings settings) {
-        return MongoUtil.getMongoClient(mongoProperties.getDefaultMongoProperties(), builderCustomizers, settings);
+    MongoClient emptyMongoClient(MongoProperties mongoProperties, ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers,  Map<String, MongoClient> mongoClientMap) {
+    	if (!mongoClientMap.isEmpty()) {
+    		return mongoClientMap.entrySet().stream().findFirst().get().getValue();
+    	}
+    	
+        return MongoUtil.getMongoClient(mongoProperties.getDefaultMongoProperties(), builderCustomizers, MongoUtil.getDefaultMongoClientSettings(mongoProperties));
     }
 
 }

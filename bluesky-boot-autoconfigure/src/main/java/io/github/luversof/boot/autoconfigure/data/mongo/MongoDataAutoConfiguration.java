@@ -34,7 +34,7 @@ public class MongoDataAutoConfiguration {
 
     @Bean
     @Primary
-    MongoTemplate emptyMongoTemplate(@Qualifier("configMongoDatabaseFactory") MongoDatabaseFactory configMongoDatabaseFactory) {
+	MongoTemplate emptyMongoTemplate(@Qualifier("configMongoDatabaseFactory") MongoDatabaseFactory configMongoDatabaseFactory) {
         return new MongoTemplate(configMongoDatabaseFactory);
     }
 }

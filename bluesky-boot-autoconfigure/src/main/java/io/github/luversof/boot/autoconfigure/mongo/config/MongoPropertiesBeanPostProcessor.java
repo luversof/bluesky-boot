@@ -1,7 +1,6 @@
 package io.github.luversof.boot.autoconfigure.mongo.config;
 
 import java.text.MessageFormat;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -12,9 +11,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.PriorityOrdered;
 
 import com.mongodb.MongoClientSettings;
-import com.mongodb.ReadConcern;
-import com.mongodb.ReadPreference;
-import com.mongodb.WriteConcern;
 
 public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware, PriorityOrdered {
 
@@ -37,7 +33,7 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 		var builderCustomizersBeanProvider = applicationContext.getBeanProvider(MongoClientSettingsBuilderCustomizer.class);
 		var settingsBeanProvider = applicationContext.getBeanProvider(MongoClientSettings.class);
 		
-		var settings = settingsBeanProvider.getIfAvailable() == null ? defaultMongoClientSettings(mongoProperties) : settingsBeanProvider.getIfAvailable();
+		var settings = settingsBeanProvider.getIfAvailable() == null ? MongoUtil.getDefaultMongoClientSettings(mongoProperties) : settingsBeanProvider.getIfAvailable();
 		
 		mongoProperties.getConnectionMap().forEach((key, value) -> {
 			var blueskyMongoProperties = mongoProperties.getConnectionMap().get(key);
@@ -49,41 +45,6 @@ public class MongoPropertiesBeanPostProcessor implements BeanPostProcessor, Appl
 		});
 		
 		return bean;
-	}
-	
-	
-	private MongoClientSettings defaultMongoClientSettings(MongoProperties mongoProperties) {
-
-		var builder = MongoClientSettings.builder();
-
-		var connectionPoolSettings = mongoProperties.getDefaultConnectionPoolSettings();
-		if (connectionPoolSettings != null) {
-			builder.applyToConnectionPoolSettings(b -> b.maxSize(connectionPoolSettings.getMaxSize())
-					.minSize(connectionPoolSettings.getMinSize())
-					.maxWaitTime(connectionPoolSettings.getMaxWaitTimeMS(), TimeUnit.MILLISECONDS)
-					.maxConnectionLifeTime(connectionPoolSettings.getMaxConnectionLifeTimeMS(), TimeUnit.MILLISECONDS)
-					.maxConnectionIdleTime(connectionPoolSettings.getMaxConnectionIdleTimeMS(), TimeUnit.MILLISECONDS)
-					.maintenanceInitialDelay(connectionPoolSettings.getMaintenanceInitialDelayMS(),
-							TimeUnit.MILLISECONDS)
-					.maintenanceFrequency(connectionPoolSettings.getMaintenanceFrequencyMS(), TimeUnit.MILLISECONDS));
-		}
-
-		if (mongoProperties.getDefaultReadConcernLevel() != null) {
-			builder.readConcern(new ReadConcern(mongoProperties.getDefaultReadConcernLevel()));
-		}
-
-		if (mongoProperties.getDefaultReadPreference() != null) {
-			builder.readPreference(ReadPreference.valueOf(mongoProperties.getDefaultReadPreference()));
-		}
-
-		var writeConcern = mongoProperties.getDefaultWriteConcern();
-		if (writeConcern != null) {
-			builder.writeConcern(WriteConcern.valueOf(writeConcern.getW())
-					.withWTimeout(writeConcern.getWTimeoutMS(), TimeUnit.MILLISECONDS)
-					.withJournal(writeConcern.isJournal()));
-		}
-
-		return builder.build();
 	}
 
 	@Override
