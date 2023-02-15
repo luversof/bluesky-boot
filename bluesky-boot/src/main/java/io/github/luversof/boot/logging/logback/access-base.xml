@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE included>
+<included>
+	<property name="ACCESS_LOG_FILE" value="${ACCESS_LOG_FILE:-./logs/access.log}"/>
+	<property name="ACCESS_LOG_PATTERN" value="${ACCESS_LOG_PATTERN:-combined}"/>
+	
+	<include resource="io/github/luversof/boot/logging/logback/access-file-appender.xml"/>
+	
+	<appender-ref ref="ACCESS_FILE" />
+</included>
