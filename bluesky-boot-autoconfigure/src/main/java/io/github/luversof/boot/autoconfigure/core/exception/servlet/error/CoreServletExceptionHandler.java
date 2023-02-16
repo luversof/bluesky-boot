@@ -7,9 +7,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.HandlerMethod;
 
+import io.github.luversof.boot.autoconfigure.context.MessageUtil;
 import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.exception.BlueskyExceptionHandler;
 
@@ -32,10 +31,9 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	 * @throws HttpMediaTypeNotAcceptableException 
 	 */
 	@ExceptionHandler
-	public ProblemDetail handleException(BlueskyException exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-		return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+	public ProblemDetail handleException(BlueskyException exception) {
+		return MessageUtil.getProblemDetail(HttpStatus.BAD_REQUEST, exception);
 	}
-	
 	
 //	/**
 //	 * api 호출 에러 처리

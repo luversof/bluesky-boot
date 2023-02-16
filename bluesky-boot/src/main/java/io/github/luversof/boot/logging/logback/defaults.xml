@@ -14,7 +14,7 @@ Default logback configuration provided for import
 	<property name="OTHER_DEFAULT_LOG_LEVEL" value="${OTHER_DEFAULT_LOG_LEVEL:-WARN}" />
 	<property name="OTHER_DEV_LOG_LEVEL" value="${OTHER_DEV_LOG_LEVEL:-INFO}" />
 	
-	<property name="PROJECT_DEFAULT_LOG_LEVEL" value="${PROJECT_DEFAULT_LOG_LEVEL:-WARN}" />
+	<property name="PROJECT_DEFAULT_LOG_LEVEL" value="${PROJECT_DEFAULT_LOG_LEVEL:-INFO}" />
 	<property name="PROJECT_DEV_LOG_LEVEL" value="${PROJECT_DEV_LOG_LEVEL:-DEBUG}" />
 	
 	<property name="SQL_DEFAULT_LOG_LEVEL" value="${SQL_DEFAULT_LOG_LEVEL:-WARN}" />
