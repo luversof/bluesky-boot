@@ -1,10 +1,16 @@
 package io.github.luversof.boot.autoconfigure.core.exception.servlet.error;
 
+import java.util.ArrayList;
+
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -21,6 +27,12 @@ import io.github.luversof.boot.exception.BlueskyExceptionHandler;
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
+	
+	private MessageSourceAccessor messageSourceAccessor;
+	
+	public CoreServletExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
+		this.messageSourceAccessor = messageSourceAccessor;
+	}
 	
 	public static final String RESULT = "result";
 	
@@ -61,15 +73,27 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 //		return getModelAndView(handlerMethod, request, MessageUtil.getErrorMessageList(exception));
 //	}
 	
-//	/**
-//	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
-//	 * @param exception
-//	 * @return
-//	 */
-//	@ExceptionHandler
-//	public ProblemDetail handleException(MethodArgumentNotValidException exception) {
-//		return exception.getBody();
-//	}
+	/**
+	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
+	 * @param exception
+	 * @return
+	 */
+	@ExceptionHandler
+	public ProblemDetail handleException(MethodArgumentNotValidException exception) {
+		var problemDetail = exception.getBody();
+		var allErrors = exception.getAllErrors();
+		var errors = new ArrayList<ObjectError>();
+		for (var error : allErrors) {
+			var messageSourceResolvable = new DefaultMessageSourceResolvable(error.getCodes(), error.getArguments(), error.getDefaultMessage());
+			var localizedMessage = messageSourceAccessor.getMessage(messageSourceResolvable);
+			errors.add(new ObjectError(error.getObjectName(), error.getCodes(), error.getArguments(), localizedMessage));
+		}
+		
+		problemDetail.setProperty("errors", errors);
+		return problemDetail;
+	}
+	
+	
 	
 //	/**
 //	 * 요청시 필요한 @RequestBody 가 없는 상태로 요청한 경우
@@ -82,17 +106,16 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 //		return getModelAndView(handlerMethod, request, MessageUtil.getProblemDetail(exception));
 //	}
 //	
-//	/**
-//	 * General Exception 처리
-//	 * @param exception
-//	 * @return
-//	 * @throws Throwable 
-//	 */
-//	@ExceptionHandler
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//	public ProblemDetail handleException(Throwable exception, HandlerMethod handlerMethod, NativeWebRequest request) {
-//		return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-//	}
+	/**
+	 * General Exception 처리
+	 * @param exception
+	 * @return
+	 * @throws Throwable 
+	 */
+	@ExceptionHandler
+	public ProblemDetail handleException(Throwable exception) {
+		return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+	}
 	
 	
 }

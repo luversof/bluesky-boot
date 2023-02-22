@@ -59,4 +59,9 @@ public class MessageSourceAutoConfiguration {
         MessageUtil.setMessageSourceAccessor(messageSourceAccessor);
         return messageSourceAccessor;
     }
+    
+    @Bean
+    MessageSourceDevCheckController messageSourceDevCheckController(BlueskyReloadableResourceBundleMessageSource messageSource) {
+    	return new MessageSourceDevCheckController(messageSource);
+    }
 }

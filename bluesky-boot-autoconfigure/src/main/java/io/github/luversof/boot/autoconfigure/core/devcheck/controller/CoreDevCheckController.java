@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luversof.boot.autoconfigure.core.config.CoreProperties;
+import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckController;
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
 import io.github.luversof.boot.config.BlueskyProperties;
 import io.github.luversof.boot.context.BlueskyContext;
@@ -21,14 +22,10 @@ import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@DevCheckController
 @RestController
-@RequestMapping(value = "/_check/core", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "${bluesky-boot.dev-check.path-prefix}/blueskyBoot/core", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CoreDevCheckController {
-	
-	private CoreProperties coreProperties;
-	
-	@SuppressWarnings("rawtypes")
-	private Map<String, BlueskyProperties> blueskyPropertiesMap;
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
 	@GetMapping("/activeProfiles")
@@ -36,18 +33,17 @@ public class CoreDevCheckController {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
 	}
 	
-	
 	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
 	@GetMapping("/blueskyPropertiesMap")
 	public Map<String, BlueskyProperties> blueskyPropertiesMap() {
-		return blueskyPropertiesMap;
+		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
 	}
 	
 	@DevCheckDescription("coreProperties 조회")
 	@GetMapping("/coreProperties")
 	public CoreProperties coreProperties() {
-		return coreProperties;
+		return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")
