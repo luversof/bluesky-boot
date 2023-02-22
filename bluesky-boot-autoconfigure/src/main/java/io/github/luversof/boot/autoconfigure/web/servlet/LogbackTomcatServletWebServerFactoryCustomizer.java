@@ -12,6 +12,7 @@ public class LogbackTomcatServletWebServerFactoryCustomizer implements WebServer
 		
 		var logbackValve = new LogbackValve();
 		logbackValve.setFilename("logback-access.xml");
+		logbackValve.setAsyncSupported(true);
 		factory.addEngineValves(logbackValve);
 		
 	}

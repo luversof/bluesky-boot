@@ -49,8 +49,8 @@ public class MessageUtil {
 	}
 	
 	public static BlueskyProblemDetail getProblemDetail(int status, Throwable exception) {
-		var errorMessage = BlueskyProblemDetail.forStatus(status);
-		errorMessage.setExceptionClassName(exception.getClass().getSimpleName());
+		var problemDetail = BlueskyProblemDetail.forStatus(status);
+		problemDetail.setExceptionClassName(exception.getClass().getSimpleName());
 		
 		if (exception instanceof BlueskyException blueskyException) {
 			var errorCodes = getBlueskyExceptionErrorCodes(blueskyException);
@@ -58,29 +58,29 @@ public class MessageUtil {
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes, blueskyException.getErrorMessageArgs(), blueskyException.getMessage() == null ? blueskyException.getErrorCode() : blueskyException.getMessage());
 	    	var localizedMessage = messageSourceAccessor.getMessage(defaultMessageSourceResolvable);
 			
-			errorMessage.setErrorCode(blueskyException.getErrorCode());
-			errorMessage.setErrorMessageArgs(blueskyException.getErrorMessageArgs());
+			problemDetail.setErrorCode(blueskyException.getErrorCode());
+			problemDetail.setErrorMessageArgs(blueskyException.getErrorMessageArgs());
 			if (!StringUtils.hasText(localizedMessage) || localizedMessage.equals(blueskyException.getErrorCode())) {
-				errorMessage.setMessage(blueskyException.getMessage());
+				problemDetail.setMessage(blueskyException.getMessage());
 			} else {
-				errorMessage.setMessage(localizedMessage);
-				errorMessage.setDisplayableMessage(true);
+				problemDetail.setMessage(localizedMessage);
+				problemDetail.setDisplayableMessage(true);
 			}
-			errorMessage.setObject(blueskyException.getErrorCode());
-			errorMessage.setExceptionClassName(blueskyException.getClass().getSimpleName());
+			problemDetail.setObject(blueskyException.getErrorCode());
+			problemDetail.setExceptionClassName(blueskyException.getClass().getSimpleName());
 		} else {
 			
 			var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), null);
 			log.debug("[Exception error message] code : {}", Arrays.asList(errorCodes));
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes,  exception.getLocalizedMessage());
 			var localizedMessage = getMessage(defaultMessageSourceResolvable);
-			errorMessage.setMessage(localizedMessage);
+			problemDetail.setMessage(localizedMessage);
 			if (!localizedMessage.equals(exception.getLocalizedMessage())) {
-				errorMessage.setDisplayableMessage(true);
+				problemDetail.setDisplayableMessage(true);
 			}
 			
 		}
-		return errorMessage;
+		return problemDetail;
 	}
 	
 //	/**

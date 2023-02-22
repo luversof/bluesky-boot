@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import io.github.luversof.boot.autoconfigure.context.MessageUtil;
 import io.github.luversof.boot.exception.BlueskyExceptionHandler;
 import io.github.luversof.boot.exception.BlueskyProblemDetail;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE + 10)
 public class SecurityExceptionHandler extends BlueskyExceptionHandler {
@@ -21,11 +23,13 @@ public class SecurityExceptionHandler extends BlueskyExceptionHandler {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public ModelAndView preAuthenticatedCredentialsNotFoundException(PreAuthenticatedCredentialsNotFoundException exception) {
+		log.error("PreAuthenticatedCredentialsNotFoundException exception", exception);
 		return new ModelAndView("login");
 	}
 
 	@ExceptionHandler
 	public BlueskyProblemDetail accessDeniedException(AccessDeniedException exception) {
+		log.error("AccessDeniedException exception", exception);
 		return MessageUtil.getProblemDetail(HttpStatus.UNAUTHORIZED, exception);
 	}
 }

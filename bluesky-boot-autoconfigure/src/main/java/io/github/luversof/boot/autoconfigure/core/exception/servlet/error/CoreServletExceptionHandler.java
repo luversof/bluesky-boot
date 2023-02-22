@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import io.github.luversof.boot.autoconfigure.context.MessageUtil;
 import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.exception.BlueskyExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 공통 에러 처리 핸들러
@@ -24,6 +25,7 @@ import io.github.luversof.boot.exception.BlueskyExceptionHandler;
  * @author bluesky
  *
  */
+@Slf4j
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
@@ -44,6 +46,7 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	 */
 	@ExceptionHandler
 	public ProblemDetail handleException(BlueskyException exception) {
+		log.error("BlueskyException exception", exception);
 		return MessageUtil.getProblemDetail(HttpStatus.BAD_REQUEST, exception);
 	}
 	
@@ -80,6 +83,7 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	 */
 	@ExceptionHandler
 	public ProblemDetail handleException(MethodArgumentNotValidException exception) {
+		log.error("MethodArgumentNotValidException exception", exception);
 		var problemDetail = exception.getBody();
 		var allErrors = exception.getAllErrors();
 		var errors = new ArrayList<ObjectError>();
@@ -114,6 +118,7 @@ public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
 	 */
 	@ExceptionHandler
 	public ProblemDetail handleException(Throwable exception) {
+		log.error("Throwable exception", exception);
 		return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
 	}
 	
