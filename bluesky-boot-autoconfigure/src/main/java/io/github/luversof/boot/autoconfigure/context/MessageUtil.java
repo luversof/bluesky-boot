@@ -7,6 +7,7 @@ import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.DefaultMessageCodesResolver;
 
@@ -44,15 +45,16 @@ public class MessageUtil {
 		return messageSourceAccessor.getMessage(resolvable);
 	}
 	
-	public static BlueskyProblemDetail getProblemDetail(HttpStatus httpStatus, Throwable exception) {
+	public static ProblemDetail getProblemDetail(HttpStatus httpStatus, Throwable exception) {
 		return getProblemDetail(httpStatus.value(), exception);
 	}
 	
-	public static BlueskyProblemDetail getProblemDetail(int status, Throwable exception) {
+	public static ProblemDetail getProblemDetail(int status, Throwable exception) {
 		var problemDetail = BlueskyProblemDetail.forStatus(status);
-		problemDetail.setExceptionClassName(exception.getClass().getSimpleName());
 		
 		if (exception instanceof BlueskyException blueskyException) {
+			problemDetail.setExceptionClassName(blueskyException.getClass().getSimpleName());
+			
 			var errorCodes = getBlueskyExceptionErrorCodes(blueskyException);
 			log.debug("[BlueskyException error message] code : {}", Arrays.deepToString(errorCodes));
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes, blueskyException.getErrorMessageArgs(), blueskyException.getMessage() == null ? blueskyException.getErrorCode() : blueskyException.getMessage());
@@ -61,26 +63,23 @@ public class MessageUtil {
 			problemDetail.setErrorCode(blueskyException.getErrorCode());
 			problemDetail.setErrorMessageArgs(blueskyException.getErrorMessageArgs());
 			if (!StringUtils.hasText(localizedMessage) || localizedMessage.equals(blueskyException.getErrorCode())) {
-				problemDetail.setMessage(blueskyException.getMessage());
+				problemDetail.setDetail(blueskyException.getMessage());
 			} else {
-				problemDetail.setMessage(localizedMessage);
+				problemDetail.setDetail(localizedMessage);
 				problemDetail.setDisplayableMessage(true);
 			}
-			problemDetail.setObject(blueskyException.getErrorCode());
-			problemDetail.setExceptionClassName(blueskyException.getClass().getSimpleName());
+			return problemDetail;
 		} else {
-			
 			var errorCodes = messageCodesResolver.resolveMessageCodes(exception.getClass().getSimpleName(), null);
 			log.debug("[Exception error message] code : {}", Arrays.asList(errorCodes));
 			var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(errorCodes,  exception.getLocalizedMessage());
 			var localizedMessage = getMessage(defaultMessageSourceResolvable);
-			problemDetail.setMessage(localizedMessage);
+			problemDetail.setDetail(localizedMessage);
 			if (!localizedMessage.equals(exception.getLocalizedMessage())) {
 				problemDetail.setDisplayableMessage(true);
 			}
-			
+			return problemDetail;
 		}
-		return problemDetail;
 	}
 	
 //	/**

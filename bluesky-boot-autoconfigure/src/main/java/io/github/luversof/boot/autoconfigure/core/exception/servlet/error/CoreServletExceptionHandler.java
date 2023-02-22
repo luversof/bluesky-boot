@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import io.github.luversof.boot.autoconfigure.context.MessageUtil;
 import io.github.luversof.boot.exception.BlueskyException;
-import io.github.luversof.boot.exception.BlueskyExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class CoreServletExceptionHandler extends BlueskyExceptionHandler {
+public class CoreServletExceptionHandler {
 	
 	private MessageSourceAccessor messageSourceAccessor;
 	
