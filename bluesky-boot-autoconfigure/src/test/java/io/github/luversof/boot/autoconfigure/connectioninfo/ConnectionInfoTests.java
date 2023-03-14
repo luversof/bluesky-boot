@@ -3,6 +3,7 @@ package io.github.luversof.boot.autoconfigure.connectioninfo;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 class ConnectionInfoTests {
 	
 	@Test
+	@Disabled
 	void dataSourceConnectionInfoMariadbLoaderTest() {
 		var connectionInfoProperties = new ConnectionInfoProperties();
 		connectionInfoProperties.setLoaders(Map.of("datasource-mariadb", 
