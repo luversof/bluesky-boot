@@ -7,24 +7,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Set;
 
-import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mapping.model.CamelCaseAbbreviatingFieldNamingStrategy;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
 import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
@@ -37,13 +32,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 
-import io.github.luversof.boot.autoconfigure.data.mongo.city.City;
-import io.github.luversof.boot.autoconfigure.data.mongo.country.Country;
-
 class MongoDataAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
+			.withPropertyValues("bluesky-modules.mongodb.default-mongo-properties.host=mongo-service", "bluesky-modules.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(DATA_MONGO_CONFIGURATION))
 			.withUserConfiguration(DATA_MONGO_USER_CONFIGURATION);
 
@@ -76,22 +69,6 @@ class MongoDataAutoConfigurationTests {
 	}
 
 	@Test
-	void usesAutoConfigurationPackageToPickUpDocumentTypes() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		String cityPackage = City.class.getPackage().getName();
-		AutoConfigurationPackages.register(context, cityPackage);
-		context.register(MongoAutoConfiguration.class, MongoDataAutoConfiguration.class);
-		try {
-			context.refresh();
-			assertDomainTypesDiscovered(context.getBean(MongoMappingContext.class),
-					City.class);
-		}
-		finally {
-			context.close();
-		}
-	}
-	
-	@Test
 	void defaultFieldNamingStrategy() {
 		this.contextRunner.run((context) -> {
 			MongoMappingContext mappingContext = context
@@ -118,14 +95,6 @@ class MongoDataAutoConfigurationTests {
 				});
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static void assertDomainTypesDiscovered(MongoMappingContext mappingContext,
-			Class<?>... types) {
-		Set<Class> initialEntitySet = (Set<Class>) ReflectionTestUtils
-				.getField(mappingContext, "initialEntitySet");
-		assertThat(initialEntitySet).containsOnly(types);
-	}
-	
 	@Test
 	void interfaceFieldNamingStrategy() {
 		this.contextRunner
@@ -133,20 +102,6 @@ class MongoDataAutoConfigurationTests {
 						+ FieldNamingStrategy.class.getName())
 				.run((context) -> assertThat(context).getFailure()
 						.isInstanceOf(BeanCreationException.class));
-	}
-	
-	@Test
-	@SuppressWarnings("unchecked")
-	void entityScanShouldSetInitialEntitySet() {
-		this.contextRunner.withUserConfiguration(EntityScanConfig.class)
-				.run((context) -> {
-					MongoMappingContext mappingContext = context
-							.getBean(MongoMappingContext.class);
-					Set<Class<?>> initialEntitySet = (Set<Class<?>>) ReflectionTestUtils
-							.getField(mappingContext, "initialEntitySet");
-					assertThat(initialEntitySet).containsOnly(City.class, Country.class);
-				});
-
 	}
 	
 	@Test

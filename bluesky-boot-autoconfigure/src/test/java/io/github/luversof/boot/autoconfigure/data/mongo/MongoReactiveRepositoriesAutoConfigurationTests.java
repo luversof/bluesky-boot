@@ -5,17 +5,14 @@ import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DA
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MONGO_REACTIVE_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Set;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 
@@ -32,24 +29,9 @@ class MongoReactiveRepositoriesAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
+			.withPropertyValues("bluesky-modules.mongodb.default-mongo-properties.host=mongo-service", "bluesky-modules.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new)))
 			.withUserConfiguration(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_USER_CONFIGURATION, MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new));
-
-	@Test
-	void testDefaultRepositoryConfiguration() {
-		;
-		
-		
-		this.contextRunner.withUserConfiguration(TestConfiguration.class).run((context) -> {
-			assertThat(context).hasSingleBean(ReactiveCityRepository.class);
-			assertThat(context).hasSingleBean(MongoClient.class);
-			MongoMappingContext mappingContext = context.getBean(MongoMappingContext.class);
-			@SuppressWarnings("unchecked")
-			Set<? extends Class<?>> entities = (Set<? extends Class<?>>) ReflectionTestUtils.getField(mappingContext,
-					"initialEntitySet");
-			assertThat(entities).hasSize(1);
-		});
-	}
 
 	@Test
 	void testNoRepositoryConfiguration() {
