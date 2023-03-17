@@ -14,8 +14,11 @@ management:
     env:
       show-values: always
     configprops.show-values: always
-  endpoints.web.exposure.include: "*"
+  endpoints.web.exposure.include: '*'
+  tracing.sampling.probability: 1.0
+  
 
+logging.pattern.level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
 #eureka:
 #  instance:
 #    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
@@ -38,6 +41,8 @@ eureka:
 #    fetchRegistry: false
     serviceUrl:
       defaultZone: http://eureka1.cloud.bluesky.local/eureka/
+
+management.zipkin.tracing.endpoint: http://dev.bluesky.local:9411/api/v2/spans
 ---
 spring:
   config.activate.on-profile: dockerdev
@@ -89,3 +94,5 @@ eureka:
   client:
     service-url:
       defaultZone: http://bluesky-cloud-netflix-eureka-server-1-service.default.svc.cluster.local:30100/eureka/,http://bluesky-cloud-netflix-eureka-server-2-service.default.svc.cluster.local:30100/eureka/
+
+management.zipkin.tracing.endpoint: http://opentelemetry-collector-service:9411/api/v2/spans
