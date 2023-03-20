@@ -42,7 +42,7 @@ eureka:
     serviceUrl:
       defaultZone: http://eureka1.cloud.bluesky.local/eureka/
 
-management.zipkin.tracing.endpoint: http://dev.bluesky.local:9411/api/v2/spans
+management.zipkin.tracing.endpoint: http://opentelemetry-collector.bluesky.local/api/v2/spans
 ---
 spring:
   config.activate.on-profile: dockerdev
