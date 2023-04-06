@@ -326,6 +326,9 @@
 						</execution>
 					</executions>
 					<configuration>
+						<container>
+							<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+						</container>
 						<from>
 							<image>openjdk:17-slim</image>
 						</from>
