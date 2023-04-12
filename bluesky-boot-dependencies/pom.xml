@@ -21,8 +21,6 @@
 		<download-maven-plugin.version>1.6.8</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
 		<asciidoctorj-diagram.version>2.2.4</asciidoctorj-diagram.version>
-		<spring-doc-resources.version>0.2.5</spring-doc-resources.version>
-		<spring-asciidoctor-extensions.version>0.6.1</spring-asciidoctor-extensions.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidoctor.outputDirectory>${project.build.directory}/generated-docs</asciidoctor.outputDirectory>
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
@@ -198,25 +196,6 @@
 				<!-- (e) sonarqube plugin -->
 				<!-- (s) asciidoctor plugin -->
 				<plugin>
-					<groupId>com.googlecode.maven-download-plugin</groupId>
-					<artifactId>download-maven-plugin</artifactId>
-					<version>${download-maven-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>unpack-doc-resources</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>wget</goal>
-							</goals>
-							<configuration>
-								<url>https://repo.spring.io/release/io/spring/docresources/spring-doc-resources/${spring-doc-resources.version}/spring-doc-resources-${spring-doc-resources.version}.zip</url>
-								<unpack>true</unpack>
-								<outputDirectory>${refdocs.build.directory}</outputDirectory>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<executions>
@@ -258,23 +237,6 @@
 							<artifactId>spring-asciidoctor-backends</artifactId>
 							<version>${spring-asciidoctor-backends.version}</version>
 						</dependency>
-						<!--
-						<dependency>
-							<groupId>io.spring.asciidoctor</groupId>
-							<artifactId>spring-asciidoctor-extensions-spring-boot</artifactId>
-							<version>${spring-asciidoctor-extensions.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>io.spring.asciidoctor</groupId>
-							<artifactId>spring-asciidoctor-extensions-block-switch</artifactId>
-							<version>${spring-asciidoctor-extensions.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>io.spring.asciidoctor</groupId>
-							<artifactId>spring-asciidoctor-extensions-section-ids</artifactId>
-							<version>${spring-asciidoctor-extensions.version}</version>
-						</dependency>
-						-->
 					</dependencies>
 					<configuration>
 						<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
@@ -290,6 +252,7 @@
 								<goal>process-asciidoc</goal>
 							</goals>
 							<configuration>
+								<backend>spring-html</backend>
 								<attributes>
 									// these attributes are required to use the doc resources
 									<docinfo>shared</docinfo>
