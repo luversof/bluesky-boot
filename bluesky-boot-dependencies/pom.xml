@@ -29,6 +29,7 @@
 		<asciidoctor.doctype>book</asciidoctor.doctype>
 		<restdocs-api-spec.version>0.17.1</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.21</restdocs-spec-maven-plugin.version>
+		<spring-asciidoctor-backends.version>0.0.5</spring-asciidoctor-backends.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
@@ -253,6 +254,12 @@
 							<version>${spring-restdocs.version}</version>
 						</dependency>
 						<dependency>
+							<groupId>io.spring.asciidoctor.backends</groupId>
+							<artifactId>spring-asciidoctor-backends</artifactId>
+							<version>${spring-asciidoctor-backends.version}</version>
+						</dependency>
+						<!--
+						<dependency>
 							<groupId>io.spring.asciidoctor</groupId>
 							<artifactId>spring-asciidoctor-extensions-spring-boot</artifactId>
 							<version>${spring-asciidoctor-extensions.version}</version>
@@ -267,6 +274,7 @@
 							<artifactId>spring-asciidoctor-extensions-section-ids</artifactId>
 							<version>${spring-asciidoctor-extensions.version}</version>
 						</dependency>
+						-->
 					</dependencies>
 					<configuration>
 						<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
@@ -400,10 +408,12 @@
 				<plugins>
 					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
 						</plugin> -->
+						<!--
 					<plugin>
 						<groupId>com.googlecode.maven-download-plugin</groupId>
 						<artifactId>download-maven-plugin</artifactId>
 					</plugin>
+					-->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
