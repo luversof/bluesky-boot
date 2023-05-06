@@ -91,25 +91,5 @@ The configprop:example.property[deprecated] property has been deprecated.
 
 Use the configprop:server.port[format=envvar] environment variable to configure the server's port.
 
-include::{snippets}/error-example/curl-request.adoc[]
+// include::{snippets}/error-example/curl-request.adoc[]
 
-== diagram extensions
-
-[mermaid, mermaid-test, svg]
-----
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-----
-
-[graphviz, dot-example, svg]
-----
-digraph g {
-    a -> b
-    b -> c
-    c -> d
-    d -> a
-}
-----

@@ -373,8 +373,8 @@ class RedisAutoConfigurationTests {
 		.run((context) -> {
 			@SuppressWarnings("unchecked")
 			HashOperations<String, String, Object> redisOperations = context.getBean("redisTemplate", HashOperations.class);
-			var restTemplate = context.getBean("redisTemplate", RedisTemplate.class);
-			assertThat(restTemplate).isNotNull();
+			var redisTemplate = context.getBean("redisTemplate", RedisTemplate.class);
+			assertThat(redisTemplate).isNotNull();
 //			var b = context.getBean("redisTemplate", StreamOperations.class);
 			Long increment = redisOperations.increment("key1", "key2", 1);
 			log.debug("Test : {}", increment);
