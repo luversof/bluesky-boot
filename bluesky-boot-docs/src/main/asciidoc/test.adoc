@@ -90,6 +90,3 @@ Use the configprop:server.port[] property to configure the server's port.
 The configprop:example.property[deprecated] property has been deprecated.
 
 Use the configprop:server.port[format=envvar] environment variable to configure the server's port.
-
-// include::{snippets}/error-example/curl-request.adoc[]
-
