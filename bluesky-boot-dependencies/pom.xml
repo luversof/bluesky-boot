@@ -12,25 +12,24 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-boot.version>3.0.6</spring-boot.version>
-		<spring-cloud.version>2022.0.2</spring-cloud.version>
+		<spring-cloud.version>2022.0.3</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-autoconfigure-devcheck.version>3.0.0-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
 		<spring-boot-admin-starter.version>3.0.2</spring-boot-admin-starter.version>
 		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
 		<!-- tag:asciidoctor-properties[] -->
-		<download-maven-plugin.version>1.6.8</download-maven-plugin.version>
 		<asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
-		<asciidoctorj-diagram.version>2.2.7</asciidoctorj-diagram.version>
+		<asciidoctorj-diagram.version>2.2.8</asciidoctorj-diagram.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidoctor.outputDirectory>${project.build.directory}/generated-docs</asciidoctor.outputDirectory>
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
-		<restdocs-api-spec.version>0.18.0</restdocs-api-spec.version>
+		<restdocs-api-spec.version>0.18.2</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.22</restdocs-spec-maven-plugin.version>
 		<spring-asciidoctor-backends.version>0.0.5</spring-asciidoctor-backends.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
+		<jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
 		<properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		<!-- (s) build properties -->
