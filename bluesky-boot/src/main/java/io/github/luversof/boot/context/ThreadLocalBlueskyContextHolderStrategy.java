@@ -16,12 +16,12 @@ final class ThreadLocalBlueskyContextHolderStrategy implements BlueskyContextHol
 
 	@Override
 	public BlueskyContext getContext() {
-		var blueskyContext = contextHolder.get();
-		if (blueskyContext == null) {
-			blueskyContext = createEmptyContext();
-			contextHolder.set(blueskyContext);
+		var context = contextHolder.get();
+		if (context == null) {
+			context = createEmptyContext();
+			contextHolder.set(context);
 		}
-		return blueskyContext;
+		return context;
 	}
 
 	@Override

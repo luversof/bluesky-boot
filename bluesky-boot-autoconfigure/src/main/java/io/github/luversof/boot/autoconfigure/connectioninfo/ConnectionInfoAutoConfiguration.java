@@ -1,7 +1,5 @@
 package io.github.luversof.boot.autoconfigure.connectioninfo;
 
-import java.util.Map;
-
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -12,20 +10,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import io.github.luversof.boot.connectioninfo.ConnectionInfoProperties;
+import com.zaxxer.hikari.HikariDataSource;
+
+import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
+import io.github.luversof.boot.connectioninfo.MariadbDataSourceConnectionInfoLoader;
 
 @AutoConfiguration("_blueskyBootConnectionInfoAutoConfiguration")
-@EnableConfigurationProperties(ConnectionInfoProperties.class)
+@EnableConfigurationProperties(ConnectionInfoLoaderProperties.class)
 public class ConnectionInfoAutoConfiguration {
 	
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class })
-	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "datasource-mariadb.enabled", havingValue = "true")
+	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true")
 	public static class DataSourceConnectionInfoMariadbConfiguration {
 
         @Bean
-        Map<String, DataSource> dataSourceConnectionInfoMariadbLoader(ConnectionInfoProperties connectionInfoProperties) {
-            return new DataSourceConnectionInfoMariadbLoader(connectionInfoProperties).load();
+        ConnectionInfoCollector<HikariDataSource> dataSourceConnectionInfoMariadbLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+            return new MariadbDataSourceConnectionInfoLoader(connectionInfoProperties).load();
         }
 	}
 

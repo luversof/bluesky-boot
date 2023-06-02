@@ -1,10 +1,8 @@
 package io.github.luversof.boot.connectioninfo;
 
-import java.util.Map;
-
 @FunctionalInterface
-public interface ConnectionInfoLoader<T> {
+public interface ConnectionInfoLoader<T, U extends ConnectionInfoCollector<T>> {
 
-	Map<String, T> load();
+	U load();
 
 }

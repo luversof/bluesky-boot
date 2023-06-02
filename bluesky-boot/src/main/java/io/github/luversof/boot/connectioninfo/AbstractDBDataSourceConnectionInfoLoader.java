@@ -1,11 +1,10 @@
-package io.github.luversof.boot.autoconfigure.connectioninfo;
+package io.github.luversof.boot.connectioninfo;
 
 import java.sql.Driver;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -15,20 +14,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.util.CollectionUtils;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
-import io.github.luversof.boot.connectioninfo.ConnectionInfoProperties;
-import io.github.luversof.boot.connectioninfo.ConnectionInfoProperties.LoaderInfo;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * DB에서 connectionInfo를 load 해서 DataSource를 구하는 경우 사용
+ * @author bluesky
+ *
+ */
 @Slf4j
-public abstract class AbstractDataSourceConnectionInfoLoader implements ConnectionInfoLoader<DataSource> {
+public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSource> implements ConnectionInfoLoader<T, ConnectionInfoCollector<T>> {
 	
-	protected final ConnectionInfoProperties connectionInfoProperties;
+	protected final ConnectionInfoLoaderProperties connectionInfoLoaderProperties;
 	
 	@Getter
 	protected String loaderQuery = """
@@ -37,12 +36,12 @@ public abstract class AbstractDataSourceConnectionInfoLoader implements Connecti
 		WHERE connection IN ({0})
 		""";
 	
-	protected AbstractDataSourceConnectionInfoLoader(ConnectionInfoProperties connectionInfoProperties) {
-		this.connectionInfoProperties = connectionInfoProperties;
+	protected AbstractDBDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoLoaderProperties) {
+		this.connectionInfoLoaderProperties = connectionInfoLoaderProperties;
 	}
 
 	@Override
-	public Map<String, DataSource> load() {
+	public ConnectionInfoCollector<T> load() {
 
 		List<String> connectionList = getLoaderInfo().getConnections().values().stream().flatMap(List::stream).distinct().toList();
 		
@@ -61,16 +60,15 @@ public abstract class AbstractDataSourceConnectionInfoLoader implements Connecti
 		});
 		
 		if (CollectionUtils.isEmpty(connectionInfoList)) {
-			return Collections.emptyMap();
+			return Collections::emptyMap;
 		}
-		
-		var dataSourceMap = new HashMap<String, DataSource>();
-		
+
+		var dataSourceMap = new HashMap<String, T>();
 		for (var connectionInfo : connectionInfoList) {
 			dataSourceMap.put(connectionInfo.getConnection(), createDataSource(connectionInfo));
 		}
 		
-		return dataSourceMap;
+		return () -> dataSourceMap;
 	}
 
 	private JdbcTemplate getJdbcTemplate() {
@@ -83,16 +81,10 @@ public abstract class AbstractDataSourceConnectionInfoLoader implements Connecti
 	}
 
 	private LoaderInfo getLoaderInfo() {
-		return connectionInfoProperties.getLoaders().get(getLoaderKey());
+		return connectionInfoLoaderProperties.getLoaders().get(getLoaderKey());
 	}
 	
-	private DataSource createDataSource(ConnectionInfo connectionInfo) {
-		var config = new HikariConfig();
-		config.setJdbcUrl(connectionInfo.getUrl());
-		config.setUsername(connectionInfo.getUsername());
-		config.setPassword(connectionInfo.getPassword());
-		return new HikariDataSource(config);
-	}
+	protected abstract T createDataSource(ConnectionInfo connectionInfo);
 
 	protected abstract String getLoaderKey();
 

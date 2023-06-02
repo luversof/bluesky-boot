@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import io.github.luversof.boot.connectioninfo.ConnectionInfoProperties;
-import io.github.luversof.boot.connectioninfo.ConnectionInfoProperties.LoaderInfo;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
+import io.github.luversof.boot.connectioninfo.MariadbDataSourceConnectionInfoLoader;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,8 +18,8 @@ class ConnectionInfoTests {
 	@Test
 	@Disabled
 	void dataSourceConnectionInfoMariadbLoaderTest() {
-		var connectionInfoProperties = new ConnectionInfoProperties();
-		connectionInfoProperties.setLoaders(Map.of("datasource-mariadb", 
+		var connectionInfoProperties = new ConnectionInfoLoaderProperties();
+		connectionInfoProperties.setLoaders(Map.of("mariadb-datasource", 
 				LoaderInfo.builder().properties(Map.of(
 						"url", "jdbc:mariadb://127.0.0.1:3306/spring_config",
 						"username", "",
@@ -26,13 +27,13 @@ class ConnectionInfoTests {
 						))
 				.connections(Map.of("test", List.of("test"))).build()));
 		
-		var dataSourceConnectionInfoMariadbLoader = new DataSourceConnectionInfoMariadbLoader(connectionInfoProperties);
+		var dataSourceConnectionInfoMariadbLoader = new MariadbDataSourceConnectionInfoLoader(connectionInfoProperties);
 		var dataSourceMap = dataSourceConnectionInfoMariadbLoader.load();
 		
 		log.debug("dataSourceMap : {}", dataSourceMap);
 		
 		
-		var jdbcTemplate = new JdbcTemplate(dataSourceMap.get("test"));
+		var jdbcTemplate = new JdbcTemplate(dataSourceMap.getConnectionInfoMap().get("test"));
 		var connectionInfo = jdbcTemplate.queryForList("SELECT * FROM ConnectionInfo");
 		log.debug("connectionInfo : {}", connectionInfo);
 		
