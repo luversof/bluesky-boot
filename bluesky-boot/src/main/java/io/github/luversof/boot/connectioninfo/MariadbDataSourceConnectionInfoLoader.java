@@ -6,10 +6,12 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class MariadbDataSourceConnectionInfoLoader extends AbstractDBDataSourceConnectionInfoLoader<HikariDataSource> {
 	
 	@Getter
+	@Setter
 	protected String loaderKey = "mariadb-datasource";
 	
 	public MariadbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {

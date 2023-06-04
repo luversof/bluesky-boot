@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.security.annotation;
+package io.github.luversof.boot.security.access.prepost;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

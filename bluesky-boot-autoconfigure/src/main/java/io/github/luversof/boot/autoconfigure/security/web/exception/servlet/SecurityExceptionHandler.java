@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.security.exception.servlet;
+package io.github.luversof.boot.autoconfigure.security.web.exception.servlet;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
