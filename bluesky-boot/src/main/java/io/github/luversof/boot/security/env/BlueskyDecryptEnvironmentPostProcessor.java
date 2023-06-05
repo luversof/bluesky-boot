@@ -17,7 +17,6 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.PropertySources;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 import io.github.luversof.boot.security.crypto.encrypt.BlueskyDelegatingTextEncryptor;
 import io.github.luversof.boot.security.crypto.factory.BlueskyTextEncryptorFactories;
@@ -38,7 +37,7 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 	private BlueskyDelegatingTextEncryptor textEncryptor;
 	
 	public BlueskyDecryptEnvironmentPostProcessor() {
-		textEncryptor = (BlueskyDelegatingTextEncryptor) BlueskyTextEncryptorFactories.createDelegatingTextEncrpyptor();
+		textEncryptor = (BlueskyDelegatingTextEncryptor) BlueskyTextEncryptorFactories.getTextEncryptor();
 	}
 
 	@Override
@@ -75,9 +74,9 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 	}
 	
 	protected void merge(PropertySource<?> source, Map<String, Object> properties) {
-		if (source instanceof CompositePropertySource) {
+		if (source instanceof CompositePropertySource compositePropertySource) {
 
-			List<PropertySource<?>> sources = new ArrayList<>(((CompositePropertySource) source).getPropertySources());
+			List<PropertySource<?>> sources = new ArrayList<>(compositePropertySource.getPropertySources());
 			Collections.reverse(sources);
 
 			for (PropertySource<?> nested : sources) {
@@ -85,11 +84,11 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 			}
 
 		}
-		else if (source instanceof EnumerablePropertySource<?> enumerable) {
+		else if (source instanceof EnumerablePropertySource<?> enumerablePropertySource) {
 			Map<String, Object> otherCollectionProperties = new LinkedHashMap<>();
 			boolean sourceHasDecryptedCollection = false;
 
-			for (String key : enumerable.getPropertyNames()) {
+			for (String key : enumerablePropertySource.getPropertyNames()) {
 				Object property = source.getProperty(key);
 				if (property != null) {
 					String value = property.toString();

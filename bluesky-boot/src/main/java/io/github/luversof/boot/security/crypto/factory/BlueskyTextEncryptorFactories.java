@@ -1,6 +1,7 @@
 package io.github.luversof.boot.security.crypto.factory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
@@ -11,11 +12,35 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlueskyTextEncryptorFactories {
+	
+	private static TextEncryptor textEncryptor;
+	
+	public static TextEncryptor getTextEncryptor() {
+		if (textEncryptor == null) {
+			createDelegatingTextEncryptor();
+		}
+		
+		return textEncryptor;
+	}
 
-	public static TextEncryptor createDelegatingTextEncrpyptor() {
-		var encryptors = new HashMap<String, TextEncryptor>();
-		encryptors.put("text", Encryptors.text("pass", "8560b4f4b3"));
-		encryptors.put("delux", Encryptors.delux("pass", "8560b4f4b3"));
-		return new BlueskyDelegatingTextEncryptor("text", encryptors);
+	public static TextEncryptor createDelegatingTextEncryptor() {
+		var textEncryptorMap = new HashMap<String, TextEncryptor>();
+		textEncryptorMap.putAll(getDefaultTextEncryptorMap());
+		textEncryptor = new BlueskyDelegatingTextEncryptor("text", textEncryptorMap);
+		return textEncryptor;
+	}
+	
+	public static TextEncryptor createDelegatingTextEncryptor(Map<String, TextEncryptor> textEncryptorMap) {
+		textEncryptorMap = new HashMap<>(textEncryptorMap);
+		textEncryptorMap.putAll(getDefaultTextEncryptorMap());
+		textEncryptor = new BlueskyDelegatingTextEncryptor("text", textEncryptorMap);
+		return textEncryptor;
+	}
+	
+	private static Map<String, TextEncryptor> getDefaultTextEncryptorMap() {
+		var textEncryptorMap = new HashMap<String, TextEncryptor>();
+		textEncryptorMap.put("text", Encryptors.text("pass", "8560b4f4b3"));
+		textEncryptorMap.put("delux", Encryptors.delux("pass", "8560b4f4b3"));
+		return textEncryptorMap;
 	}
 }
