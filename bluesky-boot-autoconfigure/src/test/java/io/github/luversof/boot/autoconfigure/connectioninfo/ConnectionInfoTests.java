@@ -7,32 +7,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.TestPropertySources;
 
-import io.github.luversof.boot.autoconfigure.core.config.CoreProperties;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
 import io.github.luversof.boot.connectioninfo.MariadbDataSourceConnectionInfoLoader;
+import io.github.luversof.boot.security.env.BlueskyDecryptEnvironmentPostProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class ConnectionInfoTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+			.withInitializer((applicationContext) -> new BlueskyDecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 			.withPropertyValues(BASE_PROPERTY)
+			.withPropertyValues(
+				"bluesky-modules.connection-info.loaders.mariadb-datasource.enabed=true",
+				"bluesky-modules.connection-info.loaders.mariadb-datasource.properties.url=jdbc:mariadb://mariadb.bluesky.local:3306/connection_info",
+				"bluesky-modules.connection-info.loaders.mariadb-datasource.properties.username={text}dd2d9a9a3735b9f9a63664dca900b04e34d92759a43d301c74dd60d235c9576c",
+				"bluesky-modules.connection-info.loaders.mariadb-datasource.properties.password={text}dd2d9a9a3735b9f9a63664dca900b04e34d92759a43d301c74dd60d235c9576c",
+				"bluesky-modules.connection-info.loaders.mariadb-datasource.connections.mapexample=test1"
+			)
 			.withPropertyValues("bluesky-modules.core.modules.test.domain.web=http://localhost")
 			.withPropertyValues("bluesky-modules.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
 			.withUserConfiguration(CORE_USER_CONFIGURATION)
 			.withUserConfiguration(ConnectionInfoAutoConfiguration.class)
-			.withUserConfiguration(ConnectionInfoTestConfiguration.class)
 			;
 	
 	@Test
@@ -61,19 +63,17 @@ class ConnectionInfoTests {
 	
 	
 	@Test
-	void test() {
+	void connectionInfoCollector() {
 		this.contextRunner.run(context -> {
 			assertThat(context).hasSingleBean(ConnectionInfoLoaderProperties.class);
 			var connectionInfoLoaderProperties = context.getBean(ConnectionInfoLoaderProperties.class);
 			
 			log.debug("connectionInfoLoaderProperties : {}", connectionInfoLoaderProperties);
+			log.debug("connectionInfoLoaderProperties username : {}", connectionInfoLoaderProperties.getLoaders().get("mariadb-datasource").getProperties().get("username"));
+			
+			var connectionInfoCollector = context.getBean(ConnectionInfoCollector.class);
+			log.debug("connectionInfoCollector : {}", connectionInfoCollector.getConnectionInfoMap());
 		});
 	}
 	
-	@Configuration
-	@PropertySource("classpath:connectioninfo/connectioninfo.properties")	
-	static class ConnectionInfoTestConfiguration {
-		
-	}
-
 }

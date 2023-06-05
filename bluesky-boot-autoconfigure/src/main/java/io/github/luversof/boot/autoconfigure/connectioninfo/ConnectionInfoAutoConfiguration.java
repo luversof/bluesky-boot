@@ -22,11 +22,11 @@ public class ConnectionInfoAutoConfiguration {
 	
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class })
-	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true")
-	public static class DataSourceConnectionInfoMariadbConfiguration {
+	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true", matchIfMissing = true)
+	public static class MariadbDataSourceConnectionInfoConfiguration {
 
         @Bean
-        ConnectionInfoCollector<HikariDataSource> dataSourceConnectionInfoMariadbLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+        ConnectionInfoCollector<HikariDataSource> mariadbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
             return new MariadbDataSourceConnectionInfoLoader(connectionInfoProperties).load();
         }
 	}

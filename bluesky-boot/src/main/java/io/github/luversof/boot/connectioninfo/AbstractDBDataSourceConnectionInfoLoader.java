@@ -42,6 +42,10 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 
 	@Override
 	public ConnectionInfoCollector<T> load() {
+		
+		if (CollectionUtils.isEmpty(getLoaderInfo().getConnections())) {
+			return Collections::emptyMap;
+		}
 
 		List<String> connectionList = getLoaderInfo().getConnections().values().stream().flatMap(List::stream).distinct().toList();
 		
