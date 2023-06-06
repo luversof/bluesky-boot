@@ -84,8 +84,20 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 	public String encrypt(String textEncryptorId, String text) {
 		return this.idPrefix + textEncryptorId + this.idSuffix + this.textEncryptorMap.get(textEncryptorId).encrypt(text);
 	}
-
 	
+	/**
+	 * 여기서 호출하는 encryptedText는 textEncryptorId prefix 구간없이 호출
+	 * @param textEncryptorId
+	 * @param encryptedText
+	 * @return
+	 */
+	public String decrypt(String textEncryptorId, String encryptedText) {
+		return this.decrypt(this.idPrefix + textEncryptorId + this.idSuffix + encryptedText);
+	}
+
+	/**
+	 * encryptedText는 textEncryptorId와 조합된 형태인 경우 해당 textEncryptor를 찾아 decrypt 처리
+	 */
 	@Override
 	public String decrypt(String encryptedText) {
 		
