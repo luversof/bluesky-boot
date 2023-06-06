@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.util.CollectionUtils;
 
-import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -43,11 +42,14 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 	@Override
 	public ConnectionInfoCollector<T> load() {
 		
-		if (CollectionUtils.isEmpty(getLoaderInfo().getConnections())) {
+		if (connectionInfoLoaderProperties == null 
+				|| connectionInfoLoaderProperties.getLoaders() == null 
+				|| !connectionInfoLoaderProperties.getLoaders().containsKey(getLoaderKey())
+				|| CollectionUtils.isEmpty(connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getConnections())) {
 			return Collections::emptyMap;
 		}
 
-		List<String> connectionList = getLoaderInfo().getConnections().values().stream().flatMap(List::stream).distinct().toList();
+		List<String> connectionList = connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getConnections().values().stream().flatMap(List::stream).distinct().toList();
 		
 		var loaderJdbcTemplate = getJdbcTemplate();
 		
@@ -76,7 +78,7 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 	}
 
 	private JdbcTemplate getJdbcTemplate() {
-		var loaderProperties = getLoaderInfo().getProperties();
+		var loaderProperties = connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getProperties();
 		String url = loaderProperties.get("url");
 		String username = loaderProperties.get("username");
 		String password = loaderProperties.get("password");
@@ -84,10 +86,6 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 		return new JdbcTemplate(new SimpleDriverDataSource(getLoaderDriver(), url, username, password));
 	}
 
-	private LoaderInfo getLoaderInfo() {
-		return connectionInfoLoaderProperties.getLoaders().get(getLoaderKey());
-	}
-	
 	protected abstract T createDataSource(ConnectionInfo connectionInfo);
 
 	protected abstract String getLoaderKey();
