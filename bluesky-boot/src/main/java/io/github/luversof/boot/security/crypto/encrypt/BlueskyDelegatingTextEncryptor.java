@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.util.CollectionUtils;
 
 import io.github.luversof.boot.exception.BlueskyException;
 import lombok.extern.slf4j.Slf4j;
@@ -141,6 +142,10 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 		}
 		
 		return encryptedText.substring(end + 1);
+	}
+	
+	public boolean isEmpty() {
+		return CollectionUtils.isEmpty(this.textEncryptorMap);
 	}
 	
 

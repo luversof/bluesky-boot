@@ -1,4 +1,4 @@
-package io.github.luversof.boot.jdbc;
+package io.github.luversof.boot.jdbc.datasource;
 
 import org.springframework.util.Assert;
 

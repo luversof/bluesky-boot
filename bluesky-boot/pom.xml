@@ -14,7 +14,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
 		</dependency>
-		
+
 		<!-- (s) test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -22,13 +22,13 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- (e) test -->
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -39,7 +39,7 @@
 			<artifactId>spring-security-crypto</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<!-- (s) data-jdbc -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -49,6 +49,11 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>

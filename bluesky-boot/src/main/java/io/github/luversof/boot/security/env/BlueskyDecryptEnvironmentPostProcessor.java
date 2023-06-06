@@ -48,6 +48,10 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		
+		if (textEncryptor ==null || textEncryptor.isEmpty()) {
+			return;
+		}
+		
 		MutablePropertySources propertySources = environment.getPropertySources();
 		
 		environment.getPropertySources().remove(DECRYPTED_PROPERTY_SOURCE_NAME);
