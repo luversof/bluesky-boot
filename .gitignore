@@ -251,4 +251,4 @@ buildNumber.properties
 
 .asciidoctor/
 .flattened-pom.xml
-catalina.out
+logs/
