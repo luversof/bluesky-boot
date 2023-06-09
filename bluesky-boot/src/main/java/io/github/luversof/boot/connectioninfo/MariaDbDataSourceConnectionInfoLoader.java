@@ -5,16 +5,17 @@ import java.sql.Driver;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.github.luversof.boot.security.crypto.factory.BlueskyTextEncryptorFactories;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MariadbDataSourceConnectionInfoLoader extends AbstractDBDataSourceConnectionInfoLoader<HikariDataSource> {
+public class MariaDbDataSourceConnectionInfoLoader extends AbstractDBDataSourceConnectionInfoLoader<HikariDataSource> {
 	
 	@Getter
 	@Setter
 	protected String loaderKey = "mariadb-datasource";
 	
-	public MariadbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+	public MariaDbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
 		super(connectionInfoProperties);
 	}
 
@@ -25,9 +26,10 @@ public class MariadbDataSourceConnectionInfoLoader extends AbstractDBDataSourceC
 	
 	protected HikariDataSource createDataSource(ConnectionInfo connectionInfo) {
 		var config = new HikariConfig();
+		var textEncryptor = BlueskyTextEncryptorFactories.getTextEncryptor();
 		config.setJdbcUrl(connectionInfo.getUrl());
-		config.setUsername(connectionInfo.getUsername());
-		config.setPassword(connectionInfo.getPassword());
+		config.setUsername(textEncryptor.decrypt(connectionInfo.getUsername()));
+		config.setPassword(textEncryptor.decrypt(connectionInfo.getPassword()));
 		return new HikariDataSource(config);
 	}
 

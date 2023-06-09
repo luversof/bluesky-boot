@@ -31,7 +31,7 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 	@Getter
 	protected String loaderQuery = """
 		SELECT connection, url, username, password, extradata 
-		FROM connectionInfo
+		FROM ConnectionInfo
 		WHERE connection IN ({0})
 		""";
 	

@@ -1,4 +1,4 @@
-package io.github.luversof.boot.jdbc.datasource;
+package io.github.luversof.boot.jdbc.datasource.context;
 
 @FunctionalInterface
 public interface BlueskyRoutingDataSourceContext {

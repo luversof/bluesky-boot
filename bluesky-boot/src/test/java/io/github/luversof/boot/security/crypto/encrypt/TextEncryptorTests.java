@@ -37,7 +37,6 @@ class TextEncryptorTests {
 			log.debug("decryptText : {}, {}", text.equals(decryptText), decryptText);
 		}
 		
-		
 		{
 			var encryptor = BlueskyTextEncryptorFactories.createDelegatingTextEncryptor();
 			var encryptText = encryptor.encrypt(text);
@@ -45,5 +44,6 @@ class TextEncryptorTests {
 			var decryptText = encryptor.decrypt(encryptText);
 			log.debug("decryptText : {}, {}", text.equals(decryptText), decryptText);
 		}
+		
 	}
 }

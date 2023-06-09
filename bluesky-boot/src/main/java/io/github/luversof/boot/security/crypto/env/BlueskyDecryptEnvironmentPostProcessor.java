@@ -1,4 +1,4 @@
-package io.github.luversof.boot.security.env;
+package io.github.luversof.boot.security.crypto.env;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +48,7 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		
-		if (textEncryptor ==null || textEncryptor.isEmpty()) {
+		if (textEncryptor == null || textEncryptor.isEmpty()) {
 			return;
 		}
 		

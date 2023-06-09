@@ -33,6 +33,12 @@ public class CoreDevCheckController {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
 	}
 	
+	@DevCheckDescription("Spring activeProfiles 조회")
+	@GetMapping("/property")
+	public String property(String key) {
+		return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
 	@GetMapping("/blueskyPropertiesMap")
