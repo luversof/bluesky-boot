@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.security.crypto.encrypt.config;
+package io.github.luversof.boot.autoconfigure.security.crypto.encrypt;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;

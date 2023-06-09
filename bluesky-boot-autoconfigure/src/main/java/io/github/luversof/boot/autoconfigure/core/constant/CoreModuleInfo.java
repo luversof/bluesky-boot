@@ -1,6 +1,6 @@
 package io.github.luversof.boot.autoconfigure.core.constant;
 
-import io.github.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
+import io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
 
 public interface CoreModuleInfo {
 

@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core.config;
+package io.github.luversof.boot.autoconfigure.core;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-modules.core")
-public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties>, InitializingBean {
+public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties>, InitializingBean {
 
 	private Map<String, CoreModuleProperties> modules = new HashMap<>();
 	

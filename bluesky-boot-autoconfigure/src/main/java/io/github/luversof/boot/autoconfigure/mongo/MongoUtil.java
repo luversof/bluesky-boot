@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.mongo.config;
+package io.github.luversof.boot.autoconfigure.mongo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.connection.ClusterConnectionMode;
 
-import io.github.luversof.boot.autoconfigure.mongo.config.MongoProperties.BlueskyMongoProperties;
+import io.github.luversof.boot.autoconfigure.mongo.MongoProperties.BlueskyMongoProperties;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

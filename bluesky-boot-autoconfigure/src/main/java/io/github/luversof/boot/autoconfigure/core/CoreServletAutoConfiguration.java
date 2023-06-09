@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core.config;
+package io.github.luversof.boot.autoconfigure.core;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -10,7 +10,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import io.github.luversof.boot.autoconfigure.core.devcheck.controller.CoreDevCheckController;
+import io.github.luversof.boot.autoconfigure.core.controller.CoreDevCheckController;
 import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
 import jakarta.servlet.Servlet;

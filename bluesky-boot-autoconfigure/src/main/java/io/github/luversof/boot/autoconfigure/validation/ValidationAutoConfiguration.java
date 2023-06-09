@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.validation.config;
+package io.github.luversof.boot.autoconfigure.validation;
 
 import org.aspectj.weaver.Advice;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

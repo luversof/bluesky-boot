@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 
 import com.mongodb.client.MongoClient;
 
-import io.github.luversof.boot.autoconfigure.mongo.config.MongoProperties;
+import io.github.luversof.boot.autoconfigure.mongo.MongoProperties;
 
 /**
  * MongoProperties가 생성된 이후 Data Mongo의 mongoTemplate 빈 생성용 processor

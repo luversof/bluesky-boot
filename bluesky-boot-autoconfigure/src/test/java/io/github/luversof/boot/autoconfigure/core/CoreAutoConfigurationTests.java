@@ -8,8 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.github.luversof.boot.autoconfigure.core.config.CoreProperties;
-import io.github.luversof.boot.autoconfigure.core.config.CoreProperties.CoreModuleProperties;
+import io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties;
 import io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 

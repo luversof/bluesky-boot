@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core.config;
+package io.github.luversof.boot.autoconfigure.core;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

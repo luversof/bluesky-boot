@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core.devcheck.controller;
+package io.github.luversof.boot.autoconfigure.core.controller;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.luversof.boot.autoconfigure.core.config.CoreProperties;
+import io.github.luversof.boot.autoconfigure.core.CoreProperties;
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckController;
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
 import io.github.luversof.boot.config.BlueskyProperties;

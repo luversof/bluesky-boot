@@ -3,9 +3,9 @@ package io.github.luversof.boot.autoconfigure;
 import java.util.HashSet;
 
 import io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration;
-import io.github.luversof.boot.autoconfigure.core.config.CoreAutoConfiguration;
+import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import io.github.luversof.boot.autoconfigure.mongo.config.MongoAutoConfiguration;
+import io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 public class AutoConfigurationTestInfo {
 

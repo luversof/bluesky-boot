@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.mongo.config;
+package io.github.luversof.boot.autoconfigure.mongo;
 
 import java.util.HashMap;
 import java.util.Map;
