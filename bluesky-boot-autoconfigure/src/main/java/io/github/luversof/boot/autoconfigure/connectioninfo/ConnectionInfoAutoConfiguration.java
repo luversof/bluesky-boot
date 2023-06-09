@@ -1,7 +1,10 @@
 package io.github.luversof.boot.autoconfigure.connectioninfo;
 
+import java.util.Map;
+
 import javax.sql.DataSource;
 
+import org.jetbrains.annotations.Nullable;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.github.luversof.boot.autoconfigure.connectioninfo.controller.ConnectionInfoDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.MariaDbDataSourceConnectionInfoLoader;
@@ -41,6 +45,11 @@ public class ConnectionInfoAutoConfiguration {
 		ConnectionInfoCollector<HikariDataSource> sqlServerDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
 			return new SQLServerDataSourceConnectionInfoLoader(connectionInfoProperties).load();
 		}
+	}
+	
+	@Bean
+	ConnectionInfoDevCheckController connectionInfoDevCheckController(ConnectionInfoLoaderProperties connectionInfoLoaderProperties, @Nullable Map<String, ConnectionInfoCollector<?>> connectionInfoCollectorMap) {
+		return new ConnectionInfoDevCheckController(connectionInfoLoaderProperties, connectionInfoCollectorMap);
 	}
 	
 }

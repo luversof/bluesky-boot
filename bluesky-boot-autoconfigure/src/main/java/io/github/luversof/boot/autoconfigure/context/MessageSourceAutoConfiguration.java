@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.util.StringUtils;
 
+import io.github.luversof.boot.autoconfigure.context.controller.MessageSourceDevCheckController;
 import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
 
 

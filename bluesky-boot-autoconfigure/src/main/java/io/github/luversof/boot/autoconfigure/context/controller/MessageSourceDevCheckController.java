@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.context;
+package io.github.luversof.boot.autoconfigure.context.controller;
 
 import java.util.LinkedHashMap;
 import java.util.List;

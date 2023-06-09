@@ -2,6 +2,7 @@ package io.github.luversof.boot.security.crypto.encrypt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.util.CollectionUtils;
@@ -78,7 +79,11 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 
 	@Override
 	public String encrypt(String text) {
-		return this.idPrefix + this.defaultTextEncryptorId + this.idSuffix + this.textEncryptorMap.get(this.defaultTextEncryptorId).encrypt(text);
+		return encrypt(defaultTextEncryptorId, text);
+	}
+	
+	public String encrypt(String textEncryptorId, String text) {
+		return this.idPrefix + textEncryptorId + this.idSuffix + this.textEncryptorMap.get(textEncryptorId).encrypt(text);
 	}
 	
 	/**
@@ -125,6 +130,16 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 		return textEncryptorId;
 	}
 	
+	public BlueskyDelegatingTextEncryptor addTextEncryptor(String textEncryptorId, TextEncryptor textEncryptor) {
+		this.textEncryptorMap.put(textEncryptorId, textEncryptor);
+		return this;
+	}
+	
+	public BlueskyDelegatingTextEncryptor addTextEncryptor(Map<String, TextEncryptor> textEncryptorMap) {
+		this.textEncryptorMap.putAll(textEncryptorMap);
+		return this;
+	}
+	
 	private String extractEncryptedText(String encryptedText) {
 		if (encryptedText == null) {
 			return encryptedText;
@@ -142,7 +157,11 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 		return encryptedText.substring(end + 1);
 	}
 	
-	public boolean isEmpty() {
+	public boolean isTextEncryptorMapEmpty() {
 		return CollectionUtils.isEmpty(this.textEncryptorMap);
+	}
+	
+	public Set<String> textEncryptorMapKeySet() {
+		return this.textEncryptorMap.keySet();
 	}
 }

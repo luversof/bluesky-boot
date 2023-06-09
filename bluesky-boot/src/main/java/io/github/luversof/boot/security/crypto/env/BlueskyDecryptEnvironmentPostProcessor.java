@@ -37,7 +37,7 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 	private BlueskyDelegatingTextEncryptor textEncryptor;
 	
 	public BlueskyDecryptEnvironmentPostProcessor() {
-		textEncryptor = (BlueskyDelegatingTextEncryptor) BlueskyTextEncryptorFactories.getTextEncryptor();
+		textEncryptor = (BlueskyDelegatingTextEncryptor) BlueskyTextEncryptorFactories.getDelegatingTextEncryptor();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		
-		if (textEncryptor == null || textEncryptor.isEmpty()) {
+		if (textEncryptor == null || textEncryptor.isTextEncryptorMapEmpty()) {
 			return;
 		}
 		

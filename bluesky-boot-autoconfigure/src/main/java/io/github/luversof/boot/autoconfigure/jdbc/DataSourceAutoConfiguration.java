@@ -15,6 +15,7 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
+import io.github.luversof.boot.autoconfigure.jdbc.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.jdbc.datasource.aspect.BlueskyRoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.lookup.BlueskyRoutingDataSource;
@@ -70,6 +71,11 @@ public class DataSourceAutoConfiguration {
     @Bean
     public BlueskyRoutingDataSourceAspect blueskyRoutingDataSourceAspect() {
     	return new BlueskyRoutingDataSourceAspect();
+    }
+    
+    @Bean
+    public DataSourceDevCheckController dataSourceDevCheckController(LazyConnectionDataSourceProxy blueskyRoutingDataSource) {
+    	return new DataSourceDevCheckController(blueskyRoutingDataSource);
     }
 
 }

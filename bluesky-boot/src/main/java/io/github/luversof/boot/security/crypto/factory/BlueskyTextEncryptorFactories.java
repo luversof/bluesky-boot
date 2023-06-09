@@ -13,30 +13,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlueskyTextEncryptorFactories {
 	
-	private static TextEncryptor textEncryptor;
+	private static BlueskyDelegatingTextEncryptor delegatingTextEncryptor;
 	
 	private static String defaultTextEncryptorId = "text";
 	
-	public static TextEncryptor getTextEncryptor() {
-		if (textEncryptor == null) {
+	public static BlueskyDelegatingTextEncryptor getDelegatingTextEncryptor() {
+		if (delegatingTextEncryptor == null) {
 			createDelegatingTextEncryptor();
 		}
 		
-		return textEncryptor;
+		return delegatingTextEncryptor;
 	}
 
-	public static TextEncryptor createDelegatingTextEncryptor() {
+	public static BlueskyDelegatingTextEncryptor createDelegatingTextEncryptor() {
 		var textEncryptorMap = new HashMap<String, TextEncryptor>();
 		textEncryptorMap.putAll(getDefaultTextEncryptorMap());
-		textEncryptor = new BlueskyDelegatingTextEncryptor(defaultTextEncryptorId, textEncryptorMap);
-		return textEncryptor;
-	}
-	
-	public static TextEncryptor createDelegatingTextEncryptor(Map<String, TextEncryptor> textEncryptorMap) {
-		textEncryptorMap = new HashMap<>(textEncryptorMap);
-		textEncryptorMap.putAll(getDefaultTextEncryptorMap());
-		textEncryptor = new BlueskyDelegatingTextEncryptor(defaultTextEncryptorId, textEncryptorMap);
-		return textEncryptor;
+		delegatingTextEncryptor = new BlueskyDelegatingTextEncryptor(defaultTextEncryptorId, textEncryptorMap);
+		return delegatingTextEncryptor;
 	}
 	
 	private static Map<String, TextEncryptor> getDefaultTextEncryptorMap() {
