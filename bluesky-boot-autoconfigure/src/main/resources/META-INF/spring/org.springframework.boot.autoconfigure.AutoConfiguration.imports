@@ -4,6 +4,7 @@ io.github.luversof.boot.autoconfigure.core.CoreReactiveAutoConfiguration
 io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration
 io.github.luversof.boot.autoconfigure.connectioninfo.ConnectionInfoAutoConfiguration
 io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+io.github.luversof.boot.autoconfigure.jdbc.DataSourceServletAutoConfiguration
 io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration

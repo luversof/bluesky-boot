@@ -14,7 +14,7 @@ import io.github.luversof.boot.exception.BlueskyException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BlueskyProfileEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public class ProfileEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	
 	private static final String NET_PROFILE = "net-profile";
 	

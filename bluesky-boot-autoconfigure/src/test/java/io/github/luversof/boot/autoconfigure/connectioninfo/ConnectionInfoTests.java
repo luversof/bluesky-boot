@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
-import io.github.luversof.boot.security.crypto.env.BlueskyDecryptEnvironmentPostProcessor;
+import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
 import io.github.luversof.boot.connectioninfo.MariaDbDataSourceConnectionInfoLoader;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 class ConnectionInfoTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer((applicationContext) -> new BlueskyDecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+			.withInitializer((applicationContext) -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues(
 				"bluesky-modules.connection-info.loaders.mariadb-datasource.enabled=true",

@@ -1,3 +1,3 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-io.github.luversof.boot.env.BlueskyProfileEnvironmentPostProcessor,\
-io.github.luversof.boot.security.crypto.env.BlueskyDecryptEnvironmentPostProcessor
+io.github.luversof.boot.env.ProfileEnvironmentPostProcessor,\
+io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
+public class DelegatingTextEncryptor implements TextEncryptor {
 	
 	private static final String DEFAULT_ID_PREFIX = "{";
 
@@ -33,11 +33,11 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 	
 	private final Map<String, TextEncryptor> textEncryptorMap;
 	
-	public BlueskyDelegatingTextEncryptor(String defaultTextEncryptorId, Map<String, TextEncryptor> textEncryptorMap) {
+	public DelegatingTextEncryptor(String defaultTextEncryptorId, Map<String, TextEncryptor> textEncryptorMap) {
 		this(defaultTextEncryptorId, textEncryptorMap, DEFAULT_ID_PREFIX, DEFAULT_ID_SUFFIX);
 	}
 	
-	public BlueskyDelegatingTextEncryptor(String defaultTextEncryptorId, Map<String, TextEncryptor> textEncryptorMap, String idPrefix, String idSuffix) {
+	public DelegatingTextEncryptor(String defaultTextEncryptorId, Map<String, TextEncryptor> textEncryptorMap, String idPrefix, String idSuffix) {
 		
 		if (defaultTextEncryptorId == null) {
 			throw new BlueskyException("defaultId cannot be null");
@@ -130,12 +130,12 @@ public class BlueskyDelegatingTextEncryptor implements TextEncryptor {
 		return textEncryptorId;
 	}
 	
-	public BlueskyDelegatingTextEncryptor addTextEncryptor(String textEncryptorId, TextEncryptor textEncryptor) {
+	public DelegatingTextEncryptor addTextEncryptor(String textEncryptorId, TextEncryptor textEncryptor) {
 		this.textEncryptorMap.put(textEncryptorId, textEncryptor);
 		return this;
 	}
 	
-	public BlueskyDelegatingTextEncryptor addTextEncryptor(Map<String, TextEncryptor> textEncryptorMap) {
+	public DelegatingTextEncryptor addTextEncryptor(Map<String, TextEncryptor> textEncryptorMap) {
 		this.textEncryptorMap.putAll(textEncryptorMap);
 		return this;
 	}

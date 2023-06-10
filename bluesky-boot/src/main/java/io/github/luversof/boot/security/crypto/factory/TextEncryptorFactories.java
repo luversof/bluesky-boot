@@ -6,18 +6,18 @@ import java.util.Map;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 
-import io.github.luversof.boot.security.crypto.encrypt.BlueskyDelegatingTextEncryptor;
+import io.github.luversof.boot.security.crypto.encrypt.DelegatingTextEncryptor;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class BlueskyTextEncryptorFactories {
+public class TextEncryptorFactories {
 	
-	private static BlueskyDelegatingTextEncryptor delegatingTextEncryptor;
+	private static DelegatingTextEncryptor delegatingTextEncryptor;
 	
 	private static String defaultTextEncryptorId = "text";
 	
-	public static BlueskyDelegatingTextEncryptor getDelegatingTextEncryptor() {
+	public static DelegatingTextEncryptor getDelegatingTextEncryptor() {
 		if (delegatingTextEncryptor == null) {
 			createDelegatingTextEncryptor();
 		}
@@ -25,10 +25,10 @@ public class BlueskyTextEncryptorFactories {
 		return delegatingTextEncryptor;
 	}
 
-	public static BlueskyDelegatingTextEncryptor createDelegatingTextEncryptor() {
+	public static DelegatingTextEncryptor createDelegatingTextEncryptor() {
 		var textEncryptorMap = new HashMap<String, TextEncryptor>();
 		textEncryptorMap.putAll(getDefaultTextEncryptorMap());
-		delegatingTextEncryptor = new BlueskyDelegatingTextEncryptor(defaultTextEncryptorId, textEncryptorMap);
+		delegatingTextEncryptor = new DelegatingTextEncryptor(defaultTextEncryptorId, textEncryptorMap);
 		return delegatingTextEncryptor;
 	}
 	

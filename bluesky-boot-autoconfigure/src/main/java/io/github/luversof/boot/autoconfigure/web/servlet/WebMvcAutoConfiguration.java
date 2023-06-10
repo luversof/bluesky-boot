@@ -12,7 +12,7 @@ public class WebMvcAutoConfiguration {
 
 	@Bean
 	@ConditionalOnClass(name = {"org.apache.catalina.startup.Tomcat", "ch.qos.logback.access.tomcat.LogbackValve"})
-	public LogbackTomcatServletWebServerFactoryCustomizer logbackTomcatServletWebServerFactoryCustomizer() {
+	LogbackTomcatServletWebServerFactoryCustomizer logbackTomcatServletWebServerFactoryCustomizer() {
 		return new LogbackTomcatServletWebServerFactoryCustomizer();
 	}
 

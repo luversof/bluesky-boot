@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckController;
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
-import io.github.luversof.boot.jdbc.datasource.lookup.BlueskyRoutingDataSource;
+import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -24,6 +24,6 @@ public class DataSourceDevCheckController {
 	@DevCheckDescription("blueskyRoutingDataSourceKeySet 조회")
 	@GetMapping("/blueskyRoutingDataSourceKeySet")
 	public Set<Object> blueskyRoutingDataSourceKeySet() {
-		return ((BlueskyRoutingDataSource) blueskyRoutingDataSource.getTargetDataSource()).getResolvedDataSources().keySet();
+		return ((RoutingDataSource) blueskyRoutingDataSource.getTargetDataSource()).getResolvedDataSources().keySet();
 	}
 }

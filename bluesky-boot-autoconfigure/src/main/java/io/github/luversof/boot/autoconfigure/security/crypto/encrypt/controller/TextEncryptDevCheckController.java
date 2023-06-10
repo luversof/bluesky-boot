@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckController;
 import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
-import io.github.luversof.boot.security.crypto.factory.BlueskyTextEncryptorFactories;
+import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -23,20 +23,20 @@ public class TextEncryptDevCheckController {
 	@GetMapping("/encrypt")
 	public String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
 		if (textEncryptorId == null) {
-			return BlueskyTextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
+			return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
 		}
-		return BlueskyTextEncryptorFactories.getDelegatingTextEncryptor().encrypt(textEncryptorId, text);
+		return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(textEncryptorId, text);
 	}
 	
 	@DevCheckDescription("decrypt")
 	@GetMapping("/decrypt")
 	public String decrypt(String text) {
-		return BlueskyTextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
+		return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
 	}
 	
 	@DevCheckDescription("textEncryptorMapKeySet")
 	@GetMapping("/textEncryptorMapKeySet")
 	public Set<String> textEncryptorMapKeySet() {
-		return BlueskyTextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
+		return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
 	}
 }

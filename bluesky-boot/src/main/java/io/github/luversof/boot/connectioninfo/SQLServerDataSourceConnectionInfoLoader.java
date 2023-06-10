@@ -5,7 +5,7 @@ import java.sql.Driver;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.luversof.boot.security.crypto.factory.BlueskyTextEncryptorFactories;
+import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +26,7 @@ public class SQLServerDataSourceConnectionInfoLoader extends AbstractDBDataSourc
 	
 	protected HikariDataSource createDataSource(ConnectionInfo connectionInfo) {
 		var config = new HikariConfig();
-		var textEncryptor = BlueskyTextEncryptorFactories.getDelegatingTextEncryptor();
+		var textEncryptor = TextEncryptorFactories.getDelegatingTextEncryptor();
 		config.setJdbcUrl(connectionInfo.getUrl());
 		config.setUsername(textEncryptor.decrypt(connectionInfo.getUsername()));
 		config.setPassword(textEncryptor.decrypt(connectionInfo.getPassword()));

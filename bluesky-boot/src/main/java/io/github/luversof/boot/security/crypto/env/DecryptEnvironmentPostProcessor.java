@@ -18,12 +18,12 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.PropertySources;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 
-import io.github.luversof.boot.security.crypto.encrypt.BlueskyDelegatingTextEncryptor;
-import io.github.luversof.boot.security.crypto.factory.BlueskyTextEncryptorFactories;
+import io.github.luversof.boot.security.crypto.encrypt.DelegatingTextEncryptor;
+import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 	
 	/**
 	 * Name of the decrypted property source.
@@ -34,10 +34,10 @@ public class BlueskyDecryptEnvironmentPostProcessor implements EnvironmentPostPr
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
 	
-	private BlueskyDelegatingTextEncryptor textEncryptor;
+	private DelegatingTextEncryptor textEncryptor;
 	
-	public BlueskyDecryptEnvironmentPostProcessor() {
-		textEncryptor = (BlueskyDelegatingTextEncryptor) BlueskyTextEncryptorFactories.getDelegatingTextEncryptor();
+	public DecryptEnvironmentPostProcessor() {
+		textEncryptor = (DelegatingTextEncryptor) TextEncryptorFactories.getDelegatingTextEncryptor();
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package io.github.luversof.boot.security.crypto.encrypt;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.encrypt.Encryptors;
 
-import io.github.luversof.boot.security.crypto.factory.BlueskyTextEncryptorFactories;
+import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,7 +38,7 @@ class TextEncryptorTests {
 		}
 		
 		{
-			var encryptor = BlueskyTextEncryptorFactories.createDelegatingTextEncryptor();
+			var encryptor = TextEncryptorFactories.createDelegatingTextEncryptor();
 			var encryptText = encryptor.encrypt(text);
 			log.debug("encryptText : {}", encryptText);
 			var decryptText = encryptor.decrypt(encryptText);

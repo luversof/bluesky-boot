@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
@@ -17,8 +18,8 @@ import org.springframework.lang.Nullable;
 
 import io.github.luversof.boot.autoconfigure.jdbc.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
-import io.github.luversof.boot.jdbc.datasource.aspect.BlueskyRoutingDataSourceAspect;
-import io.github.luversof.boot.jdbc.datasource.lookup.BlueskyRoutingDataSource;
+import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
+import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,7 +57,7 @@ public class DataSourceAutoConfiguration {
     		});
     	}
     	
-    	var blueskyRoutingDataSource = new BlueskyRoutingDataSource();
+    	var blueskyRoutingDataSource = new RoutingDataSource();
     	blueskyRoutingDataSource.setTargetDataSources(targetDataSourceMap);
     	// defaultDataSource를 지정하지 않은 경우 아무 값이나 설정
     	if (dataSourceProperties.getDefaultDatasource() == null) {
@@ -69,12 +70,12 @@ public class DataSourceAutoConfiguration {
     }
     
     @Bean
-    public BlueskyRoutingDataSourceAspect blueskyRoutingDataSourceAspect() {
-    	return new BlueskyRoutingDataSourceAspect();
+    RoutingDataSourceAspect blueskyRoutingDataSourceAspect(ApplicationContext applicationContext) {
+    	return new RoutingDataSourceAspect(applicationContext);
     }
     
     @Bean
-    public DataSourceDevCheckController dataSourceDevCheckController(LazyConnectionDataSourceProxy blueskyRoutingDataSource) {
+    DataSourceDevCheckController dataSourceDevCheckController(LazyConnectionDataSourceProxy blueskyRoutingDataSource) {
     	return new DataSourceDevCheckController(blueskyRoutingDataSource);
     }
 

@@ -1,8 +1,8 @@
 package io.github.luversof.boot.jdbc.datasource.context;
 
 @FunctionalInterface
-public interface BlueskyRoutingDataSourceContext {
+public interface RoutingDataSourceContext {
 
-	String getDataSourceName();
+	String getLookupKey();
 
 }
