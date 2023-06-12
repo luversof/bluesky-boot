@@ -46,7 +46,7 @@ public class DataSourceAutoConfiguration {
     
     @Bean
     @Primary
-    <T extends DataSource> DataSource blueskyRoutingDataSource(DataSourceProperties dataSourceProperties, @Nullable Map<String, T> dataSourceMap, @Nullable Map<String, ConnectionInfoCollector<T>> connectionInfoCollectorMap) {
+    <T extends DataSource> DataSource routingDataSource(DataSourceProperties dataSourceProperties, @Nullable Map<String, T> dataSourceMap, @Nullable Map<String, ConnectionInfoCollector<T>> connectionInfoCollectorMap) {
     	Map<Object, Object> targetDataSourceMap = new HashMap<>();
     	if (dataSourceMap != null) {
     		targetDataSourceMap.putAll(dataSourceMap);
@@ -72,12 +72,12 @@ public class DataSourceAutoConfiguration {
     }
     
     @Bean
-    RoutingDataSourceAspect blueskyRoutingDataSourceAspect(ApplicationContext applicationContext) {
+    RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
     	return new RoutingDataSourceAspect(applicationContext);
     }
     
     @Bean
-    DataSourceDevCheckController dataSourceDevCheckController(@Qualifier("blueskyRoutingDataSource") DataSource blueskyRoutingDataSource) {
+    DataSourceDevCheckController dataSourceDevCheckController(@Qualifier("routingDataSource") DataSource blueskyRoutingDataSource) {
     	return new DataSourceDevCheckController(blueskyRoutingDataSource);
     }
 
