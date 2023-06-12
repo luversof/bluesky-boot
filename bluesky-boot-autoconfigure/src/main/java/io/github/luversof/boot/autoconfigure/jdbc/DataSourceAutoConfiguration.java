@@ -58,17 +58,17 @@ public class DataSourceAutoConfiguration {
     		});
     	}
     	
-    	var blueskyRoutingDataSource = new RoutingDataSource();
-    	blueskyRoutingDataSource.setTargetDataSources(targetDataSourceMap);
+    	var routingDataSource = new RoutingDataSource();
+    	routingDataSource.setTargetDataSources(targetDataSourceMap);
     	// defaultDataSource를 지정하지 않은 경우 아무 값이나 설정
     	if (dataSourceProperties.getDefaultDatasource() == null) {
-    		blueskyRoutingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().stream().findAny().get());
+    		routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().stream().findAny().get());
     	} else {
-    		blueskyRoutingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
+    		routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
     	}
-    	blueskyRoutingDataSource.afterPropertiesSet();
-    	return new LazyConnectionDataSourceProxy(blueskyRoutingDataSource);
-//    	return blueskyRoutingDataSource;
+    	routingDataSource.afterPropertiesSet();
+    	return new LazyConnectionDataSourceProxy(routingDataSource);
+//    	return routingDataSource;
     }
     
     @Bean
