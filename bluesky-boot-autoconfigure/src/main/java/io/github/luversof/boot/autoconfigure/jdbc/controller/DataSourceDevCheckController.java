@@ -1,9 +1,12 @@
 package io.github.luversof.boot.autoconfigure.jdbc.controller;
 
+import java.util.Collections;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+import org.springframework.jdbc.datasource.DelegatingDataSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +22,16 @@ import lombok.AllArgsConstructor;
 @RequestMapping(value = "${bluesky-boot.dev-check.path-prefix}/blueskyBoot/dataSource", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataSourceDevCheckController {
 
-	private LazyConnectionDataSourceProxy blueskyRoutingDataSource;
+	private DataSource blueskyRoutingDataSource;
 	
 	@DevCheckDescription("blueskyRoutingDataSourceKeySet 조회")
 	@GetMapping("/blueskyRoutingDataSourceKeySet")
 	public Set<Object> blueskyRoutingDataSourceKeySet() {
-		return ((RoutingDataSource) blueskyRoutingDataSource.getTargetDataSource()).getResolvedDataSources().keySet();
+		if (blueskyRoutingDataSource instanceof DelegatingDataSource delegatingDataSource) {
+			return ((RoutingDataSource) delegatingDataSource.getTargetDataSource()).getResolvedDataSources().keySet();
+		} else if (blueskyRoutingDataSource instanceof RoutingDataSource routingDataSource) {
+			return routingDataSource.getResolvedDataSources().keySet();
+		}
+		return Collections.emptySet();
 	}
 }

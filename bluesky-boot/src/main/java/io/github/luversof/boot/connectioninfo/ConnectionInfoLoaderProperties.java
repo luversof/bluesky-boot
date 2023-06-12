@@ -17,8 +17,6 @@ public class ConnectionInfoLoaderProperties {
 	
 	private Map<String, LoaderInfo> loaders = new HashMap<>();
 	
-	private String defaultConnection;
-	
 	@Data
 	@Builder
 	@NoArgsConstructor

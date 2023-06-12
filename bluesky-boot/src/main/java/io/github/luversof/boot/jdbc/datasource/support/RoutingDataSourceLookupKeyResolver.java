@@ -5,6 +5,7 @@ package io.github.luversof.boot.jdbc.datasource.support;
  * @author bluesky
  *
  */
+@FunctionalInterface
 public interface RoutingDataSourceLookupKeyResolver {
 
 	String getLookupKey();

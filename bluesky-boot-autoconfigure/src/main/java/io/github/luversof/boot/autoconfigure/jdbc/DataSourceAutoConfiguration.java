@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -67,6 +68,7 @@ public class DataSourceAutoConfiguration {
     	}
     	blueskyRoutingDataSource.afterPropertiesSet();
     	return new LazyConnectionDataSourceProxy(blueskyRoutingDataSource);
+//    	return blueskyRoutingDataSource;
     }
     
     @Bean
@@ -75,7 +77,7 @@ public class DataSourceAutoConfiguration {
     }
     
     @Bean
-    DataSourceDevCheckController dataSourceDevCheckController(LazyConnectionDataSourceProxy blueskyRoutingDataSource) {
+    DataSourceDevCheckController dataSourceDevCheckController(@Qualifier("blueskyRoutingDataSource") DataSource blueskyRoutingDataSource) {
     	return new DataSourceDevCheckController(blueskyRoutingDataSource);
     }
 

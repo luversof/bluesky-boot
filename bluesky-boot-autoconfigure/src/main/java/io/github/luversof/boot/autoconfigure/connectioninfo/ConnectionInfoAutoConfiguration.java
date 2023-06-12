@@ -28,10 +28,10 @@ public class ConnectionInfoAutoConfiguration {
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class, HikariDataSource.class, org.mariadb.jdbc.Driver.class })
 	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true")
-	public static class MariaDbDataSourceConnectionInfoConfiguration {
+	static class MariaDbDataSourceConnectionInfoConfiguration {
 
         @Bean
-        ConnectionInfoCollector<HikariDataSource> mariaDbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+        ConnectionInfoCollector<HikariDataSource> mariaDbDataSourceConnectionInfoCollector(ConnectionInfoLoaderProperties connectionInfoProperties) {
             return new MariaDbDataSourceConnectionInfoLoader(connectionInfoProperties).load();
         }
 	}
@@ -39,10 +39,10 @@ public class ConnectionInfoAutoConfiguration {
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class, HikariDataSource.class, com.microsoft.sqlserver.jdbc.SQLServerDriver.class })
 	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "sqlserver-datasource.enabled", havingValue = "true")
-	public static class SQLServerDataSourceConnectionInfoConfiguration {
+	static class SQLServerDataSourceConnectionInfoConfiguration {
 		
 		@Bean
-		ConnectionInfoCollector<HikariDataSource> sqlServerDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+		ConnectionInfoCollector<HikariDataSource> sqlServerDataSourceConnectionInfoCollector(ConnectionInfoLoaderProperties connectionInfoProperties) {
 			return new SQLServerDataSourceConnectionInfoLoader(connectionInfoProperties).load();
 		}
 	}

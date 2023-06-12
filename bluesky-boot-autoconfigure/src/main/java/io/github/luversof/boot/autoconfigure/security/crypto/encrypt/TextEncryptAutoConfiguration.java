@@ -9,7 +9,7 @@ import io.github.luversof.boot.autoconfigure.security.crypto.encrypt.controller.
 public class TextEncryptAutoConfiguration {
 
 	@Bean
-	public TextEncryptDevCheckController textEncryptDevCheckController() {
+	TextEncryptDevCheckController textEncryptDevCheckController() {
 		return new TextEncryptDevCheckController();
 	}
 }
