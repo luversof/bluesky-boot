@@ -68,7 +68,6 @@ public class DataSourceAutoConfiguration {
     	}
     	routingDataSource.afterPropertiesSet();
     	return new LazyConnectionDataSourceProxy(routingDataSource);
-//    	return routingDataSource;
     }
     
     @Bean

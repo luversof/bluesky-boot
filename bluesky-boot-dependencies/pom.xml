@@ -14,6 +14,7 @@
 		<spring-boot.version>3.1.0</spring-boot.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
 		<bluesky-boot.version>0.0.1-SNAPSHOT</bluesky-boot.version>
+		<bluesky-boot-crypto.version>3.1.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-autoconfigure-devcheck.version>3.1.0-SNAPSHOT</bluesky-boot-autoconfigure-devcheck.version>
 		<spring-boot-admin-starter.version>3.0.4</spring-boot-admin-starter.version>
 		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
@@ -60,6 +61,11 @@
 				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-test-autoconfigure</artifactId>
 				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-crypto</artifactId>
+				<version>${bluesky-boot-crypto.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.github.luversof</groupId>
