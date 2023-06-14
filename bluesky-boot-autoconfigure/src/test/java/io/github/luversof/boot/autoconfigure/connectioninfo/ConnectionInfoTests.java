@@ -50,7 +50,7 @@ class ConnectionInfoTests {
 		var connectionInfoProperties = new ConnectionInfoLoaderProperties();
 		connectionInfoProperties.setLoaders(Map.of("mariadb-datasource", 
 				LoaderInfo.builder().properties(Map.of(
-						"url", "jdbc:mariadb://172.20.113.197/connection_info",
+						"url", "jdbc:mariadb://mariadb.bluesky.local:3306/connection_info",
 						"username", "root",
 						"password", "root"
 						))
@@ -72,7 +72,7 @@ class ConnectionInfoTests {
 	@Test
 	void mariaDbDataSourceConnectionInfoLoaderTest() {
 		this.contextRunner.run(context -> {
-			var beanName = "mariaDbDataSourceConnectionInfoLoader";
+			var beanName = "mariaDbDataSourceConnectionInfoCollector";
 			assertThat(context).hasBean(beanName);
 			var connectionInfoLoaderProperties = context.getBean(ConnectionInfoLoaderProperties.class);
 			
@@ -87,7 +87,7 @@ class ConnectionInfoTests {
 	@Test
 	void sqlServerDataSourceConnectionInfoLoaderTest() {
 		this.contextRunner.run(context -> {
-			var beanName = "sqlServerDataSourceConnectionInfoLoader";
+			var beanName = "sqlServerDataSourceConnectionInfoCollector";
 			assertThat(context).hasBean(beanName);
 			var connectionInfoLoaderProperties = context.getBean(ConnectionInfoLoaderProperties.class);
 			
