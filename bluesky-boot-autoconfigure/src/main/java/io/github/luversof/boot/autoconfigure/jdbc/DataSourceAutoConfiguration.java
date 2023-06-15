@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @PropertySource(value = "classpath:jdbc/jdbc.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "classpath:jdbc/jdbc-${net-profile}.properties", ignoreResourceNotFound = true)
+@ConditionalOnProperty(prefix = "bluesky-modules.datasource", name = "enabled", havingValue = "true")
 public class DataSourceAutoConfiguration {
 
 //    @Bean
