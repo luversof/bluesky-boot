@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @PropertySource(value = "classpath:jdbc/jdbc.properties", ignoreResourceNotFound = true)
-@PropertySource(value = "classpath:jdbc/jdbc-${net-profile}.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:jdbc/jdbc-${bluesky-boot-profile}.properties", ignoreResourceNotFound = true)
 @ConditionalOnProperty(prefix = "bluesky-modules.datasource", name = "enabled", havingValue = "true")
 public class DataSourceAutoConfiguration {
 

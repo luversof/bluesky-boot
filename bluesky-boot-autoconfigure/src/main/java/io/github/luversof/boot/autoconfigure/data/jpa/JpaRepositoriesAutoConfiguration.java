@@ -14,7 +14,7 @@ import io.github.luversof.boot.autoconfigure.data.jpa.controller.JpaRepositories
 @AutoConfiguration("_blueskyBootJpaRepositoriesAutoConfiguration")
 @ConditionalOnClass(JpaRepository.class)
 @PropertySource(value = "classpath:data/jpa/data-jpa.properties", ignoreResourceNotFound = true)
-@PropertySource(value = "classpath:data/jpa/data-jpa-${net-profile}.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:data/jpa/data-jpa-${bluesky-boot-profile}.properties", ignoreResourceNotFound = true)
 @EnableJpaAuditing
 public class JpaRepositoriesAutoConfiguration {
 

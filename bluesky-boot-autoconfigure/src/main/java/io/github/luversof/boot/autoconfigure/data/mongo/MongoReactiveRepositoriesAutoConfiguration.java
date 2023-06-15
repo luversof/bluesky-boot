@@ -18,7 +18,7 @@ import com.mongodb.reactivestreams.client.MongoClient;
 
 @AutoConfiguration("_blueskyBootMongoReactiveRepositoriesAutoConfiguration")
 @ConditionalOnClass({ MongoClient.class, ReactiveMongoRepository.class })
-@PropertySource(value = "classpath:data/mongo/data-mongo-${net-profile}.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:data/mongo/data-mongo-${bluesky-boot-profile}.properties", ignoreResourceNotFound = true)
 @EnableMongoAuditing
 public class MongoReactiveRepositoriesAutoConfiguration {
 
