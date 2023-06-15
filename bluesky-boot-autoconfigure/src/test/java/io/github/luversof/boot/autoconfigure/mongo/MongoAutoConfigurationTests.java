@@ -14,7 +14,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.mongodb.client.MongoClient;
 
-import io.github.luversof.boot.autoconfigure.mongo.MongoProperties;
 
 @Disabled
 class MongoAutoConfigurationTests {
