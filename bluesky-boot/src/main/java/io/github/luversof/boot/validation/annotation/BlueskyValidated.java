@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.validation.annotation;
+package io.github.luversof.boot.validation.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * controller가 아닌 layer에서 @Validated 를 쉽게 사용하기 위해 제공되는 annotation
+ * Annotation provided to facilitate the use of @Validated in non-controller layers
  * @author bluesky
  *
  */
@@ -19,6 +19,10 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public @interface BlueskyValidated {
 
+	/**
+	 * validation hint class
+	 * @return
+	 */
 	Class<?>[] value() default {};
 
 }

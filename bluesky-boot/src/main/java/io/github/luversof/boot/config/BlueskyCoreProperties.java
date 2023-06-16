@@ -1,7 +1,7 @@
 package io.github.luversof.boot.config;
 
 /**
- * BlueskyProperties를 확장하여 사용하는 properties 객체 중 유일하게 primary로 설정해야 하는 properties
+ * The properties objects that extend BlueskyProperties and are used by the required properties
  * @author bluesky
  *
  * @param <T>
@@ -9,7 +9,8 @@ package io.github.luversof.boot.config;
 public interface BlueskyCoreProperties<T extends BlueskyCoreModuleProperties> extends BlueskyProperties<T> {
 	
 	/**
-	 * module 호출 처리 방식 정의 <br />
+	 * Define how module calls are handled
+	 * 
 	 * [domain , addPathPattern, moduleNameResolver]
 	 */
 	CoreModulePropertiesResolveType getResolveType();
@@ -19,18 +20,19 @@ public interface BlueskyCoreProperties<T extends BlueskyCoreModuleProperties> ex
 	public enum CoreModulePropertiesResolveType {
 
 		/**
-		 * 도메인 기준 module 분기 처리 시 사용
+		 * Used when handling module branching by domain
 		 */
 		DOMAIN,
 
 		/**
-		 * request path 기준으로 분기 처리 시 사용
+		 * Used when handling branches by request path
 		 */
 		ADD_PATH_PATTERN,
 
 		/**
-		 * 별도 resolver를 구현한 경우 사용 <br />
-		 * 도메인을 사용하지 않는 API 서버와 같은 경우 추가 구현하여 분기 처리를 할 수 있도록 제공함
+		 * Use if you have implemented a separate resolver
+		 * 
+		 * For cases like API servers that don't use domains, an additional implementation is provided to allow for branching.
 		 */
 		MODULE_NAME_RESOLVER;
 	}

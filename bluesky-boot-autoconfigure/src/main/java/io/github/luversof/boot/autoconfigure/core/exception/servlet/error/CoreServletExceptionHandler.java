@@ -9,7 +9,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,8 +18,7 @@ import io.github.luversof.boot.exception.BlueskyException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 공통 에러 처리 핸들러
- * BlueskyErrorMessage로 반환하여 리턴하는 전제로 만들어졌음
+ * servlet common error handling handlers
  * @author bluesky
  *
  */
@@ -35,13 +33,10 @@ public class CoreServletExceptionHandler {
 		this.messageSourceAccessor = messageSourceAccessor;
 	}
 	
-	public static final String RESULT = "result";
-	
 	/**
 	 * 프로젝트 공통 Exception 처리
-	 * @param exception
-	 * @return
-	 * @throws HttpMediaTypeNotAcceptableException 
+	 * @param exception Thrown exception
+	 * @return the created {@code ProblemDetail} instance
 	 */
 	@ExceptionHandler
 	public ProblemDetail handleException(BlueskyException exception) {
@@ -76,9 +71,9 @@ public class CoreServletExceptionHandler {
 //	}
 	
 	/**
-	 * RequestBody 요청  관련 MethodArgumentNotValidException 처리
-	 * @param exception
-	 * @return
+	 * RequestBody 요청 관련 MethodArgumentNotValidException 처리
+	 * @param exception Thrown exception
+	 * @return the created {@code ProblemDetail} instance
 	 */
 	@ExceptionHandler
 	public ProblemDetail handleException(MethodArgumentNotValidException exception) {
@@ -111,9 +106,8 @@ public class CoreServletExceptionHandler {
 //	
 	/**
 	 * General Exception 처리
-	 * @param exception
-	 * @return
-	 * @throws Throwable 
+	 * @param exception Thrown exception
+	 * @return the created {@code ProblemDetail} instance
 	 */
 	@ExceptionHandler
 	public ProblemDetail handleException(Throwable exception) {

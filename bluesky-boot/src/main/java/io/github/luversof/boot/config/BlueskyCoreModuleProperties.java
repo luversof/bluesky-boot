@@ -11,34 +11,36 @@ import lombok.Data;
 public interface BlueskyCoreModuleProperties {
 	
 	/**
-	 * 해당 사이트의 도메인 정보 <br />
+	 * Domain information for the site
+	 * 
 	 * ex) http://test.bluesky.net
 	 */
 	void setDomain(CoreDomainProperties coreDomainProperties);
 	CoreDomainProperties getDomain();
 	
 	/**
-	 * 멀티 모듈 사용시 add-path-pattern 선언을 한 경우 각 모듈별 addPathPatterns 선언이 필요.<br />
+	 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.
+	 * 
 	 * AntPathMatcher 패턴 등록
 	 */
 	void setAddPathPatterns(String[] addPathPatterns);
 	String[] getAddPathPatterns();
 
 	/**
-	 * 기본 로케일 설정
+	 * Setting the default locale
 	 */
 	void setDefaultLocale(Locale defaultLocale);
 	Locale getDefaultLocale();
 	
 	/**
-	 * 사용 가능 로케일 목록
+	 * List of available locales
 	 */
 	void setEnableLocaleList(List<Locale> enableLocaleList);
 	List<Locale> getEnableLocaleList();
 	
 
 	/**
-	 * 해당 사이트가 사용하는 도메인 설정
+	 * Set the domain that the site uses
 	 * @author bluesky
 	 *
 	 */
@@ -46,33 +48,39 @@ public interface BlueskyCoreModuleProperties {
 	public static class CoreDomainProperties {
 		
 		/**
-		 * 해당 사이트 주소를 멀티로 사용하는 경우 사용<br />
-		 * 만약 pc 웹/ 모바일 웹 구분이 없는 사이트인 경우 web만 선언하여 사용
+		 * If the site address is multi, use.
+		 * 
+		 * If your site doesn't have a PC web/mobile web distinction, declare only WEB and use it.
 		 */
 		private List<URI> webList = new ArrayList<>();
 		
 		/**
-		 * 해당 사이트의 모바일 웹 주소를 멀티로 사용하는 경우 사용<br />
-		 * pc 웹/ 모바일 웹 구분이 있는 경우 모바일 웹 주소를 선언해야 함<br />
-		 * 통합 알림 처리에서 구분해서 사용함
+		 * Use the mobile web address for your site if it is multi-use
+		 * 
+		 * Mobile web address must be declared if there is a PC web/mobile web distinction
+		 * 
+		 * Used separately in unified notification processing
 		 */
 		private List<URI> mobileWebList = new ArrayList<>();
 		
 		/**
-		 * 멀티 모듈 프로젝트에서 domain 기준으로 선언해서 사용하는 경우 로컬 개발 시 도메인은 개발용으로 따로 관리하기 위한 변수 <br />
-		 * list형태로 개발용 도메인을 ","로 연이어 선언하여 사용할 수 있음 <br />
+		 * When declared and used by domain in a multi-module project, the domain is a variable for local development that is set aside for development purposes.
+		 * 
+		 * You can use development domains in the form of a list by declaring them in succession with ",".
+		 * 
 		 * ex) devDomainList=http://local.a.com,http://local.b.com
 		 */
 		private List<URI> devDomainList = new ArrayList<>();
 
 		/**
-		 * 해당 모듈에서 전역으로 사용하는 forward 정책이 있는 경우 설정
+		 * If you have a FORWARD policy that is used globally by that module, set it to Settings
 		 */
 		private PathForwardProperties pathForward;
 		
 		/**
-		 * 해당 사이트 주소<br />
-		 * 만약 pc 웹/ 모바일 웹 구분이 없는 사이트인 경우 web만 선언하여 사용
+		 * The address of the site
+		 * 
+		 * If your site doesn't have a PC web/mobile web distinction, declare only WEB and use the
 		 */
 		public void setWeb(URI uri) {
 			if (this.webList.contains(uri)) {
@@ -82,9 +90,9 @@ public interface BlueskyCoreModuleProperties {
 		}
 		
 		/**
-		 * 해당 사이트의 모바일 웹 주소<br />
-		 * pc 웹/ 모바일 웹 구분이 있는 경우 모바일 웹 주소를 선언해야 함<br />
-		 * 통합 알림 처리에서 구분해서 사용함
+		 * Mobile web address for your site
+		 * 
+		 * Mobile web address must be declared if there is a PC web/mobile web distinction
 		 */
 		public void setMobileWeb(URI uri) {
 			if (this.mobileWebList.contains(uri)) {
@@ -108,23 +116,24 @@ public interface BlueskyCoreModuleProperties {
 	public static class PathForwardProperties {
 
 		/**
-		 * static path 목록 (redirect 대상이 아닌 목록)
+		 * List of static paths (not redirect targets)
 		 */
 		private List<String> staticPathList = Arrays.asList("/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/");
 		
 		/**
-		 * 예외 path 목록 (redirect 대상이 아닌 목록)
+		 * List of exception paths (list that are not redirect targets)
 		 */
 		private List<String> excludePathList = Arrays.asList("/UiDev/", "/_check");
 		
 		/**
-		 * 요청 root path 설정
-		 * 기본은 "/" (전체)
+		 * Set the request root path
+		 * 
+		 * Default is "/" (full)
 		 */
 		private String requestPath = "/";
 		
 		/**
-		 * forward root path 설정
+		 * Set the forward root path
 		 */
 		private String forwardPath = "/";
 	}

@@ -21,6 +21,11 @@ import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.AllArgsConstructor;
 
+/**
+ * {@link DevCheckController} for Core support.
+ * @author bluesky
+ *
+ */
 @AllArgsConstructor
 @DevCheckController
 @RestController
@@ -29,56 +34,56 @@ public class CoreDevCheckController {
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
 	@GetMapping("/activeProfiles")
-	public String[] activeProfiles() {
+	String[] activeProfiles() {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
 	}
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
 	@GetMapping("/property")
-	public String property(String key) {
+	String property(String key) {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
 	@GetMapping("/blueskyPropertiesMap")
-	public Map<String, BlueskyProperties> blueskyPropertiesMap() {
+	Map<String, BlueskyProperties> blueskyPropertiesMap() {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
 	}
 	
 	@DevCheckDescription("coreProperties 조회")
 	@GetMapping("/coreProperties")
-	public CoreProperties coreProperties() {
+	CoreProperties coreProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")
 	@GetMapping("/currentLocale")
-	public Locale currentLocale() {
+	Locale currentLocale() {
 		return LocaleContextHolder.getLocale();
 	}
 	
 	@DevCheckDescription("systemDefaultZone 값 확인.")
 	@GetMapping("/systemDefaultZone")
-	public Clock systemDefaultZone() {
+	Clock systemDefaultZone() {
 		return Clock.systemDefaultZone();
 	}
 	
 	@DevCheckDescription("localeDateTime now 값 확인.")
 	@GetMapping("/localDateTimeNow")
-	public LocalDateTime localDateTimeNow() {
+	LocalDateTime localDateTimeNow() {
 		return LocalDateTime.now();
 	}
 	
 	@DevCheckDescription("zonedDateTime now 값 확인.")
 	@GetMapping("/zonedDateTimeNow")
-	public ZonedDateTime zonedDateTimeNow() {
+	ZonedDateTime zonedDateTimeNow() {
 		return ZonedDateTime.now();
 	}
 	
 	@DevCheckDescription("blueskyContext 확인")
 	@GetMapping("/blueskyContext")
-	public BlueskyContext blueskyContext() {
+	BlueskyContext blueskyContext() {
 		return BlueskyContextHolder.getContext();
 	}
 }

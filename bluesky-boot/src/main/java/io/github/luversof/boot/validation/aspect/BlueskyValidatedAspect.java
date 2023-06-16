@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.validation.aspect;
+package io.github.luversof.boot.validation.aspect;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -9,15 +9,19 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.util.ClassUtils;
 
-import io.github.luversof.boot.autoconfigure.validation.annotation.BlueskyValidated;
 import io.github.luversof.boot.exception.BlueskyException;
+import io.github.luversof.boot.validation.annotation.BlueskyValidated;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
+/**
+ * For when you want to handle validation aop on the Service or Component side, not just the Controller side.  
+ * @author bluesky
+ *
+ */
 @Aspect
 public class BlueskyValidatedAspect {
 	
@@ -27,6 +31,12 @@ public class BlueskyValidatedAspect {
 		this.validator = validator;
 	}
 	
+	/**
+	 * Enforce AOP for all method call segments
+	 * @param joinPoint
+	 * @return
+	 * @throws Throwable
+	 */
 	@Around(value = "execution(* *(.., @io.github.luversof.boot.autoconfigure.validation.annotation.BlueskyValidated (*), ..))")
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		
@@ -91,6 +101,11 @@ public class BlueskyValidatedAspect {
 		return null;
 	}
 	
+	/**
+	 * Used to determine which of the parameters used by a method have a BlueskyValidated annotation.
+	 * @author bluesky
+	 *
+	 */
 	@Data
 	@AllArgsConstructor
 	public static class MethodParameterInfo {

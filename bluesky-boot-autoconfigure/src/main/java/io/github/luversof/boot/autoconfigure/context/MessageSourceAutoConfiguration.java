@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,6 +18,11 @@ import io.github.luversof.boot.autoconfigure.context.controller.MessageSourceDev
 import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
 
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for MessageSource support.
+ * @author bluesky
+ *
+ */
 @AutoConfiguration(value = "_blueskyBootMessageSourceAutoConfiguration", before = org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
 //@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(MessageSourceExtensionProperties.class)

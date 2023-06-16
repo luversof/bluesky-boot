@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 굳이 module 구성 할 이유가 없어보이는데?
+ * Configuration properties for Mongo.
  * @author bluesky
  *
  */

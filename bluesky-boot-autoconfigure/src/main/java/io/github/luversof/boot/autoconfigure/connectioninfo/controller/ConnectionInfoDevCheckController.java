@@ -14,6 +14,11 @@ import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import lombok.AllArgsConstructor;
 
+/**
+ * {@link DevCheckController} for ConnectionInfo support.
+ * @author bluesky
+ *
+ */
 @AllArgsConstructor
 @DevCheckController
 @RestController
@@ -24,27 +29,34 @@ public class ConnectionInfoDevCheckController {
 
 	private Map<String, ConnectionInfoCollector<?>> connectionInfoCollectorMap;
 	
+	/**
+	 * Get connectionInfoLoaderProperties
+	 * @return ConnectionInfoLoaderProperties
+	 */
 	@DevCheckDescription("connectionInfoLoaderProperties 조회")
 	@GetMapping("/connectionInfoLoaderProperties")
-	public ConnectionInfoLoaderProperties connectionInfoLoaderProperties() {
+	ConnectionInfoLoaderProperties connectionInfoLoaderProperties() {
 		return connectionInfoLoaderProperties;
 	}
 	
+	/**
+	 * Get connectionInfoCollectorKeySet
+	 * @return connectionInfoCollectorKeySet
+	 */
 	@DevCheckDescription("connectionInfoCollectorKeySet 조회")
 	@GetMapping("/connectionInfoCollectorKeySet")
-	public Set<String> connectionInfoCollectorKeySet() {
+	Set<String> connectionInfoCollectorKeySet() {
 		return connectionInfoCollectorMap.keySet();
 	}
 	
+	/**
+	 * See the full list of connectionInfoCollectorConnectionInfoMap
+	 * @param beanName connectionInfoCollector beanName
+	 * @return connectionInfoMapKeySet
+	 */
 	@DevCheckDescription("connectionInfoCollectorConnectionInfoMap 전체 목록 조회")
 	@GetMapping("/connectionInfoCollectorConnectionInfoMap")
-	public Set<String> connectionInfoCollectorConnectionInfoMap(String beanName) {
+	Set<String> connectionInfoCollectorConnectionInfoMap(String beanName) {
 		return connectionInfoCollectorMap.get(beanName).getConnectionInfoMap().keySet();
 	}
-	
-//	@DevCheckDescription("connectionInfoCollectorConnectionInfo 조회")
-//	@GetMapping("/connectionInfoCollectorConnectionInfo")
-//	public Object connectionInfoCollectorConnectionInfo(String beanName, String connectionInfoName) {
-//		return connectionInfoCollectorMap.get(beanName).getConnectionInfoMap().get(connectionInfoName);
-//	}
 }

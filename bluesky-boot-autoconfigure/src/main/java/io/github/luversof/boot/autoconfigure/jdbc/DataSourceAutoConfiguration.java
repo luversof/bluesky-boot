@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,6 +25,11 @@ import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for DataSource support.
+ * @author bluesky
+ *
+ */
 @Slf4j
 @AutoConfiguration("_blueskyBootDataSourceAutoConfiguration")
 @EnableConfigurationProperties(DataSourceProperties.class)

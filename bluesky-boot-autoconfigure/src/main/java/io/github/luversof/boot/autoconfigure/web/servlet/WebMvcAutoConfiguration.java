@@ -1,11 +1,17 @@
 package io.github.luversof.boot.autoconfigure.web.servlet;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for WebMvc support.
+ * @author bluesky
+ *
+ */
 @AutoConfiguration(value = "_blueskyBootWebMvcAutoConfiguration")
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class WebMvcAutoConfiguration {

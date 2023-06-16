@@ -4,6 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 
+/**
+ * Configuration properties for DataSource.
+ */
 @Data
 @ConfigurationProperties("bluesky-modules.datasource")
 public class DataSourceProperties {

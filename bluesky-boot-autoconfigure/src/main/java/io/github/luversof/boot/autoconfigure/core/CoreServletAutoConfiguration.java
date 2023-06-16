@@ -1,6 +1,7 @@
 package io.github.luversof.boot.autoconfigure.core;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -15,6 +16,11 @@ import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreSe
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
 import jakarta.servlet.Servlet;
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for core servlet support.
+ * @author bluesky
+ *
+ */
 @AutoConfiguration(value = "_blueskyBootCoreServletAutoConfiguration", after = CoreAutoConfiguration.class)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
