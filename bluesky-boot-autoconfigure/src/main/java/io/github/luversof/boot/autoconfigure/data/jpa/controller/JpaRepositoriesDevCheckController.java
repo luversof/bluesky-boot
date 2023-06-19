@@ -12,6 +12,11 @@ import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDe
 import lombok.AllArgsConstructor;
 
 
+/**
+ * {@link DevCheckController} for Spring Data's JPA Repositories support.
+ * @author bluesky
+ *
+ */
 @AllArgsConstructor
 @DevCheckController
 @RestController
@@ -24,13 +29,13 @@ public class JpaRepositoriesDevCheckController {
 	
 	@DevCheckDescription("jpaProperties 조회")
 	@GetMapping("/jpaProperties")
-	public JpaProperties jpaProperties() {
+	JpaProperties jpaProperties() {
 		return jpaProperties;
 	}
 	
 	@DevCheckDescription("hibernateProperties 조회")
 	@GetMapping("/hibernateProperties")
-	public HibernateProperties hibernateProperties() {
+	HibernateProperties hibernateProperties() {
 		return hibernateProperties;
 	}
 }

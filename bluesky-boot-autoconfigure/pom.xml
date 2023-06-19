@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.github.luversof</groupId>
 		<artifactId>bluesky-boot-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>3.1.0-SNAPSHOT</version>
 		<relativePath>../bluesky-boot-parent</relativePath>
 	</parent>
 	<artifactId>bluesky-boot-autoconfigure</artifactId>
@@ -42,29 +42,6 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- (e) test -->
-
-		<!-- (s) cloud -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-kubernetes-client-all</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) cloud -->
 
 		<!-- (s) batch -->
 		<dependency>

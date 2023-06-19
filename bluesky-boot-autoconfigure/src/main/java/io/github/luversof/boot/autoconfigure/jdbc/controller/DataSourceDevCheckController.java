@@ -16,6 +16,11 @@ import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDe
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import lombok.AllArgsConstructor;
 
+/**
+ * {@link DevCheckController} for DataSource support.
+ * @author bluesky
+ *
+ */
 @AllArgsConstructor
 @DevCheckController
 @RestController
@@ -26,12 +31,13 @@ public class DataSourceDevCheckController {
 	
 	@DevCheckDescription("blueskyRoutingDataSourceKeySet 조회")
 	@GetMapping("/blueskyRoutingDataSourceKeySet")
-	public Set<Object> blueskyRoutingDataSourceKeySet() {
-		if (blueskyRoutingDataSource instanceof DelegatingDataSource delegatingDataSource) {
-			return ((RoutingDataSource) delegatingDataSource.getTargetDataSource()).getResolvedDataSources().keySet();
-		} else if (blueskyRoutingDataSource instanceof RoutingDataSource routingDataSource) {
+	Set<Object> blueskyRoutingDataSourceKeySet() {
+		if (blueskyRoutingDataSource instanceof RoutingDataSource routingDataSource) {
 			return routingDataSource.getResolvedDataSources().keySet();
 		}
+		if (blueskyRoutingDataSource instanceof DelegatingDataSource delegatingDataSource && delegatingDataSource.getTargetDataSource() instanceof RoutingDataSource routingDataSource) {
+			return routingDataSource.getResolvedDataSources().keySet();
+		} 
 		return Collections.emptySet();
 	}
 }

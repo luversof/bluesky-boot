@@ -17,6 +17,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Configuration properties for Core.
+ * @author bluesky
+ *
+ */
 @Data
 @ConfigurationProperties(prefix = "bluesky-modules.core")
 public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties>, InitializingBean {
@@ -24,12 +29,18 @@ public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.
 	private Map<String, CoreModuleProperties> modules = new HashMap<>();
 	
 	/**
-	 * module 호출 기준 정의 <br />
+	 * Define module invocation criteria
+	 * 
 	 * [domain (default), addPathPattern, moduleNameResolver]
 	 */
 	private CoreModulePropertiesResolveType resolveType = CoreModulePropertiesResolveType.DOMAIN;   
 
 
+	/**
+	 * Configuration module properties for Core.
+	 * @author bluesky
+	 *
+	 */
 	@Data
 	@Builder
 	@NoArgsConstructor
@@ -38,52 +49,66 @@ public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.
 		
 		private CoreModuleInfo coreModuleInfo;
 		
+		/**
+		 * Handling coreModuleInfo specification set by a spel expression
+		 * @param coreModuleInfo Location of the generated coreModuleInfo, written as a SpEL expression
+		 */
 		public void setCoreModuleInfo(String coreModuleInfo) {
 			this.coreModuleInfo = (new SpelExpressionParser()).parseExpression(coreModuleInfo).getValue(CoreModuleInfo.class);
 		}
 		
 		/**
-		 * 멀티 모듈 사용시 add-path-pattern 선언을 한 경우 각 모듈별 addPathPatterns 선언이 필요.<br />
-		 * AntPathMatcher 패턴 등록
+		 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.
+		 * 
+		 * Registering the AntPathMatcher Pattern
 		 */
 		@Builder.Default
 		private String[] addPathPatterns = new String[]{};
 		
 		/**
-		 * 해당 사이트의 도메인 정보 <br />
+		 * Domain information for the site
+		 * 
 		 * ex) http://test.bluesky.net
 		 */
 		@Builder.Default
 		private CoreDomainProperties domain = new CoreDomainProperties();
 		
 		/**
-		 * 지원하지 않는 브라우저 체크 여부
+		 * Whether to check unsupported browsers
 		 */
 		@Builder.Default
 		private Boolean checkNotSupportedBrowser = true;
 		
 		/**
-		 * 지원하지 않는 브라우저 체크 패턴
+		 * Unsupported browser check patterns
 		 */
 		@Builder.Default
 		private String notSupportedBrowserRegPattern = ".*(MSIE [5-9]).*";
 		
 		/**
-		 * 지원하지 않는 브라우저 체크 시 예외 주소 패턴 등록
+		 * Registering an exception address pattern when checking for unsupported browsers
 		 */
 		@Builder.Default
 		private String[] notSupportedBrowserExcludePathPatterns = new String[]{"/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**"};
 		
 		/**
-		 * 기본 설정 로케일
+		 * Preferred Locale
 		 */
 		private Locale defaultLocale;
 		
 		/**
-		 * 사용 가능 로케일 목록
+		 * List of available locales
 		 */
 		private List<Locale> enableLocaleList;
+		
+		/**
+		 * Builder class for providing CoreModuleInfo
+		 * @author bluesky
+		 *
+		 */
+		public static class CoreModulePropertiesBuilder {}
 	}
+	
 
 	@Override
 	public void afterPropertiesSet() throws Exception {

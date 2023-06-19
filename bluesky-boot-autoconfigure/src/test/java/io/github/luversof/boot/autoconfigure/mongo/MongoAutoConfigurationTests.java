@@ -14,7 +14,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.mongodb.client.MongoClient;
 
-import io.github.luversof.boot.autoconfigure.mongo.MongoProperties;
 
 @Disabled
 class MongoAutoConfigurationTests {
@@ -43,7 +42,7 @@ class MongoAutoConfigurationTests {
 	}
 	
 	@Configuration(proxyBeanMethods =  false)
-	@PropertySource(value = "classpath:mongodb/mongodb-${net-profile}.properties", ignoreResourceNotFound = true)
+	@PropertySource(value = "classpath:mongodb/mongodb-${bluesky-boot-profile}.properties", ignoreResourceNotFound = true)
 	static class Config {
 
 	}

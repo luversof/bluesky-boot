@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,7 +14,11 @@ import org.springframework.context.annotation.Primary;
 
 import com.mongodb.client.MongoClient;
 
-
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for Mongo support.
+ * @author bluesky
+ *
+ */
 @AutoConfiguration("_blueskyBootMongoAutoConfiguration")
 @ConditionalOnClass(MongoClient.class)
 @EnableConfigurationProperties(MongoProperties.class)

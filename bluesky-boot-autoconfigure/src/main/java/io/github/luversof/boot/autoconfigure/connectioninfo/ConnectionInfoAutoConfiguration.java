@@ -4,14 +4,15 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.jetbrains.annotations.Nullable;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.lang.Nullable;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -21,6 +22,11 @@ import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.MariaDbDataSourceConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.SQLServerDataSourceConnectionInfoLoader;
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for ConnectionInfo support.
+ * @author bluesky
+ *
+ */
 @AutoConfiguration("_blueskyBootConnectionInfoAutoConfiguration")
 @EnableConfigurationProperties(ConnectionInfoLoaderProperties.class)
 public class ConnectionInfoAutoConfiguration {

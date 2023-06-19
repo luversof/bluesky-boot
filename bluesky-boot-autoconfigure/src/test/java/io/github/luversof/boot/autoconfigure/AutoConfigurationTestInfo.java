@@ -9,7 +9,7 @@ import io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 public class AutoConfigurationTestInfo {
 
-	public static String[] BASE_PROPERTY = new String[] { "net-profile=opdev" };
+	public static String[] BASE_PROPERTY = new String[] { "bluesky-boot-profile=opdev" };
 	
 	public static Class<?>[] CORE_USER_CONFIGURATION = new Class<?>[] { CoreAutoConfiguration.class };
 	

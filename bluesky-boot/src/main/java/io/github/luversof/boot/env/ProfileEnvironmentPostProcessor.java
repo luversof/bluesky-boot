@@ -13,10 +13,16 @@ import io.github.luversof.boot.constant.ProfileInfo;
 import io.github.luversof.boot.exception.BlueskyException;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * bluesky-boot에서 사용할 profile 목록 생성
+ * 설정한 profile 목록에서 특정한 profile을 따로 추출하여 bluesky-boot에서 사용하려는 용도
+ * @author bluesky
+ *
+ */
 @Slf4j
 public class ProfileEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	
-	private static final String NET_PROFILE = "net-profile";
+	private static final String BLUESKY_BOOT_PROFILE = "bluesky-boot-profile";
 	
 	Properties properties = new Properties();
 
@@ -25,9 +31,9 @@ public class ProfileEnvironmentPostProcessor implements EnvironmentPostProcessor
 		var activeProfiles = environment.getActiveProfiles();
 		Assert.notEmpty(activeProfiles, "NOT EXIST activeProfiles");
 		log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
-		var profile = Arrays.stream(activeProfiles).filter(x -> ProfileInfo.NET_PROFILE_LIST.stream().anyMatch(y -> y.equals(x))).findAny().orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
+		var profile = Arrays.stream(activeProfiles).filter(x -> ProfileInfo.getBlueskyBootProfileList().stream().anyMatch(y -> y.equals(x))).findAny().orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
 		
-		properties.setProperty(NET_PROFILE, profile);
+		properties.setProperty(BLUESKY_BOOT_PROFILE, profile);
 		
 		environment.getPropertySources().addFirst(new PropertiesPropertySource("blueskyBootProperties", properties));
 	}

@@ -8,6 +8,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 
+/**
+ * Configuration properties for MessageSource.
+ */
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot")
 public class MessageSourceExtensionProperties {

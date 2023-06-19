@@ -13,6 +13,11 @@ import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDe
 import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.AllArgsConstructor;
 
+/**
+ * {@link DevCheckController} for TextEncrypt support.
+ * @author bluesky
+ *
+ */
 @AllArgsConstructor
 @DevCheckController
 @RestController
@@ -21,7 +26,7 @@ public class TextEncryptDevCheckController {
 	
 	@DevCheckDescription("encrypt")
 	@GetMapping("/encrypt")
-	public String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
+	String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
 		if (textEncryptorId == null) {
 			return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
 		}
@@ -30,13 +35,13 @@ public class TextEncryptDevCheckController {
 	
 	@DevCheckDescription("decrypt")
 	@GetMapping("/decrypt")
-	public String decrypt(String text) {
+	String decrypt(String text) {
 		return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
 	}
 	
 	@DevCheckDescription("textEncryptorMapKeySet")
 	@GetMapping("/textEncryptorMapKeySet")
-	public Set<String> textEncryptorMapKeySet() {
+	Set<String> textEncryptorMapKeySet() {
 		return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
 	}
 }
