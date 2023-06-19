@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>bluesky-boot-docs</artifactId>
 	<properties>
-		<asciidocs.output.directory>src/main/resources/static</asciidocs.output.directory>
+		<asciidoctor.outputDirectory>src/main/resources/static</asciidoctor.outputDirectory>
 	</properties>
 	<dependencies>
 		<dependency>
