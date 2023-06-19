@@ -20,14 +20,16 @@
 		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
-		<asciidoctorj-diagram.version>2.2.8</asciidoctorj-diagram.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
+		<asciidoctor.backend>spring-html</asciidoctor.backend>
+		<asciidoctor.sourceDirectory>${refdocs.build.directory}</asciidoctor.sourceDirectory>
 		<asciidoctor.outputDirectory>${project.build.directory}/generated-docs</asciidoctor.outputDirectory>
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
+		<spring-asciidoctor-backends.version>0.0.5</spring-asciidoctor-backends.version>
+		<asciidoctorj-diagram.version>2.2.8</asciidoctorj-diagram.version>
 		<restdocs-api-spec.version>0.18.2</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.22</restdocs-spec-maven-plugin.version>
-		<spring-asciidoctor-backends.version>0.0.5</spring-asciidoctor-backends.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
@@ -221,6 +223,15 @@
 							</configuration>
 						</execution>
 					</executions>
+		            <configuration>
+		                <nonFilteredFileExtensions>
+		                    <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+		                    <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+		                    <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+		                    <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+		                    <nonFilteredFileExtension>otf</nonFilteredFileExtension>
+		                </nonFilteredFileExtensions>
+		            </configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.asciidoctor</groupId>
@@ -244,7 +255,6 @@
 						</dependency>
 					</dependencies>
 					<configuration>
-						<sourceDirectory>${refdocs.build.directory}</sourceDirectory>
 						<requires>
 							<require>asciidoctor-diagram</require>
 						</requires>
@@ -256,9 +266,6 @@
 							<goals>
 								<goal>process-asciidoc</goal>
 							</goals>
-							<configuration>
-								<backend>spring-html</backend>
-							</configuration>
 						</execution>
 					</executions>
 				</plugin>
