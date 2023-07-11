@@ -11,6 +11,14 @@
 	<artifactId>bluesky-boot-parent</artifactId>
 	<packaging>pom</packaging>
 	<dependencies>
+		<!-- (s) Annotation processing -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) Annotation processing -->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
