@@ -26,7 +26,7 @@
 		<asciidoctor.outputDirectory>${project.build.directory}/generated-docs</asciidoctor.outputDirectory>
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
-		<spring-asciidoctor-backends.version>0.0.5</spring-asciidoctor-backends.version>
+		<spring-asciidoctor-backends.version>0.0.6</spring-asciidoctor-backends.version>
 		<asciidoctorj-diagram.version>2.2.8</asciidoctorj-diagram.version>
 		<restdocs-api-spec.version>0.18.2</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.22</restdocs-spec-maven-plugin.version>
