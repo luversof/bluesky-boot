@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckController;
-import io.github.luversof.boot.autoconfigure.devcheck.core.annotation.DevCheckDescription;
+import io.github.luversof.boot.devcheck.annotation.DevCheckController;
+import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
 import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.AllArgsConstructor;
 
