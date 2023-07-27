@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@ConfigurationProperties(prefix = "bluesky-modules.mongodb")
+@ConfigurationProperties(prefix = "bluesky-boot.mongodb")
 public class MongoProperties implements InitializingBean {
 
 	private BlueskyMongoProperties defaultMongoProperties;

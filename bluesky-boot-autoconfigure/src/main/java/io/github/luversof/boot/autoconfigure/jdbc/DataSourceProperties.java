@@ -8,7 +8,7 @@ import lombok.Data;
  * Configuration properties for DataSource.
  */
 @Data
-@ConfigurationProperties("bluesky-modules.datasource")
+@ConfigurationProperties("bluesky-boot.datasource")
 public class DataSourceProperties {
 	
 	private boolean enabled;

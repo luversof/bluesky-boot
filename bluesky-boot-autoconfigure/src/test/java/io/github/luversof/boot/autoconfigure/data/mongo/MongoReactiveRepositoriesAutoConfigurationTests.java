@@ -29,7 +29,7 @@ class MongoReactiveRepositoriesAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
-			.withPropertyValues("bluesky-modules.mongodb.default-mongo-properties.host=mongo-service", "bluesky-modules.mongodb.default-mongo-properties.port=27017")
+			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new)))
 			.withUserConfiguration(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_USER_CONFIGURATION, MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new));
 

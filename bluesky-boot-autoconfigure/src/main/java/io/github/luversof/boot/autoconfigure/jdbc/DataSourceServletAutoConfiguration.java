@@ -23,7 +23,7 @@ import io.github.luversof.boot.jdbc.datasource.support.CommonRoutingDataSourceLo
 @AutoConfiguration(value = "_blueskyBootDataSourceServletAutoConfiguration")
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@ConditionalOnProperty(prefix = "bluesky-modules.datasource", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true")
 public class DataSourceServletAutoConfiguration {
 
 	@Bean

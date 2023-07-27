@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@ConfigurationProperties(prefix = "bluesky-modules.core")
+@ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties>, InitializingBean {
 
 	private Map<String, CoreModuleProperties> modules = new HashMap<>();

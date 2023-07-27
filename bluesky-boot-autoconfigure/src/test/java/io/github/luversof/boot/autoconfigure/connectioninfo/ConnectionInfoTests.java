@@ -27,19 +27,19 @@ class ConnectionInfoTests {
 			.withInitializer((applicationContext) -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues(
-				"bluesky-modules.connection-info.loaders.mariadb-datasource.enabled=true",
-				"bluesky-modules.connection-info.loaders.mariadb-datasource.properties.url=jdbc:mariadb://mariadb.bluesky.local:3306/connection_info",
-				"bluesky-modules.connection-info.loaders.mariadb-datasource.properties.username={text}dd2d9a9a3735b9f9a63664dca900b04e34d92759a43d301c74dd60d235c9576c",
-				"bluesky-modules.connection-info.loaders.mariadb-datasource.properties.password={text}dd2d9a9a3735b9f9a63664dca900b04e34d92759a43d301c74dd60d235c9576c",
-				"bluesky-modules.connection-info.loaders.mariadb-datasource.connections.mapexample=test1",
-				"bluesky-modules.connection-info.loaders.sqlserver-datasource.enabled=true",
-				"bluesky-modules.connection-info.loaders.sqlserver-datasource.properties.url=jdbc:sqlserver://mssql.bluesky.local;encrypt=false;databaseName=connection_info",
-				"bluesky-modules.connection-info.loaders.sqlserver-datasource.properties.username={text}6dfa79bdb4311fe011683a2fbf1b281eb6bfe47523575919533e1c0a99986dfa",
-				"bluesky-modules.connection-info.loaders.sqlserver-datasource.properties.password={text}cd59e88989c267f8e68e5195fd9e8cc16110118a78f04f14da9f72aa4eda0b85",
-				"bluesky-modules.connection-info.loaders.sqlserver-datasource.connections.mapexample=test1"
+				"bluesky-boot.connection-info.loaders.mariadb-datasource.enabled=true",
+				"bluesky-boot.connection-info.loaders.mariadb-datasource.properties.url=jdbc:mariadb://mariadb.bluesky.local:3306/connection_info",
+				"bluesky-boot.connection-info.loaders.mariadb-datasource.properties.username={text}dd2d9a9a3735b9f9a63664dca900b04e34d92759a43d301c74dd60d235c9576c",
+				"bluesky-boot.connection-info.loaders.mariadb-datasource.properties.password={text}dd2d9a9a3735b9f9a63664dca900b04e34d92759a43d301c74dd60d235c9576c",
+				"bluesky-boot.connection-info.loaders.mariadb-datasource.connections.mapexample=test1",
+				"bluesky-boot.connection-info.loaders.sqlserver-datasource.enabled=true",
+				"bluesky-boot.connection-info.loaders.sqlserver-datasource.properties.url=jdbc:sqlserver://mssql.bluesky.local;encrypt=false;databaseName=connection_info",
+				"bluesky-boot.connection-info.loaders.sqlserver-datasource.properties.username={text}6dfa79bdb4311fe011683a2fbf1b281eb6bfe47523575919533e1c0a99986dfa",
+				"bluesky-boot.connection-info.loaders.sqlserver-datasource.properties.password={text}cd59e88989c267f8e68e5195fd9e8cc16110118a78f04f14da9f72aa4eda0b85",
+				"bluesky-boot.connection-info.loaders.sqlserver-datasource.connections.mapexample=test1"
 			)
-			.withPropertyValues("bluesky-modules.core.modules.test.domain.web=http://localhost")
-			.withPropertyValues("bluesky-modules.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
+			.withPropertyValues("bluesky-boot.core.modules.test.domain.web=http://localhost")
+			.withPropertyValues("bluesky-boot.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
 			.withUserConfiguration(CORE_USER_CONFIGURATION)
 			.withUserConfiguration(ConnectionInfoAutoConfiguration.class)
 			;

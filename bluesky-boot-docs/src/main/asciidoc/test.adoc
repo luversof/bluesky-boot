@@ -81,7 +81,7 @@ annotation, as the following example shows:
 
 [source,properties,configprops]
 ----
-bluesky-modules.core.modules.test.domain.web=http://localhost
+bluesky-boot.core.modules.test.domain.web=http://localhost
 ----
 
 

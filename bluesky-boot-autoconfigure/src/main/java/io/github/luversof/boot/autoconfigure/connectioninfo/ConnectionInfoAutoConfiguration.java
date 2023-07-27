@@ -33,7 +33,7 @@ public class ConnectionInfoAutoConfiguration {
 	
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class, HikariDataSource.class, org.mariadb.jdbc.Driver.class })
-	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true")
+	@ConditionalOnProperty(prefix = "bluesky-boot.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true")
 	static class MariaDbDataSourceConnectionInfoConfiguration {
 
         @Bean
@@ -44,7 +44,7 @@ public class ConnectionInfoAutoConfiguration {
 	
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class, HikariDataSource.class, com.microsoft.sqlserver.jdbc.SQLServerDriver.class })
-	@ConditionalOnProperty(prefix = "bluesky-modules.connection-info.loaders", name = "sqlserver-datasource.enabled", havingValue = "true")
+	@ConditionalOnProperty(prefix = "bluesky-boot.connection-info.loaders", name = "sqlserver-datasource.enabled", havingValue = "true")
 	static class SQLServerDataSourceConnectionInfoConfiguration {
 		
 		@Bean

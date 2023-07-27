@@ -16,8 +16,8 @@ class CoreAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
-			.withPropertyValues("bluesky-modules.core.modules.test.domain.web=http://localhost")
-			.withPropertyValues("bluesky-modules.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
+			.withPropertyValues("bluesky-boot.core.modules.test.domain.web=http://localhost")
+			.withPropertyValues("bluesky-boot.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
 			.withUserConfiguration(CORE_USER_CONFIGURATION)
 			;
 	
@@ -45,7 +45,7 @@ class CoreAutoConfigurationTests {
 	
 	@Test
 	void multiModuleBlueskyContextHolder() {
-		this.contextRunner.withPropertyValues("bluesky-modules.core.modules.test2.domain.web=http://localhost").run(context -> {
+		this.contextRunner.withPropertyValues("bluesky-boot.core.modules.test2.domain.web=http://localhost").run(context -> {
 			BlueskyContextHolder.setContext("test");
 			var blueskyContext = BlueskyContextHolder.getContext();
 			assertThat(((CoreModuleProperties) BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);

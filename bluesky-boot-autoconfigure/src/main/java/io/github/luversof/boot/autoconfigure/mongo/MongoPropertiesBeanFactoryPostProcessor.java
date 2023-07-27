@@ -21,7 +21,7 @@ public class MongoPropertiesBeanFactoryPostProcessor implements BeanFactoryPostP
 	
 	private ApplicationContext applicationContext;
 	
-	private String propertiesPrefix = "bluesky-modules.mongodb.connection-map";
+	private String propertiesPrefix = "bluesky-boot.mongodb.connection-map";
 	
 	private String mongoClientBeanNameFormat = "{0}MongoClient";
 

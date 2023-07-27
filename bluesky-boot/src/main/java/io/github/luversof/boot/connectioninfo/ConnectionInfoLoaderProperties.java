@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-modules.connection-info")
+@ConfigurationProperties(prefix = "bluesky-boot.connection-info")
 public class ConnectionInfoLoaderProperties {
 	
 	private Map<String, LoaderInfo> loaders = new HashMap<>();

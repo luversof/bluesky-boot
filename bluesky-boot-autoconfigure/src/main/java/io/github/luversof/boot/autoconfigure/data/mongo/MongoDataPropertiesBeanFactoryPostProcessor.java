@@ -23,7 +23,7 @@ public class MongoDataPropertiesBeanFactoryPostProcessor implements BeanFactoryP
 	
 	private ApplicationContext applicationContext;
 	
-	private String propertiesPrefix = "bluesky-modules.mongodb.connection-map";
+	private String propertiesPrefix = "bluesky-boot.mongodb.connection-map";
 	
 	private String mongoDatabaseFactoryBeanNameFormat = "{0}MongoDatabaseFactory";
 	private String mongoTemplateBeanNameFormat = "{0}MongoTemplate";

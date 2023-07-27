@@ -34,8 +34,8 @@ class SimpleTest {
 	@Test
 	void stringTest() {
 		
-		String a = "bluesky-modules.mongo.connection-map.test2.host";
-		String replace = a.replace("bluesky-modules.mongo.connection-map", "");
+		String a = "bluesky-boot.mongo.connection-map.test2.host";
+		String replace = a.replace("bluesky-boot.mongo.connection-map", "");
 		log.debug("result : {}", replace);
 		String[] split = replace.split("\\.");
 		log.debug("result : {}", split[1]);

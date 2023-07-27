@@ -21,7 +21,7 @@ class MongoReactiveDataAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
-			.withPropertyValues("bluesky-modules.mongodb.default-mongo-properties.host=mongo-service", "bluesky-modules.mongodb.default-mongo-properties.port=27017")
+			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(DATA_MONGO_REACTIVE_CONFIGURATION))
 			.withUserConfiguration(DATA_MONGO_REACTIVE_USER_CONFIGURATION);
 
