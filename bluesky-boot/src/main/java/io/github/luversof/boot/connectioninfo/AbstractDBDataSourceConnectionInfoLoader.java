@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.util.CollectionUtils;
 
+import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -78,10 +79,12 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 	}
 
 	private JdbcTemplate getJdbcTemplate() {
+		var encryptor = TextEncryptorFactories.getDelegatingTextEncryptor();
+		
 		var loaderProperties = connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getProperties();
 		String url = loaderProperties.get("url");
-		String username = loaderProperties.get("username");
-		String password = loaderProperties.get("password");
+		String username = encryptor.decrypt(loaderProperties.get("username"));
+		String password = encryptor.decrypt(loaderProperties.get("password"));
 		
 		return new JdbcTemplate(new SimpleDriverDataSource(getLoaderDriver(), url, username, password));
 	}

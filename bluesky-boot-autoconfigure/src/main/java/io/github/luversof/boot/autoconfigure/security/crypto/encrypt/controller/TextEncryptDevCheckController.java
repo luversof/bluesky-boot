@@ -2,11 +2,8 @@ package io.github.luversof.boot.autoconfigure.security.crypto.encrypt.controller
 
 import java.util.Set;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;
 import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
@@ -20,12 +17,12 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @DevCheckController
-@RestController
-@RequestMapping(value = "${bluesky-boot.dev-check.path-prefix}/blueskyBoot/textEncrypt", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TextEncryptDevCheckController {
 	
+	private final String pathPrefix = "/blueskyBoot/security/crypto";
+	
 	@DevCheckDescription("encrypt")
-	@GetMapping("/encrypt")
+	@GetMapping(pathPrefix + "/encrypt")
 	String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
 		if (textEncryptorId == null) {
 			return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
@@ -34,13 +31,13 @@ public class TextEncryptDevCheckController {
 	}
 	
 	@DevCheckDescription("decrypt")
-	@GetMapping("/decrypt")
+	@GetMapping(pathPrefix + "/decrypt")
 	String decrypt(String text) {
 		return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
 	}
 	
 	@DevCheckDescription("textEncryptorMapKeySet")
-	@GetMapping("/textEncryptorMapKeySet")
+	@GetMapping(pathPrefix + "/textEncryptorMapKeySet")
 	Set<String> textEncryptorMapKeySet() {
 		return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
 	}

@@ -6,11 +6,8 @@ import java.util.Map;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;
@@ -24,19 +21,19 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @DevCheckController
-@RestController
-@RequestMapping(value = "${bluesky-boot.dev-check.path-prefix}/blueskyBoot/messageSource", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MessageSourceDevCheckController {
+	
+	private final String pathPrefix = "/blueskyBoot/messageSource";
 	
 	private BlueskyReloadableResourceBundleMessageSource messageSource;
 
-	@GetMapping("/messageSource")
+	@GetMapping(pathPrefix + "/messageSource")
 	MessageSource messageSource() {
 		return messageSource;
 	}
 	
 	@DevCheckDescription("다국어 메세지 전체 목록 조회")
-	@GetMapping("/messageSources")
+	@GetMapping(pathPrefix + "/messageSources")
 	Map<Object, Object> getMessageSources(@RequestParam(required = false) String searchKeyword) {
 		var map = new LinkedHashMap<>();
 		var keyList = messageSource.getProperties().keySet().stream()
@@ -47,7 +44,7 @@ public class MessageSourceDevCheckController {
 	}
 	
 	@DevCheckDescription("다국어 메세지 Locale별 전체 목록 조회")
-	@GetMapping("/messageSourcesByLocale")
+	@GetMapping(pathPrefix + "/messageSourcesByLocale")
 	Map<Object, Object> getMessageSourcesByLocale(@RequestParam(required = false) Locale locale, @RequestParam(required = false) String searchKeyword) {
 		final Locale targetLocale = (locale == null) ? LocaleContextHolder.getLocale() : locale;
 		var map = new LinkedHashMap<>();

@@ -7,10 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luversof.boot.autoconfigure.core.CoreProperties;
 import io.github.luversof.boot.config.BlueskyProperties;
@@ -28,61 +25,61 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @DevCheckController
-@RestController
-@RequestMapping(value = "${bluesky-boot.dev-check.path-prefix}/blueskyBoot/core", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CoreDevCheckController {
 	
+	private final String pathPrefix = "/blueskyBoot/core";
+	
 	@DevCheckDescription("Spring activeProfiles 조회")
-	@GetMapping("/activeProfiles")
+	@GetMapping(pathPrefix + "/activeProfiles")
 	String[] activeProfiles() {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
 	}
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
-	@GetMapping("/property")
+	@GetMapping(pathPrefix + "/property")
 	String property(String key) {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
-	@GetMapping("/blueskyPropertiesMap")
+	@GetMapping(pathPrefix + "/blueskyPropertiesMap")
 	Map<String, BlueskyProperties> blueskyPropertiesMap() {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
 	}
 	
 	@DevCheckDescription("coreProperties 조회")
-	@GetMapping("/coreProperties")
+	@GetMapping(pathPrefix + "/coreProperties")
 	CoreProperties coreProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")
-	@GetMapping("/currentLocale")
+	@GetMapping(pathPrefix + "/currentLocale")
 	Locale currentLocale() {
 		return LocaleContextHolder.getLocale();
 	}
 	
 	@DevCheckDescription("systemDefaultZone 값 확인.")
-	@GetMapping("/systemDefaultZone")
+	@GetMapping(pathPrefix + "/systemDefaultZone")
 	Clock systemDefaultZone() {
 		return Clock.systemDefaultZone();
 	}
 	
 	@DevCheckDescription("localeDateTime now 값 확인.")
-	@GetMapping("/localDateTimeNow")
+	@GetMapping(pathPrefix + "/localDateTimeNow")
 	LocalDateTime localDateTimeNow() {
 		return LocalDateTime.now();
 	}
 	
 	@DevCheckDescription("zonedDateTime now 값 확인.")
-	@GetMapping("/zonedDateTimeNow")
+	@GetMapping(pathPrefix + "/zonedDateTimeNow")
 	ZonedDateTime zonedDateTimeNow() {
 		return ZonedDateTime.now();
 	}
 	
 	@DevCheckDescription("blueskyContext 확인")
-	@GetMapping("/blueskyContext")
+	@GetMapping(pathPrefix + "/blueskyContext")
 	BlueskyContext blueskyContext() {
 		return BlueskyContextHolder.getContext();
 	}
