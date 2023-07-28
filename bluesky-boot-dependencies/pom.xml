@@ -70,6 +70,11 @@
 			</dependency>
 			<dependency>
 				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-devcheck</artifactId>
+				<version>${bluesky-boot-devcheck.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-autoconfigure-devcheck</artifactId>
 				<version>${bluesky-boot-devcheck.version}</version>
 			</dependency>
