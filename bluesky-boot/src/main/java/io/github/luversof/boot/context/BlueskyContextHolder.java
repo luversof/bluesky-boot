@@ -4,9 +4,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-import io.github.luversof.boot.config.BlueskyCoreModuleProperties;
-import io.github.luversof.boot.config.BlueskyCoreProperties;
-import io.github.luversof.boot.config.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
+import io.github.luversof.boot.core.BlueskyCoreProperties;
+import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

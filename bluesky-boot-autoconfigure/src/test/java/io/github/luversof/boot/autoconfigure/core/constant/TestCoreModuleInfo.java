@@ -2,8 +2,9 @@ package io.github.luversof.boot.autoconfigure.core.constant;
 
 import java.util.Locale;
 
-import io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties;
-import io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
+import io.github.luversof.boot.core.CoreModuleInfo;
+import io.github.luversof.boot.core.CoreProperties.CoreModuleProperties;
+import io.github.luversof.boot.core.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
 
 public enum TestCoreModuleInfo implements CoreModuleInfo {
 	TEST {

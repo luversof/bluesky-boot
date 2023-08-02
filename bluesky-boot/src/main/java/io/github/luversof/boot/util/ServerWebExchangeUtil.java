@@ -12,9 +12,9 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.reactive.ServerWebExchangeContextFilter;
 import org.springframework.web.server.ServerWebExchange;
 
-import io.github.luversof.boot.config.BlueskyCoreModuleProperties;
-import io.github.luversof.boot.config.BlueskyCoreProperties;
-import io.github.luversof.boot.config.BlueskyCoreProperties.CoreModulePropertiesResolveType;
+import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
+import io.github.luversof.boot.core.BlueskyCoreProperties;
+import io.github.luversof.boot.core.BlueskyCoreProperties.CoreModulePropertiesResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

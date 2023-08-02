@@ -16,8 +16,8 @@ import org.springframework.lang.Nullable;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.luversof.boot.autoconfigure.connectioninfo.controller.ConnectionInfoDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.MariaDbDataSourceConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.SQLServerDataSourceConnectionInfoLoader;
@@ -27,7 +27,7 @@ import io.github.luversof.boot.connectioninfo.SQLServerDataSourceConnectionInfoL
  * @author bluesky
  *
  */
-@AutoConfiguration("_blueskyBootConnectionInfoAutoConfiguration")
+@AutoConfiguration
 @EnableConfigurationProperties(ConnectionInfoLoaderProperties.class)
 public class ConnectionInfoAutoConfiguration {
 	

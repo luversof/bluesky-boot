@@ -13,9 +13,9 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import io.github.luversof.boot.config.BlueskyCoreModuleProperties;
-import io.github.luversof.boot.config.BlueskyCoreProperties;
-import io.github.luversof.boot.config.BlueskyCoreProperties.CoreModulePropertiesResolveType;
+import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
+import io.github.luversof.boot.core.BlueskyCoreProperties;
+import io.github.luversof.boot.core.BlueskyCoreProperties.CoreModulePropertiesResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;

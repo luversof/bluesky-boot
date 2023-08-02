@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core;
+package io.github.luversof.boot.autoconfigure.core.servlet;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,8 +11,9 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import io.github.luversof.boot.autoconfigure.core.controller.CoreDevCheckController;
+import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
+import io.github.luversof.boot.core.CoreDevCheckController;
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
 import jakarta.servlet.Servlet;
 
@@ -21,10 +22,10 @@ import jakarta.servlet.Servlet;
  * @author bluesky
  *
  */
-@AutoConfiguration(value = "_blueskyBootCoreServletAutoConfiguration", after = CoreAutoConfiguration.class)
+@AutoConfiguration(after = CoreAutoConfiguration.class)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
-public class CoreServletAutoConfiguration {
+public class CoreMvcAutoConfiguration {
 
     @Bean
     BlueskyContextHolderFilter blueskyContextHolderFilter() {

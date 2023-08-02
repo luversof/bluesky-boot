@@ -1,4 +1,4 @@
-package io.github.luversof.boot.config;
+package io.github.luversof.boot.core;
 
 import java.util.Map;
 

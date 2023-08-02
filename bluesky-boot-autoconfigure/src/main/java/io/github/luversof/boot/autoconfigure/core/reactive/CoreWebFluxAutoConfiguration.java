@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core;
+package io.github.luversof.boot.autoconfigure.core.reactive;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -7,14 +7,16 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
+import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
+
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for core reactive support.
  * @author bluesky
  *
  */
-@AutoConfiguration(value = "_blueskyBootCoreReactiveAutoConfiguration", after = CoreAutoConfiguration.class)
+@AutoConfiguration(after = CoreAutoConfiguration.class)
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = Type.REACTIVE)
-public class CoreReactiveAutoConfiguration {
+public class CoreWebFluxAutoConfiguration {
 
 }

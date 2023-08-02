@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.context.controller;
+package io.github.luversof.boot.context;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;

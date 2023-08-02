@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.util.StringUtils;
 
-import io.github.luversof.boot.autoconfigure.context.controller.MessageSourceDevCheckController;
+import io.github.luversof.boot.context.MessageSourceDevCheckController;
 import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
 
 
@@ -23,7 +23,7 @@ import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMe
  * @author bluesky
  *
  */
-@AutoConfiguration(value = "_blueskyBootMessageSourceAutoConfiguration", before = org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
+@AutoConfiguration(before = org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
 //@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(MessageSourceExtensionProperties.class)
 public class MessageSourceAutoConfiguration {

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 
+import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.util.ApplicationContextUtil;
 
 
@@ -13,7 +14,7 @@ import io.github.luversof.boot.util.ApplicationContextUtil;
  * @author bluesky
  *
  */
-@AutoConfiguration("_blueskyBootCoreAutoConfiguration")
+@AutoConfiguration
 @EnableConfigurationProperties(CoreProperties.class)
 public class CoreAutoConfiguration {
 

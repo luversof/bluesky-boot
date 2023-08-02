@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.jdbc;
+package io.github.luversof.boot.autoconfigure.jdbc.servlet;
 
 import javax.sql.DataSource;
 
@@ -20,11 +20,11 @@ import io.github.luversof.boot.jdbc.datasource.support.CommonRoutingDataSourceLo
  * @author bluesky
  *
  */
-@AutoConfiguration(value = "_blueskyBootDataSourceServletAutoConfiguration")
+@AutoConfiguration
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
-public class DataSourceServletAutoConfiguration {
+public class DataSourceMvcAutoConfiguration {
 
 	@Bean
 	RoutingDataSourceContextHolderFilter routingDataSourceContextHolderFilter(@Nullable CommonRoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {

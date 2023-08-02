@@ -1,4 +1,4 @@
-package io.github.luversof.boot.config;
+package io.github.luversof.boot.core;
 
 /**
  * The properties objects that extend BlueskyProperties and are used by the required properties

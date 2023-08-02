@@ -17,7 +17,7 @@ import com.mongodb.client.MongoClient;
  * @author bluesky
  *
  */
-@AutoConfiguration("_blueskyBootMongoDataAutoConfiguration")
+@AutoConfiguration
 @ConditionalOnClass({ MongoClient.class, MongoTemplate.class })
 // @AutoConfigureAfter(MongoAutoConfiguration.class)
 public class MongoDataAutoConfiguration {

@@ -1,6 +1,6 @@
-package io.github.luversof.boot.autoconfigure.core.constant;
+package io.github.luversof.boot.core;
 
-import io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
+import io.github.luversof.boot.core.CoreProperties.CoreModuleProperties.CoreModulePropertiesBuilder;
 
 /**
  * enum to provide builders with a convenient way to provide coreProperties settings

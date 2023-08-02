@@ -1,12 +1,10 @@
-package io.github.luversof.boot.autoconfigure.connectioninfo.controller;
+package io.github.luversof.boot.connectioninfo;
 
 import java.util.Map;
 import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
-import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;
 import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
 import lombok.AllArgsConstructor;

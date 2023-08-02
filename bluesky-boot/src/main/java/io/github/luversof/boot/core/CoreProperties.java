@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core;
+package io.github.luversof.boot.core;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +9,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import io.github.luversof.boot.autoconfigure.core.constant.CoreModuleInfo;
-import io.github.luversof.boot.config.BlueskyCoreModuleProperties;
-import io.github.luversof.boot.config.BlueskyCoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +21,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.core")
-public class CoreProperties implements BlueskyCoreProperties<io.github.luversof.boot.autoconfigure.core.CoreProperties.CoreModuleProperties>, InitializingBean {
+public class CoreProperties implements BlueskyCoreProperties<CoreProperties.CoreModuleProperties>, InitializingBean {
 
 	private Map<String, CoreModuleProperties> modules = new HashMap<>();
 	

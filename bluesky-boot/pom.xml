@@ -78,6 +78,15 @@
 		</dependency>
 		<!-- (e) data-jdbc -->
 		
+		<!-- (s) data-mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) data-mongodb -->
+		
+		
 		<!-- (s) validation -->
 		<dependency>
 			<groupId>jakarta.validation</groupId>

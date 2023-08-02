@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.core.controller;
+package io.github.luversof.boot.core;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -9,8 +9,6 @@ import java.util.Map;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import io.github.luversof.boot.autoconfigure.core.CoreProperties;
-import io.github.luversof.boot.config.BlueskyProperties;
 import io.github.luversof.boot.context.BlueskyContext;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;

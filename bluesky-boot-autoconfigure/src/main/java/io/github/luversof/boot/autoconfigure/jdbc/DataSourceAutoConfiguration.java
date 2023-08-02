@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-@AutoConfiguration("_blueskyBootDataSourceAutoConfiguration")
+@AutoConfiguration
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @PropertySource(value = "classpath:jdbc/jdbc.properties", ignoreResourceNotFound = true)

@@ -6,8 +6,8 @@ import java.util.Map.Entry;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.github.luversof.boot.config.BlueskyCoreModuleProperties;
 import io.github.luversof.boot.context.BlueskyContextHolder;
+import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
 import io.github.luversof.boot.util.ServletRequestUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
