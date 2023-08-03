@@ -19,9 +19,9 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
-import io.github.luversof.boot.autoconfigure.jdbc.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
+import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import lombok.extern.slf4j.Slf4j;
 

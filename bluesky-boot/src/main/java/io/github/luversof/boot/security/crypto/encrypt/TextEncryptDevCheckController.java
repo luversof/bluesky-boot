@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.security.crypto.encrypt.controller;
+package io.github.luversof.boot.security.crypto.encrypt;
 
 import java.util.Set;
 

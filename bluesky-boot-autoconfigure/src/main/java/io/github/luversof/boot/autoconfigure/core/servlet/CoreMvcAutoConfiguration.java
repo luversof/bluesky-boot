@@ -12,8 +12,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
-import io.github.luversof.boot.autoconfigure.core.exception.servlet.error.CoreServletExceptionHandler;
 import io.github.luversof.boot.core.CoreDevCheckController;
+import io.github.luversof.boot.exception.servlet.CoreMvcExceptionHandler;
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
 import jakarta.servlet.Servlet;
 
@@ -34,8 +34,8 @@ public class CoreMvcAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    CoreServletExceptionHandler coreServletExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
-        return new CoreServletExceptionHandler(messageSourceAccessor);
+    CoreMvcExceptionHandler coreMvcExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
+        return new CoreMvcExceptionHandler(messageSourceAccessor);
     }
 
     @Bean

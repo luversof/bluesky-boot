@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.jdbc.controller;
+package io.github.luversof.boot.jdbc.datasource.controller;
 
 import java.util.Collections;
 import java.util.Set;
