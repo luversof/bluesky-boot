@@ -7,13 +7,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
+import io.github.luversof.boot.autoconfigure.exception.servlet.CoreMvcExceptionHandler;
 import io.github.luversof.boot.core.CoreDevCheckController;
-import io.github.luversof.boot.exception.servlet.CoreMvcExceptionHandler;
 import io.github.luversof.boot.filter.BlueskyContextHolderFilter;
 import jakarta.servlet.Servlet;
 
@@ -34,8 +33,8 @@ public class CoreMvcAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    CoreMvcExceptionHandler coreMvcExceptionHandler(MessageSourceAccessor messageSourceAccessor) {
-        return new CoreMvcExceptionHandler(messageSourceAccessor);
+    CoreMvcExceptionHandler coreMvcExceptionHandler() {
+        return new CoreMvcExceptionHandler();
     }
 
     @Bean

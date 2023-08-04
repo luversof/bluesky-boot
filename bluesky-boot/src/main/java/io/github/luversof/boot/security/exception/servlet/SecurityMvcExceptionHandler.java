@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import io.github.luversof.boot.context.MessageUtil;
+import io.github.luversof.boot.exception.ProblemDetailUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,6 +29,6 @@ public class SecurityMvcExceptionHandler {
 	@ExceptionHandler
 	public ProblemDetail accessDeniedException(AccessDeniedException exception) {
 		log.error("AccessDeniedException exception", exception);
-		return MessageUtil.getProblemDetail(HttpStatus.UNAUTHORIZED, exception);
+		return ProblemDetailUtil.getProblemDetail(exception, HttpStatus.UNAUTHORIZED);
 	}
 }
