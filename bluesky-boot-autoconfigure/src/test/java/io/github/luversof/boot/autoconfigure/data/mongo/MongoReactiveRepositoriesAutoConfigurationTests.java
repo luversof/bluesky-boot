@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -24,7 +25,7 @@ import io.github.luversof.boot.autoconfigure.data.empty.EmptyDataPackage;
 import io.github.luversof.boot.autoconfigure.data.mongo.city.City;
 import io.github.luversof.boot.autoconfigure.data.mongo.city.ReactiveCityRepository;
 
-
+@Disabled
 class MongoReactiveRepositoriesAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()

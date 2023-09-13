@@ -27,7 +27,7 @@ import io.github.luversof.boot.connectioninfo.SQLServerDataSourceConnectionInfoL
  * @author bluesky
  *
  */
-@AutoConfiguration
+@AutoConfiguration("blueskyBootConnectionInfoAutoConfiguration")
 @EnableConfigurationProperties(ConnectionInfoLoaderProperties.class)
 public class ConnectionInfoAutoConfiguration {
 	

@@ -19,7 +19,7 @@ import com.mongodb.client.MongoClient;
  * @author bluesky
  *
  */
-@AutoConfiguration
+@AutoConfiguration("blueskyBootMongoAutoConfiguration")
 @ConditionalOnClass(MongoClient.class)
 @EnableConfigurationProperties(MongoProperties.class)
 public class MongoAutoConfiguration {

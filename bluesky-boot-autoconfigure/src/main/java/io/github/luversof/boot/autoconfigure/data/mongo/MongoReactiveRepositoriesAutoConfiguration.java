@@ -21,7 +21,7 @@ import com.mongodb.reactivestreams.client.MongoClient;
  * @author bluesky
  *
  */
-@AutoConfiguration("_blueskyBootMongoReactiveRepositoriesAutoConfiguration")
+@AutoConfiguration("blueskyBootMongoReactiveRepositoriesAutoConfiguration")
 @ConditionalOnClass({ MongoClient.class, ReactiveMongoRepository.class })
 @PropertySource(value = "classpath:data/mongo/data-mongo-${bluesky-boot-profile}.properties", ignoreResourceNotFound = true)
 @EnableMongoAuditing

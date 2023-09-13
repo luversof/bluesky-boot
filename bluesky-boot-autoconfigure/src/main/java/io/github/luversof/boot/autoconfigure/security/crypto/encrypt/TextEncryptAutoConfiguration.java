@@ -11,7 +11,7 @@ import io.github.luversof.boot.security.crypto.encrypt.TextEncryptDevCheckContro
  * @author bluesky
  *
  */
-@AutoConfiguration
+@AutoConfiguration("blueskyBootTextEncryptAutoConfiguration")
 public class TextEncryptAutoConfiguration {
 
 	@Bean

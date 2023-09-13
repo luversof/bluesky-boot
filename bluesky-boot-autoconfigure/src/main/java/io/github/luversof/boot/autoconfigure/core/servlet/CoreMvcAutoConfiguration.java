@@ -21,7 +21,7 @@ import jakarta.servlet.Servlet;
  * @author bluesky
  *
  */
-@AutoConfiguration(after = CoreAutoConfiguration.class)
+@AutoConfiguration(value = "blueskyBootCoreMvcAutoConfiguration", after = CoreAutoConfiguration.class)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class })
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class CoreMvcAutoConfiguration {

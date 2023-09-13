@@ -17,7 +17,7 @@ import jakarta.validation.executable.ExecutableValidator;
  * @author bluesky
  *
  */
-@AutoConfiguration
+@AutoConfiguration("blueskyBootValidationAutoConfiguration")
 @ConditionalOnClass({ ExecutableValidator.class, Advice.class })
 @ConditionalOnResource(resources = "classpath:META-INF/services/javax.validation.spi.ValidationProvider")
 @ConditionalOnProperty(prefix = "bluesky-boot.aop", name = "auto", havingValue = "true")

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
  * @author bluesky
  *
  */
-@AutoConfiguration
+@AutoConfiguration("blueskyBootWebMvcAutoConfiguration")
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class WebMvcAutoConfiguration {
 

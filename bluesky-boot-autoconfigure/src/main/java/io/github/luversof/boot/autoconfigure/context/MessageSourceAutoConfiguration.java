@@ -24,7 +24,7 @@ import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMe
  * @author bluesky
  *
  */
-@AutoConfiguration(before = org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
+@AutoConfiguration(value = "blueskyBootMessageSourceAutoConfiguration", before = org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
 //@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(MessageSourceExtensionProperties.class)
 public class MessageSourceAutoConfiguration {

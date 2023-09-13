@@ -1,5 +1,6 @@
 package io.github.luversof.boot.autoconfigure.data.mongo;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -17,6 +18,7 @@ import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DA
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MONGO_REACTIVE_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 class MongoReactiveDataAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()

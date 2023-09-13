@@ -14,7 +14,7 @@ import io.github.luversof.boot.util.ApplicationContextUtil;
  * @author bluesky
  *
  */
-@AutoConfiguration
+@AutoConfiguration("blueskyBootCoreAutoConfiguration")
 @EnableConfigurationProperties(CoreProperties.class)
 public class CoreAutoConfiguration {
 

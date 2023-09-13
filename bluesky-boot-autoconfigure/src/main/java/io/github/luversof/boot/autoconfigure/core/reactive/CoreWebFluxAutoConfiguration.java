@@ -14,7 +14,7 @@ import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
  * @author bluesky
  *
  */
-@AutoConfiguration(after = CoreAutoConfiguration.class)
+@AutoConfiguration(value = "blueskyBootCoreWebFluxAutoConfiguration", after = CoreAutoConfiguration.class)
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 public class CoreWebFluxAutoConfiguration {
