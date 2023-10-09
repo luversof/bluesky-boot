@@ -15,7 +15,6 @@
 	</properties>
 	<modules>
 		<module>bluesky-boot-autoconfigure</module>
-		<module>bluesky-boot-dependencies</module>
 		<module>bluesky-boot-docs</module>
 		<module>bluesky-boot-parent</module>
 		<module>bluesky-boot</module>
