@@ -8,13 +8,13 @@
 		<groupId>io.github.luversof</groupId>
 		<artifactId>bluesky-boot-dependencies</artifactId>
 		<version>3.1.0-SNAPSHOT</version>
-		<relativePath>../bluesky-boot-dependencies</relativePath>
+		<relativePath>./bluesky-boot-dependencies</relativePath>
 	</parent>
 	<properties>
 		<!--<main.basedir>${basedir}/../..</main.basedir>-->
 	</properties>
 	<modules>
-		<module>../bluesky-boot-dependencies</module>
+		<module>bluesky-boot-dependencies</module>
 		<module>bluesky-boot-autoconfigure</module>
 		<module>bluesky-boot-docs</module>
 		<module>bluesky-boot-parent</module>
