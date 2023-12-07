@@ -15,7 +15,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<spring-cloud-dependencies.version>2023.0.0</spring-cloud-dependencies.version>
-		<bluesky-boot.version>3.1.0-SNAPSHOT</bluesky-boot.version>
+		<bluesky-boot.version>3.2.0-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-crypto.version>3.1.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>3.1.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<spring-boot-admin-starter.version>3.1.8</spring-boot-admin-starter.version>
