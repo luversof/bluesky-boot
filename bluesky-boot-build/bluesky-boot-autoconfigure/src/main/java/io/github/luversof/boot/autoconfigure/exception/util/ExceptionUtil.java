@@ -38,7 +38,7 @@ public class ExceptionUtil {
 		} else {
 			for (ErrorViewResolver resolver : getErrorViewResolverList()) {
 				HttpServletRequest httpServletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-				ModelAndView modelAndView = resolver.resolveErrorView(httpServletRequest, HttpStatus.valueOf(problemDetail.getStatus()), null);
+				ModelAndView modelAndView = resolver.resolveErrorView(httpServletRequest, HttpStatus.valueOf(problemDetail.getStatus()), problemDetail.getProperties());
 				if (modelAndView != null) {
 					return modelAndView;
 				}
