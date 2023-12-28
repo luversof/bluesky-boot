@@ -39,19 +39,9 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 	protected AbstractDBDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoLoaderProperties) {
 		this.connectionInfoLoaderProperties = connectionInfoLoaderProperties;
 	}
-
+	
 	@Override
-	public ConnectionInfoCollector<T> load() {
-		
-		if (connectionInfoLoaderProperties == null 
-				|| connectionInfoLoaderProperties.getLoaders() == null 
-				|| !connectionInfoLoaderProperties.getLoaders().containsKey(getLoaderKey())
-				|| CollectionUtils.isEmpty(connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getConnections())) {
-			return Collections::emptyMap;
-		}
-
-		List<String> connectionList = connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getConnections().values().stream().flatMap(List::stream).distinct().toList();
-		
+	public ConnectionInfoCollector<T> load(List<String> connectionList) {
 		var loaderJdbcTemplate = getJdbcTemplate();
 		
 		String sql = MessageFormat.format(getLoaderQuery(), String.join(",", Collections.nCopies(connectionList.size(), "?")));
@@ -76,6 +66,22 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 		}
 		
 		return () -> dataSourceMap;
+		
+	}
+
+	@Override
+	public ConnectionInfoCollector<T> load() {
+		
+		if (connectionInfoLoaderProperties == null 
+				|| connectionInfoLoaderProperties.getLoaders() == null 
+				|| !connectionInfoLoaderProperties.getLoaders().containsKey(getLoaderKey())
+				|| CollectionUtils.isEmpty(connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getConnections())) {
+			return Collections::emptyMap;
+		}
+
+		List<String> connectionList = connectionInfoLoaderProperties.getLoaders().get(getLoaderKey()).getConnections().values().stream().flatMap(List::stream).distinct().toList();
+		
+		return load(connectionList);
 	}
 
 	private JdbcTemplate getJdbcTemplate() {

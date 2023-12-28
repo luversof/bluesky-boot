@@ -35,10 +35,15 @@ public class ConnectionInfoAutoConfiguration {
 	@ConditionalOnClass({ DataSource.class, JdbcTemplate.class, HikariDataSource.class, org.mariadb.jdbc.Driver.class })
 	@ConditionalOnProperty(prefix = "bluesky-boot.connection-info.loaders", name = "mariadb-datasource.enabled", havingValue = "true")
 	static class MariaDbDataSourceConnectionInfoConfiguration {
+		
+		@Bean
+		MariaDbDataSourceConnectionInfoLoader mariaDbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+			return new MariaDbDataSourceConnectionInfoLoader(connectionInfoProperties);
+		}
 
         @Bean
-        ConnectionInfoCollector<HikariDataSource> mariaDbDataSourceConnectionInfoCollector(ConnectionInfoLoaderProperties connectionInfoProperties) {
-            return new MariaDbDataSourceConnectionInfoLoader(connectionInfoProperties).load();
+        ConnectionInfoCollector<HikariDataSource> mariaDbDataSourceConnectionInfoCollector(MariaDbDataSourceConnectionInfoLoader mariaDbDataSourceConnectionInfoLoader) {
+            return mariaDbDataSourceConnectionInfoLoader.load();
         }
 	}
 	
@@ -48,8 +53,13 @@ public class ConnectionInfoAutoConfiguration {
 	static class SQLServerDataSourceConnectionInfoConfiguration {
 		
 		@Bean
-		ConnectionInfoCollector<HikariDataSource> sqlServerDataSourceConnectionInfoCollector(ConnectionInfoLoaderProperties connectionInfoProperties) {
-			return new SQLServerDataSourceConnectionInfoLoader(connectionInfoProperties).load();
+		SQLServerDataSourceConnectionInfoLoader sqlServerDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+			return new SQLServerDataSourceConnectionInfoLoader(connectionInfoProperties);
+		}
+		
+		@Bean
+		ConnectionInfoCollector<HikariDataSource> sqlServerDataSourceConnectionInfoCollector(SQLServerDataSourceConnectionInfoLoader sqlServerDataSourceConnectionInfoLoader) {
+			return sqlServerDataSourceConnectionInfoLoader.load();
 		}
 	}
 	

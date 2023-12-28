@@ -20,6 +20,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
@@ -54,7 +55,11 @@ public class DataSourceAutoConfiguration {
     
     @Bean
     @Primary
-    <T extends DataSource> DataSource routingDataSource(DataSourceProperties dataSourceProperties, @Nullable Map<String, T> dataSourceMap, @Nullable Map<String, ConnectionInfoCollector<T>> connectionInfoCollectorMap) {
+    <T extends DataSource> DataSource routingDataSource(
+    		DataSourceProperties dataSourceProperties, 
+    		@Nullable Map<String, T> dataSourceMap, 
+    		@Nullable Map<String, ConnectionInfoCollector<T>> connectionInfoCollectorMap,
+    		@Nullable Map<String, ConnectionInfoLoader<T, ConnectionInfoCollector<T>>> connectionInfoLoaderMap) {
     	Map<Object, Object> targetDataSourceMap = new HashMap<>();
     	if (dataSourceMap != null) {
     		targetDataSourceMap.putAll(dataSourceMap);
