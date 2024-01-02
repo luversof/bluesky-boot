@@ -14,4 +14,6 @@ public class DataSourceProperties {
 	private boolean enabled;
 
 	private String defaultDatasource;
+	
+	private boolean useLazyLoadRoutingDataSource;
 }

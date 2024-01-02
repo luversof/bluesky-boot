@@ -24,6 +24,7 @@ import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
+import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -71,7 +72,12 @@ public class DataSourceAutoConfiguration {
     		});
     	}
     	
-    	var routingDataSource = new RoutingDataSource();
+    	RoutingDataSource routingDataSource;
+    	if (dataSourceProperties.isUseLazyLoadRoutingDataSource()) {
+    		routingDataSource = new LazyLoadRoutingDataSource<>(connectionInfoLoaderMap);
+    	} else {
+    		routingDataSource = new RoutingDataSource();
+    	}
     	routingDataSource.setTargetDataSources(targetDataSourceMap);
     	// defaultDataSource를 지정하지 않은 경우 아무 값이나 설정
     	if (dataSourceProperties.getDefaultDatasource() == null) {
