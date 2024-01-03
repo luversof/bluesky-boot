@@ -1,5 +1,6 @@
 package io.github.luversof.boot.jdbc.datasource.lookup;
 
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import javax.sql.DataSource;
 
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
+import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextHolder;
 
 /**
@@ -16,6 +18,8 @@ import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextH
 public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingDataSource {
 	
 	private Map<String, ConnectionInfoLoader<T, ConnectionInfoCollector<T>>> connectionInfoLoaderMap;
+	
+	private Map<String, ZonedDateTime> nonExistLookupKeyMap = new HashMap<>();
 
 	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T, ConnectionInfoCollector<T>>> connectionInfoLoaderMap) {
 		this.connectionInfoLoaderMap = connectionInfoLoaderMap;
@@ -31,8 +35,8 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 		
 		// lookupKey가 등록되어 있는지 확인하여 없으면 lazy load
 		DataSource dataSource = getResolvedDataSources().get(lookupKey);
-		// TODO 조건에 캐시 관련 처리 추가 필요
 		if (dataSource == null && connectionInfoLoaderMap != null) {
+			checkNonExistLookupKeyMap(lookupKey);
 			
 			boolean isLoaded = false;
 			
@@ -53,11 +57,27 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 			}
 			
 			if (!isLoaded) {
-				// TODO 캐싱 처리
+				nonExistLookupKeyMap.put(lookupKey, ZonedDateTime.now());
+				throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY").setErrorMessageArgs(lookupKey);
 			}
 		}
 		
 		return RoutingDataSourceContextHolder.getContext().getLookupKey();
+	}
+	
+	// 
+	/**
+	 * nonExistLookupKeyMap에 해당 키가 있고 캐시 기간내 요청인 경우 throw exception 처리
+	 * @return
+	 */
+	private void checkNonExistLookupKeyMap(String lookupKey) {
+		if(!nonExistLookupKeyMap.containsKey(lookupKey)) {
+			return;
+		}
+		
+		if (nonExistLookupKeyMap.get(lookupKey).isAfter(ZonedDateTime.now().minusHours(1))) {
+			throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY").setErrorMessageArgs(lookupKey);
+		}
 	}
 
 }
