@@ -19,8 +19,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoDevCheckController;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
-import io.github.luversof.boot.connectioninfo.MariaDbDataSourceConnectionInfoLoader;
-import io.github.luversof.boot.connectioninfo.SQLServerDataSourceConnectionInfoLoader;
+import io.github.luversof.boot.connectioninfo.datasource.MariaDbDataSourceConnectionInfoLoader;
+import io.github.luversof.boot.connectioninfo.datasource.SQLServerDataSourceConnectionInfoLoader;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for ConnectionInfo support.

@@ -1,27 +1,28 @@
-package io.github.luversof.boot.connectioninfo;
+package io.github.luversof.boot.connectioninfo.datasource;
 
 import java.sql.Driver;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MariaDbDataSourceConnectionInfoLoader extends AbstractDBDataSourceConnectionInfoLoader<HikariDataSource> {
+public class SQLServerDataSourceConnectionInfoLoader extends AbstractDBDataSourceConnectionInfoLoader<HikariDataSource> {
 	
 	@Getter
 	@Setter
-	protected String loaderKey = "mariadb-datasource";
+	protected String loaderKey = "sqlserver-datasource";
 	
-	public MariaDbDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
+	public SQLServerDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoProperties) {
 		super(connectionInfoProperties);
 	}
 
 	@Override
 	protected Driver getLoaderDriver() {
-		return new org.mariadb.jdbc.Driver();
+		return new com.microsoft.sqlserver.jdbc.SQLServerDriver();
 	}
 	
 	protected HikariDataSource createDataSource(ConnectionInfo connectionInfo) {

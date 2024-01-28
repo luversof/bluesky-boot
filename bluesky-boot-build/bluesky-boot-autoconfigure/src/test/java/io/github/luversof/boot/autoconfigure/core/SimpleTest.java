@@ -2,7 +2,9 @@ package io.github.luversof.boot.autoconfigure.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -27,6 +29,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.AllColumns;
+import net.sf.jsqlparser.statement.select.OrderByElement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
 
 @Slf4j
 class SimpleTest {
@@ -185,6 +197,43 @@ class SimpleTest {
 		
 		@Builder.Default
 		Boolean enabled4 = true;
+		
+	}
+	
+	@Test
+	void sqlParserTest() throws JSQLParserException {
+		{
+			String sql = "SELECT * FROM table ORDER BY column1 ASC, column2 DESC LIMIT 10";
+			Statement statement = CCJSqlParserUtil.parse(sql);
+			Select select = (Select) statement;
+			PlainSelect plainSelect = (PlainSelect) select.getSelectBody();
+			Table table = (Table) plainSelect.getFromItem();
+			log.debug("table Name : {}", table.getName());
+			
+			
+			log.debug("getOrderByElements : {}", plainSelect.getOrderByElements().toString());
+		}
+		{
+			var whereExpression = new EqualsTo().withLeftExpression(new Column("columnA")).withRightExpression(new Column("columnAValue"));
+			
+		
+			List<OrderByElement> orderByElementList = new ArrayList<>();
+			{
+				var element = new OrderByElement();
+				element.setExpression(new Column("columnA"));
+				orderByElementList.add(element);
+			}
+			
+		
+			PlainSelect select = new PlainSelect()
+					.addSelectItems(new AllColumns())
+					.withFromItem(new Table("testTable"))
+					.withWhere(whereExpression)
+					.withOrderByElements(orderByElementList);
+			
+			log.debug("TEST : {}", select.toString());
+			
+		}
 		
 	}
 }

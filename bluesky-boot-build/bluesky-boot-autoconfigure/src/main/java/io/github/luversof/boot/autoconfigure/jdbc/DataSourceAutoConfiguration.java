@@ -72,12 +72,8 @@ public class DataSourceAutoConfiguration {
     		});
     	}
     	
-    	RoutingDataSource routingDataSource;
-    	if (dataSourceProperties.isUseLazyLoadRoutingDataSource()) {
-    		routingDataSource = new LazyLoadRoutingDataSource<>(connectionInfoLoaderMap);
-    	} else {
-    		routingDataSource = new RoutingDataSource();
-    	}
+    	var routingDataSource = dataSourceProperties.isUseLazyLoadRoutingDataSource() ? new LazyLoadRoutingDataSource<>(connectionInfoLoaderMap) : new RoutingDataSource(); 
+
     	routingDataSource.setTargetDataSources(targetDataSourceMap);
     	// defaultDataSource를 지정하지 않은 경우 아무 값이나 설정
     	if (dataSourceProperties.getDefaultDatasource() == null) {

@@ -16,8 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
+import io.github.luversof.boot.connectioninfo.datasource.MariaDbDataSourceConnectionInfoLoader;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
-import io.github.luversof.boot.connectioninfo.MariaDbDataSourceConnectionInfoLoader;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

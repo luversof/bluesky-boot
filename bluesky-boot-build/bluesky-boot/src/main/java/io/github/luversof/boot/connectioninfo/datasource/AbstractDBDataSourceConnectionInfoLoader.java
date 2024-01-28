@@ -1,4 +1,4 @@
-package io.github.luversof.boot.connectioninfo;
+package io.github.luversof.boot.connectioninfo.datasource;
 
 import java.sql.Driver;
 import java.text.MessageFormat;
@@ -14,6 +14,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.util.CollectionUtils;
 
+import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import lombok.Data;
 import lombok.Getter;
