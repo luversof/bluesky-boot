@@ -84,6 +84,11 @@
 			<artifactId>spring-data-mongodb</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-sync</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<!-- (e) data-mongodb -->
 		
 		

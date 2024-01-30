@@ -60,7 +60,7 @@ public class DataSourceAutoConfiguration {
     		DataSourceProperties dataSourceProperties, 
     		@Nullable Map<String, T> dataSourceMap, 
     		@Nullable Map<String, ConnectionInfoCollector<T>> connectionInfoCollectorMap,
-    		@Nullable Map<String, ConnectionInfoLoader<T, ConnectionInfoCollector<T>>> connectionInfoLoaderMap) {
+    		@Nullable Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
     	Map<Object, Object> targetDataSourceMap = new HashMap<>();
     	if (dataSourceMap != null) {
     		targetDataSourceMap.putAll(dataSourceMap);

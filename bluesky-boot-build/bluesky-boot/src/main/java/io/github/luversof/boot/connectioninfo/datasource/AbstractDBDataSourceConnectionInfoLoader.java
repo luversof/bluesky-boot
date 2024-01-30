@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSource> implements ConnectionInfoLoader<T, ConnectionInfoCollector<T>> {
+public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSource> implements ConnectionInfoLoader<T> {
 	
 	protected final ConnectionInfoLoaderProperties connectionInfoLoaderProperties;
 	

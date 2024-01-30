@@ -4,14 +4,23 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.PathContainer;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerExecutionChain;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.ServletRequestPathUtils;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPattern.PathMatchInfo;
 
 import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
 import io.github.luversof.boot.core.BlueskyCoreProperties;
@@ -179,6 +188,40 @@ public final class ServletRequestUtil {
 	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByModuleNameResolver(BlueskyCoreProperties<T> coreProperties) {
 		var moduleNameResolver = ApplicationContextUtil.getApplicationContext().getBean(ModuleNameResolver.class);
 		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
+	}
+
+	
+	/**
+	 * url에 등록된 pathVariable을 조회하는 기능
+	 * 일반적으로 interceptor 이후엔 requestAttribute에서 직접 꺼내 사용하면 되며
+	 * requestAttribute 값이 설정되기 이전인 filter에서 pathVariable을 사용할 수 있도록 제공함
+	 * @return
+	 */
+	public static Map<String, String> getUriVariableMap() {
+		var applicationContext = ApplicationContextUtil.getApplicationContext();
+		RequestMappingHandlerMapping mapping = applicationContext.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+
+		try {
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			
+			HandlerExecutionChain handler = mapping.getHandler(request);
+			var handlerMethod = (HandlerMethod) handler.getHandler();
+			Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
+			
+			RequestMappingInfo requestMappingInfo = null;
+			for(var entry : handlerMethods.entrySet()) {
+				if (entry.getValue().getMethod() == handlerMethod.getMethod()) {
+					requestMappingInfo = entry.getKey();
+				}
+			}
+			PathContainer path = ServletRequestPathUtils.getParsedRequestPath(request).pathWithinApplication();
+			PathPattern pathPattern = requestMappingInfo.getPathPatternsCondition().getFirstPattern();
+			PathMatchInfo matchAndExtract = pathPattern.matchAndExtract(path);
+			return matchAndExtract.getUriVariables();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
