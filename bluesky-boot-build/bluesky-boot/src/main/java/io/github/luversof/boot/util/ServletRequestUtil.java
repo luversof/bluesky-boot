@@ -205,6 +205,7 @@ public final class ServletRequestUtil {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 			
 			HandlerExecutionChain handler = mapping.getHandler(request);
+			if(handler == null) return null;
 			var handlerMethod = (HandlerMethod) handler.getHandler();
 			Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
 			
