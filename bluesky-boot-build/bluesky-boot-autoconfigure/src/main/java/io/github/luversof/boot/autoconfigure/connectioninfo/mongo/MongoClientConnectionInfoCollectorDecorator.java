@@ -58,7 +58,7 @@ public class MongoClientConnectionInfoCollectorDecorator implements ConnectionIn
 			nonExistConnectionMap.put(connection, ZonedDateTime.now());
 			throw new BlueskyException("NOT_EXIST_MONGO_CONNECTION").setErrorMessageArgs(connection);
 		}
-		return null;
+		return connectionInfoMap.get(connection);
 	}
 
 	/**
