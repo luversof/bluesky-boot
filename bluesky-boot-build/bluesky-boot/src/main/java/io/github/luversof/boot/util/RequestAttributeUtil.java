@@ -1,6 +1,10 @@
 package io.github.luversof.boot.util;
 
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
@@ -28,6 +32,34 @@ public class RequestAttributeUtil {
 
 	public static String getAttributeName(String pattern, Object ... arguments) {
 		return MessageFormat.format(pattern, arguments);
+	}
+	
+	public static <T> T getObject(String attributeName, Supplier<T> supplier) {
+		Optional<T> optional = getRequestAttribute(attributeName);
+		
+		if (optional != null) {
+			return optional.get();
+		}
+		
+		optional = Optional.ofNullable(supplier.get());
+		setRequestAttribute(attributeName, optional);
+		
+		return optional.get();		
+	}
+	
+	public static <T> List<T> getList(String attributeName, Supplier<List<T>> supplier) {
+		List<T> list = getRequestAttribute(attributeName);
+		
+		if (list != null) {
+			return list;
+		}
+		list = supplier.get();
+		if (list == null) {
+			list = Collections.emptyList();
+		}
+		setRequestAttribute(attributeName, list);
+		
+		return list;
 	}
 
 }
