@@ -24,14 +24,7 @@ public class SpelParserUtil {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String parse(String expressionString, Map sourceMap) {
-		
-		Expression expression;
-		if (expressionString.contains(CONTEXT.getExpressionPrefix()) || !(expressionString.contains("'"))) {
-			expression = PARSER.parseExpression(expressionString, CONTEXT);
-		} else {
-			expression = PARSER.parseExpression(expressionString);
-		}
-		
+		Expression expression = PARSER.parseExpression(expressionString, expressionString.contains(CONTEXT.getExpressionPrefix()) ? CONTEXT : null);
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
 		evaluationContext.setPropertyAccessors(ACCESSOR_LIST);
 		evaluationContext.setRootObject(sourceMap);
