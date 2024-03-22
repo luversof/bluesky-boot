@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.3</version>
+		<version>3.2.4</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -45,7 +45,7 @@
 		<!-- (e) build properties -->
 		
 		<!-- (s) ossrh -->
-		<maven-gpg-plugin.version>3.2.0</maven-gpg-plugin.version>
+		<maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
 		<!-- (e) ossrh -->
