@@ -28,6 +28,7 @@ public class SpelParserTest {
 		map.put("keyA", "a값");
 		map.put("keyB", "b값");
 		map.put("keyC", "c값");
+		map.put("isEnable", "true");
 		
 		{
 			String result = SpelParserUtil.parse(spelParserCase.getStr(), map);
