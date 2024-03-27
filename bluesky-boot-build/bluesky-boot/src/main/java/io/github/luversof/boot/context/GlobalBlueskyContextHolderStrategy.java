@@ -7,7 +7,7 @@ import io.github.luversof.boot.util.ApplicationContextUtil;
 
 final class GlobalBlueskyContextHolderStrategy implements BlueskyContextHolderStrategy {
 
-	private static BlueskyContext contextHolder;
+	private BlueskyContext contextHolder;
 
 	@Override
 	public void clearContext() {

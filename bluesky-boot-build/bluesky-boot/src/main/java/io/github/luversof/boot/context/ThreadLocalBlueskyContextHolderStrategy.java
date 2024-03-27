@@ -7,7 +7,7 @@ import io.github.luversof.boot.util.ApplicationContextUtil;
 
 final class ThreadLocalBlueskyContextHolderStrategy implements BlueskyContextHolderStrategy {
 
-	private static final ThreadLocal<BlueskyContext> contextHolder = new ThreadLocal<>();
+	private final ThreadLocal<BlueskyContext> contextHolder = new ThreadLocal<>();
 
 	@Override
 	public void clearContext() {

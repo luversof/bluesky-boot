@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 public class BlueskyException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	private final String errorCode;
+	private  String errorCode;
 	private String[] errorMessageArgs;
 	
 	private String localizedMessage;
