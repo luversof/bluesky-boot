@@ -15,7 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
  * @author bluesky
  *
  */
-public class RequestAttributeUtil {
+public abstract class RequestAttributeUtil {
 	
 	public static void setRequestAttribute(String name, Object value) {
 		var requestAttributes = RequestContextHolder.currentRequestAttributes();

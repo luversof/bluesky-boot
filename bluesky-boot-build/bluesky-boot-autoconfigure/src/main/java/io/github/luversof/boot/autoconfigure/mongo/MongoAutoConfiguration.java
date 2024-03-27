@@ -34,11 +34,6 @@ public class MongoAutoConfiguration {
         return new MongoPropertiesBeanPostProcessor();
     }
 
-//    @Bean
-//    MongoClientSettings mongoClientSettings() {
-//        return MongoClientSettings.builder().build();
-//    }
-
     @Bean
     @Primary
     MongoClient emptyMongoClient(MongoProperties mongoProperties, ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers,  Map<String, MongoClient> mongoClientMap) {

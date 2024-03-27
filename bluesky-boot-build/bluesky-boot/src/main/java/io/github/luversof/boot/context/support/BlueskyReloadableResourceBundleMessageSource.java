@@ -1,7 +1,5 @@
 package io.github.luversof.boot.context.support;
 
-import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.Properties;
 
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -13,16 +11,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
  *
  */
 public class BlueskyReloadableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
-	
-	@Override
-	protected MessageFormat resolveCode(String code, Locale locale) {
-		return super.resolveCode(code, locale);
-	}
-
-	@Override
-	protected String resolveCodeWithoutArguments(String code, Locale locale) {
-		return super.resolveCodeWithoutArguments(code, locale);
-	}
 	
 	public Properties getProperties() {
 		return getMergedProperties(LocaleContextHolder.getLocale()).getProperties();

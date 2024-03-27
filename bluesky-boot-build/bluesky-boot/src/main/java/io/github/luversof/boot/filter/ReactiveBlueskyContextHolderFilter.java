@@ -15,7 +15,7 @@ public class ReactiveBlueskyContextHolderFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		return chain.filter(exchange)
-				.contextWrite((context) -> context.hasKey(BlueskyContext.class) ? context : withBlueskyContext(context, exchange));
+				.contextWrite(context -> context.hasKey(BlueskyContext.class) ? context : withBlueskyContext(context, exchange));
 	}
 
 	private Context withBlueskyContext(Context mainContext, ServerWebExchange exchange) {

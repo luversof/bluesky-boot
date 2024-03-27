@@ -13,7 +13,7 @@ import io.github.luversof.boot.context.expression.util.SpelParserUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SpelParserTest {
+class SpelParserTest {
 
 	@ParameterizedTest
 	@EnumSource(
