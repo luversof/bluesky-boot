@@ -25,59 +25,59 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class CoreDevCheckController {
 	
-	private final String pathPrefix = "/blueskyBoot/core";
+	private static final String PATH_PREFIX = "/blueskyBoot/core";
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
-	@GetMapping(pathPrefix + "/activeProfiles")
+	@GetMapping(PATH_PREFIX + "/activeProfiles")
 	String[] activeProfiles() {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
 	}
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
-	@GetMapping(pathPrefix + "/property")
+	@GetMapping(PATH_PREFIX + "/property")
 	String property(String key) {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
-	@GetMapping(pathPrefix + "/blueskyPropertiesMap")
+	@GetMapping(PATH_PREFIX + "/blueskyPropertiesMap")
 	Map<String, BlueskyProperties> blueskyPropertiesMap() {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
 	}
 	
 	@DevCheckDescription("coreProperties 조회")
-	@GetMapping(pathPrefix + "/coreProperties")
+	@GetMapping(PATH_PREFIX + "/coreProperties")
 	CoreProperties coreProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")
-	@GetMapping(pathPrefix + "/currentLocale")
+	@GetMapping(PATH_PREFIX + "/currentLocale")
 	Locale currentLocale() {
 		return LocaleContextHolder.getLocale();
 	}
 	
 	@DevCheckDescription("systemDefaultZone 값 확인.")
-	@GetMapping(pathPrefix + "/systemDefaultZone")
+	@GetMapping(PATH_PREFIX + "/systemDefaultZone")
 	Clock systemDefaultZone() {
 		return Clock.systemDefaultZone();
 	}
 	
 	@DevCheckDescription("localeDateTime now 값 확인.")
-	@GetMapping(pathPrefix + "/localDateTimeNow")
+	@GetMapping(PATH_PREFIX + "/localDateTimeNow")
 	LocalDateTime localDateTimeNow() {
 		return LocalDateTime.now();
 	}
 	
 	@DevCheckDescription("zonedDateTime now 값 확인.")
-	@GetMapping(pathPrefix + "/zonedDateTimeNow")
+	@GetMapping(PATH_PREFIX + "/zonedDateTimeNow")
 	ZonedDateTime zonedDateTimeNow() {
 		return ZonedDateTime.now();
 	}
 	
 	@DevCheckDescription("blueskyContext 확인")
-	@GetMapping(pathPrefix + "/blueskyContext")
+	@GetMapping(PATH_PREFIX + "/blueskyContext")
 	BlueskyContext blueskyContext() {
 		return BlueskyContextHolder.getContext();
 	}

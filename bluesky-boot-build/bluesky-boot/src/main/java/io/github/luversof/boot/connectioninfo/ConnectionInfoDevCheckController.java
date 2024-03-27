@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class ConnectionInfoDevCheckController {
 	
-	private final String pathPrefix = "/blueskyBoot/connectionInfo";
+	private static final String PATH_PREFIX = "/blueskyBoot/connectionInfo";
 	
 	private ConnectionInfoLoaderProperties connectionInfoLoaderProperties;
 
@@ -29,7 +29,7 @@ public class ConnectionInfoDevCheckController {
 	 * @return ConnectionInfoLoaderProperties
 	 */
 	@DevCheckDescription("connectionInfoLoaderProperties 조회")
-	@GetMapping(pathPrefix + "/connectionInfoLoaderProperties")
+	@GetMapping(PATH_PREFIX + "/connectionInfoLoaderProperties")
 	ConnectionInfoLoaderProperties connectionInfoLoaderProperties() {
 		return connectionInfoLoaderProperties;
 	}
@@ -39,7 +39,7 @@ public class ConnectionInfoDevCheckController {
 	 * @return connectionInfoCollectorKeySet
 	 */
 	@DevCheckDescription("connectionInfoCollectorKeySet 조회")
-	@GetMapping(pathPrefix + "/connectionInfoCollectorKeySet")
+	@GetMapping(PATH_PREFIX + "/connectionInfoCollectorKeySet")
 	Set<String> connectionInfoCollectorKeySet() {
 		return connectionInfoCollectorMap.keySet();
 	}
@@ -50,7 +50,7 @@ public class ConnectionInfoDevCheckController {
 	 * @return connectionInfoMapKeySet
 	 */
 	@DevCheckDescription("connectionInfoCollectorConnectionInfoMap 전체 목록 조회")
-	@GetMapping(pathPrefix + "/connectionInfoCollectorConnectionInfoMap")
+	@GetMapping(PATH_PREFIX + "/connectionInfoCollectorConnectionInfoMap")
 	Set<String> connectionInfoCollectorConnectionInfoMap(String beanName) {
 		return connectionInfoCollectorMap.get(beanName).getConnectionInfoMap().keySet();
 	}

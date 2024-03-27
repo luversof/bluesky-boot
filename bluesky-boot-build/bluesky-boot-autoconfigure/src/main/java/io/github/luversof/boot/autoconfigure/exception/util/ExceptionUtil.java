@@ -69,10 +69,6 @@ public class ExceptionUtil {
 		}
 		
 		var classAnnotation = handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class);
-		if (classAnnotation != null && Arrays.asList(classAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE)) {
-			return true;
-		}
-		
-		return false;
+		return classAnnotation != null && Arrays.asList(classAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE);
 	}
 }

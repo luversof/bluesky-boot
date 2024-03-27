@@ -23,17 +23,17 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class MessageSourceDevCheckController {
 	
-	private final String pathPrefix = "/blueskyBoot/messageSource";
+	private static final String PATH_PREFIX = "/blueskyBoot/messageSource";
 	
 	private BlueskyReloadableResourceBundleMessageSource messageSource;
 
-	@GetMapping(pathPrefix + "/messageSource")
+	@GetMapping(PATH_PREFIX + "/messageSource")
 	MessageSource messageSource() {
 		return messageSource;
 	}
 	
 	@DevCheckDescription("다국어 메세지 전체 목록 조회")
-	@GetMapping(pathPrefix + "/messageSources")
+	@GetMapping(PATH_PREFIX + "/messageSources")
 	Map<Object, Object> getMessageSources(@RequestParam(required = false) String searchKeyword) {
 		var map = new LinkedHashMap<>();
 		var keyList = messageSource.getProperties().keySet().stream()
@@ -44,7 +44,7 @@ public class MessageSourceDevCheckController {
 	}
 	
 	@DevCheckDescription("다국어 메세지 Locale별 전체 목록 조회")
-	@GetMapping(pathPrefix + "/messageSourcesByLocale")
+	@GetMapping(PATH_PREFIX + "/messageSourcesByLocale")
 	Map<Object, Object> getMessageSourcesByLocale(@RequestParam(required = false) Locale locale, @RequestParam(required = false) String searchKeyword) {
 		final Locale targetLocale = (locale == null) ? LocaleContextHolder.getLocale() : locale;
 		var map = new LinkedHashMap<>();

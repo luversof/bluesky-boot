@@ -23,8 +23,8 @@ import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
-import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
+import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,19 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration {
 
-//    @Bean
-//    @Primary
-//    @ConfigurationProperties("datasource.default")
-//    DataSourceProperties defaultDataSourceProperties() {
-//        return new DataSourceProperties();
-//    }
-//
-//    @Bean
-//    @Primary
-//    DataSource defaultDataSource(@Qualifier("defaultDataSourceProperties") DataSourceProperties defaultDataSourceProperties) {
-//        return defaultDataSourceProperties.initializeDataSourceBuilder().type(SimpleDriverDataSource.class).build();
-//    }
-    
     @Bean
     @Primary
     <T extends DataSource> DataSource routingDataSource(
@@ -76,7 +63,7 @@ public class DataSourceAutoConfiguration {
 
     	routingDataSource.setTargetDataSources(targetDataSourceMap);
     	// defaultDataSource를 지정하지 않은 경우 아무 값이나 설정
-    	if (dataSourceProperties.getDefaultDatasource() == null) {
+    	if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
     		routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().stream().findAny().get());
     	} else {
     		routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));

@@ -22,12 +22,12 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class DataSourceDevCheckController {
 	
-	private final String pathPrefix = "/blueskyBoot/jdbc";
+	private static final String PATH_PREFIX = "/blueskyBoot/jdbc";
 
 	private DataSource blueskyRoutingDataSource;
 	
 	@DevCheckDescription("blueskyRoutingDataSourceKeySet 조회")
-	@GetMapping(pathPrefix + "/blueskyRoutingDataSourceKeySet")
+	@GetMapping(PATH_PREFIX + "/blueskyRoutingDataSourceKeySet")
 	Set<Object> blueskyRoutingDataSourceKeySet() {
 		if (blueskyRoutingDataSource instanceof RoutingDataSource routingDataSource) {
 			return routingDataSource.getResolvedDataSources().keySet();

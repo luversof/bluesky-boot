@@ -19,10 +19,10 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class TextEncryptDevCheckController {
 	
-	private final String pathPrefix = "/blueskyBoot/security/crypto";
+	private static final String PATH_PREFIX = "/blueskyBoot/security/crypto";
 	
 	@DevCheckDescription("encrypt")
-	@GetMapping(pathPrefix + "/encrypt")
+	@GetMapping(PATH_PREFIX + "/encrypt")
 	String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
 		if (textEncryptorId == null) {
 			return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
@@ -31,13 +31,13 @@ public class TextEncryptDevCheckController {
 	}
 	
 	@DevCheckDescription("decrypt")
-	@GetMapping(pathPrefix + "/decrypt")
+	@GetMapping(PATH_PREFIX + "/decrypt")
 	String decrypt(String text) {
 		return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
 	}
 	
 	@DevCheckDescription("textEncryptorMapKeySet")
-	@GetMapping(pathPrefix + "/textEncryptorMapKeySet")
+	@GetMapping(PATH_PREFIX + "/textEncryptorMapKeySet")
 	Set<String> textEncryptorMapKeySet() {
 		return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
 	}

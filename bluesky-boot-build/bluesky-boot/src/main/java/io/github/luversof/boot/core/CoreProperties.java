@@ -126,12 +126,6 @@ public class CoreProperties implements BlueskyCoreProperties<CoreProperties.Core
 		 */
 		private List<Locale> enableLocaleList;
 		
-		/**
-		 * Builder class for providing CoreModuleInfo
-		 * @author bluesky
-		 *
-		 */
-		public static class CoreModulePropertiesBuilder {}
 	}
 	
 
