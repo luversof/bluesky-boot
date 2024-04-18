@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.4</version>
+		<version>3.2.5</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -19,7 +19,7 @@
 		<bluesky-boot-crypto.version>3.2.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>3.2.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<spring-boot-admin-starter.version>3.2.3</spring-boot-admin-starter.version>
-		<springdoc-openapi.version>2.4.0</springdoc-openapi.version>
+		<springdoc-openapi.version>2.5.0</springdoc-openapi.version>
 		<!-- tag:asciidoctor-properties[] -->
 		<asciidoctor-maven-plugin.version>2.2.6</asciidoctor-maven-plugin.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
@@ -33,8 +33,8 @@
 		<restdocs-api-spec.version>0.19.2</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
-		<jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.4.1</jib-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+		<jib-maven-plugin.version>3.4.2</jib-maven-plugin.version>
 		<properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		
@@ -45,7 +45,7 @@
 		<!-- (e) build properties -->
 		
 		<!-- (s) ossrh -->
-		<maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
+		<maven-gpg-plugin.version>3.2.3</maven-gpg-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
 		<!-- (e) ossrh -->
