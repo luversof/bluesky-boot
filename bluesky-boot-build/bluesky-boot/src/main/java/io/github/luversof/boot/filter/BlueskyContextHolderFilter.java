@@ -7,12 +7,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
+import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.util.ServletRequestUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
 
 /**
  * single module 이 아닌 경우 요청에 대해 moduleName을 ContextHolder에 설정
@@ -26,13 +27,29 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		Entry<String, BlueskyCoreModuleProperties> modulePropertiesEntry = ServletRequestUtil.getModulePropertiesEntry(request);
-		BlueskyContextHolder.setContext(modulePropertiesEntry.getKey());
+		
+		ModuleNameInfo moduleNameInfo = new ModuleNameInfo();
+		BlueskyContextHolder.setContext(() -> {
+			if (moduleNameInfo.getModuleName() == null) {
+				Entry<String, CoreProperties> modulePropertiesEntry = ServletRequestUtil.getModulePropertiesEntry(request);
+				if (modulePropertiesEntry == null) {
+					return null;
+				}
+				moduleNameInfo.setModuleName(modulePropertiesEntry.getKey());
+			}
+			return moduleNameInfo.getModuleName();
+		});
+		
 		try {
 			filterChain.doFilter(request, response);
 		} finally {
 			BlueskyContextHolder.clearContext();
 		}
+	}
+
+	@Data
+	public static class ModuleNameInfo {
+		private String moduleName;
 	}
 
 }

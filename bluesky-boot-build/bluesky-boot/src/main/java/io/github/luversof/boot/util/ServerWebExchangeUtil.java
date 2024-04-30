@@ -12,9 +12,10 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.reactive.ServerWebExchangeContextFilter;
 import org.springframework.web.server.ServerWebExchange;
 
-import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
-import io.github.luversof.boot.core.BlueskyCoreProperties;
-import io.github.luversof.boot.core.BlueskyCoreProperties.CoreModulePropertiesResolveType;
+import io.github.luversof.boot.core.CoreBaseProperties;
+import io.github.luversof.boot.core.CoreModuleProperties;
+import io.github.luversof.boot.core.CoreProperties;
+import io.github.luversof.boot.core.CoreResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -49,26 +50,26 @@ public final class ServerWebExchangeUtil {
 		return hostName.matches(IPV4_PATTERN);
 	}
 	
-	public static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModulePropertiesEntry(ServerWebExchange exchange) {
+	public static Entry<String, CoreProperties> getModulePropertiesEntry(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
-		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
-		Assert.notEmpty(coreProperties.getModules(), "coreProperties is not set");
+		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
+		CoreBaseProperties coreBaseProperties = applicationContext.getBean(CoreBaseProperties.class);
+		Assert.notEmpty(coreModuleProperties.getModules(), "coreProperties is not set");
 		
-		var modules = coreProperties.getModules();
+		var modules = coreModuleProperties.getModules();
 		if (modules.size() == 1) {
 			return modules.entrySet().stream().findAny().orElse(null);
 		}
 		
-		var resolveType = coreProperties.getResolveType();
+		var resolveType = coreBaseProperties.getResolveType();
 		
-		Entry<String, T> module;
+		Entry<String, CoreProperties> module;
 		if (modules.size() > 1 && isInternalRequest(exchange)) {
 			module = modules.entrySet().stream().findFirst().orElse(null);
-		} else if (CoreModulePropertiesResolveType.ADD_PATH_PATTERN == resolveType) {
+		} else if (CoreResolveType.ADD_PATH_PATTERN == resolveType) {
 			module = getModuleEntryByAddPathPattern(exchange);
-		} else if (CoreModulePropertiesResolveType.DOMAIN == resolveType) {
+		} else if (CoreResolveType.DOMAIN == resolveType) {
 			module = getModuleEntryByDomain(exchange);
 		} else {
 			module = getModuleEntryByModuleNameResolver(exchange);
@@ -80,21 +81,19 @@ public final class ServerWebExchangeUtil {
 		return module;
 	}
 	
-	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByAddPathPattern(ServerWebExchange exchange) {
+	private static Entry<String, CoreProperties> getModuleEntryByAddPathPattern(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
-		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
-		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath()))).findAny().orElse(null);
+		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
+		return coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath()))).findAny().orElse(null);
 	}
 	
-	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByDomain(ServerWebExchange exchange) {
+	private static Entry<String, CoreProperties> getModuleEntryByDomain(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
-		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
+		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
 		// 해당 도메인에 해당하는 모듈 entry list 확인
-		List<Entry<String, T>> moduleEntryList = coreProperties.getModules().entrySet().stream().filter(moduleEntry ->
+		List<Entry<String, CoreProperties>> moduleEntryList = coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
 			moduleEntry.getValue().getDomain() != null && (
 				checkDomain(exchange, moduleEntry.getValue().getDomain().getWebList())
 				|| checkDomain(exchange, moduleEntry.getValue().getDomain().getMobileWebList())
@@ -126,7 +125,7 @@ public final class ServerWebExchangeUtil {
 		/**
 		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 		 */
-		Comparator<Entry<String, T>> comparator = (Entry<String, T> o1, Entry<String, T> o2) -> {
+		Comparator<Entry<String, CoreProperties>> comparator = (Entry<String, CoreProperties> o1, Entry<String, CoreProperties> o2) -> {
 			var pathForward1 = o1.getValue().getDomain().getPathForward();
 			var pathForward2 = o2.getValue().getDomain().getPathForward();
 			if (pathForward1 == null) {
@@ -169,12 +168,11 @@ public final class ServerWebExchangeUtil {
 		));
 	}
 	
-	private static <T extends BlueskyCoreModuleProperties> Entry<String, T> getModuleEntryByModuleNameResolver(ServerWebExchange exchange) {
+	private static Entry<String, CoreProperties> getModuleEntryByModuleNameResolver(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
 		var moduleNameResolver = applicationContext.getBean(ModuleNameResolver.class);
-		@SuppressWarnings("unchecked")
-		BlueskyCoreProperties<T> coreProperties = applicationContext.getBean(BlueskyCoreProperties.class);
-		return coreProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
+		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
+		return coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
 	}
 }

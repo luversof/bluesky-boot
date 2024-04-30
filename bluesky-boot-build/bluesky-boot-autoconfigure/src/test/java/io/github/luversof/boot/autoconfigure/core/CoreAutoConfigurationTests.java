@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.core.CoreProperties;
-import io.github.luversof.boot.core.CoreProperties.CoreModuleProperties;
 
 class CoreAutoConfigurationTests {
 
@@ -39,7 +38,7 @@ class CoreAutoConfigurationTests {
 	void blueskyContextHolder() {
 		this.contextRunner.run(context -> {
 			var blueskyContext = BlueskyContextHolder.getContext();
-			assertThat(((CoreModuleProperties) BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
+			assertThat((BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
 			assertThat(blueskyContext.getModuleName()).isEqualTo("test");
 		});
 	}
@@ -49,7 +48,7 @@ class CoreAutoConfigurationTests {
 		this.contextRunner.withPropertyValues("bluesky-boot.core.modules.test2.domain.web=http://localhost").run(context -> {
 			BlueskyContextHolder.setContext("test");
 			var blueskyContext = BlueskyContextHolder.getContext();
-			assertThat(((CoreModuleProperties) BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
+			assertThat((BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
 			assertThat(blueskyContext.getModuleName()).isEqualTo("test");
 		});
 	}

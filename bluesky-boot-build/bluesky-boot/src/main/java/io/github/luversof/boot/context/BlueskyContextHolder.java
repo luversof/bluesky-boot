@@ -4,9 +4,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-import io.github.luversof.boot.core.BlueskyCoreModuleProperties;
-import io.github.luversof.boot.core.BlueskyCoreProperties;
+import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.CoreModuleProperties;
+import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -123,18 +124,17 @@ public final class BlueskyContextHolder {
 	 * 설정된 moduleName을 기반으로 호출되는 정보
 	 * @return
 	 */
-	public static <T, U extends BlueskyProperties<T>> T getModule(Class<U> u) {
-		U blueskyProperties = ApplicationContextUtil.getApplicationContext().getBean(u);
-		return blueskyProperties.getModules().get(getContext().getModuleName());
+	public static <T extends BlueskyProperties, U extends BlueskyModuleProperties<T>> T getModule(Class<U> u) {
+		U blueskyModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(u);
+		return blueskyModuleProperties.getModules().get(getContext().getModuleName());
 	}
 	
 	/**
 	 * coreModule의 경우 가장 자주 쓰이기 때문에 기본 제공
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends BlueskyCoreModuleProperties> T getCoreModule() {
-		return (T) getModule(BlueskyCoreProperties.class);	
+	public static CoreProperties getCoreModule() {
+		return getModule(CoreModuleProperties.class);	
 	}
 
 }

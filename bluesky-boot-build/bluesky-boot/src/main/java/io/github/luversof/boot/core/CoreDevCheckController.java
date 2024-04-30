@@ -39,17 +39,35 @@ public class CoreDevCheckController {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyPropertiesMap 조회")
 	@GetMapping(PATH_PREFIX + "/blueskyPropertiesMap")
 	Map<String, BlueskyProperties> blueskyPropertiesMap() {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@DevCheckDescription("blueskyModulePropertiesMap 조회")
+	@GetMapping(PATH_PREFIX + "/blueskyModulePropertiesMap")
+	Map<String, BlueskyModuleProperties> blueskyModulePropertiesMap() {
+		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyModuleProperties.class);
+	}
+	
 	@DevCheckDescription("coreProperties 조회")
 	@GetMapping(PATH_PREFIX + "/coreProperties")
 	CoreProperties coreProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
+	}
+	
+	@DevCheckDescription("coreBaseProperties 조회")
+	@GetMapping(PATH_PREFIX + "/coreBaseProperties")
+	CoreBaseProperties coreBaseProperties() {
+		return ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
+	}
+	
+	@DevCheckDescription("coreModuleProperties 조회")
+	@GetMapping(PATH_PREFIX + "/coreModuleProperties")
+	CoreModuleProperties coreModuleProperties() {
+		return ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")

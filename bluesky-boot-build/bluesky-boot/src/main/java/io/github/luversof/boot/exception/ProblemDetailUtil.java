@@ -16,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.MessageCodesResolver;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
+import io.github.luversof.boot.core.CoreBaseProperties;
 import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.experimental.UtilityClass;
@@ -204,8 +205,8 @@ public class ProblemDetailUtil {
 	
 	public static <T extends Throwable> ProblemDetail getProblemDetail(T exception, HttpStatusCode status) {
 		// 로그 처리를 예외 처리한 경우는 제외
-		var coreProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
-		if (!coreProperties.getLogExceptExceptionList().contains(exception.getClass().getSimpleName())) {
+		var coreBaseProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
+		if (!coreBaseProperties.getLogExceptExceptionList().contains(exception.getClass().getSimpleName())) {
 			log.error("Throwable exception : ", exception);
 		}
 		
