@@ -42,7 +42,7 @@ public class CoreDomainProperties {
 	/**
 	 * If you have a FORWARD policy that is used globally by that module, set it to Settings
 	 */
-	private PathForwardProperties pathForward;
+	private CoreDomainPathProperties path;
 	
 	/**
 	 * The address of the site

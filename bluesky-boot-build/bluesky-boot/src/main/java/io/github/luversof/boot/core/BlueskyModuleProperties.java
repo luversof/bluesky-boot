@@ -2,6 +2,8 @@ package io.github.luversof.boot.core;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+
 /**
  * Top-level class provided for handling module branching
  * 
@@ -10,8 +12,10 @@ import java.util.Map;
  *
  * @param <T>
  */
-public interface BlueskyModuleProperties<T extends BlueskyProperties> {
-
+public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean  {
+	
+	T getParent();
+	
 	Map<String, T> getModules();
 
 }

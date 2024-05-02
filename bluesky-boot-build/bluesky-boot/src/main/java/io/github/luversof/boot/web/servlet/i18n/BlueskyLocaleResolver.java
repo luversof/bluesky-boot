@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.servlet;
+package io.github.luversof.boot.web.servlet.i18n;
 
 import java.util.Locale;
 

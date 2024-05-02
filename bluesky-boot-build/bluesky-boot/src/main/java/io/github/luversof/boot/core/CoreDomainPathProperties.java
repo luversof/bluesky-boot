@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class PathForwardProperties {
+public class CoreDomainPathProperties {
 
 	/**
 	 * List of static paths (not redirect targets)

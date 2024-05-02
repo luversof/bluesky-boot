@@ -1,8 +1,5 @@
 package io.github.luversof.boot.core;
 
-import java.util.List;
-import java.util.Locale;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
@@ -23,14 +20,14 @@ import lombok.NoArgsConstructor;
 @ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreProperties implements BlueskyProperties {
 
-	private CoreModuleInfo coreModuleInfo;
+	private ModuleInfo moduleInfo;
 	
 	/**
 	 * Handling coreModuleInfo specification set by a spel expression
-	 * @param coreModuleInfo Location of the generated coreModuleInfo, written as a SpEL expression
+	 * @param moduleInfo Location of the generated coreModuleInfo, written as a SpEL expression
 	 */
-	public void setCoreModuleInfo(String coreModuleInfo) {
-		this.coreModuleInfo = (new SpelExpressionParser()).parseExpression(coreModuleInfo).getValue(CoreModuleInfo.class);
+	public void setModuleInfo(String moduleInfo) {
+		this.moduleInfo = (new SpelExpressionParser()).parseExpression(moduleInfo).getValue(ModuleInfo.class);
 	}
 	
 	/**
@@ -66,15 +63,5 @@ public class CoreProperties implements BlueskyProperties {
 	 */
 	@Builder.Default
 	private String[] notSupportedBrowserExcludePathPatterns = new String[]{"/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**"};
-	
-	/**
-	 * Preferred Locale
-	 */
-	private Locale defaultLocale;
-	
-	/**
-	 * List of available locales
-	 */
-	private List<Locale> enableLocaleList;
 	
 }

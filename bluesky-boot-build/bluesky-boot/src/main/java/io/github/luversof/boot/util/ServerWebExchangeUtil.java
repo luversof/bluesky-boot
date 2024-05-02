@@ -126,15 +126,15 @@ public final class ServerWebExchangeUtil {
 		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 		 */
 		Comparator<Entry<String, CoreProperties>> comparator = (Entry<String, CoreProperties> o1, Entry<String, CoreProperties> o2) -> {
-			var pathForward1 = o1.getValue().getDomain().getPathForward();
-			var pathForward2 = o2.getValue().getDomain().getPathForward();
-			if (pathForward1 == null) {
+			var path1 = o1.getValue().getDomain().getPath();
+			var path2 = o2.getValue().getDomain().getPath();
+			if (path1 == null) {
 				return 1;
 			}
-			if (pathForward2 != null) {
-				if (pathForward1.getRequestPath().length() > pathForward2.getRequestPath().length()) {
+			if (path2 != null) {
+				if (path1.getRequestPath().length() > path2.getRequestPath().length()) {
 					return 1;
-				} else if (pathForward1.getRequestPath().length() == pathForward2.getRequestPath().length()) {
+				} else if (path1.getRequestPath().length() == path2.getRequestPath().length()) {
 					return 0;
 				} else {
 					return -1;

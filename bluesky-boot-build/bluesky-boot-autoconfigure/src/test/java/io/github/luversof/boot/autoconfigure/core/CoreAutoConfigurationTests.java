@@ -8,8 +8,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo;
+import io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo;
 import io.github.luversof.boot.context.BlueskyContextHolder;
+import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
 
 class CoreAutoConfigurationTests {
@@ -17,7 +18,7 @@ class CoreAutoConfigurationTests {
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.core.modules.test.domain.web=http://localhost")
-			.withPropertyValues("bluesky-boot.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
+			.withPropertyValues("bluesky-boot.core.modules.test.module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST")
 			.withUserConfiguration(CORE_USER_CONFIGURATION)
 			;
 	
@@ -30,6 +31,7 @@ class CoreAutoConfigurationTests {
 	@Test
 	void coreProperties() {
 		this.contextRunner.run(context -> {
+			CoreModuleProperties bean = context.getBean(CoreModuleProperties.class);
 			assertThat(context).hasSingleBean(CoreProperties.class);
 		});
 	}
@@ -38,7 +40,7 @@ class CoreAutoConfigurationTests {
 	void blueskyContextHolder() {
 		this.contextRunner.run(context -> {
 			var blueskyContext = BlueskyContextHolder.getContext();
-			assertThat((BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
+			assertThat((BlueskyContextHolder.getCoreModule()).getModuleInfo()).isEqualTo(TestModuleInfo.TEST);
 			assertThat(blueskyContext.getModuleName()).isEqualTo("test");
 		});
 	}
@@ -48,7 +50,7 @@ class CoreAutoConfigurationTests {
 		this.contextRunner.withPropertyValues("bluesky-boot.core.modules.test2.domain.web=http://localhost").run(context -> {
 			BlueskyContextHolder.setContext("test");
 			var blueskyContext = BlueskyContextHolder.getContext();
-			assertThat((BlueskyContextHolder.getCoreModule()).getCoreModuleInfo()).isEqualTo(TestCoreModuleInfo.TEST);
+			assertThat((BlueskyContextHolder.getCoreModule()).getModuleInfo()).isEqualTo(TestModuleInfo.TEST);
 			assertThat(blueskyContext.getModuleName()).isEqualTo("test");
 		});
 	}
