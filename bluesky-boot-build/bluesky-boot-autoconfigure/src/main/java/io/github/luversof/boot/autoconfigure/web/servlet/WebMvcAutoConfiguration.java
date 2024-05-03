@@ -5,7 +5,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+
+import io.github.luversof.boot.web.CookieModuleProperties;
+import io.github.luversof.boot.web.CookieProperties;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for WebMvc support.
@@ -14,6 +18,10 @@ import org.springframework.context.annotation.Bean;
  */
 @AutoConfiguration("blueskyBootWebMvcAutoConfiguration")
 @ConditionalOnWebApplication(type = Type.SERVLET)
+@EnableConfigurationProperties({ 
+	CookieProperties.class,
+	CookieModuleProperties.class
+})
 public class WebMvcAutoConfiguration {
 
 	@Bean

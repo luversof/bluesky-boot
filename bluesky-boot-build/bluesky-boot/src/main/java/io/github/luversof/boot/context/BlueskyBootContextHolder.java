@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BlueskyBootContextHolder {
 	
-	private static BlueskyBootContext CONTEXT_HOLDER;
+	private static BlueskyBootContext contextHolder;
 
 	public static BlueskyBootContext getContext() {
-		if (CONTEXT_HOLDER == null) {
-			CONTEXT_HOLDER = new BlueskyBootContext();
+		if (contextHolder == null) {
+			contextHolder = new BlueskyBootContext();
 		}
-		return CONTEXT_HOLDER;
+		return contextHolder;
 	}
 
 }

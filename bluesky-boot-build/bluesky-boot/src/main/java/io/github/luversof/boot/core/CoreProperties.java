@@ -64,4 +64,8 @@ public class CoreProperties implements BlueskyProperties {
 	@Builder.Default
 	private String[] notSupportedBrowserExcludePathPatterns = new String[]{"/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**"};
 	
+	public void setCoreProperties(CoreProperties coreProperties) {
+		
+	}
+	
 }

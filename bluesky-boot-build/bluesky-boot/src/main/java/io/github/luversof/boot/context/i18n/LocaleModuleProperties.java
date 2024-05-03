@@ -23,10 +23,12 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		
+		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
-		BlueskyBootContextHolder.getContext().getModuleNameList().forEach(moduleName -> {
-			var builder = LocaleProperties.builder();
+		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
+			var builder = moduleInfoMap.containsKey(moduleName) ?  moduleInfoMap.get(moduleName).getLocalePropertiesBuilder() : LocaleProperties.builder();
 			
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, builder.build());
@@ -42,11 +44,6 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 			getModules().put(moduleName, builder.build());
 			
 		});
-		
-		// coreProperties 기준으로 확장하여 사용
-		
-		
-		// TODO Auto-generated method stub
 		
 	}
 

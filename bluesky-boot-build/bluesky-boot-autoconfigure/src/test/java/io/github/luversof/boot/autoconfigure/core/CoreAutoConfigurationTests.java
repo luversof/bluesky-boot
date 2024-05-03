@@ -31,7 +31,8 @@ class CoreAutoConfigurationTests {
 	@Test
 	void coreProperties() {
 		this.contextRunner.run(context -> {
-			CoreModuleProperties bean = context.getBean(CoreModuleProperties.class);
+			CoreModuleProperties coreModuleProperties = context.getBean(CoreModuleProperties.class);
+			assertThat(coreModuleProperties).isNotNull();
 			assertThat(context).hasSingleBean(CoreProperties.class);
 		});
 	}

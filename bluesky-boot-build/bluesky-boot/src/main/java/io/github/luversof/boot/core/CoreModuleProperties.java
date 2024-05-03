@@ -17,6 +17,9 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	@Autowired
 	private CoreProperties parent;
 	
+	@Autowired
+	private CoreBaseProperties base;
+	
 	private Map<String, CoreProperties> modules = new HashMap<>();
 	
 	@Override
@@ -26,11 +29,29 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			return;
 		}
 		
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		blueskyBootContext.setParentModuleInfo(getParent().getModuleInfo());
+		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		
+		blueskyBootContext.getModuleNameSet().forEach(moduleName -> {
+			if (!getModules().containsKey(moduleName)) {
+				getModules().put(moduleName, getParent().getModuleInfo() != null ? getParent().getModuleInfo().getCorePropertiesBuilder().build() : CoreProperties.builder().build());
+			}
+		});
 		
 		for (String key : getModules().keySet()) {
 			var coreModuleProperties = getModules().get(key);
-			var builder = coreModuleProperties.getModuleInfo() == null ? CoreProperties.builder() : coreModuleProperties.getModuleInfo().getCoreBuilder();
+			
+			CoreProperties.CorePropertiesBuilder builder = null;
+			if (coreModuleProperties.getModuleInfo() != null) {
+				builder = coreModuleProperties.getModuleInfo().getCorePropertiesBuilder();
+			} else if (getParent().getModuleInfo() != null) {
+				builder = getParent().getModuleInfo().getCorePropertiesBuilder();
+			} else {
+				builder = CoreProperties.builder();
+			}
+			
 			propertyMapper.from(getParent()::getModuleInfo).to(builder::moduleInfo);
 			propertyMapper.from(coreModuleProperties::getModuleInfo).to(builder::moduleInfo);
 			propertyMapper.from(getParent()::getAddPathPatterns).to(builder::addPathPatterns);
@@ -42,11 +63,23 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			propertyMapper.from(getParent()::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
 			propertyMapper.from(coreModuleProperties::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
 			
+			// domain 할 차례
+			
 			getModules().put(key, builder.build());
+			
+			
+			
+			blueskyBootContext.getModuleNameSet().add(key);
+			if (getModules().get(key).getModuleInfo() != null) {
+				blueskyBootContext.getModuleInfoMap().put(key, getModules().get(key).getModuleInfo());
+			}
 		}
-		
-		BlueskyBootContextHolder.getContext().getModuleNameList().addAll(this.getModules().keySet());
 
+	}
+	
+	@Override
+	public void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
+		
 	}
 
 }

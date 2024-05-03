@@ -11,6 +11,8 @@ import io.github.luversof.boot.core.CoreBaseProperties;
 import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.util.ApplicationContextUtil;
+import io.github.luversof.boot.web.CookieModuleProperties;
+import io.github.luversof.boot.web.CookieProperties;
 
 
 /**
@@ -20,12 +22,12 @@ import io.github.luversof.boot.util.ApplicationContextUtil;
  */
 @AutoConfiguration("blueskyBootCoreAutoConfiguration")
 @EnableConfigurationProperties({ 
-	CoreProperties.class, 
-	CoreBaseProperties.class, 
-	CoreModuleProperties.class, 
-	LocaleProperties.class, 
-	LocaleModuleProperties.class 
-	})
+	CoreBaseProperties.class,
+	CoreProperties.class,
+	CoreModuleProperties.class,
+	LocaleProperties.class,
+	LocaleModuleProperties.class
+})
 public class CoreAutoConfiguration {
 
 	CoreAutoConfiguration(ApplicationContext applicationContext) {
