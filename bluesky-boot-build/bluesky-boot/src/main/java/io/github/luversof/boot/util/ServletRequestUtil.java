@@ -23,10 +23,10 @@ import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPattern.PathMatchInfo;
 
 import io.github.luversof.boot.core.CoreBaseProperties;
-import io.github.luversof.boot.core.CoreModuleProperties;
-import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.core.CoreResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;
+import io.github.luversof.boot.web.DomainModuleProperties;
+import io.github.luversof.boot.web.DomainProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -74,28 +74,28 @@ public final class ServletRequestUtil {
 	 * @param request
 	 * @return
 	 */
-	public static Entry<String, CoreProperties> getModulePropertiesEntry(HttpServletRequest request) {
-		CoreModuleProperties coreModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
+	public static Entry<String, DomainProperties> getModulePropertiesEntry(HttpServletRequest request) {
+		DomainModuleProperties domainModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(DomainModuleProperties.class);
 		CoreBaseProperties coreBaseProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
-		Assert.notEmpty(coreModuleProperties.getModules(), "coreProperties is not set");
+		Assert.notEmpty(domainModuleProperties.getModules(), "domainModuleProperties is not set");
 		
-		var modules = coreModuleProperties.getModules();
+		var modules = domainModuleProperties.getModules();
 		if (modules.size() == 1) {
 			return modules.entrySet().stream().findAny().orElse(null);
 		}
 		
 		var resolveType = coreBaseProperties.getResolveType();
 		
-		Entry<String, CoreProperties> module;
+		Entry<String, DomainProperties> module;
 		// 내부 접근인 경우 임의 coreModuleProperties로 처리함
 		if (CoreResolveType.ADD_PATH_PATTERN == resolveType) {
-			module = getModuleEntryByAddPathPattern(request, coreModuleProperties);
+			module = getModuleEntryByAddPathPattern(request, domainModuleProperties);
 		} else if (CoreResolveType.MODULE_NAME_RESOLVER == resolveType) {
-			module = getModuleEntryByModuleNameResolver(coreModuleProperties);
+			module = getModuleEntryByModuleNameResolver(domainModuleProperties);
 		} else if(modules.size() > 1 && isInternalRequest(request)) { // 내부 접근의 별도 resolveType 설정이 없는 멀티 모듈의 경우 임의 coreModuleProperties로 처리함
 			module = modules.entrySet().stream().findFirst().orElse(null);
 		} else {
-			module = getModuleEntryByDomain(request, coreModuleProperties);
+			module = getModuleEntryByDomain(request, domainModuleProperties);
 		}
 		
 		if (module == null) {
@@ -104,17 +104,17 @@ public final class ServletRequestUtil {
 		return module;
 	}
 	
-	private static Entry<String, CoreProperties> getModuleEntryByAddPathPattern(HttpServletRequest request, CoreModuleProperties coreModuleProperties) {
-		return coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, request.getServletPath()))).findAny().orElse(null);
+	private static Entry<String, DomainProperties> getModuleEntryByAddPathPattern(HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
+		return domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, request.getServletPath()))).findAny().orElse(null);
 	}
 	
-	private static Entry<String, CoreProperties> getModuleEntryByDomain(HttpServletRequest request, CoreModuleProperties coreModuleProperties) {
+	private static Entry<String, DomainProperties> getModuleEntryByDomain(HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
 		// 해당 도메인에 해당하는 모듈 entry list 확인
-		List<Entry<String, CoreProperties>> moduleEntryList = coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
-			moduleEntry.getValue().getDomain() != null && (
-				checkDomain(request, moduleEntry.getValue().getDomain().getWebList())
-				|| checkDomain(request, moduleEntry.getValue().getDomain().getMobileWebList())
-				|| checkDomain(request, moduleEntry.getValue().getDomain().getDevDomainList())
+		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
+			moduleEntry.getValue() != null && (
+				checkDomain(request, moduleEntry.getValue().getWebList())
+				|| checkDomain(request, moduleEntry.getValue().getMobileWebList())
+				|| checkDomain(request, moduleEntry.getValue().getDevDomainList())
 			)
 		).toList();
 		
@@ -125,9 +125,9 @@ public final class ServletRequestUtil {
 		// 대상 entry list가 2개 이상인 경우 path 까지 체크
 		if (moduleEntryList.size() > 1) {
 			moduleEntryList = moduleEntryList.stream().filter(moduleEntry -> 
-				checkDomainWithPath(request, moduleEntry.getValue().getDomain().getWebList())
-				|| checkDomainWithPath(request, moduleEntry.getValue().getDomain().getMobileWebList())
-				|| checkDomainWithPath(request, moduleEntry.getValue().getDomain().getDevDomainList())
+				checkDomainWithPath(request, moduleEntry.getValue().getWebList())
+				|| checkDomainWithPath(request, moduleEntry.getValue().getMobileWebList())
+				|| checkDomainWithPath(request, moduleEntry.getValue().getDevDomainList())
 			).toList();
 		}
 		
@@ -143,16 +143,16 @@ public final class ServletRequestUtil {
 		/**
 		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 		 */
-		Comparator<Entry<String, CoreProperties>> comparator = (Entry<String, CoreProperties> o1, Entry<String, CoreProperties> o2) -> {
-			var path1 = o1.getValue().getDomain().getPath();
-			var path2 = o2.getValue().getDomain().getPath();
+		Comparator<Entry<String, DomainProperties>> comparator = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
+			var path1 = o1.getValue().getRequestPath();
+			var path2 = o2.getValue().getRequestPath();
 			if (path1 == null) {
 				return 1;
 			}
 			if (path2 != null) {
-				if (path1.getRequestPath().length() > path2.getRequestPath().length()) {
+				if (path1.length() > path2.length()) {
 					return 1;
-				} else if (path1.getRequestPath().length() == path2.getRequestPath().length()) {
+				} else if (path1.length() == path2.length()) {
 					return 0;
 				} else {
 					return -1;
@@ -186,9 +186,9 @@ public final class ServletRequestUtil {
 		));
 	}
 	
-	private static Entry<String, CoreProperties> getModuleEntryByModuleNameResolver(CoreModuleProperties coreModuleProperties) {
+	private static Entry<String, DomainProperties> getModuleEntryByModuleNameResolver(DomainModuleProperties domainModuleProperties) {
 		var moduleNameResolver = ApplicationContextUtil.getApplicationContext().getBean(ModuleNameResolver.class);
-		return coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
+		return domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
 	}
 
 	

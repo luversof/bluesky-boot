@@ -17,7 +17,6 @@ import org.springframework.validation.MessageCodesResolver;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.core.CoreBaseProperties;
-import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;

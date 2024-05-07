@@ -34,11 +34,16 @@ final class ThreadLocalBlueskyContextHolderStrategy implements BlueskyContextHol
 	public BlueskyContext createEmptyContext() {
 		CoreModuleProperties coreModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
 		
-		Assert.notEmpty(coreModuleProperties.getModules(), "coreProperties is not set");
-		Assert.state(coreModuleProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");
-		var module = coreModuleProperties.getModules().entrySet().stream().findAny().orElse(null);
-		Assert.state(module != null, "module configuration is required");
-		return module::getKey;
+		if (coreModuleProperties.getModules().isEmpty()) {
+			return () -> null;
+		} else if (coreModuleProperties.getModules().size() == 1) {
+			return () -> coreModuleProperties.getModules().keySet().stream().findAny().orElse(null);
+		}
+		
+//		Assert.notEmpty(coreModuleProperties.getModules(), "coreProperties is not set");
+//		Assert.state(coreModuleProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");
+		Assert.state(coreModuleProperties.getModules().size() > 1, "When using multi module, it is necessary to specify the target module.");
+		return null;
 	}
 
 }

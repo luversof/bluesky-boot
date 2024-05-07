@@ -31,22 +31,6 @@ public class CoreProperties implements BlueskyProperties {
 	}
 	
 	/**
-	 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.
-	 * 
-	 * Registering the AntPathMatcher Pattern
-	 */
-	@Builder.Default
-	private String[] addPathPatterns = new String[]{};
-	
-	/**
-	 * Domain information for the site
-	 * 
-	 * ex) http://test.bluesky.net
-	 */
-	@Builder.Default
-	private CoreDomainProperties domain = new CoreDomainProperties();
-	
-	/**
 	 * Whether to check unsupported browsers
 	 */
 	@Builder.Default
@@ -64,8 +48,9 @@ public class CoreProperties implements BlueskyProperties {
 	@Builder.Default
 	private String[] notSupportedBrowserExcludePathPatterns = new String[]{"/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**"};
 	
+	@Override
 	public void setCoreProperties(CoreProperties coreProperties) {
-		
+		// DO NOTHING
 	}
 	
 }

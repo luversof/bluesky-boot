@@ -9,15 +9,16 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreModuleProperties implements BlueskyModuleProperties<CoreProperties> {
 	
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private CoreProperties parent;
 	
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private CoreBaseProperties base;
 	
 	private Map<String, CoreProperties> modules = new HashMap<>();
@@ -26,7 +27,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	public void afterPropertiesSet() throws Exception {
 		 
 		if (getModules() == null) {
-			return;
+			setModules(new HashMap<>()); 
 		}
 		
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
@@ -54,8 +55,6 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			
 			propertyMapper.from(getParent()::getModuleInfo).to(builder::moduleInfo);
 			propertyMapper.from(coreModuleProperties::getModuleInfo).to(builder::moduleInfo);
-			propertyMapper.from(getParent()::getAddPathPatterns).to(builder::addPathPatterns);
-			propertyMapper.from(coreModuleProperties::getAddPathPatterns).to(builder::addPathPatterns);
 			propertyMapper.from(getParent()::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
 			propertyMapper.from(coreModuleProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
 			propertyMapper.from(getParent()::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
@@ -79,7 +78,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	@Override
 	public void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
-		
+		// DO NOTHING
 	}
 
 }

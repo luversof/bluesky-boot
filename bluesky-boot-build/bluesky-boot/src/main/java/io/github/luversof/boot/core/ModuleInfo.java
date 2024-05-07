@@ -5,6 +5,8 @@ import io.github.luversof.boot.context.i18n.LocaleProperties.LocalePropertiesBui
 import io.github.luversof.boot.core.CoreBaseProperties.CoreBasePropertiesBuilder;
 import io.github.luversof.boot.core.CoreProperties.CorePropertiesBuilder;
 import io.github.luversof.boot.web.CookieProperties;
+import io.github.luversof.boot.web.DomainProperties;
+import io.github.luversof.boot.web.DomainProperties.DomainPropertiesBuilder;
 import io.github.luversof.boot.web.CookieProperties.CookiePropertiesBuilder;
 
 /**
@@ -28,6 +30,10 @@ public interface ModuleInfo {
 	
 	default CookiePropertiesBuilder getCookiePropertiesBuilder() {
 		return CookieProperties.builder();
+	}
+	
+	default DomainPropertiesBuilder getDomainPropertiesBuilder() {
+		return DomainProperties.builder();
 	}
 
 }

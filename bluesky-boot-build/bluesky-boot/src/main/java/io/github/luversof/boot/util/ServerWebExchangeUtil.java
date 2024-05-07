@@ -13,10 +13,10 @@ import org.springframework.web.filter.reactive.ServerWebExchangeContextFilter;
 import org.springframework.web.server.ServerWebExchange;
 
 import io.github.luversof.boot.core.CoreBaseProperties;
-import io.github.luversof.boot.core.CoreModuleProperties;
-import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.core.CoreResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;
+import io.github.luversof.boot.web.DomainModuleProperties;
+import io.github.luversof.boot.web.DomainProperties;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -50,21 +50,21 @@ public final class ServerWebExchangeUtil {
 		return hostName.matches(IPV4_PATTERN);
 	}
 	
-	public static Entry<String, CoreProperties> getModulePropertiesEntry(ServerWebExchange exchange) {
+	public static Entry<String, DomainProperties> getModulePropertiesEntry(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
-		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
+		DomainModuleProperties domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
 		CoreBaseProperties coreBaseProperties = applicationContext.getBean(CoreBaseProperties.class);
-		Assert.notEmpty(coreModuleProperties.getModules(), "coreProperties is not set");
+		Assert.notEmpty(domainModuleProperties.getModules(), "domainModuleProperties is not set");
 		
-		var modules = coreModuleProperties.getModules();
+		var modules = domainModuleProperties.getModules();
 		if (modules.size() == 1) {
 			return modules.entrySet().stream().findAny().orElse(null);
 		}
 		
 		var resolveType = coreBaseProperties.getResolveType();
 		
-		Entry<String, CoreProperties> module;
+		Entry<String, DomainProperties> module;
 		if (modules.size() > 1 && isInternalRequest(exchange)) {
 			module = modules.entrySet().stream().findFirst().orElse(null);
 		} else if (CoreResolveType.ADD_PATH_PATTERN == resolveType) {
@@ -81,23 +81,23 @@ public final class ServerWebExchangeUtil {
 		return module;
 	}
 	
-	private static Entry<String, CoreProperties> getModuleEntryByAddPathPattern(ServerWebExchange exchange) {
+	private static Entry<String, DomainProperties> getModuleEntryByAddPathPattern(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
-		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
-		return coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath()))).findAny().orElse(null);
+		DomainModuleProperties domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
+		return domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> Arrays.asList(moduleEntry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath()))).findAny().orElse(null);
 	}
 	
-	private static Entry<String, CoreProperties> getModuleEntryByDomain(ServerWebExchange exchange) {
+	private static Entry<String, DomainProperties> getModuleEntryByDomain(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
-		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
+		DomainModuleProperties domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
 		// 해당 도메인에 해당하는 모듈 entry list 확인
-		List<Entry<String, CoreProperties>> moduleEntryList = coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
-			moduleEntry.getValue().getDomain() != null && (
-				checkDomain(exchange, moduleEntry.getValue().getDomain().getWebList())
-				|| checkDomain(exchange, moduleEntry.getValue().getDomain().getMobileWebList())
-				|| checkDomain(exchange, moduleEntry.getValue().getDomain().getDevDomainList())
+		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
+			moduleEntry.getValue() != null && (
+				checkDomain(exchange, moduleEntry.getValue().getWebList())
+				|| checkDomain(exchange, moduleEntry.getValue().getMobileWebList())
+				|| checkDomain(exchange, moduleEntry.getValue().getDevDomainList())
 			)
 		).toList();
 		
@@ -108,9 +108,9 @@ public final class ServerWebExchangeUtil {
 		// 대상 entry list가 2개 이상인 경우 path 까지 체크
 		if (moduleEntryList.size() > 1) {
 			moduleEntryList = moduleEntryList.stream().filter(moduleEntry ->
-				checkDomainWithPath(exchange, moduleEntry.getValue().getDomain().getWebList())
-				|| checkDomainWithPath(exchange, moduleEntry.getValue().getDomain().getMobileWebList())
-				|| checkDomainWithPath(exchange, moduleEntry.getValue().getDomain().getDevDomainList())
+				checkDomainWithPath(exchange, moduleEntry.getValue().getWebList())
+				|| checkDomainWithPath(exchange, moduleEntry.getValue().getMobileWebList())
+				|| checkDomainWithPath(exchange, moduleEntry.getValue().getDevDomainList())
 			).toList();
 		}
 		
@@ -125,16 +125,16 @@ public final class ServerWebExchangeUtil {
 		/**
 		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 		 */
-		Comparator<Entry<String, CoreProperties>> comparator = (Entry<String, CoreProperties> o1, Entry<String, CoreProperties> o2) -> {
-			var path1 = o1.getValue().getDomain().getPath();
-			var path2 = o2.getValue().getDomain().getPath();
+		Comparator<Entry<String, DomainProperties>> comparator = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
+			var path1 = o1.getValue().getRequestPath();
+			var path2 = o2.getValue().getRequestPath();
 			if (path1 == null) {
 				return 1;
 			}
 			if (path2 != null) {
-				if (path1.getRequestPath().length() > path2.getRequestPath().length()) {
+				if (path1.length() > path2.length()) {
 					return 1;
-				} else if (path1.getRequestPath().length() == path2.getRequestPath().length()) {
+				} else if (path1.length() == path2.length()) {
 					return 0;
 				} else {
 					return -1;
@@ -168,11 +168,11 @@ public final class ServerWebExchangeUtil {
 		));
 	}
 	
-	private static Entry<String, CoreProperties> getModuleEntryByModuleNameResolver(ServerWebExchange exchange) {
+	private static Entry<String, DomainProperties> getModuleEntryByModuleNameResolver(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
 		var moduleNameResolver = applicationContext.getBean(ModuleNameResolver.class);
-		CoreModuleProperties coreModuleProperties = applicationContext.getBean(CoreModuleProperties.class);
-		return coreModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
+		DomainModuleProperties domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
+		return domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
 	}
 }

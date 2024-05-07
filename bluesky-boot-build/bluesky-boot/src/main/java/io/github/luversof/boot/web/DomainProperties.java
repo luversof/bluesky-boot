@@ -1,24 +1,39 @@
-package io.github.luversof.boot.core;
+package io.github.luversof.boot.web;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Set the domain that the site uses
- * @author bluesky
- *
- */
+import io.github.luversof.boot.core.BlueskyProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
-public class CoreDomainProperties {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ConfigurationProperties(prefix = "bluesky-boot.domain")
+public class DomainProperties implements BlueskyProperties {
 	
+	/**
+	 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.
+	 * 
+	 * Registering the AntPathMatcher Pattern
+	 */
+	@Builder.Default
+	private String[] addPathPatterns = new String[]{};
+
 	/**
 	 * If the site address is multi, use.
 	 * 
 	 * If your site doesn't have a PC web/mobile web distinction, declare only WEB and use it.
 	 */
+	@Builder.Default
 	private List<URI> webList = new ArrayList<>();
 	
 	/**
@@ -28,6 +43,7 @@ public class CoreDomainProperties {
 	 * 
 	 * Used separately in unified notification processing
 	 */
+	@Builder.Default
 	private List<URI> mobileWebList = new ArrayList<>();
 	
 	/**
@@ -37,12 +53,34 @@ public class CoreDomainProperties {
 	 * 
 	 * ex) devDomainList=http://local.a.com,http://local.b.com
 	 */
+	@Builder.Default
 	private List<URI> devDomainList = new ArrayList<>();
 
 	/**
-	 * If you have a FORWARD policy that is used globally by that module, set it to Settings
+	 * List of static paths (not redirect targets)
 	 */
-	private CoreDomainPathProperties path;
+	@Builder.Default
+	private List<String> staticPathList = Arrays.asList("/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/");
+	
+	/**
+	 * List of exception paths (list that are not redirect targets)
+	 */
+	@Builder.Default
+	private List<String> excludePathList = Arrays.asList("/UiDev/", "/_check");
+	
+	/**
+	 * Set the request root path
+	 * 
+	 * Default is "/" (full)
+	 */
+	@Builder.Default
+	private String requestPath = "/";
+	
+	/**
+	 * Set the forward root path
+	 */
+	@Builder.Default
+	private String forwardPath = "/";
 	
 	/**
 	 * The address of the site

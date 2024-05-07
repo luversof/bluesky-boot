@@ -1,4 +1,4 @@
-package io.github.luversof.boot.filter;
+package io.github.luversof.boot.web.filter;
 
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;

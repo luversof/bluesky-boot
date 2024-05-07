@@ -10,12 +10,13 @@ import org.springframework.boot.context.properties.PropertyMapper;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
 
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private LocaleProperties parent;
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();

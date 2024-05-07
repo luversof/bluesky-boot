@@ -10,12 +10,13 @@ import org.springframework.boot.context.properties.PropertyMapper;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
 
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();
