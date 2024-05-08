@@ -1,4 +1,4 @@
-package io.github.luversof.boot.util;
+package io.github.luversof.boot.context;
 
 import org.springframework.context.ApplicationContext;
 

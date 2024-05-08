@@ -13,7 +13,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import io.github.luversof.boot.util.ApplicationContextUtil;
+import io.github.luversof.boot.context.ApplicationContextUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Setter;
 import lombok.SneakyThrows;

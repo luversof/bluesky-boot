@@ -1,4 +1,4 @@
-package io.github.luversof.boot.util;
+package io.github.luversof.boot.web.util;
 
 import java.text.MessageFormat;
 import java.util.Collections;

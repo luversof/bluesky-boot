@@ -7,8 +7,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.util.ServletRequestUtil;
 import io.github.luversof.boot.web.DomainProperties;
+import io.github.luversof.boot.web.util.ServletRequestUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

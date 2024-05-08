@@ -1,4 +1,4 @@
-package io.github.luversof.boot.util;
+package io.github.luversof.boot.validation;
 
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -6,6 +6,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import io.github.luversof.boot.context.ApplicationContextUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;

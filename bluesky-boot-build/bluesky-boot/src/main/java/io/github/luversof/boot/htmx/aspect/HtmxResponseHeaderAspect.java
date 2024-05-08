@@ -9,7 +9,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import io.github.luversof.boot.context.expression.util.SpelParserUtil;
+import io.github.luversof.boot.expression.SpelParserUtil;
 import io.github.luversof.boot.htmx.annotation.HtmxResponseHeader;
 
 @Aspect

@@ -8,7 +8,6 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
-import io.github.luversof.boot.util.ApplicationContextUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

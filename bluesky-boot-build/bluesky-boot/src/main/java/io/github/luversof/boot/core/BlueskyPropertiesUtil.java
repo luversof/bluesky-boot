@@ -1,13 +1,12 @@
-package io.github.luversof.boot.util;
+package io.github.luversof.boot.core;
 
 import java.util.function.Supplier;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ResolvableType;
 
+import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
-import io.github.luversof.boot.core.BlueskyProperties;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

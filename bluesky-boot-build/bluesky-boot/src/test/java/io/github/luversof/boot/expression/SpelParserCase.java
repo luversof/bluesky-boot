@@ -1,4 +1,4 @@
-package io.github.luversof.boot.context.expression;
+package io.github.luversof.boot.expression;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

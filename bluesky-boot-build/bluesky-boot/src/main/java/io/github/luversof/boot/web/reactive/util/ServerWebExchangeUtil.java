@@ -1,4 +1,4 @@
-package io.github.luversof.boot.util;
+package io.github.luversof.boot.web.reactive.util;
 
 import java.net.URI;
 import java.util.Arrays;

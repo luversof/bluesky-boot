@@ -1,4 +1,4 @@
-package io.github.luversof.boot.util;
+package io.github.luversof.boot.web.util;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -22,6 +22,7 @@ import org.springframework.web.util.ServletRequestPathUtils;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPattern.PathMatchInfo;
 
+import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.core.CoreBaseProperties;
 import io.github.luversof.boot.core.CoreResolveType;
 import io.github.luversof.boot.support.ModuleNameResolver;

@@ -1,4 +1,4 @@
-package io.github.luversof.boot.context;
+package io.github.luversof.boot.context.support;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.MessageSourceAccessor;

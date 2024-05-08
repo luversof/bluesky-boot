@@ -3,7 +3,6 @@ package io.github.luversof.boot.context;
 import org.springframework.util.Assert;
 
 import io.github.luversof.boot.core.CoreModuleProperties;
-import io.github.luversof.boot.util.ApplicationContextUtil;
 
 final class ThreadLocalBlueskyContextHolderStrategy implements BlueskyContextHolderStrategy {
 
