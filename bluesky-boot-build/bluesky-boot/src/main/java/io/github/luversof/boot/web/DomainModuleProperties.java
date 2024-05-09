@@ -16,7 +16,7 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "bluesky-boot.domain")
 public class DomainModuleProperties implements BlueskyModuleProperties<DomainProperties> {
 	
-	@Setter(onMethod_ = { @Autowired })
+	@Setter(onMethod_ = @Autowired)
 	private DomainProperties parent;
 	
 	private Map<String, DomainProperties> modules = new HashMap<>();

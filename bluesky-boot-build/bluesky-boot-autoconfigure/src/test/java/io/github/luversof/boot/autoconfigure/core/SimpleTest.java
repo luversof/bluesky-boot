@@ -57,7 +57,7 @@ class SimpleTest {
 	@Test
 	void spelTest() {
 		ExpressionParser parser = new SpelExpressionParser();
-		Expression exp = parser.parseExpression("T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST");
+		Expression exp = parser.parseExpression("T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST");
 //		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
 		var value = exp.getValue();
 		log.debug("result : {}", value);
@@ -68,7 +68,7 @@ class SimpleTest {
 	void spelTest2() {
 		SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, this.getClass().getClassLoader());
 		SpelExpressionParser parser = new SpelExpressionParser(config);
-		Expression exp = parser.parseExpression("T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST");
+		Expression exp = parser.parseExpression("T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST");
 //		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
 		var value = exp.getValue();
 		log.debug("result : {}", value);

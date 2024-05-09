@@ -16,7 +16,7 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
 
-	@Setter(onMethod_ = { @Autowired })
+	@Setter(onMethod_ = @Autowired)
 	private LocaleProperties parent;
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();

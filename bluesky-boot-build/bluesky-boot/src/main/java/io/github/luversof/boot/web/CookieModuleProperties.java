@@ -16,7 +16,7 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "bluesky-boot.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
 
-	@Setter(onMethod_ = { @Autowired })
+	@Setter(onMethod_ = @Autowired)
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();

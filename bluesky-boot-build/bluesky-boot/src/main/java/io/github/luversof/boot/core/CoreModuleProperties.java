@@ -15,10 +15,10 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreModuleProperties implements BlueskyModuleProperties<CoreProperties> {
 	
-	@Setter(onMethod_ = { @Autowired })
+	@Setter(onMethod_ = @Autowired)
 	private CoreProperties parent;
 	
-	@Setter(onMethod_ = { @Autowired })
+	@Setter(onMethod_ = @Autowired)
 	private CoreBaseProperties base;
 	
 	private Map<String, CoreProperties> modules = new HashMap<>();
