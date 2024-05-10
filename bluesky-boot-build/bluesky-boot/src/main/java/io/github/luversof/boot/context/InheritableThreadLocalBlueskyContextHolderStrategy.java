@@ -39,10 +39,8 @@ final class InheritableThreadLocalBlueskyContextHolderStrategy implements Bluesk
 			return () -> coreModuleProperties.getModules().keySet().stream().findAny().orElse(null);
 		}
 		
-//		Assert.notEmpty(coreModuleProperties.getModules(), "coreProperties is not set");
-//		Assert.state(coreModuleProperties.getModules().size() == 1, "For multi module based projects, setContext should be done first");
 		Assert.state(coreModuleProperties.getModules().size() > 1, "When using multi module, it is necessary to specify the target module.");
-		return null;
+		return () -> null;
 	}
 
 }

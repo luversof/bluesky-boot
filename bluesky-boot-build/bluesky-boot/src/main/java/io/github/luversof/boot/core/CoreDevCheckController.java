@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class CoreDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/core";
+	private static final String PATH_PREFIX = "/blueskyBoot/core";	// NOSONAR java:S1075
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
 	@GetMapping(PATH_PREFIX + "/activeProfiles")

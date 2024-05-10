@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class ConnectionInfoDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/connectionInfo";
+	private static final String PATH_PREFIX = "/blueskyBoot/connectionInfo";	// NOSONAR java:S1075
 	
 	private ConnectionInfoLoaderProperties connectionInfoLoaderProperties;
 

@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class MessageSourceDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/messageSource";
+	private static final String PATH_PREFIX = "/blueskyBoot/messageSource";	// NOSONAR java:S1075
 	
 	private BlueskyReloadableResourceBundleMessageSource messageSource;
 
