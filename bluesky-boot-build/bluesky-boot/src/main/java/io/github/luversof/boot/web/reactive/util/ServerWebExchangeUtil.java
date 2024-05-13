@@ -30,6 +30,28 @@ public final class ServerWebExchangeUtil {
 	private static final String IPV4_PATTERN = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
 	
 	public static final String EXCHANGE_CONTEXT_ATTRIBUTE = ServerWebExchangeContextFilter.class.getName()	+ ".EXCHANGE_CONTEXT";
+	
+
+	/**
+	 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
+	 */
+	private static final Comparator<Entry<String, DomainProperties>> CONPARATOR = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
+		var path1 = o1.getValue().getRequestPath();
+		var path2 = o2.getValue().getRequestPath();
+		if (path1 == null) {
+			return 1;
+		}
+		if (path2 != null) {
+			if (path1.length() > path2.length()) {
+				return 1;
+			} else if (path1.length() == path2.length()) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		return 0;
+	};
 
 	public static Mono<ServerWebExchange> getServerWebExchange() {
 		return Mono.deferContextual(Mono::just)
@@ -93,13 +115,7 @@ public final class ServerWebExchangeUtil {
 		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
 		DomainModuleProperties domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
 		// 해당 도메인에 해당하는 모듈 entry list 확인
-		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
-			moduleEntry.getValue() != null && (
-				checkDomain(exchange, moduleEntry.getValue().getWebList())
-				|| checkDomain(exchange, moduleEntry.getValue().getMobileWebList())
-				|| checkDomain(exchange, moduleEntry.getValue().getDevDomainList())
-			)
-		).toList();
+		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> checkDomain(exchange, moduleEntry.getValue())).toList();
 		
 		if (moduleEntryList.isEmpty()) {
 			return null;
@@ -107,11 +123,7 @@ public final class ServerWebExchangeUtil {
 		
 		// 대상 entry list가 2개 이상인 경우 path 까지 체크
 		if (moduleEntryList.size() > 1) {
-			moduleEntryList = moduleEntryList.stream().filter(moduleEntry ->
-				checkDomainWithPath(exchange, moduleEntry.getValue().getWebList())
-				|| checkDomainWithPath(exchange, moduleEntry.getValue().getMobileWebList())
-				|| checkDomainWithPath(exchange, moduleEntry.getValue().getDevDomainList())
-			).toList();
+			moduleEntryList = moduleEntryList.stream().filter(moduleEntry -> checkDomainWithPath(exchange, moduleEntry.getValue())).toList();
 		}
 		
 		if (moduleEntryList.isEmpty()) {
@@ -122,32 +134,15 @@ public final class ServerWebExchangeUtil {
 			return moduleEntryList.get(0);
 		}
 		
-		/**
-		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
-		 */
-		Comparator<Entry<String, DomainProperties>> comparator = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
-			var path1 = o1.getValue().getRequestPath();
-			var path2 = o2.getValue().getRequestPath();
-			if (path1 == null) {
-				return 1;
-			}
-			if (path2 != null) {
-				if (path1.length() > path2.length()) {
-					return 1;
-				} else if (path1.length() == path2.length()) {
-					return 0;
-				} else {
-					return -1;
-				}
-			}
-			return 0;
-		};
-		
-		var moduleEntry = moduleEntryList.stream().sorted(comparator.reversed()).findFirst();
-		if (moduleEntry.isPresent()) {
-			return moduleEntry.get();
-		}
-		return null;
+		return moduleEntryList.stream().sorted(CONPARATOR.reversed()).findFirst().orElseGet(() -> null);
+	}
+	
+	private static boolean checkDomain(ServerWebExchange exchange, DomainProperties domainProperties) {
+		return domainProperties != null && (
+				checkDomain(exchange, domainProperties.getWebList())
+				|| checkDomain(exchange, domainProperties.getMobileWebList())
+				|| checkDomain(exchange, domainProperties.getDevDomainList())
+				);
 	}
 	
 	private static boolean checkDomain(ServerWebExchange exchange, List<URI> uriList) {
@@ -155,6 +150,14 @@ public final class ServerWebExchangeUtil {
 			return false;
 		}
 		return uriList.stream().anyMatch(uri -> uri.getHost().equals(exchange.getRequest().getHeaders().getHost().getHostName()));
+	}
+	
+	private static boolean checkDomainWithPath(ServerWebExchange exchange, DomainProperties domainProperties) {
+		return domainProperties != null && (
+				checkDomainWithPath(exchange, domainProperties.getWebList())
+				|| checkDomainWithPath(exchange, domainProperties.getMobileWebList())
+				|| checkDomainWithPath(exchange, domainProperties.getDevDomainList())
+				);
 	}
 	
 	private static boolean checkDomainWithPath(ServerWebExchange exchange, List<URI> uriList) {

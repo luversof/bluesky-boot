@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class DataSourceDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/jdbc";
+	private static final String PATH_PREFIX = "/blueskyBoot/jdbc";	// NOSONAR java:S1075
 
 	private DataSource blueskyRoutingDataSource;
 	

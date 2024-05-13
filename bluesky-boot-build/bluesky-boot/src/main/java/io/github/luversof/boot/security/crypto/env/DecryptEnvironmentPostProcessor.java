@@ -1,7 +1,6 @@
 package io.github.luversof.boot.security.crypto.env;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,9 +79,7 @@ public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor
 		if (source instanceof CompositePropertySource compositePropertySource) {
 
 			List<PropertySource<?>> sources = new ArrayList<>(compositePropertySource.getPropertySources());
-			Collections.reverse(sources);
-
-			for (PropertySource<?> nested : sources) {
+			for (PropertySource<?> nested : sources.reversed()) {
 				merge(nested, properties);
 			}
 

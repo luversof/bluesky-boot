@@ -26,7 +26,6 @@ public class HtmxResponseHeaderAspect {
 	}
 	
 	private Object execute(ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader) throws Throwable {
-		var response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
 		
 		String[] parameterNames = ((MethodSignature) proceedingJoinPoint.getSignature()).getParameterNames();
 		Object[] args = proceedingJoinPoint.getArgs();
@@ -35,7 +34,11 @@ public class HtmxResponseHeaderAspect {
 			map.put(parameterNames[i], args[i]);
 		}
 		String parseStr = SpelParserUtil.parse(htmxResponseHeader.value(), map);
-		response.setHeader(htmxResponseHeader.headerName().getHeaderName(), parseStr);
+		
+		var response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+		if (response != null) {
+			response.setHeader(htmxResponseHeader.headerName().getHeaderName(), parseStr);
+		}
 		return proceedingJoinPoint.proceed();
 	}
 

@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @DevCheckController
 public class TextEncryptDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/security/crypto";
+	private static final String PATH_PREFIX = "/blueskyBoot/security/crypto";	// NOSONAR java:S1075
 	
 	@DevCheckDescription("encrypt")
 	@GetMapping(PATH_PREFIX + "/encrypt")
