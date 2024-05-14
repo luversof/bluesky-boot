@@ -102,7 +102,7 @@ public class ProblemDetailUtil {
 		var errorCodes = messageCodesResolver.resolveMessageCodes(
 			exception.getClass().getSimpleName(),
 			moduleName,
-			exception.getErrorCode() == null ? "" : exception.getErrorCode(),
+			exception.getErrorCode(),
 			null
 		);
 		
@@ -114,7 +114,7 @@ public class ProblemDetailUtil {
 		var blueskyErrorCodes = messageCodesResolver.resolveMessageCodes(
 			BlueskyException.class.getSimpleName(),
 			moduleName,
-			exception.getErrorCode() == null ? "" : exception.getErrorCode(),
+			exception.getErrorCode(),
 			null
 		);
 		var messageCodeList = new ArrayList<String>();

@@ -2,6 +2,7 @@ package io.github.luversof.boot.web.util;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,27 @@ public final class ServletRequestUtil {
 	
 	private static final PathMatcher pathMatcher = new AntPathMatcher();
 	private static final String IPV4_PATTERN = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
+	
+	/**
+	 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
+	 */
+	private static Comparator<Entry<String, DomainProperties>> comparator = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
+		var path1 = o1.getValue().getRequestPath();
+		var path2 = o2.getValue().getRequestPath();
+		if (path1 == null) {
+			return 1;
+		}
+		if (path2 != null) {
+			if (path1.length() > path2.length()) {
+				return 1;
+			} else if (path1.length() == path2.length()) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		return 0;
+	};
 
 	public static String getRemoteAddr() {
 		var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -111,13 +133,7 @@ public final class ServletRequestUtil {
 	
 	private static Entry<String, DomainProperties> getModuleEntryByDomain(HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
 		// 해당 도메인에 해당하는 모듈 entry list 확인
-		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry ->
-			moduleEntry.getValue() != null && (
-				checkDomain(request, moduleEntry.getValue().getWebList())
-				|| checkDomain(request, moduleEntry.getValue().getMobileWebList())
-				|| checkDomain(request, moduleEntry.getValue().getDevDomainList())
-			)
-		).toList();
+		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> checkDomain(request, moduleEntry.getValue())).toList();
 		
 		if (moduleEntryList.isEmpty()) {
 			return null;
@@ -125,11 +141,7 @@ public final class ServletRequestUtil {
 		
 		// 대상 entry list가 2개 이상인 경우 path 까지 체크
 		if (moduleEntryList.size() > 1) {
-			moduleEntryList = moduleEntryList.stream().filter(moduleEntry -> 
-				checkDomainWithPath(request, moduleEntry.getValue().getWebList())
-				|| checkDomainWithPath(request, moduleEntry.getValue().getMobileWebList())
-				|| checkDomainWithPath(request, moduleEntry.getValue().getDevDomainList())
-			).toList();
+			moduleEntryList = moduleEntryList.stream().filter(moduleEntry -> checkDomainWithPath(request, moduleEntry.getValue())).toList();
 		}
 		
 		if (moduleEntryList.isEmpty()) {
@@ -140,28 +152,6 @@ public final class ServletRequestUtil {
 			return moduleEntryList.get(0);
 		}
 		
-		
-		/**
-		 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
-		 */
-		Comparator<Entry<String, DomainProperties>> comparator = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
-			var path1 = o1.getValue().getRequestPath();
-			var path2 = o2.getValue().getRequestPath();
-			if (path1 == null) {
-				return 1;
-			}
-			if (path2 != null) {
-				if (path1.length() > path2.length()) {
-					return 1;
-				} else if (path1.length() == path2.length()) {
-					return 0;
-				} else {
-					return -1;
-				}
-			}
-			return 0;
-		};
-		
 		var moduleEntry = moduleEntryList.stream().sorted(comparator.reversed()).findFirst();
 		if (moduleEntry.isPresent()) {
 			return moduleEntry.get();
@@ -169,11 +159,33 @@ public final class ServletRequestUtil {
 		return null;
 	}
 	
+	private static boolean checkDomain(HttpServletRequest request, DomainProperties domainProperties) {
+		if (request == null) {
+			return false;
+		}
+		
+		return domainProperties != null && (
+				checkDomain(request, domainProperties.getWebList())
+				|| checkDomain(request, domainProperties.getMobileWebList())
+				|| checkDomain(request, domainProperties.getDevDomainList()));
+	}
+	
 	private static boolean checkDomain(HttpServletRequest request, List<URI> uriList) {
 		if (request == null) {
 			return false;
 		}
 		return uriList.stream().anyMatch(uri -> uri.getHost().equals(request.getServerName()));
+	}
+	
+	private static boolean checkDomainWithPath(HttpServletRequest request, DomainProperties domainProperties) {
+		if (request == null) {
+			return false;
+		}
+		
+		return domainProperties != null && (
+				checkDomainWithPath(request, domainProperties.getWebList())
+				|| checkDomainWithPath(request, domainProperties.getMobileWebList())
+				|| checkDomainWithPath(request, domainProperties.getDevDomainList()));
 	}
 	
 	private static boolean checkDomainWithPath(HttpServletRequest request, List<URI> uriList) {
@@ -204,10 +216,17 @@ public final class ServletRequestUtil {
 		RequestMappingHandlerMapping mapping = applicationContext.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
 
 		try {
-			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			var requestAttributes = RequestContextHolder.getRequestAttributes();
+			if (requestAttributes == null) {
+				return Collections.emptyMap();
+			}
+			HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
 			
 			HandlerExecutionChain handler = mapping.getHandler(request);
-			if(handler == null) return null;
+			if(handler == null) {
+				return Collections.emptyMap();
+			}
+			
 			var handlerMethod = (HandlerMethod) handler.getHandler();
 			Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
 			
@@ -215,16 +234,29 @@ public final class ServletRequestUtil {
 			for(var entry : handlerMethods.entrySet()) {
 				if (entry.getValue().getMethod() == handlerMethod.getMethod()) {
 					requestMappingInfo = entry.getKey();
+					break;
 				}
 			}
+			if (requestMappingInfo == null) {
+				return Collections.emptyMap();
+			}
+			var pathPatternsCondition = requestMappingInfo.getPathPatternsCondition();
+			if (pathPatternsCondition == null) {
+				return Collections.emptyMap();	
+			}
+			
 			PathContainer path = ServletRequestPathUtils.getParsedRequestPath(request).pathWithinApplication();
-			PathPattern pathPattern = requestMappingInfo.getPathPatternsCondition().getFirstPattern();
+			PathPattern pathPattern = pathPatternsCondition.getFirstPattern();
 			PathMatchInfo matchAndExtract = pathPattern.matchAndExtract(path);
+			if (matchAndExtract == null) {
+				return Collections.emptyMap();
+			}
+			
 			return matchAndExtract.getUriVariables();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyMap();
 	}
 
 }

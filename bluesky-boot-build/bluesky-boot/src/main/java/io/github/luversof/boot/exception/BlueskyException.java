@@ -24,6 +24,8 @@ public class BlueskyException extends RuntimeException {
 	
 	/**
 	 * api 호출 시엔 errorMessage를 그대로 담아서 반환함
+	 * 단일 반환 케이스와 복수 반환 케이스에 대응하기 위해 아래와 같이 처리하였음.
+	 * 리스트에 단일 반환도 추가하는 식으로 변경 고려 필요
 	 */
 	private ErrorMessage errorMessage;
 	private List<ErrorMessage> errorMessageList;

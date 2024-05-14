@@ -2,6 +2,7 @@ package io.github.luversof.boot.autoconfigure.data.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -85,7 +86,7 @@ class RedisAutoConfigurationTests {
 	@Test
 	void testRedisUrlConfiguration() {
 		this.contextRunner
-				.withPropertyValues("spring.redis.host:foo", "spring.redis.url:redis://user:password@example:33")
+				.withPropertyValues("spring.redis.host:foo", "spring.redis.url:redis://user:password@example:33")	// NOSONAR secrets:S6739
 				.run((context) -> {
 					LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 					assertThat(cf.getHostName()).isEqualTo("example");
@@ -100,7 +101,7 @@ class RedisAutoConfigurationTests {
 	void testOverrideUrlRedisConfiguration() {
 		this.contextRunner
 				.withPropertyValues("spring.redis.host:foo", "spring.redis.password:xyz", "spring.redis.port:1000",
-						"spring.redis.ssl:false", "spring.redis.url:rediss://user:password@example:33")
+						"spring.redis.ssl:false", "spring.redis.url:rediss://user:password@example:33")	// NOSONAR secrets:S6739
 				.run((context) -> {
 					LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 					assertThat(cf.getHostName()).isEqualTo("example");
@@ -113,7 +114,7 @@ class RedisAutoConfigurationTests {
 
 	@Test
 	void testPasswordInUrlWithColon() {
-		this.contextRunner.withPropertyValues("spring.redis.url:redis://:pass:word@example:33").run((context) -> {
+		this.contextRunner.withPropertyValues("spring.redis.url:redis://user:password@example:33").run((context) -> {	// NOSONAR secrets:S6739
 			LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 			assertThat(cf.getHostName()).isEqualTo("example");
 			assertThat(cf.getPort()).isEqualTo(33);
@@ -124,7 +125,7 @@ class RedisAutoConfigurationTests {
 
 	@Test
 	void testPasswordInUrlStartsWithColon() {
-		this.contextRunner.withPropertyValues("spring.redis.url:redis://user::pass:word@example:33").run((context) -> {
+		this.contextRunner.withPropertyValues("spring.redis.url:redis://user::pass:word@example:33").run((context) -> {	// NOSONAR secrets:S6739
 			LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 			assertThat(cf.getHostName()).isEqualTo("example");
 			assertThat(cf.getPort()).isEqualTo(33);
@@ -145,8 +146,8 @@ class RedisAutoConfigurationTests {
 					assertThat(poolConfig.getMinIdle()).isEqualTo(1);
 					assertThat(poolConfig.getMaxIdle()).isEqualTo(4);
 					assertThat(poolConfig.getMaxTotal()).isEqualTo(16);
-					assertThat(poolConfig.getMaxWaitDuration()).isEqualTo(2000);
-					assertThat(poolConfig.getDurationBetweenEvictionRuns()).isEqualTo(30000);
+					assertThat(poolConfig.getMaxWaitDuration()).isEqualTo(Duration.ofMillis(2000));
+					assertThat(poolConfig.getDurationBetweenEvictionRuns()).isEqualTo(Duration.ofMillis(30000));
 					assertThat(cf.getShutdownTimeout()).isEqualTo(1000);
 				});
 	}
