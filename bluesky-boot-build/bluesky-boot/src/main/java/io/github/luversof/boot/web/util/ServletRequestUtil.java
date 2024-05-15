@@ -254,7 +254,7 @@ public final class ServletRequestUtil {
 			
 			return matchAndExtract.getUriVariables();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("getUriVariableMap exception", e);
 		}
 		return Collections.emptyMap();
 	}

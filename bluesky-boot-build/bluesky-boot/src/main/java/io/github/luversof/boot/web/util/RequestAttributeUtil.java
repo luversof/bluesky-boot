@@ -10,11 +10,15 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * HttpServlet RequestAttribute을 사용하기 위한 유틸
  * @author bluesky
  *
  */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class RequestAttributeUtil {
 	
 	public static void setRequestAttribute(String name, Object value) {
