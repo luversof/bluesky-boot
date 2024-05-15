@@ -13,9 +13,7 @@ public class BlueskyException extends RuntimeException {
 	private static final int DEFAULT_STATUS = 400;
 
 	private final String errorCode;
-	private String[] errorMessageArgs;
-	
-	private String localizedMessage;
+	private final String[] errorMessageArgs;
 	
 	/**
 	 * exception의 처리 httpStatus
@@ -29,45 +27,51 @@ public class BlueskyException extends RuntimeException {
 	 * 단일 반환 케이스와 복수 반환 케이스에 대응하기 위해 아래와 같이 처리하였음.
 	 * 리스트에 단일 반환도 추가하는 식으로 변경 고려 필요
 	 */
-	private ErrorMessage errorMessage;
-	private List<ErrorMessage> errorMessageList;
+	private final ErrorMessage errorMessage;
+	private final List<ErrorMessage> errorMessageList;
 	
-	public BlueskyException(String errorCode, int status) {
+	public BlueskyException(String errorCode, int status, String... errorMessageArgs) {
 		this.errorCode = errorCode;
 		this.status = status;
+		this.errorMessageArgs = errorMessageArgs;
+		this.errorMessage = null;
+		this.errorMessageList = null;
 	}
 	
 	public BlueskyException(String errorCode) {
 		this(errorCode, DEFAULT_STATUS);
 	}
 	
+	public BlueskyException(String errorCode, String... errorMessageArgs) {
+		this(errorCode, DEFAULT_STATUS, errorMessageArgs);
+	}
 	
 	public BlueskyException(Enum<?> errorCode) {
 		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS);
+	}
+	
+	public BlueskyException(Enum<?> errorCode, String... errorMessageArgs) {
+		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS, errorMessageArgs);
 	}
 	
 	public BlueskyException(Enum<?> errorCode, int status) {
 		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), status);
 	}
 	
-	public BlueskyException(ErrorMessage errorMessage) {
-		this("API_EXCEPTION", DEFAULT_STATUS);
-		this.errorMessage = errorMessage;
-	}
-	
-	public BlueskyException(List<ErrorMessage> errorMessageList) {
-		this("API_EXCEPTION", DEFAULT_STATUS);
-		this.errorMessageList = errorMessageList;
-	}
-	
-	public BlueskyException setErrorMessageArgs(String... errorMessageArgs) {
+	public BlueskyException(ErrorMessage errorMessage, String... errorMessageArgs) {
+		this.errorCode = "API_EXCEPTION";
+		this.status = DEFAULT_STATUS;
 		this.errorMessageArgs = errorMessageArgs;
-		return this;
+		this.errorMessage = errorMessage;
+		this.errorMessageList = null;
 	}
 	
-	@Override
-	public String getLocalizedMessage() {
-		return this.localizedMessage;
+	public BlueskyException(List<ErrorMessage> errorMessageList, String... errorMessageArgs) {
+		this.errorCode = "API_EXCEPTION";
+		this.status = DEFAULT_STATUS;
+		this.errorMessageArgs = errorMessageArgs;
+		this.errorMessage = null;
+		this.errorMessageList = errorMessageList;
 	}
 	
 }

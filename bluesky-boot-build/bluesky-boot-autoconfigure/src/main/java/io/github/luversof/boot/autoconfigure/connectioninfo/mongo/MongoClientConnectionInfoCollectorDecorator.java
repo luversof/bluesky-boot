@@ -56,7 +56,7 @@ public class MongoClientConnectionInfoCollectorDecorator implements ConnectionIn
 		
 		if (!isLoaded) {
 			nonExistConnectionMap.put(connection, ZonedDateTime.now());
-			throw new BlueskyException("NOT_EXIST_MONGO_CONNECTION").setErrorMessageArgs(connection);
+			throw new BlueskyException("NOT_EXIST_MONGO_CONNECTION", connection);
 		}
 		return connectionInfoMap.get(connection);
 	}
@@ -71,7 +71,7 @@ public class MongoClientConnectionInfoCollectorDecorator implements ConnectionIn
 		}
 		
 		if (nonExistConnectionMap.get(connection).isAfter(ZonedDateTime.now().minusHours(1))) {
-			throw new BlueskyException("NOT_EXIST_MONGO_CONNECTION").setErrorMessageArgs(connection);
+			throw new BlueskyException("NOT_EXIST_MONGO_CONNECTION", connection);
 		}
 	}
 }

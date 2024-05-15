@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+	
 	/**
 	 * Name of the decrypted property source.
 	 */
@@ -77,44 +78,49 @@ public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor
 	
 	protected void merge(PropertySource<?> source, Map<String, Object> properties) {
 		if (source instanceof CompositePropertySource compositePropertySource) {
-
-			List<PropertySource<?>> sources = new ArrayList<>(compositePropertySource.getPropertySources());
-			for (PropertySource<?> nested : sources.reversed()) {
-				merge(nested, properties);
-			}
-
+			mergeCompositePropertySource(compositePropertySource, properties);
 		}
 		else if (source instanceof EnumerablePropertySource<?> enumerablePropertySource) {
-			Map<String, Object> otherCollectionProperties = new LinkedHashMap<>();
-			boolean sourceHasDecryptedCollection = false;
+			mergeEnumerablePropertySource(enumerablePropertySource, properties);
+		}
+	}
+	
+	private void mergeCompositePropertySource(CompositePropertySource source, Map<String, Object> properties) {
+		List<PropertySource<?>> sources = new ArrayList<>(source.getPropertySources());
+		for (PropertySource<?> nested : sources.reversed()) {
+			merge(nested, properties);
+		}
+	}
+	
+	private void mergeEnumerablePropertySource(EnumerablePropertySource<?> source, Map<String, Object> properties) {
+		Map<String, Object> otherCollectionProperties = new LinkedHashMap<>();
+		boolean sourceHasDecryptedCollection = false;
 
-			for (String key : enumerablePropertySource.getPropertyNames()) {
-				Object property = source.getProperty(key);
-				if (property != null) {
-					String value = property.toString();
-					
-					if (textEncryptor.isEncrypted(value)) {
-						properties.put(key, value);
-						if (COLLECTION_PROPERTY.matcher(key).matches()) {
-							sourceHasDecryptedCollection = true;
-						}
-					}
-					else if (COLLECTION_PROPERTY.matcher(key).matches()) {
-						// put non-encrypted properties so merging of index properties
-						// happens correctly
-						otherCollectionProperties.put(key, value);
-					}
-					else {
-						// override previously encrypted with non-encrypted property
-						properties.remove(key);
+		for (String key : source.getPropertyNames()) {
+			Object property = source.getProperty(key);
+			if (property != null) {
+				String value = property.toString();
+				
+				if (textEncryptor.isEncrypted(value)) {
+					properties.put(key, value);
+					if (COLLECTION_PROPERTY.matcher(key).matches()) {
+						sourceHasDecryptedCollection = true;
 					}
 				}
+				else if (COLLECTION_PROPERTY.matcher(key).matches()) {
+					// put non-encrypted properties so merging of index properties
+					// happens correctly
+					otherCollectionProperties.put(key, value);
+				}
+				else {
+					// override previously encrypted with non-encrypted property
+					properties.remove(key);
+				}
 			}
-			// copy all indexed properties even if not encrypted
-			if (sourceHasDecryptedCollection && !otherCollectionProperties.isEmpty()) {
-				properties.putAll(otherCollectionProperties);
-			}
-
+		}
+		// copy all indexed properties even if not encrypted
+		if (sourceHasDecryptedCollection && !otherCollectionProperties.isEmpty()) {
+			properties.putAll(otherCollectionProperties);
 		}
 	}
 	

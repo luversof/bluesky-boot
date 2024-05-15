@@ -99,7 +99,7 @@ public class ProblemDetailUtil {
 		var blueskyContext= BlueskyContextHolder.getContext();
 		String moduleName = blueskyContext == null ? null : blueskyContext.getModuleName();
 		
-		var errorCodes = messageCodesResolver.resolveMessageCodes(
+		var errorCodes = messageCodesResolver.resolveMessageCodes(	// NOSONAR java:S4449
 			exception.getClass().getSimpleName(),
 			moduleName,
 			exception.getErrorCode(),
@@ -111,7 +111,7 @@ public class ProblemDetailUtil {
 		}
 		
 		// BlueskyException을 상속받은 하위 Exception을 사용하면 BlueskyException에 대한 errorCode도 계산하여 가장 긴 순서대로 반환함
-		var blueskyErrorCodes = messageCodesResolver.resolveMessageCodes(
+		var blueskyErrorCodes = messageCodesResolver.resolveMessageCodes(	// NOSONAR java:S4449
 			BlueskyException.class.getSimpleName(),
 			moduleName,
 			exception.getErrorCode(),

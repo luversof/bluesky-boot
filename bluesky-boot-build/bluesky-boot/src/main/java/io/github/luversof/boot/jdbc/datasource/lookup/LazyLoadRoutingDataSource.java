@@ -57,7 +57,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 			
 			if (!isLoaded) {
 				nonExistLookupKeyMap.put(lookupKey, ZonedDateTime.now());
-				throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY").setErrorMessageArgs(lookupKey);
+				throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
 			}
 		}
 		
@@ -75,7 +75,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 		}
 		
 		if (nonExistLookupKeyMap.get(lookupKey).isAfter(ZonedDateTime.now().minusHours(1))) {
-			throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY").setErrorMessageArgs(lookupKey);
+			throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
 		}
 	}
 
