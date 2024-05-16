@@ -2,7 +2,6 @@ package io.github.luversof.boot.security.crypto.env;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -12,7 +11,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
-import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.PropertySources;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
@@ -51,12 +49,10 @@ public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor
 			return;
 		}
 		
-		MutablePropertySources propertySources = environment.getPropertySources();
-		
+		var propertySources = environment.getPropertySources();
 		environment.getPropertySources().remove(DECRYPTED_PROPERTY_SOURCE_NAME);
 		
-		
-		Map<String, Object> properties = merge(propertySources);
+		var properties = merge(propertySources);
 		decrypt(properties);
 		
 		if (!properties.isEmpty()) {
@@ -65,12 +61,12 @@ public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor
 	}
 	
 	protected Map<String, Object> merge(PropertySources propertySources) {
-		Map<String, Object> properties = new LinkedHashMap<>();
-		List<PropertySource<?>> sources = new ArrayList<>();
-		for (PropertySource<?> source : propertySources) {
+		var properties = new LinkedHashMap<String, Object>();
+		var sources = new ArrayList<PropertySource<?>>();
+		for (var source : propertySources) {
 			sources.add(0, source);
 		}
-		for (PropertySource<?> source : sources) {
+		for (var source : sources) {
 			merge(source, properties);
 		}
 		return properties;
@@ -86,18 +82,18 @@ public class DecryptEnvironmentPostProcessor implements EnvironmentPostProcessor
 	}
 	
 	private void mergeCompositePropertySource(CompositePropertySource source, Map<String, Object> properties) {
-		List<PropertySource<?>> sources = new ArrayList<>(source.getPropertySources());
-		for (PropertySource<?> nested : sources.reversed()) {
+		var sources = new ArrayList<PropertySource<?>>(source.getPropertySources());
+		for (var nested : sources.reversed()) {
 			merge(nested, properties);
 		}
 	}
 	
 	private void mergeEnumerablePropertySource(EnumerablePropertySource<?> source, Map<String, Object> properties) {
-		Map<String, Object> otherCollectionProperties = new LinkedHashMap<>();
+		var otherCollectionProperties = new LinkedHashMap<String, Object>();
 		boolean sourceHasDecryptedCollection = false;
 
 		for (String key : source.getPropertyNames()) {
-			Object property = source.getProperty(key);
+			var property = source.getProperty(key);
 			if (property != null) {
 				String value = property.toString();
 				

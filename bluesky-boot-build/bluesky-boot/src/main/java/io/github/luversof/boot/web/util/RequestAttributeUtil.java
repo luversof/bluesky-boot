@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import org.springframework.cache.support.NullValue;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,10 +29,18 @@ public abstract class RequestAttributeUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T getRequestAttribute(String name) {
+	public static <T> T getRequestAttribute(String name, Supplier<T> supplier) {
 		var requestAttributes = RequestContextHolder.currentRequestAttributes();
 		Assert.notNull(requestAttributes, "requestAttributes must exist");
-		return (T) requestAttributes.getAttribute(name, RequestAttributes.SCOPE_REQUEST);
+		var attribute = (T) requestAttributes.getAttribute(name, RequestAttributes.SCOPE_REQUEST);
+		if (attribute != null) {
+			return attribute;
+		}
+		return supplier.get();
+	}
+	
+	public static <T> T getRequestAttribute(String name) {
+		return getRequestAttribute(name, () -> null);
 	}
 
 	public static String getAttributeName(String pattern, Object ... arguments) {
@@ -39,16 +48,20 @@ public abstract class RequestAttributeUtil {
 	}
 	
 	public static <T> T getObject(String attributeName, Supplier<T> supplier) {
-		Optional<T> optional = getRequestAttribute(attributeName);
+		Optional<T> optional = getRequestAttribute(attributeName, Optional::empty);
 		
-		if (optional != null) {
-			return optional.get();
+		if (optional.isPresent()) {
+			var value = optional.get();
+			if (value instanceof NullValue) {
+				return null;
+			}
+			return value;
 		}
 		
-		optional = Optional.ofNullable(supplier.get());
-		setRequestAttribute(attributeName, optional);
+		T object = supplier.get();
+		setRequestAttribute(attributeName, object == null ? NullValue.INSTANCE : Optional.of(object));
 		
-		return optional.get();		
+		return object;		
 	}
 	
 	public static <T> List<T> getList(String attributeName, Supplier<List<T>> supplier) {
