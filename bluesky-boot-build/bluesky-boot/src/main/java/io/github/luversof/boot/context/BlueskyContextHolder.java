@@ -1,12 +1,12 @@
 package io.github.luversof.boot.context;
 
+import org.springframework.core.ResolvableType;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
-import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -120,20 +120,27 @@ public final class BlueskyContextHolder {
 	}
 	
 	/**
-	 * 설정된 moduleName을 기반으로 호출되는 정보
+	 * 현재 module에 대한 Properties 반환
+	 * @param <T>
+	 * @param t
 	 * @return
 	 */
-	public static <T extends BlueskyProperties, U extends BlueskyModuleProperties<T>> T getModule(Class<U> u) {
-		U blueskyModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(u);
-		return blueskyModuleProperties.getModules().get(getContext().getModuleName());
+	public static <T extends BlueskyProperties> T getProperties(Class<T> t) {
+		var resolvableType = ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, t);
+		@SuppressWarnings("unchecked")
+		BlueskyModuleProperties<T> blueskyModuleProperties = (BlueskyModuleProperties<T>) ApplicationContextUtil.getApplicationContext().getBeanProvider(resolvableType).getObject();
+		var moduleName = getContext().getModuleName();
+		if (moduleName == null || !blueskyModuleProperties.getModules().containsKey(moduleName)) {
+			return blueskyModuleProperties.getParent();
+		}
+		return blueskyModuleProperties.getModules().get(moduleName);
 	}
 	
 	/**
-	 * coreModule의 경우 가장 자주 쓰이기 때문에 기본 제공
+	 * coreProperties의 경우 가장 자주 쓰이기 때문에 기본 제공
 	 * @return
 	 */
-	public static CoreProperties getCoreModule() {
-		return getModule(CoreModuleProperties.class);	
+	public static CoreProperties getCoreProperties() {
+		return getProperties(CoreProperties.class);	
 	}
-
 }

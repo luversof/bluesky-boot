@@ -19,9 +19,11 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	
 	Map<String, T> getModules();
 	
+	default void load() {}
+	
 	@Override
 	default void afterPropertiesSet() throws Exception {
-		
+		load();
 	}
 	
 	/**

@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.cookie")
+@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
 
 	@Setter(onMethod_ = @Autowired)
@@ -22,7 +22,7 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 	private Map<String, CookieProperties> modules = new HashMap<>();
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void load() {
 		
 		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
 		

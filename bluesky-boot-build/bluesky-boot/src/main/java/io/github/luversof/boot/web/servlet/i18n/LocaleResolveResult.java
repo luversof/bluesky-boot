@@ -1,6 +1,6 @@
 package io.github.luversof.boot.web.servlet.i18n;
 
-import java.util.Locale;
+import org.springframework.context.i18n.LocaleContext;
 
 import lombok.Data;
 
@@ -8,9 +8,10 @@ import lombok.Data;
 public class LocaleResolveResult {
 	
 	private int order;
+	private String handlerClassName;
 	
-	private Locale requestLocale;
+	private LocaleContext requestLocaleContext;
 	
-	private Locale resolveLocale;
+	private LocaleContext resolveLocaleContext;
 
 }

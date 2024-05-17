@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.domain")
+@ConfigurationProperties(prefix = "bluesky-boot.web.domain")
 public class DomainProperties implements BlueskyProperties {
 	
 	/**

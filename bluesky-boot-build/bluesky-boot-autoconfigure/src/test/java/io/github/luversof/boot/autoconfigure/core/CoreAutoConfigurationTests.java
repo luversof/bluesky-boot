@@ -43,8 +43,16 @@ class CoreAutoConfigurationTests {
 	void blueskyContextHolder() {
 		this.contextRunner.run(context -> {
 			var blueskyContext = BlueskyContextHolder.getContext();
-			assertThat((BlueskyContextHolder.getCoreModule()).getModuleInfo()).isEqualTo(TestModuleInfo.TEST);
+			assertThat((BlueskyContextHolder.getCoreProperties()).getModuleInfo()).isEqualTo(TestModuleInfo.TEST);
 			assertThat(blueskyContext.getModuleName()).isEqualTo("test");
+		});
+	}
+	
+	@Test
+	void blueskyContextHolderCorePropertiesTest() {
+		this.contextRunner.run(context -> {
+			var coreProperties = BlueskyContextHolder.getProperties(CoreProperties.class);
+			assertThat(coreProperties).isNotNull();
 		});
 	}
 	
@@ -53,7 +61,7 @@ class CoreAutoConfigurationTests {
 		this.contextRunner.withPropertyValues("bluesky-boot.core.modules.test2.domain.web=http://localhost").run(context -> {
 			BlueskyContextHolder.setContext("test");
 			var blueskyContext = BlueskyContextHolder.getContext();
-			assertThat((BlueskyContextHolder.getCoreModule()).getModuleInfo()).isEqualTo(TestModuleInfo.TEST);
+			assertThat((BlueskyContextHolder.getCoreProperties()).getModuleInfo()).isEqualTo(TestModuleInfo.TEST);
 			assertThat(blueskyContext.getModuleName()).isEqualTo("test");
 		});
 	}

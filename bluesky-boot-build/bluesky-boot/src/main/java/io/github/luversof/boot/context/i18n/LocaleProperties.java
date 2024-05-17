@@ -22,8 +22,7 @@ import lombok.NoArgsConstructor;
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleProperties implements BlueskyProperties {
 	
-	@Builder.Default
-	private Locale defaultLocale = Locale.KOREA;
+	private Locale defaultLocale;
 
 	@Builder.Default
 	private List<Locale> enableLocaleList = new ArrayList<>();

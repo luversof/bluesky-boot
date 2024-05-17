@@ -22,7 +22,7 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	private Map<String, LocaleProperties> modules = new HashMap<>();
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void load() {
 		
 		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
 		

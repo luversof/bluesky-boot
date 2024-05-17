@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.cookie")
+@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieProperties implements BlueskyProperties {
 
 	private String name;

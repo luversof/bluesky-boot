@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.domain")
+@ConfigurationProperties(prefix = "bluesky-boot.web.domain")
 public class DomainModuleProperties implements BlueskyModuleProperties<DomainProperties> {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -22,7 +22,7 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 	private Map<String, DomainProperties> modules = new HashMap<>();
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void load() {
 		
 		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
 		

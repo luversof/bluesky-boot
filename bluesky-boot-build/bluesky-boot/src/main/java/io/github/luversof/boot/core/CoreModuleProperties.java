@@ -24,7 +24,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	private Map<String, CoreProperties> modules = new HashMap<>();
 	
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void load() {
 		 
 		if (getModules() == null) {
 			setModules(new HashMap<>()); 
