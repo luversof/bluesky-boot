@@ -37,8 +37,8 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 			
 			var localeModuleProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getDefaultLocale).to(builder::defaultLocale);
-			propertyMapper.from(localeModuleProperties::getDefaultLocale).to(builder::defaultLocale);
+//			propertyMapper.from(getParent()::getDefaultLocale).to(builder::defaultLocale);
+//			propertyMapper.from(localeModuleProperties::getDefaultLocale).to(builder::defaultLocale);
 			propertyMapper.from(getParent()::getEnableLocaleList).to(builder::enableLocaleList);
 			propertyMapper.from(localeModuleProperties::getEnableLocaleList).to(builder::enableLocaleList);
 			

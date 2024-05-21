@@ -34,6 +34,10 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 		var localeResolveResult = createLocaleResolveResult(localeResolveInfo);
 		setRequestLocaleContext(request, localeResolveResult);
 		setResolveLocaleContext(localeResolveResult);
+		
+		// 최종 LocaleContext 설정
+		localeResolveInfo.setLocaleContext(localeResolveResult.getResolveLocaleContext());
+		
 		// do something
 		// requestLocale과 resolveLocale이 다르거나 혹은 resolveLocale을 기준으로 쿠키를 굽거나 기존 쿠키를 삭제하는 등의 처리?
 	}
@@ -58,6 +62,11 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 		if (resolveLocale == null) {
 			return;
 		}
+		
+		// 최종 LocaleContext 설정
+		localeResolveInfo.setLocaleContext(localeResolveResult.getResolveLocaleContext());
+		
+		// cookie 생성 규칙 설정
 		
 		var cookie = ResponseCookie
 			.from(cookieProperties.getName(), resolveLocale.toLanguageTag())
@@ -148,19 +157,24 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 	
 	// 언어만 체크하는 등의 추가 조건이 있을 수 있음
 	private void setResolveLocaleContext(LocaleResolveResult localeResolveResult) {
+		var localeProperties = BlueskyContextHolder.getProperties(LocaleProperties.class);
+		if (localeProperties.getEnableLocaleList().isEmpty()) {
+			return;
+		}
+		
 		var requestLocaleContext = localeResolveResult.getRequestLocaleContext();
 		if (requestLocaleContext == null) {
+			localeResolveResult.setResolveLocaleContext(() -> localeProperties.getEnableLocaleList().get(0));
 			return;
 		}
 		
 		var requestLocale = requestLocaleContext.getLocale();
 		
-		var localeProperties = BlueskyContextHolder.getProperties(LocaleProperties.class);
-		if (localeProperties.getDefaultLocale().equals(requestLocale) || localeProperties.getEnableLocaleList().contains(requestLocale)) {
+		if (localeProperties.getEnableLocaleList().contains(requestLocale)) {
 			localeResolveResult.setResolveLocaleContext(() -> requestLocale);
 		} else {
 			// 해당하는 locale이 없으면 default Locale을 설정해야 할듯?
-			localeResolveResult.setResolveLocaleContext(localeProperties::getDefaultLocale);
+			localeResolveResult.setResolveLocaleContext(() -> localeProperties.getEnableLocaleList().get(0));
 		}
 	}
 

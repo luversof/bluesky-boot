@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -16,7 +17,11 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
 
-	@Setter(onMethod_ = @Autowired)
+	@Setter(onMethod_ = 
+		{
+			@Autowired, 
+			@Qualifier("bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties")
+		})
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();

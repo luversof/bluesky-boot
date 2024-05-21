@@ -11,14 +11,18 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 	
-	private List<LocaleResolverHandler> handlerList;
+	private final List<LocaleResolverHandler> handlerList;
 	
-	private Comparator<LocaleResolverHandler> comparator = (o1, o2) -> o1.getOrder() - o2.getOrder();
+	private final Comparator<LocaleResolverHandler> comparator = (o1, o2) -> o1.getOrder() - o2.getOrder();
+	
+	public BlueskyLocaleContextResolver(List<LocaleResolverHandler> handlerList) {
+		this.handlerList = handlerList;
+		handlerList.sort(comparator);
+	}
 
 	@Override
 	public LocaleContext resolveLocaleContext(HttpServletRequest request) {
 		LocaleResolveInfo localeContextResolveInfo = new LocaleResolveInfo();
-		handlerList.sort(comparator);
 		handlerList.forEach(x -> x.resolveLocaleContext(request, localeContextResolveInfo));
 		return localeContextResolveInfo.getLocaleContext();
 	}
@@ -26,7 +30,6 @@ public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 	@Override
 	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext) {
 		LocaleResolveInfo localeContextResolveInfo = new LocaleResolveInfo();
-		handlerList.sort(comparator);
 		handlerList.forEach(x -> x.setLocaleContext(request, response, localeContext, localeContextResolveInfo));
 	}
 
