@@ -3,26 +3,18 @@ package io.github.luversof.boot.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
 
-	@Setter(onMethod_ = 
-		{
-			@Autowired, 
-			@Qualifier("bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties")
-		})
-	private CookieProperties parent;
+	private final CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();
 

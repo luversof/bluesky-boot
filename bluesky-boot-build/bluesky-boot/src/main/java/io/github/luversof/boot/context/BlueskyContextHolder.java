@@ -1,5 +1,6 @@
 package io.github.luversof.boot.context;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -8,6 +9,7 @@ import org.springframework.util.StringUtils;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.core.CoreProperties;
+import io.github.luversof.boot.exception.BlueskyException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -122,13 +124,41 @@ public final class BlueskyContextHolder {
 	/**
 	 * 현재 module에 대한 Properties 반환
 	 * @param <T>
-	 * @param t
+	 * @param blueskyProperties
 	 * @return
 	 */
-	public static <T extends BlueskyProperties> T getProperties(Class<T> t) {
-		var resolvableType = ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, t);
-		@SuppressWarnings("unchecked")
-		BlueskyModuleProperties<T> blueskyModuleProperties = (BlueskyModuleProperties<T>) ApplicationContextUtil.getApplicationContext().getBeanProvider(resolvableType).getObject();
+	public static <T extends BlueskyProperties> T getProperties(Class<T> blueskyProperties) {
+		var resolvableType = ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, blueskyProperties);
+		
+		ObjectProvider<BlueskyModuleProperties<T>> beanProvider = ApplicationContextUtil.getApplicationContext().getBeanProvider(resolvableType);
+		BlueskyModuleProperties<T> blueskyModuleProperties = beanProvider.getIfUnique();
+		if (blueskyModuleProperties == null) {
+			blueskyModuleProperties = beanProvider.orderedStream().toList().get(0);
+		}
+
+		return getProperties(blueskyModuleProperties);
+	}
+	
+	/**
+	 * 같은 class로 여러 properties object를 사용하는 경우 지정된 bean name의 properties object를 호출
+	 * @param <T>
+	 * @param blueskyProperties
+	 * @param name
+	 * @return
+	 */
+	public static <T extends BlueskyProperties> T getProperties(Class<T> blueskyProperties, String name) {
+		var resolvableType = ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, blueskyProperties);
+		var applicationContext = ApplicationContextUtil.getApplicationContext();
+		
+		var parent = applicationContext.getBean(blueskyProperties, name);
+		
+		ObjectProvider<BlueskyModuleProperties<T>> beanProvider = applicationContext.getBeanProvider(resolvableType);
+		BlueskyModuleProperties<T> blueskyModuleProperties = beanProvider.stream().filter(x-> x.getParent() == parent).findFirst().orElseThrow(() -> new BlueskyException("NOT EXIST TARGET MODULE PROPERTIES"));
+		
+		return getProperties(blueskyModuleProperties);
+	}
+	
+	private static <T extends BlueskyProperties, U extends BlueskyModuleProperties<T>> T getProperties(U blueskyModuleProperties) {
 		var moduleName = getContext().getModuleName();
 		if (moduleName == null || !blueskyModuleProperties.getModules().containsKey(moduleName)) {
 			return blueskyModuleProperties.getParent();

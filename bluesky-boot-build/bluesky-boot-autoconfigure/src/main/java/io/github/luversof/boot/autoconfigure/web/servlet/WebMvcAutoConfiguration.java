@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.exception.servlet.CoreMvcExceptionHandler;
@@ -33,8 +33,6 @@ import io.github.luversof.boot.web.servlet.i18n.LocaleResolverHandler;
 @AutoConfiguration(value = "blueskyBootWebMvcAutoConfiguration", before = org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @EnableConfigurationProperties({ 
-	CookieProperties.class,
-	CookieModuleProperties.class,
 	DomainProperties.class,
 	DomainModuleProperties.class
 })
@@ -57,6 +55,30 @@ public class WebMvcAutoConfiguration {
     }
     
     // (s) test
+	@Bean
+	@Primary
+	CookieProperties cookieProperties() {
+		return new CookieProperties();
+	}
+	
+	@Bean
+	@Primary
+	CookieModuleProperties cookieModuleProperties(CookieProperties cookieProperties) {
+		return new CookieModuleProperties(cookieProperties);
+	}
+	
+	@Bean
+	@ConfigurationProperties("bluesky-boot.web.other-cookie")
+	CookieProperties otherCookieProperties() {
+		return new CookieProperties();
+	}
+	
+	@Bean
+	@ConfigurationProperties("bluesky-boot.web.other-cookie")
+	CookieModuleProperties otherCookieModuleProperties(CookieProperties otherCookieProperties) {
+		return new CookieModuleProperties(otherCookieProperties);
+	}
+    
     @Bean
     CookieLocaleResolverHandler cookieLocaleResolverHandler() {
     	return new CookieLocaleResolverHandler(1);

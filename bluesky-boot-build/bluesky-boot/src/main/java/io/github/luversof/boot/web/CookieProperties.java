@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieProperties implements BlueskyProperties {
+	
+	private Boolean enabled;
 
 	private String name;
 	

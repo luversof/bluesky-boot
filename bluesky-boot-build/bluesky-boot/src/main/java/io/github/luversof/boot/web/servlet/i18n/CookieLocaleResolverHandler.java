@@ -66,7 +66,10 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 		// 최종 LocaleContext 설정
 		localeResolveInfo.setLocaleContext(localeResolveResult.getResolveLocaleContext());
 		
-		// cookie 생성 규칙 설정
+		// cookie 생성여부 확인 후 쿠키 생성
+		if (!Boolean.TRUE.equals(cookieProperties.getEnabled())) {
+			return;
+		}
 		
 		var cookie = ResponseCookie
 			.from(cookieProperties.getName(), resolveLocale.toLanguageTag())
