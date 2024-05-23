@@ -2,6 +2,7 @@ package io.github.luversof.boot.web.servlet.i18n;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.springframework.context.i18n.LocaleContext;
 
@@ -12,7 +13,14 @@ public class LocaleResolveInfo {
 	
 	private List<LocaleResolveResult> resultList = new ArrayList<>();
 	
-	// TimeZone 을 같이 쓰는 경우도 있는 듯 함 TimeZoneAwareLocaleContext
-	private LocaleContext localeContext;
+	/**
+	 * 최종적으로 사용할 LocaleResolveResult 제공자
+	 */
+	private Supplier<LocaleResolveResult> localeResolveResultSupplier;
+	
+	// 최종 결과 localeContext
+	public LocaleContext getLocaleContext() {
+		return localeResolveResultSupplier.get().getResolveLocaleContext();
+	}
 	
 }

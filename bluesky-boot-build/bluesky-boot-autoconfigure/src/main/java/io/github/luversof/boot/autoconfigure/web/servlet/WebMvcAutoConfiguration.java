@@ -57,12 +57,14 @@ public class WebMvcAutoConfiguration {
     // (s) test
 	@Bean
 	@Primary
+	@ConfigurationProperties("bluesky-boot.web.cookie")
 	CookieProperties cookieProperties() {
 		return new CookieProperties();
 	}
 	
 	@Bean
 	@Primary
+	@ConfigurationProperties("bluesky-boot.web.cookie")
 	CookieModuleProperties cookieModuleProperties(CookieProperties cookieProperties) {
 		return new CookieModuleProperties(cookieProperties);
 	}
@@ -81,7 +83,12 @@ public class WebMvcAutoConfiguration {
     
     @Bean
     CookieLocaleResolverHandler cookieLocaleResolverHandler() {
-    	return new CookieLocaleResolverHandler(1);
+    	return new CookieLocaleResolverHandler(1, "localeProperties", "cookieProperties");
+    }
+    
+    @Bean
+    CookieLocaleResolverHandler otherCookieLocaleResolverHandler() {
+    	return new CookieLocaleResolverHandler(2, "otherLocaleProperties", "otherCookieProperties");
     }
     
 	@Bean /* (DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME) */

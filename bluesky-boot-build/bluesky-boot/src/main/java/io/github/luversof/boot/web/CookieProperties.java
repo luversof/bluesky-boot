@@ -3,7 +3,6 @@ package io.github.luversof.boot.web;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.convert.DurationUnit;
 
 import io.github.luversof.boot.core.BlueskyProperties;
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieProperties implements BlueskyProperties {
 	
 	private Boolean enabled;

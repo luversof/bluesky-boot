@@ -3,7 +3,6 @@ package io.github.luversof.boot.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -11,7 +10,6 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
 
 	private final CookieProperties parent;
@@ -34,6 +32,8 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 			
 			var cookieModuleProperties = getModules().get(moduleName);
 			
+			propertyMapper.from(getParent()::getEnabled).to(builder::enabled);
+			propertyMapper.from(cookieModuleProperties::getEnabled).to(builder::enabled);
 			propertyMapper.from(getParent()::getName).to(builder::name);
 			propertyMapper.from(cookieModuleProperties::getName).to(builder::name);
 			propertyMapper.from(getParent()::getMaxAge).to(builder::maxAge);

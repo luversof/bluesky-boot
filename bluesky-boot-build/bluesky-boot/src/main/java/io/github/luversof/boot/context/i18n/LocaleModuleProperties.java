@@ -3,21 +3,16 @@ package io.github.luversof.boot.context.i18n;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
 
-	@Setter(onMethod_ = @Autowired)
-	private LocaleProperties parent;
+	private final LocaleProperties parent;
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();
 

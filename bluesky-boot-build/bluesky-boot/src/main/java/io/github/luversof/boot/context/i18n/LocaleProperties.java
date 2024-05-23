@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.github.luversof.boot.core.BlueskyProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleProperties implements BlueskyProperties {
 	
 //	/**
