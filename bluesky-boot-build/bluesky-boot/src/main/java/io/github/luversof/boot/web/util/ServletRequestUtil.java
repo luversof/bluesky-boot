@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.PathContainer;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.Assert;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -44,7 +43,7 @@ public final class ServletRequestUtil {
 	/**
 	 * 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함
 	 */
-	private static Comparator<Entry<String, DomainProperties>> comparator = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
+	private static final Comparator<Entry<String, DomainProperties>> COMPARATOR = (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
 		var path1 = o1.getValue().getRequestPath();
 		var path2 = o2.getValue().getRequestPath();
 		if (path1 == null) {
@@ -100,10 +99,11 @@ public final class ServletRequestUtil {
 	public static Entry<String, DomainProperties> getModulePropertiesEntry(HttpServletRequest request) {
 		DomainModuleProperties domainModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(DomainModuleProperties.class);
 		CoreBaseProperties coreBaseProperties = ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
-		Assert.notEmpty(domainModuleProperties.getModules(), "domainModuleProperties is not set");
 		
 		var modules = domainModuleProperties.getModules();
-		if (modules.size() == 1) {
+		if (modules.isEmpty()) {
+			return null;
+		} else if (modules.size() == 1) {
 			return modules.entrySet().stream().findAny().orElse(null);
 		}
 		
@@ -152,7 +152,7 @@ public final class ServletRequestUtil {
 			return moduleEntryList.get(0);
 		}
 		
-		var moduleEntry = moduleEntryList.stream().sorted(comparator.reversed()).findFirst();
+		var moduleEntry = moduleEntryList.stream().sorted(COMPARATOR.reversed()).findFirst();
 		if (moduleEntry.isPresent()) {
 			return moduleEntry.get();
 		}
@@ -201,7 +201,8 @@ public final class ServletRequestUtil {
 	
 	private static Entry<String, DomainProperties> getModuleEntryByModuleNameResolver(DomainModuleProperties domainModuleProperties) {
 		var moduleNameResolver = ApplicationContextUtil.getApplicationContext().getBean(ModuleNameResolver.class);
-		return domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(moduleNameResolver.resolve())).findAny().orElse(null);
+		var targetModuleName = moduleNameResolver.resolve();
+		return domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> moduleEntry.getKey().equals(targetModuleName)).findAny().orElse(null);
 	}
 
 	
@@ -237,9 +238,11 @@ public final class ServletRequestUtil {
 					break;
 				}
 			}
+			
 			if (requestMappingInfo == null) {
 				return Collections.emptyMap();
 			}
+			
 			var pathPatternsCondition = requestMappingInfo.getPathPatternsCondition();
 			if (pathPatternsCondition == null) {
 				return Collections.emptyMap();	

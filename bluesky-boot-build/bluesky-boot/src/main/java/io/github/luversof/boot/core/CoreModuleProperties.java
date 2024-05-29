@@ -33,14 +33,13 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		blueskyBootContext.setParentModuleInfo(getParent().getModuleInfo());
 		
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-		
 		blueskyBootContext.getModuleNameSet().forEach(moduleName -> {
 			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, getParent().getModuleInfo() != null ? getParent().getModuleInfo().getCorePropertiesBuilder().build() : CoreProperties.builder().build());
+				getModules().put(moduleName, getParent().getModuleInfo() != null ? CoreProperties.builder().build() : getParent().getModuleInfo().getCorePropertiesBuilder().build());
 			}
 		});
 		
+		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		for (String key : getModules().keySet()) {
 			var coreModuleProperties = getModules().get(key);
 			

@@ -23,12 +23,13 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 
 	@Override
 	public void load() {
-		
-		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		var moduleNameSet = blueskyBootContext.getModuleNameSet();
+		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
 		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
-		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
+		moduleNameSet.forEach(moduleName -> {
 			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getDomainPropertiesBuilder() : DomainProperties.builder();
 			
 			if (!getModules().containsKey(moduleName)) {
