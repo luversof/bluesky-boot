@@ -2,6 +2,7 @@ package io.github.luversof.boot.context.i18n;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -14,6 +15,8 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 
 	private final LocaleProperties parent;
 	
+	private final Function<String, LocaleProperties.LocalePropertiesBuilder> builderFunction;
+	
 	private Map<String, LocaleProperties> modules = new HashMap<>();
 
 	@Override
@@ -24,7 +27,7 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
-			var builder = moduleInfoMap.containsKey(moduleName) ?  moduleInfoMap.get(moduleName).getLocalePropertiesBuilder() : LocaleProperties.builder();
+			var builder = builderFunction.apply(moduleName);
 			
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, builder.build());

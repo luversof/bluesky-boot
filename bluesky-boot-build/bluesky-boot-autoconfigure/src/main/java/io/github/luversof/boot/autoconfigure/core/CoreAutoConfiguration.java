@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleModuleProperties;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.core.CoreBaseProperties;
@@ -38,7 +39,13 @@ public class CoreAutoConfiguration {
 	@Primary
 	@ConfigurationProperties(prefix = "bluesky-boot.locale")
 	LocaleModuleProperties localeModuleProperties(LocaleProperties localeProperties) {
-		return new LocaleModuleProperties(localeProperties);
+		return new LocaleModuleProperties(
+				localeProperties, 
+				moduleName -> {
+					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocalePropertiesBuilder() : LocaleProperties.builder();
+				}
+		);
 	}
 	
 	@Bean
@@ -50,7 +57,13 @@ public class CoreAutoConfiguration {
 	@Bean
 	@ConfigurationProperties(prefix = "bluesky-boot.other-locale")
 	LocaleModuleProperties otherLocaleModuleProperties(LocaleProperties otherLocaleProperties) {
-		return new LocaleModuleProperties(otherLocaleProperties);
+		return new LocaleModuleProperties(
+				otherLocaleProperties,
+				moduleName -> {
+					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocalePropertiesBuilder() : LocaleProperties.builder();
+				}
+		);
 	}
 
 }
