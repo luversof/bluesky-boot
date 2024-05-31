@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -108,7 +109,8 @@ public class WebMvcAutoConfiguration {
     }
     
     
-	@Bean /* (DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME) */
+	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
+	@ConditionalOnMissingBean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
     LocaleResolver localeResolver(List<LocaleResolverHandler> localeResolverHandlerList) {
     	return new BlueskyLocaleContextResolver(localeResolverHandlerList);
     }
