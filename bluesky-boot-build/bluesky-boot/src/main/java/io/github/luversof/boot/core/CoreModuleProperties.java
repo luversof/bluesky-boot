@@ -25,53 +25,41 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	@Override
 	public void load() {
-		 
-		if (getModules() == null) {
-			setModules(new HashMap<>()); 
-		}
 		
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		var moduleNameSet = blueskyBootContext.getModuleNameSet();
+		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
+		
+		// coreProperties의 경우 moduleNameSet과 modules의 key를 병합한다.
+		moduleNameSet.addAll(getModules().keySet());
+				
 		blueskyBootContext.setParentModuleInfo(getParent().getModuleInfo());
 		
 		blueskyBootContext.getModuleNameSet().forEach(moduleName -> {
 			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, getParent().getModuleInfo() != null ? CoreProperties.builder().build() : getParent().getModuleInfo().getCorePropertiesBuilder().build());
+				getModules().put(moduleName, getParent().getModuleInfo() == null ? CoreProperties.builder().build() : getParent().getModuleInfo().getCorePropertiesBuilder().build());
 			}
 		});
 		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-		for (String key : getModules().keySet()) {
-			var coreModuleProperties = getModules().get(key);
-			
-			CoreProperties.CorePropertiesBuilder builder = null;
-			if (coreModuleProperties.getModuleInfo() != null) {
-				builder = coreModuleProperties.getModuleInfo().getCorePropertiesBuilder();
-			} else if (getParent().getModuleInfo() != null) {
-				builder = getParent().getModuleInfo().getCorePropertiesBuilder();
-			} else {
-				builder = CoreProperties.builder();
+		moduleNameSet.forEach(moduleName -> {
+			if (getModules().get(moduleName).getModuleInfo() != null) {
+				moduleInfoMap.put(moduleName, getModules().get(moduleName).getModuleInfo());
 			}
+			
+			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getCorePropertiesBuilder() : CoreProperties.builder();
+			
+			if (!getModules().containsKey(moduleName)) {
+				getModules().put(moduleName, builder.build());
+			}
+			
+			var coreProperties = getModules().get(moduleName);
 			
 			propertyMapper.from(getParent()::getModuleInfo).to(builder::moduleInfo);
-			propertyMapper.from(coreModuleProperties::getModuleInfo).to(builder::moduleInfo);
-			propertyMapper.from(getParent()::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(coreModuleProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(getParent()::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
-			propertyMapper.from(coreModuleProperties::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
-			propertyMapper.from(getParent()::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
-			propertyMapper.from(coreModuleProperties::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
+			propertyMapper.from(coreProperties::getModuleInfo).to(builder::moduleInfo);
 			
-			// domain 할 차례
-			
-			getModules().put(key, builder.build());
-			
-			
-			
-			blueskyBootContext.getModuleNameSet().add(key);
-			if (getModules().get(key).getModuleInfo() != null) {
-				blueskyBootContext.getModuleInfoMap().put(key, getModules().get(key).getModuleInfo());
-			}
-		}
+			getModules().put(moduleName, builder.build());
+		});
 
 	}
 	

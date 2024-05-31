@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import io.github.luversof.boot.exception.ProblemDetailUtil;
+import io.github.luversof.boot.web.util.ProblemDetailUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -31,24 +31,24 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 				getModules().put(moduleName, builder.build());
 			}
 			
-			var cookieModuleProperties = getModules().get(moduleName);
+			var cookieProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getEnabled).to(builder::enabled);
-			propertyMapper.from(cookieModuleProperties::getEnabled).to(builder::enabled);
+			propertyMapper.from(getParent()::isEnabled).to(builder::enabled);
+			propertyMapper.from(cookieProperties::isEnabled).to(builder::enabled);
 			propertyMapper.from(getParent()::getName).to(builder::name);
-			propertyMapper.from(cookieModuleProperties::getName).to(builder::name);
+			propertyMapper.from(cookieProperties::getName).to(builder::name);
 			propertyMapper.from(getParent()::getMaxAge).to(builder::maxAge);
-			propertyMapper.from(cookieModuleProperties::getMaxAge).to(builder::maxAge);
+			propertyMapper.from(cookieProperties::getMaxAge).to(builder::maxAge);
 			propertyMapper.from(getParent()::getDomain).to(builder::domain);
-			propertyMapper.from(cookieModuleProperties::getDomain).to(builder::domain);
+			propertyMapper.from(cookieProperties::getDomain).to(builder::domain);
 			propertyMapper.from(getParent()::getPath).to(builder::path);
-			propertyMapper.from(cookieModuleProperties::getPath).to(builder::path);
-			propertyMapper.from(getParent()::getSecure).to(builder::secure);
-			propertyMapper.from(cookieModuleProperties::getSecure).to(builder::secure);
-			propertyMapper.from(getParent()::getHttpOnly).to(builder::httpOnly);
-			propertyMapper.from(cookieModuleProperties::getHttpOnly).to(builder::httpOnly);
+			propertyMapper.from(cookieProperties::getPath).to(builder::path);
+			propertyMapper.from(getParent()::isSecure).to(builder::secure);
+			propertyMapper.from(cookieProperties::isSecure).to(builder::secure);
+			propertyMapper.from(getParent()::isHttpOnly).to(builder::httpOnly);
+			propertyMapper.from(cookieProperties::isHttpOnly).to(builder::httpOnly);
 			propertyMapper.from(getParent()::getSameSite).to(builder::sameSite);
-			propertyMapper.from(cookieModuleProperties::getSameSite).to(builder::sameSite);
+			propertyMapper.from(cookieProperties::getSameSite).to(builder::sameSite);
 			
 			getModules().put(moduleName, builder.build());
 			

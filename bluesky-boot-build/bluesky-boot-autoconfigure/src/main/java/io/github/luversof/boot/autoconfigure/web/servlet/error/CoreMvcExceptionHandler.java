@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.exception.servlet;
+package io.github.luversof.boot.autoconfigure.web.servlet.error;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.HandlerMethod;
 
-import io.github.luversof.boot.autoconfigure.exception.util.ExceptionUtil;
+import io.github.luversof.boot.autoconfigure.web.util.ExceptionUtil;
 import io.github.luversof.boot.exception.BlueskyException;
-import io.github.luversof.boot.exception.ProblemDetailUtil;
+import io.github.luversof.boot.web.util.ProblemDetailUtil;
 
 /**
  * servlet common error handling handlers

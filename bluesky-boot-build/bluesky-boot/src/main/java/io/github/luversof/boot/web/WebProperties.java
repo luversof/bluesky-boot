@@ -1,0 +1,35 @@
+package io.github.luversof.boot.web;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.core.BlueskyProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ConfigurationProperties(prefix = "bluesky-boot.web")
+public class WebProperties implements BlueskyProperties {
+	/**
+	 * Whether to check unsupported browsers
+	 */
+	@Builder.Default
+	private boolean checkNotSupportedBrowser = true;
+	
+	/**
+	 * Unsupported browser check patterns
+	 */
+	@Builder.Default
+	private String notSupportedBrowserRegPattern = ".*(MSIE [5-9]).*";
+	
+	/**
+	 * Registering an exception address pattern when checking for unsupported browsers
+	 */
+	@Builder.Default
+	private String[] notSupportedBrowserExcludePathPatterns = new String[]{"/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**"};
+	
+}

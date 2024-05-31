@@ -1,4 +1,4 @@
-package io.github.luversof.boot.autoconfigure.exception.util;
+package io.github.luversof.boot.autoconfigure.web.util;
 
 import java.util.Arrays;
 import java.util.List;

@@ -30,24 +30,6 @@ public class CoreProperties implements BlueskyProperties {
 		this.moduleInfo = (new SpelExpressionParser()).parseExpression(moduleInfo).getValue(ModuleInfo.class);
 	}
 	
-	/**
-	 * Whether to check unsupported browsers
-	 */
-	@Builder.Default
-	private Boolean checkNotSupportedBrowser = true;
-	
-	/**
-	 * Unsupported browser check patterns
-	 */
-	@Builder.Default
-	private String notSupportedBrowserRegPattern = ".*(MSIE [5-9]).*";
-	
-	/**
-	 * Registering an exception address pattern when checking for unsupported browsers
-	 */
-	@Builder.Default
-	private String[] notSupportedBrowserExcludePathPatterns = new String[]{"/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**"};
-	
 	@Override
 	public void setCoreProperties(CoreProperties coreProperties) {
 		// DO NOTHING

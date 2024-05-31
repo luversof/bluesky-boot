@@ -6,6 +6,8 @@ import io.github.luversof.boot.core.CoreBaseProperties.CoreBasePropertiesBuilder
 import io.github.luversof.boot.core.CoreProperties.CorePropertiesBuilder;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.DomainProperties;
+import io.github.luversof.boot.web.WebProperties;
+import io.github.luversof.boot.web.WebProperties.WebPropertiesBuilder;
 import io.github.luversof.boot.web.DomainProperties.DomainPropertiesBuilder;
 import io.github.luversof.boot.web.CookieProperties.CookiePropertiesBuilder;
 
@@ -36,4 +38,7 @@ public interface ModuleInfo {
 		return DomainProperties.builder();
 	}
 
+	default WebPropertiesBuilder getWebPropertiesBuilder() {
+		return WebProperties.builder();
+	}
 }

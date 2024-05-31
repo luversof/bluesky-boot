@@ -36,24 +36,24 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 				getModules().put(moduleName, builder.build());
 			}
 			
-			var domainModuleProperties = getModules().get(moduleName);
+			var domainProperties = getModules().get(moduleName);
 			
 			propertyMapper.from(getParent()::getAddPathPatterns).to(builder::addPathPatterns);
-			propertyMapper.from(domainModuleProperties::getAddPathPatterns).to(builder::addPathPatterns);
+			propertyMapper.from(domainProperties::getAddPathPatterns).to(builder::addPathPatterns);
 			propertyMapper.from(getParent()::getWebList).to(builder::webList);
-			propertyMapper.from(domainModuleProperties::getWebList).to(builder::webList);
+			propertyMapper.from(domainProperties::getWebList).to(builder::webList);
 			propertyMapper.from(getParent()::getMobileWebList).to(builder::mobileWebList);
-			propertyMapper.from(domainModuleProperties::getMobileWebList).to(builder::mobileWebList);
+			propertyMapper.from(domainProperties::getMobileWebList).to(builder::mobileWebList);
 			propertyMapper.from(getParent()::getDevDomainList).to(builder::devDomainList);
-			propertyMapper.from(domainModuleProperties::getDevDomainList).to(builder::devDomainList);
+			propertyMapper.from(domainProperties::getDevDomainList).to(builder::devDomainList);
 			propertyMapper.from(getParent()::getStaticPathList).to(builder::staticPathList);
-			propertyMapper.from(domainModuleProperties::getStaticPathList).to(builder::staticPathList);
+			propertyMapper.from(domainProperties::getStaticPathList).to(builder::staticPathList);
 			propertyMapper.from(getParent()::getExcludePathList).to(builder::excludePathList);
-			propertyMapper.from(domainModuleProperties::getExcludePathList).to(builder::excludePathList);
+			propertyMapper.from(domainProperties::getExcludePathList).to(builder::excludePathList);
 			propertyMapper.from(getParent()::getRequestPath).to(builder::requestPath);
-			propertyMapper.from(domainModuleProperties::getRequestPath).to(builder::requestPath);
+			propertyMapper.from(domainProperties::getRequestPath).to(builder::requestPath);
 			propertyMapper.from(getParent()::getForwardPath).to(builder::forwardPath);
-			propertyMapper.from(domainModuleProperties::getForwardPath).to(builder::forwardPath);
+			propertyMapper.from(domainProperties::getForwardPath).to(builder::forwardPath);
 			
 			getModules().put(moduleName, builder.build());
 		});

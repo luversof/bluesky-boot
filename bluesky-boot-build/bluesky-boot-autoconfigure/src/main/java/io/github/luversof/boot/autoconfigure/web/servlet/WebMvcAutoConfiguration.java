@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import io.github.luversof.boot.autoconfigure.exception.servlet.CoreMvcExceptionHandler;
+import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.DomainModuleProperties;

@@ -22,8 +22,6 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	@Override
 	public void load() {
 		
-		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {

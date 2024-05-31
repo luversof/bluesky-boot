@@ -174,7 +174,7 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 		
 		CookieProperties cookieProperties = BlueskyContextHolder.getProperties(CookieProperties.class, cookiePropertiesBeanName);
 		// cookie 생성여부 확인 후 쿠키 생성
-		if (!Boolean.TRUE.equals(cookieProperties.getEnabled())) {
+		if (!Boolean.TRUE.equals(cookieProperties.isEnabled())) {
 			return;
 		}
 		
@@ -183,8 +183,8 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 			.maxAge(cookieProperties.getMaxAge())
 			.domain(cookieProperties.getDomain())
 			.path(cookieProperties.getPath())
-			.secure(cookieProperties.getSecure())
-			.httpOnly(cookieProperties.getHttpOnly())
+			.secure(cookieProperties.isSecure())
+			.httpOnly(cookieProperties.isHttpOnly())
 			// sameSite 설정은 필요시 추가예정 (http에서만 쓰이는 듯함?)
 			.build();
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
