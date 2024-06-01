@@ -59,7 +59,6 @@ public class WebMvcAutoConfiguration {
     }
     
     
-    // (s) test
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnProperty(prefix = "bluesky-boot.web.cookie", name = "enabled", havingValue = "true")
     public static class CookieConfiguration {
@@ -77,7 +76,6 @@ public class WebMvcAutoConfiguration {
     	CookieModuleProperties cookieModuleProperties(@Qualifier("cookieProperties") CookieProperties cookieProperties) {
     		return new CookieModuleProperties(cookieProperties);
     	}
-    	
     	
     	@Bean
     	CookieLocaleResolverHandler cookieLocaleResolverHandler() {
@@ -108,20 +106,12 @@ public class WebMvcAutoConfiguration {
 
     }
     
-    
 	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
 	@ConditionalOnMissingBean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
     LocaleResolver localeResolver(List<LocaleResolverHandler> localeResolverHandlerList) {
     	return new BlueskyLocaleContextResolver(localeResolverHandlerList);
     }
     
-//    public static class WebMvcConfiguration implements WebMvcConfigurer {
-//    	
-//    	
-//    }
-    
-    // (e) test
-
 	@Bean
 	@ConditionalOnClass(name = { "org.apache.catalina.startup.Tomcat", "ch.qos.logback.access.tomcat.LogbackValve" })
 	LogbackTomcatServletWebServerFactoryCustomizer logbackTomcatServletWebServerFactoryCustomizer() {

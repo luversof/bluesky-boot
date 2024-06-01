@@ -31,12 +31,12 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 				getModules().put(moduleName, builder.build());
 			}
 			
-			var localeModuleProperties = getModules().get(moduleName);
+			var localeProperties = getModules().get(moduleName);
 			
 //			propertyMapper.from(getParent()::getDefaultLocale).to(builder::defaultLocale);
 //			propertyMapper.from(localeModuleProperties::getDefaultLocale).to(builder::defaultLocale);
 			propertyMapper.from(getParent()::getEnableLocaleList).to(builder::enableLocaleList);
-			propertyMapper.from(localeModuleProperties::getEnableLocaleList).to(builder::enableLocaleList);
+			propertyMapper.from(localeProperties::getEnableLocaleList).to(builder::enableLocaleList);
 			
 			getModules().put(moduleName, builder.build());
 			

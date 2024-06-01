@@ -27,5 +27,12 @@ public class LocaleProperties implements BlueskyProperties {
 
 	@Builder.Default
 	private List<Locale> enableLocaleList = new ArrayList<>();
+	
+	public Locale getDefaultLocale() {
+		if (enableLocaleList == null || enableLocaleList.size() == 0) {
+			return Locale.getDefault();
+		}
+		return enableLocaleList.get(0);
+	}
 
 }
