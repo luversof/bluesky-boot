@@ -21,7 +21,7 @@ public class LocaleResolveInfo {
 	// 최종 결과 localeContext
 	public LocaleContext getLocaleContext() {
 		if (localeResolveResultSupplier == null) {
-			return null;
+			return () -> null;
 		}
 		return localeResolveResultSupplier.get().getResolveLocaleContext();
 	}

@@ -22,15 +22,15 @@ public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 
 	@Override
 	public LocaleContext resolveLocaleContext(HttpServletRequest request) {
-		LocaleResolveInfo localeContextResolveInfo = new LocaleResolveInfo();
-		handlerList.forEach(x -> x.resolveLocaleContext(request, localeContextResolveInfo));
-		return localeContextResolveInfo.getLocaleContext();
+		LocaleResolveInfo localeResolveInfo = new LocaleResolveInfo();
+		handlerList.forEach(x -> x.resolveLocaleContext(request, localeResolveInfo));
+		return localeResolveInfo.getLocaleContext();
 	}
 
 	@Override
 	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext) {
-		LocaleResolveInfo localeContextResolveInfo = new LocaleResolveInfo();
-		handlerList.forEach(x -> x.setLocaleContext(request, response, localeContext, localeContextResolveInfo));
+		LocaleResolveInfo localeResolveInfo = new LocaleResolveInfo();
+		handlerList.forEach(x -> x.setLocaleContext(request, response, localeContext, localeResolveInfo));
 	}
 
 }
