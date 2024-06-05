@@ -58,6 +58,16 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			propertyMapper.from(getParent()::getModuleInfo).to(builder::moduleInfo);
 			propertyMapper.from(coreProperties::getModuleInfo).to(builder::moduleInfo);
 			
+			var propertiesMap = new HashMap<String, String>();
+			if (getParent().getProperties() != null) {
+				propertiesMap.putAll(getParent().getProperties());
+			}
+			if (coreProperties.getProperties() != null) {
+				propertiesMap.putAll(coreProperties.getProperties());
+			}
+			
+			propertyMapper.from(propertiesMap).to(builder::properties);
+			
 			getModules().put(moduleName, builder.build());
 		});
 

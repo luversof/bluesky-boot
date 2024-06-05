@@ -1,5 +1,8 @@
 package io.github.luversof.boot.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
@@ -21,6 +24,18 @@ import lombok.NoArgsConstructor;
 public class CoreProperties implements BlueskyProperties {
 
 	private ModuleInfo moduleInfo;
+	
+	/**
+	 * 개별적으로 선언해서 사용하고자 하는 변수가 있는 경우 저장하는 map <br />
+	 * parent의 값을 module이 상속받아 사용함 
+	 */
+	@Builder.Default
+	private Map<String, String> properties = new HashMap<>();
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getProperties(String key) {
+		return (T) properties.get(key);
+	}
 	
 	/**
 	 * Handling coreModuleInfo specification set by a spel expression
