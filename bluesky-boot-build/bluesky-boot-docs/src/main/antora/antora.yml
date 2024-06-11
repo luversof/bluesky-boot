@@ -1,5 +1,5 @@
-name: component-b
-title: Component B
+name: bluesky-boot
+title: Bluesky Boot
 version: '3.2.0-SNAPSHOT'
 start_page: bluesky-boot.adoc
 nav:
