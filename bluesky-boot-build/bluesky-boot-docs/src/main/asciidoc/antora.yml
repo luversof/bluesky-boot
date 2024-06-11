@@ -1,0 +1,7 @@
+name: component-b
+title: Component B
+version: '3.2.0-SNAPSHOT'
+start_page: bluesky-boot.adoc
+nav:
+- modules/ROOT/nav.adoc
+- modules/module-test/nav.adoc

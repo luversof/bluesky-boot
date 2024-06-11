@@ -1,0 +1,1 @@
+* xref:bluesky-boot.adoc[]
