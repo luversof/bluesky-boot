@@ -7,9 +7,12 @@ Doc Writer <doc.writer@example.org>
 
 This is a user manual for an example project.
 
-변수 확인1 : java-version : {java-version}
-변수 확인 : highlightjsdir : {highlightjsdir}
-변수 확인 : include-java : {include-java}
+== 변수 확인
+
+java-version : {java-version}
+highlightjsdir : {highlightjsdir}
+ROOT : {ROOT}
+include-java : {include-java}
 
 == 소개
 
@@ -21,6 +24,8 @@ This is a user manual for an example project.
 
 [[example]]
 == Source Code
+
+include-code::StringUtils[]
 
 [source,java]
 .Java code from project
