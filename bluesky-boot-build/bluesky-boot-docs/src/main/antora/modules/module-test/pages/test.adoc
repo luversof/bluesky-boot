@@ -9,6 +9,7 @@ This is a user manual for an example project.
 
 변수 확인1 : java-version : {java-version}
 변수 확인 : highlightjsdir : {highlightjsdir}
+변수 확인 : include-java : {include-java}
 
 == 소개
 
