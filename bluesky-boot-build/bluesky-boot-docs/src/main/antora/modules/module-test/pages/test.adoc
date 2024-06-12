@@ -24,7 +24,7 @@ This is a user manual for an example project.
 [source,java]
 .Java code from project
 ----
-include-code::StringUtils.java[tags=contains,indent=0]
+include-code::StringUtils[tags=contains,indent=0]
 ----
 
 This page was built by the following command:
