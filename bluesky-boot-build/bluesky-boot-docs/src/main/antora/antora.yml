@@ -1,6 +1,6 @@
 name: bluesky-boot
 title: Bluesky Boot
-version: 3.2
+version: 3.2.0
 start_page: bluesky-boot.adoc
 nav:
 - modules/ROOT/nav.adoc
