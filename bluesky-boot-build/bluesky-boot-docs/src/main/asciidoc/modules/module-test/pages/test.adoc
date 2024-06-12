@@ -18,12 +18,13 @@ This is a user manual for an example project.
 이렇게
 
 
+[[example]]
 == Source Code
 
 [source,java]
 .Java code from project
 ----
-include::{testsourcedir}/example/StringUtils.java[tags=contains,indent=0]
+include-code::StringUtils.java[tags=contains,indent=0]
 ----
 
 This page was built by the following command:

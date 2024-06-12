@@ -22,3 +22,5 @@
 :java: {sources-root}/main/java
 :java-test: {sources-root}/test/java
 ifndef::testsourcedir[:testsourcedir: {sources-root}/test/java]
+
+:include-java: {sources-root}/test/java
