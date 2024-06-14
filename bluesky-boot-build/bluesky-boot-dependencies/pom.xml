@@ -70,6 +70,11 @@
 			</dependency>
 			<dependency>
 				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-properties-migrator</artifactId>
+				<version>${bluesky-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-test-autoconfigure</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>

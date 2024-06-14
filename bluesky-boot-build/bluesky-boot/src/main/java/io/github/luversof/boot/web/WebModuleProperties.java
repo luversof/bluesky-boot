@@ -3,16 +3,21 @@ package io.github.luversof.boot.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
+@ConfigurationProperties(prefix = "bluesky-boot.web")
 public class WebModuleProperties implements BlueskyModuleProperties<WebProperties> {
 
-	private final WebProperties parent;
+	@Setter(onMethod_ = @Autowired)
+	private WebProperties parent;
 	
 	private Map<String, WebProperties> modules = new HashMap<>();
 	

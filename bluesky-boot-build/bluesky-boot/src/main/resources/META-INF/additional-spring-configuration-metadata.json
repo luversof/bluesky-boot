@@ -1,0 +1,13 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "bluesky-boot.core.modules.some.module-info",
+      "description": "asdfasdfsdf.",
+      "deprecation": {
+        "replacement": "bluesky-boot.core.module-info",
+        "level": "error"
+      }
+    }
+  ]
+}
