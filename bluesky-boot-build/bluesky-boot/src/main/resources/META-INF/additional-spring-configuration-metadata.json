@@ -2,10 +2,10 @@
   "groups": [],
   "properties": [
     {
-      "name": "bluesky-boot.core.modules.some.module-info",
+      "name": "bluesky-boot.oldproperty.core.resolve-type",
       "description": "asdfasdfsdf.",
       "deprecation": {
-        "replacement": "bluesky-boot.core.module-info",
+        "replacement": "bluesky-boot.core.resolve-type",
         "level": "error"
       }
     }

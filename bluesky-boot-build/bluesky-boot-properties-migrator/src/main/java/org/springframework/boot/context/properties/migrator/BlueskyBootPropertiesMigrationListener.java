@@ -7,6 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.configurationmetadata.ConfigurationMetadataRepository;
 import org.springframework.boot.configurationmetadata.ConfigurationMetadataRepositoryJsonBuilder;
+import org.springframework.boot.context.event.ApplicationFailedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -24,17 +26,16 @@ public class BlueskyBootPropertiesMigrationListener implements ApplicationListen
 	@Override
 	public void onApplicationEvent(SpringApplicationEvent event) {
 		if (event instanceof ApplicationStartedEvent applicationStartedEvent) {
-			System.out.println("Brick Migration Report Start!!!!@#!@#@!");
-			onApplicationPreparedEvent(applicationStartedEvent);
+			onApplicationStartedEvent(applicationStartedEvent);
+		}
+		if (event instanceof ApplicationReadyEvent || event instanceof ApplicationFailedEvent) {
 			logLegacyPropertiesReport();
-			System.out.println("Brick Migration Report End!!!");
 		}
 	}
 
-	private void onApplicationPreparedEvent(ApplicationStartedEvent event) {
+	private void onApplicationStartedEvent(ApplicationStartedEvent event) {
 		ConfigurationMetadataRepository repository = loadRepository();
-		PropertiesMigrationReporter reporter = new PropertiesMigrationReporter(repository,
-				event.getApplicationContext().getEnvironment());
+		BlueskyBootPropertiesMigrationReporter reporter = new BlueskyBootPropertiesMigrationReporter(repository, event.getApplicationContext().getEnvironment());
 		this.report = reporter.getReport();
 	}
 
@@ -49,8 +50,7 @@ public class BlueskyBootPropertiesMigrationListener implements ApplicationListen
 
 	private ConfigurationMetadataRepository loadRepository(ConfigurationMetadataRepositoryJsonBuilder builder)
 			throws IOException {
-		Resource[] resources = new PathMatchingResourcePatternResolver()
-			.getResources("classpath*:/META-INF/spring-configuration-metadata.json");
+		Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:/META-INF/spring-configuration-metadata.json");
 		for (Resource resource : resources) {
 			try (InputStream inputStream = resource.getInputStream()) {
 				builder.withJsonResource(inputStream);
