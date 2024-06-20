@@ -40,16 +40,16 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 			
 			propertyMapper.from(getParent()::getAddPathPatterns).to(builder::addPathPatterns);
 			propertyMapper.from(domainProperties::getAddPathPatterns).to(builder::addPathPatterns);
-			propertyMapper.from(getParent()::getWebList).to(builder::webList);
-			propertyMapper.from(domainProperties::getWebList).to(builder::webList);
-			propertyMapper.from(getParent()::getMobileWebList).to(builder::mobileWebList);
-			propertyMapper.from(domainProperties::getMobileWebList).to(builder::mobileWebList);
-			propertyMapper.from(getParent()::getDevDomainList).to(builder::devDomainList);
-			propertyMapper.from(domainProperties::getDevDomainList).to(builder::devDomainList);
-			propertyMapper.from(getParent()::getStaticPathList).to(builder::staticPathList);
-			propertyMapper.from(domainProperties::getStaticPathList).to(builder::staticPathList);
-			propertyMapper.from(getParent()::getExcludePathList).to(builder::excludePathList);
-			propertyMapper.from(domainProperties::getExcludePathList).to(builder::excludePathList);
+			propertyMapper.from(getParent()::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
+			propertyMapper.from(domainProperties::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
+			propertyMapper.from(getParent()::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);
+			propertyMapper.from(domainProperties::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);
+			propertyMapper.from(getParent()::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(builder::devDomainList);
+			propertyMapper.from(domainProperties::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(builder::devDomainList);
+			propertyMapper.from(getParent()::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(builder::staticPathList);
+			propertyMapper.from(domainProperties::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(builder::staticPathList);
+			propertyMapper.from(getParent()::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(builder::excludePathList);
+			propertyMapper.from(domainProperties::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(builder::excludePathList);
 			propertyMapper.from(getParent()::getRequestPath).to(builder::requestPath);
 			propertyMapper.from(domainProperties::getRequestPath).to(builder::requestPath);
 			propertyMapper.from(getParent()::getForwardPath).to(builder::forwardPath);

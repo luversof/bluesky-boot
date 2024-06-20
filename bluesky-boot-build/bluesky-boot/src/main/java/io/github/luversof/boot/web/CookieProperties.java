@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CookieProperties implements BlueskyProperties {
 	
-	private boolean enabled;
+	private Boolean enabled;
 
 	private String name;
 	
@@ -28,9 +28,9 @@ public class CookieProperties implements BlueskyProperties {
 	
 	private String path;
 	
-	private boolean secure;
+	private Boolean secure;
 	
-	private boolean httpOnly;
+	private Boolean httpOnly;
 	
 	private String sameSite;
 

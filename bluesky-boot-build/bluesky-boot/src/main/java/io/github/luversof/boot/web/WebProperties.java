@@ -18,7 +18,7 @@ public class WebProperties implements BlueskyProperties {
 	 * Whether to check unsupported browsers
 	 */
 	@Builder.Default
-	private boolean checkNotSupportedBrowser = true;
+	private Boolean checkNotSupportedBrowser = true;
 	
 	/**
 	 * Unsupported browser check patterns

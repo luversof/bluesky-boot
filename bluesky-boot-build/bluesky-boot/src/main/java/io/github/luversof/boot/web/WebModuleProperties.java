@@ -39,8 +39,8 @@ public class WebModuleProperties implements BlueskyModuleProperties<WebPropertie
 			
 			var webProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::isCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(webProperties::isCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
+			propertyMapper.from(getParent()::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
+			propertyMapper.from(webProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
 			propertyMapper.from(getParent()::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
 			propertyMapper.from(webProperties::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
 			propertyMapper.from(getParent()::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
