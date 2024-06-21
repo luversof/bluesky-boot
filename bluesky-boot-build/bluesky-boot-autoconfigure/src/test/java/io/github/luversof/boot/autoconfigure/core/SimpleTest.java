@@ -206,7 +206,7 @@ class SimpleTest {
 			String sql = "SELECT * FROM table ORDER BY column1 ASC, column2 DESC LIMIT 10";
 			Statement statement = CCJSqlParserUtil.parse(sql);
 			Select select = (Select) statement;
-			PlainSelect plainSelect = (PlainSelect) select.getSelectBody();
+			PlainSelect plainSelect = select.getPlainSelect();
 			Table table = (Table) plainSelect.getFromItem();
 			log.debug("table Name : {}", table.getName());
 			
@@ -225,7 +225,7 @@ class SimpleTest {
 			}
 			
 		
-			PlainSelect select = new PlainSelect()
+			var select = new PlainSelect()
 					.addSelectItems(new AllColumns())
 					.withFromItem(new Table("testTable"))
 					.withWhere(whereExpression)

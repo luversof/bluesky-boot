@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.github.luversof</groupId>
 		<artifactId>bluesky-boot-build</artifactId>
-		<version>3.2.0-SNAPSHOT</version>
+		<version>3.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>bluesky-boot-properties-migrator</artifactId>
 	<dependencies>

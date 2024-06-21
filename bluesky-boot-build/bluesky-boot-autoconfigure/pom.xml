@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.github.luversof</groupId>
 		<artifactId>bluesky-boot-parent</artifactId>
-		<version>3.2.0-SNAPSHOT</version>
+		<version>3.3.0-SNAPSHOT</version>
 		<relativePath>../bluesky-boot-parent</relativePath>
 	</parent>
 	<artifactId>bluesky-boot-autoconfigure</artifactId>
@@ -184,8 +184,14 @@
 
 
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-access</artifactId>
+			<groupId>ch.qos.logback.access</groupId>
+			<artifactId>tomcat</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
