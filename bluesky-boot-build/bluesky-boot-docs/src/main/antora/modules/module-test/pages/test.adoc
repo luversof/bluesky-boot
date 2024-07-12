@@ -7,13 +7,18 @@ Doc Writer <doc.writer@example.org>
 
 This is a user manual for an example project.
 
+[[test.variables]]
 == 변수 확인
+
+docdir : {docdir}
+basedir : {basedir}
 
 java-version : {java-version}
 highlightjsdir : {highlightjsdir}
 ROOT : {ROOT}
 include-java : {include-java}
 
+[[test.introduce]]
 == 소개
 
 프로젝트를 소개하는 글 입니다.
@@ -37,11 +42,13 @@ This page was built by the following command:
 
  $ mvn
 
+[[test.images]]
 == Images
 
 [.thumb]
 image::sunset.jpg[scaledwidth=75%]
 
+[[test.attributes]]
 == Attributes
 
 .Built-in
@@ -58,7 +65,11 @@ sourcedir:: {sourcedir}
 endpoint-url:: {endpoint-url}
 snippets:: {snippets}
 
+[[test.includes]]
 == Includes
+
+
+::includefile::{basedir}/bluesky-boot-build/bluesky-boot/src/main/java/io/github/luversof/boot/connectioninfo/ConnectionInfoLoader.java[]
 
 WARNING: Includes can be tricky!
 
