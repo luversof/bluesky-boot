@@ -69,7 +69,7 @@ snippets:: {snippets}
 == Includes
 
 
-::includefile::{basedir}/bluesky-boot-build/bluesky-boot/src/main/java/io/github/luversof/boot/connectioninfo/ConnectionInfoLoader.java[]
+includefile::{basedir}/bluesky-boot-build/bluesky-boot/src/main/java/io/github/luversof/boot/connectioninfo/ConnectionInfoLoader.java[]
 
 WARNING: Includes can be tricky!
 
