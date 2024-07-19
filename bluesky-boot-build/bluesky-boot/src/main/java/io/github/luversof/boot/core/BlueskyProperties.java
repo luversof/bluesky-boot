@@ -1,8 +1,16 @@
 package io.github.luversof.boot.core;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public interface BlueskyProperties {
+public interface BlueskyProperties extends InitializingBean {
+	
+	default void load() {}
+	
+	@Override
+	default void afterPropertiesSet() throws Exception {
+		load();
+	}
 
 	/**
 	 * 의존성 지정을 위해 선언

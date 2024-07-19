@@ -46,14 +46,14 @@ public class ProblemDetailUtil {
 	public static <T extends BlueskyException> ProblemDetail getProblemDetail(T exception) {
 		var problemDetail = ProblemDetail.forStatus(exception.getStatus());
 
-		// api 호출로 발생한 BrickException의 경우 exception의 errorMessage또는 errorMessageList에 값이 있음
-		// api 호출로 발생한 BrickException의 errorMessage의 경우 확장된 errorMessage를 사용
+		// api 호출로 발생한 BlueskyException의 경우 exception의 errorMessage또는 errorMessageList에 값이 있음
+		// api 호출로 발생한 BlueskyException의 errorMessage의 경우 확장된 errorMessage를 사용
 		if (exception.getErrorMessage() != null) {
-			problemDetail.setProperty(EXCEPTION_PARAMETER, convertBrickErrorMessage(exception.getErrorMessage()));
+			problemDetail.setProperty(EXCEPTION_PARAMETER, convertBlueskyErrorMessage(exception.getErrorMessage()));
 			return problemDetail;
 		}
 		
-		// api 호출로 발생한 BrickException의 errorMessageList는 bindException 결과로 BrickErrorMessageList 고정임
+		// api 호출로 발생한 BlueskyException의 errorMessageList는 bindException 결과로 BlueskyErrorMessageList 고정임
 		if (exception.getErrorMessageList() != null) {
 			List<BlueskyErrorMessage> errorMessageList = new ArrayList<>();
 			exception.getErrorMessageList().stream().forEach(x -> {
@@ -65,27 +65,27 @@ public class ProblemDetailUtil {
 			return problemDetail;
 		}
 		
-		problemDetail.setProperty(EXCEPTION_PARAMETER, getBrickErrorMessage(exception));
+		problemDetail.setProperty(EXCEPTION_PARAMETER, getBlueskyErrorMessage(exception));
 		return problemDetail;
 	}
 	
 	/**
-	 * BrickException에서 BrickErrorMessage 객체를 반환
+	 * BlueskyException에서 BlueskyErrorMessage 객체를 반환
 	 * @param exception
 	 * @return
 	 */
-	private static <T extends BlueskyException> BlueskyErrorMessage getBrickErrorMessage(T exception) {
+	private static <T extends BlueskyException> BlueskyErrorMessage getBlueskyErrorMessage(T exception) {
 		
 		var messageCodes = getExceptionErrorCodes(exception);
 		log.debug(MESSAGE_CODES, List.of(messageCodes));
-		log.error("BrickException occurred", exception);
+		log.error("BlueskyException occurred", exception);
 		var defaultMessageSourceResolvable = new DefaultMessageSourceResolvable(messageCodes, exception.getErrorMessageArgs(), exception.getMessage() == null ? exception.getErrorCode() : exception.getMessage());
     	var localizedMessage = getMessageSourceAccessor().getMessage(defaultMessageSourceResolvable);
 		
 		var errorMessage = new BlueskyErrorMessage();
 		errorMessage.setErrorCode(exception.getErrorCode());
 		errorMessage.setErrorMessageArgs(exception.getErrorMessageArgs());
-		if (StringUtils.hasLength(localizedMessage) && !localizedMessage.equals(exception.getErrorCode()) && !localizedMessage.equals(getMessageSourceAccessor().getMessage("BrickException"))) {
+		if (StringUtils.hasLength(localizedMessage) && !localizedMessage.equals(exception.getErrorCode()) && !localizedMessage.equals(getMessageSourceAccessor().getMessage("BlueskyException"))) {
 			errorMessage.setMessage(localizedMessage);
 			errorMessage.setDisplayableMessage(true);
 		} else {
@@ -128,15 +128,15 @@ public class ProblemDetailUtil {
 	}
 	
 	/**
-	 * 획득한 ErrorMessage 객체를 BrickErrorMessage로 변경
+	 * 획득한 ErrorMessage 객체를 BlueskyErrorMessage로 변경
 	 * @param errorMessage
 	 * @return
 	 */
-	private static <T extends ErrorMessage> BlueskyErrorMessage convertBrickErrorMessage(T errorMessage) {
+	private static <T extends ErrorMessage> BlueskyErrorMessage convertBlueskyErrorMessage(T errorMessage) {
 		BlueskyErrorMessage targetErrorMessage = null;
 		
-		if (errorMessage instanceof BlueskyErrorMessage brickErrorMessage) {
-			targetErrorMessage = brickErrorMessage;
+		if (errorMessage instanceof BlueskyErrorMessage blueskyErrorMessage) {
+			targetErrorMessage = blueskyErrorMessage;
 		}
 
 		setBlueskyErrorMessage(targetErrorMessage);
@@ -144,7 +144,7 @@ public class ProblemDetailUtil {
 	}
 	
 	/**
-	 * api 호출을 통해 획득한 BrickErrorMessage의 경우 해당 프로젝트에서 message를 override 할 수 있음 
+	 * api 호출을 통해 획득한 BlueskyErrorMessage의 경우 해당 프로젝트에서 message를 override 할 수 있음 
 	 * @param blueskyErrorMessage
 	 */
 	private static void setBlueskyErrorMessage(BlueskyErrorMessage blueskyErrorMessage) {
@@ -180,7 +180,7 @@ public class ProblemDetailUtil {
 	}
 	
 	private static <T extends BindException> List<BlueskyErrorMessage> getBlueskyErrorMessageList(T exception) {
-		var brickErrorMessageList = new ArrayList<BlueskyErrorMessage>();
+		var blueskyErrorMessageList = new ArrayList<BlueskyErrorMessage>();
 		var bindingResult = exception.getBindingResult();
 		var objectErrorList = bindingResult.getFieldErrors().isEmpty() ? bindingResult.getAllErrors() : bindingResult.getFieldErrors();
 		
@@ -194,11 +194,11 @@ public class ProblemDetailUtil {
 			if (objectError instanceof FieldError fieldError) {
 				blueskyErrorMessage.setField(fieldError.getField());
 			}
-			brickErrorMessageList.add(blueskyErrorMessage);
+			blueskyErrorMessageList.add(blueskyErrorMessage);
 			log.debug("[MethodArgumentNotValidException error message] code : {}, arguments : {}", Arrays.asList(objectError.getCodes()), Arrays.asList(objectError.getArguments()));
 		});
 		
-		return brickErrorMessageList;
+		return blueskyErrorMessageList;
 	}
 
 	public static <T extends Throwable> ProblemDetail getProblemDetail(T exception) {
@@ -212,18 +212,18 @@ public class ProblemDetailUtil {
 			log.error("Throwable exception : ", exception);
 		}
 		
-		var brickErrorMessage = new BlueskyErrorMessage();
-		brickErrorMessage.setMessage(exception.getMessage());
-		brickErrorMessage.setExceptionClassName(exception.getClass().getSimpleName());
+		var blueskyErrorMessage = new BlueskyErrorMessage();
+		blueskyErrorMessage.setMessage(exception.getMessage());
+		blueskyErrorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 		
 		var localizedMessage = getMessageSourceAccessor().getMessage(exception.getClass().getSimpleName(), exception.getMessage());
-		if (!localizedMessage.equals(brickErrorMessage.getMessage())) {
-			brickErrorMessage.setMessage(localizedMessage);
-			brickErrorMessage.setDisplayableMessage(true);
+		if (!localizedMessage.equals(blueskyErrorMessage.getMessage())) {
+			blueskyErrorMessage.setMessage(localizedMessage);
+			blueskyErrorMessage.setDisplayableMessage(true);
 		}
 		
 		var problemDetail = ProblemDetail.forStatus(status);
-		problemDetail.setProperty(EXCEPTION_PARAMETER, brickErrorMessage);
+		problemDetail.setProperty(EXCEPTION_PARAMETER, blueskyErrorMessage);
 		return problemDetail;
 	}
 	
