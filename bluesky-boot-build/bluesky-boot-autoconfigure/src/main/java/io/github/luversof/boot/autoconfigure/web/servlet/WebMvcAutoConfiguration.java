@@ -28,8 +28,8 @@ import io.github.luversof.boot.web.WebModuleProperties;
 import io.github.luversof.boot.web.WebProperties;
 import io.github.luversof.boot.web.filter.BlueskyContextHolderFilter;
 import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
-import io.github.luversof.boot.web.servlet.i18n.CookieLocaleResolverHandler;
-import io.github.luversof.boot.web.servlet.i18n.LocaleResolverHandler;
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
+import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolverHandler;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for WebMvc support.
@@ -112,7 +112,7 @@ public class WebMvcAutoConfiguration {
     
 	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
 	@ConditionalOnMissingBean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
-    LocaleResolver localeResolver(List<LocaleResolverHandler> localeResolverHandlerList) {
+    LocaleResolver localeResolver(List<LocaleResolveHandler> localeResolverHandlerList) {
     	return new BlueskyLocaleContextResolver(localeResolverHandlerList);
     }
     

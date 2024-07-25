@@ -29,7 +29,7 @@ public class LocaleProperties implements BlueskyProperties {
 	private List<Locale> enableLocaleList = new ArrayList<>();
 	
 	public Locale getDefaultLocale() {
-		if (enableLocaleList == null || enableLocaleList.size() == 0) {
+		if (enableLocaleList == null || enableLocaleList.isEmpty()) {
 			return Locale.getDefault();
 		}
 		return enableLocaleList.get(0);

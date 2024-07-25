@@ -11,26 +11,38 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 	
-	private final List<LocaleResolverHandler> handlerList;
+	public static final String LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME = BlueskyLocaleContextResolver.class.getName() + ".LOCALE_CONTEXT";
 	
-	private final Comparator<LocaleResolverHandler> comparator = (o1, o2) -> o1.getOrder() - o2.getOrder();
+	// 모듈별 조회로 변경 예정
+	private final List<LocaleResolveHandler> handlerList;
 	
-	public BlueskyLocaleContextResolver(List<LocaleResolverHandler> handlerList) {
+	public BlueskyLocaleContextResolver(List<LocaleResolveHandler> handlerList) {
 		this.handlerList = handlerList;
-		handlerList.sort(comparator);
+		handlerList.sort(Comparator.comparingInt(LocaleResolveHandler::getOrder));
 	}
 
 	@Override
 	public LocaleContext resolveLocaleContext(HttpServletRequest request) {
+		var localeContext = (LocaleContext) request.getAttribute(LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME);
+		if (localeContext != null) {
+			return localeContext;
+		}
+		
 		LocaleResolveInfo localeResolveInfo = new LocaleResolveInfo();
 		handlerList.forEach(x -> x.resolveLocaleContext(request, localeResolveInfo));
-		return localeResolveInfo.getLocaleContext();
+		
+		localeContext = localeResolveInfo.getLocaleContext();
+		request.setAttribute(LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME, localeContext);
+		return localeContext;
 	}
+	
 
 	@Override
 	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext) {
 		LocaleResolveInfo localeResolveInfo = new LocaleResolveInfo();
 		handlerList.forEach(x -> x.setLocaleContext(request, response, localeContext, localeResolveInfo));
+		
+		request.setAttribute(LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME, localeResolveInfo.getLocaleContext());
 	}
 
 }

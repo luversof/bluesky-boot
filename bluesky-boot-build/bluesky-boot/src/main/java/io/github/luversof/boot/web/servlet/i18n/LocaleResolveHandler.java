@@ -1,14 +1,15 @@
 package io.github.luversof.boot.web.servlet.i18n;
 
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.context.i18n.LocaleContext;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 복수의 customizer를 사용할 수 있도록 제공
+ * LocaleContextResolver에서 여러 방식의 resolver를 사용하기 위해 제공 
  */
-public interface LocaleResolverHandler {
+public interface LocaleResolveHandler extends BeanNameAware {
 	
 	int getOrder();
 	

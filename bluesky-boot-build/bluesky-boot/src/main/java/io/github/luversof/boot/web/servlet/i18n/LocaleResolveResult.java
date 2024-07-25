@@ -8,7 +8,10 @@ import lombok.Data;
 public class LocaleResolveResult {
 	
 	private int order;
-	private String handlerClassName;
+	
+	// 이거 개선 필요. 하나의 class에 설정을 다양하게 하는 경우가 있음
+	// spring bean의 이름을 그대로 쓸 수 있을까?
+	private String handlerBeanName;
 	
 	private LocaleContext requestLocaleContext;
 	

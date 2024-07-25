@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.servlet.i18n;
+package io.github.luversof.boot.web.servlet.i18n.handler;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -13,25 +13,24 @@ import org.springframework.web.util.WebUtils;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieProperties;
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfo;
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 기본 설정된 LocaleModuleProperties와 CookieModuleProperties를 기준으로 locale을 처리
+ * 설정된 LocaleModuleProperties와 CookieModuleProperties를 기준으로 locale을 처리
  */
 @Slf4j
-@AllArgsConstructor
-public class CookieLocaleResolverHandler implements LocaleResolverHandler {
-	
-	@Getter
-	private int order;
-	
-	private final String localePropertiesBeanName;
+public class CookieLocaleResolverHandler extends AbstractLocaleResolverHandler {
 	
 	private final String cookiePropertiesBeanName;
+	
+	public CookieLocaleResolverHandler(int order, String localePropertiesBeanName, String cookiePropertiesBeanName) {
+		super(order, localePropertiesBeanName);
+		this.cookiePropertiesBeanName = cookiePropertiesBeanName;
+	}
 	
 	@Override
 	public void resolveLocaleContext(HttpServletRequest request, LocaleResolveInfo localeResolveInfo) {
@@ -51,16 +50,6 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 
 		createCookie(response, currentLocaleResolveResult);
 	}
-	
-	private LocaleResolveResult createLocaleResolveResult(LocaleResolveInfo localeResolveInfo) {
-		var localeResolveResult = new LocaleResolveResult();
-		localeResolveResult.setOrder(order);
-		localeResolveResult.setHandlerClassName(this.getClass().getSimpleName());
-		
-		localeResolveInfo.getResultList().add(localeResolveResult);
-		return localeResolveResult;
-	}
-	
 	
 	/**
 	 * 요청된 Locale을 구한다.
@@ -129,7 +118,7 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 	
 	// 언어만 체크하는 등의 추가 조건이 있을 수 있음
 	private void setResolveLocaleContext(LocaleResolveInfo localeResolveInfo, LocaleResolveResult localeResolveResult) {
-		var localeProperties = BlueskyContextHolder.getProperties(LocaleProperties.class, localePropertiesBeanName);
+		var localeProperties = BlueskyContextHolder.getProperties(LocaleProperties.class, getLocalePropertiesBeanName());
 		if (localeProperties.getEnableLocaleList().isEmpty()) {
 			return;
 		}
@@ -141,7 +130,7 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 		if (requestLocaleContext == null) {
 			// 요청 localeContext가 없어도 이전 localeResolverHandler에서 계산된 resolve LocaleContext가 있으면 해당 기준으로 처리하는 경우가 있을 수 있음
 			
-			localeResolveResult.setResolveLocaleContext(() -> localeProperties.getDefaultLocale());
+			localeResolveResult.setResolveLocaleContext(localeProperties::getDefaultLocale);
 			return;
 		}
 		
@@ -153,7 +142,7 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 			localeResolveResult.setResolveLocaleContext(() -> requestLocale);
 		} else {
 			// 해당하는 locale이 없으면 default Locale을 설정해야 할듯?
-			localeResolveResult.setResolveLocaleContext(() -> localeProperties.getDefaultLocale());
+			localeResolveResult.setResolveLocaleContext(localeProperties::getDefaultLocale);
 		}
 		
 		
@@ -189,5 +178,7 @@ public class CookieLocaleResolverHandler implements LocaleResolverHandler {
 			.build();
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
+
+
 
 }
