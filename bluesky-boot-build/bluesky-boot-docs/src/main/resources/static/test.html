@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.18">
+<meta name="generator" content="Asciidoctor 2.0.20">
 <meta name="author" content="Doc Writer">
 <title>개발자 가이드</title>
 <link rel="stylesheet" href="css/site.css">
@@ -38,11 +38,12 @@
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <span id="back-to-index"><a href="index.html">Back to index</a></span><ul class="sectlevel1">
-<li><a href="#소개">1. 소개</a></li>
-<li><a href="#source-code">2. Source Code</a></li>
-<li><a href="#images">3. Images</a></li>
-<li><a href="#attributes">4. Attributes</a></li>
-<li><a href="#includes">5. Includes</a></li>
+<li><a href="#변수-확인">1. 변수 확인</a></li>
+<li><a href="#소개">2. 소개</a></li>
+<li><a href="#example">3. Source Code</a></li>
+<li><a href="#images">4. Images</a></li>
+<li><a href="#attributes">5. Attributes</a></li>
+<li><a href="#includes">6. Includes</a></li>
 </ul>
 </div>
 </div>
@@ -52,14 +53,21 @@
 <div class="paragraph">
 <p>This is a user manual for an example project.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="변수-확인"><a class="anchor" href="#변수-확인"></a>1. 변수 확인</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>변수 확인1 : java-version : 17<br>
-변수 확인 : highlightjsdir : {highlightjsdir}</p>
+<p>java-version : 21<br>
+highlightjsdir : {highlightjsdir}<br>
+ROOT : {ROOT}<br>
+include-java : {include-java}</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="소개"><a class="anchor" href="#소개"></a>1. 소개</h2>
+<h2 id="소개"><a class="anchor" href="#소개"></a>2. 소개</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>프로젝트를 소개하는 글 입니다.<br>
@@ -70,14 +78,15 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="source-code"><a class="anchor" href="#source-code"></a>2. Source Code</h2>
+<h2 id="example"><a class="anchor" href="#example"></a>3. Source Code</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>include-code::StringUtils[]</p>
+</div>
 <div class="listingblock">
 <div class="title">Java code from project</div>
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public boolean contains(String haystack, String needle) {
-    return haystack.contains(needle);
-}
+<pre class="highlight"><code class="language-java" data-lang="java">include-code::StringUtils[tags=contains,indent=0]
 </code></pre>
 </div>
 </div>
@@ -92,7 +101,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="images"><a class="anchor" href="#images"></a>3. Images</h2>
+<h2 id="images"><a class="anchor" href="#images"></a>4. Images</h2>
 <div class="sectionbody">
 <div class="imageblock thumb">
 <div class="content">
@@ -102,14 +111,14 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="attributes"><a class="anchor" href="#attributes"></a>4. Attributes</h2>
+<h2 id="attributes"><a class="anchor" href="#attributes"></a>5. Attributes</h2>
 <div class="sectionbody">
 <div class="dlist">
 <div class="title">Built-in</div>
 <dl>
 <dt class="hdlist1">asciidoctor-version</dt>
 <dd>
-<p>2.0.18</p>
+<p>2.0.20</p>
 </dd>
 <dt class="hdlist1">safe-mode-name</dt>
 <dd>
@@ -117,11 +126,11 @@
 </dd>
 <dt class="hdlist1">docdir</dt>
 <dd>
-<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-docs/target/refdocs</p>
+<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-build/bluesky-boot-docs/target/refdocs</p>
 </dd>
 <dt class="hdlist1">docfile</dt>
 <dd>
-<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-docs/target/refdocs/test.adoc</p>
+<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-build/bluesky-boot-docs/target/refdocs/test.adoc</p>
 </dd>
 <dt class="hdlist1">imagesdir</dt>
 <dd>
@@ -150,14 +159,14 @@
 </dd>
 <dt class="hdlist1">snippets</dt>
 <dd>
-<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-docs/target/refdocs/../../target/generated-snippets</p>
+<p>C:/Users/bluesky/git/bluesky-boot/bluesky-boot-build/bluesky-boot-docs/target/refdocs/../../target/generated-snippets</p>
 </dd>
 </dl>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="includes"><a class="anchor" href="#includes"></a>5. Includes</h2>
+<h2 id="includes"><a class="anchor" href="#includes"></a>6. Includes</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -200,7 +209,7 @@ class AppConfig
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-properties" data-lang="properties">bluesky-modules.core.modules.test.domain.web=http://localhost</code></pre>
+<pre class="highlight"><code class="language-properties" data-lang="properties">bluesky-boot.core.modules.test.domain.web=http://localhost</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -218,7 +227,7 @@ class AppConfig
 <div id="footer">
 <div id="footer-text">
 Version {project-version}<br>
-Last updated 2023-05-22 08:22:54 +0900
+Last updated 2024-06-12 09:46:26 +0900
 </div>
 </div>
 </div>

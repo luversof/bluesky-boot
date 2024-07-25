@@ -1,0 +1,8 @@
+include::{docdir}/_attributes.adoc[]
+= Bluesky-Boot 문서
+:revnumber: {bluesky-boot-version}
+:toc!:
+
+[horizontal]
+link:bluesky-boot.html[bluesky-boot] :: bluesky-boot 소개
+link:bluesky-boot-properties.html[bluesky-boot-properties] :: bluesky-boot-properties

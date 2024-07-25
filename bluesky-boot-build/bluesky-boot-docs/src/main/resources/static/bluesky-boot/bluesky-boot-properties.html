@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Bluesky Boot Properties</title>
+<link rel="stylesheet" href="css/site.css">
+<script src="js/setup.js"></script><script defer src="js/site.js"></script>
+
+</head>
+<body class="book toc2 toc-left"><div id="banner-container" class="container" role="banner">
+  <div id="banner" class="contained" role="banner">
+    <div id="switch-theme">
+      <input type="checkbox" id="switch-theme-checkbox" />
+      <label for="switch-theme-checkbox">Dark Theme</label>
+    </div>
+  </div>
+</div>
+<div id="tocbar-container" class="container" role="navigation">
+  <div id="tocbar" class="contained" role="navigation">
+    <button id="toggle-toc"></button>
+  </div>
+</div>
+<div id="main-container" class="container">
+  <div id="main" class="contained">
+    <div id="doc" class="doc">
+<div id="header">
+<h1>Bluesky Boot Properties</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<span id="back-to-index"><a href="index.html">Back to index</a></span><ul class="sectlevel1">
+<li><a href="#bluesky-boot-properties">1. bluesky-boot properties</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="bluesky-boot-properties"><a class="anchor" href="#bluesky-boot-properties"></a>1. bluesky-boot properties</h2>
+<div class="sectionbody">
+<table id="bluesky-boot-properties" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+<col style="width: 0%;">
+<col style="width: 0%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">sourceType</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.connection-info.loaders</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map&lt;java.lang.String,io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties$LoaderInfo&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.base</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreBaseProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.log-except-exception-additional-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreBaseProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.log-except-exception-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List&lt;java.lang.String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreBaseProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exception log 제외 대상 목록 로그 확인이 불필요한 에러 항목에 대해 exception log 제외 처리 목록을 추가하고자 하는 경우 bluesky-boot.core.log-except-exception-additional-list로 설정하면 합산처리 됨.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.module-info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.ModuleInfo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.module-name-set</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Set&lt;java.lang.String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreBaseProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">별다른 설정 없이 moduleName만 지정하고자 하는 경우 사용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.modules</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map&lt;java.lang.String,io.github.luversof.boot.core.CoreProperties&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.parent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.properties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map&lt;java.lang.String,java.lang.String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개별적으로 선언해서 사용하고자 하는 변수가 있는 경우 저장하는 map &lt;br /&gt; parent의 값을 module이 상속받아 사용함</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.core.resolve-type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreResolveType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.core.CoreBaseProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define module invocation criteria [domain (default), addPathPattern, moduleNameResolver]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.check-not-supported-browser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.WebProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to check unsupported browsers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.add-path-patterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module. Registering the AntPathMatcher Pattern</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.dev-domain-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List&lt;java.net.URI&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When declared and used by domain in a multi-module project, the domain is a variable for local development that is set aside for development purposes. You can use development domains in the form of a list by declaring them in succession with ",". ex) devDomainList=http://local.a.com,http://local.b.com</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.exclude-path-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List&lt;java.lang.String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of exception paths (list that are not redirect targets)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.forward-path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the forward root path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.mobile-web</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.URI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.mobile-web-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List&lt;java.net.URI&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the mobile web address for your site if it is multi-use Mobile web address must be declared if there is a PC web/mobile web distinction Used separately in unified notification processing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.modules</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map&lt;java.lang.String,io.github.luversof.boot.web.DomainProperties&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.parent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.request-path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the request root path Default is "/" (full)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.static-path-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List&lt;java.lang.String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of static paths (not redirect targets)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.web</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.URI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.domain.web-list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List&lt;java.net.URI&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.DomainProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the site address is multi, use. If your site doesn&#8217;t have a PC web/mobile web distinction, declare only WEB and use it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.modules</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map&lt;java.lang.String,io.github.luversof.boot.web.WebProperties&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.WebModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.not-supported-browser-exclude-path-patterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.WebProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registering an exception address pattern when checking for unsupported browsers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.not-supported-browser-reg-pattern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.WebProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unsupported browser check patterns</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bluesky-boot.web.parent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.WebProperties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.github.luversof.boot.web.WebModuleProperties</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<style>
+.hide {
+    display: none;
+}
+.strike-through {
+  text-decoration: line-through;
+}
+</style>
+<script>
+
+function decorateConfigurationMetaDataTable(id, hideColumnTextContents = ["type","sourceType", "deprecated", "deprecation/level", "deprecation/replacement"]) {
+	const table = document.querySelector(id.startsWith("table") ? id : "table" + id);
+
+	let hideColumnIndexes = [];
+
+	let deprecatedColumnIndex;
+
+	let thList = table.rows[0].querySelectorAll("th");
+	for (let i = 0; i < thList.length; i++) {
+		if (hideColumnTextContents.includes(thList[i].textContent)) {
+			hideColumnIndexes.push(i);
+		}
+
+		if (thList[i].textContent == "deprecated") {
+			deprecatedColumnIndex = i;
+		}
+	}
+
+	for (let row of table.rows) {
+		for (let colIndex of hideColumnIndexes) {
+			if (row.cells[colIndex]) {
+				row.cells[colIndex].classList.add('hide');
+			}
+		}
+	}
+
+	if (deprecatedColumnIndex > 0) {
+		for (let row of table.rows) {
+			if (row.cells[deprecatedColumnIndex].textContent == "true") {
+				row.classList.add('strike-through');
+			}
+		}
+	}
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+	decorateConfigurationMetaDataTable("#bluesky-boot-properties");
+});
+</script>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-07-25 14:25:27 +0900
+</div>
+</div>
+</div>
+  </div>
+</div>
+</body>
+</html>

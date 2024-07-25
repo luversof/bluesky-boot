@@ -1,0 +1,28 @@
+﻿name,type,sourceType,description
+bluesky-boot.connection-info.loaders,"java.util.Map<java.lang.String,io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties$LoaderInfo>",io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties,
+bluesky-boot.core.base,io.github.luversof.boot.core.CoreBaseProperties,io.github.luversof.boot.core.CoreModuleProperties,
+bluesky-boot.core.log-except-exception-additional-list,java.lang.String[],io.github.luversof.boot.core.CoreBaseProperties,
+bluesky-boot.core.log-except-exception-list,java.util.List<java.lang.String>,io.github.luversof.boot.core.CoreBaseProperties,Exception log 제외 대상 목록 로그 확인이 불필요한 에러 항목에 대해 exception log 제외 처리 목록을 추가하고자 하는 경우 bluesky-boot.core.log-except-exception-additional-list로 설정하면 합산처리 됨.
+bluesky-boot.core.module-info,io.github.luversof.boot.core.ModuleInfo,io.github.luversof.boot.core.CoreProperties,
+bluesky-boot.core.module-name-set,java.util.Set<java.lang.String>,io.github.luversof.boot.core.CoreBaseProperties,별다른 설정 없이 moduleName만 지정하고자 하는 경우 사용
+bluesky-boot.core.modules,"java.util.Map<java.lang.String,io.github.luversof.boot.core.CoreProperties>",io.github.luversof.boot.core.CoreModuleProperties,
+bluesky-boot.core.parent,io.github.luversof.boot.core.CoreProperties,io.github.luversof.boot.core.CoreModuleProperties,
+bluesky-boot.core.properties,"java.util.Map<java.lang.String,java.lang.String>",io.github.luversof.boot.core.CoreProperties,개별적으로 선언해서 사용하고자 하는 변수가 있는 경우 저장하는 map <br /> parent의 값을 module이 상속받아 사용함
+bluesky-boot.core.resolve-type,io.github.luversof.boot.core.CoreResolveType,io.github.luversof.boot.core.CoreBaseProperties,"Define module invocation criteria [domain (default), addPathPattern, moduleNameResolver]"
+bluesky-boot.web.check-not-supported-browser,java.lang.Boolean,io.github.luversof.boot.web.WebProperties,Whether to check unsupported browsers
+bluesky-boot.web.domain.add-path-patterns,java.lang.String[],io.github.luversof.boot.web.DomainProperties,"When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module. Registering the AntPathMatcher Pattern"
+bluesky-boot.web.domain.dev-domain-list,java.util.List<java.net.URI>,io.github.luversof.boot.web.DomainProperties,"When declared and used by domain in a multi-module project, the domain is a variable for local development that is set aside for development purposes. You can use development domains in the form of a list by declaring them in succession with "","". ex) devDomainList=http://local.a.com,http://local.b.com"
+bluesky-boot.web.domain.exclude-path-list,java.util.List<java.lang.String>,io.github.luversof.boot.web.DomainProperties,List of exception paths (list that are not redirect targets)
+bluesky-boot.web.domain.forward-path,java.lang.String,io.github.luversof.boot.web.DomainProperties,Set the forward root path
+bluesky-boot.web.domain.mobile-web,java.net.URI,io.github.luversof.boot.web.DomainProperties,
+bluesky-boot.web.domain.mobile-web-list,java.util.List<java.net.URI>,io.github.luversof.boot.web.DomainProperties,Use the mobile web address for your site if it is multi-use Mobile web address must be declared if there is a PC web/mobile web distinction Used separately in unified notification processing
+bluesky-boot.web.domain.modules,"java.util.Map<java.lang.String,io.github.luversof.boot.web.DomainProperties>",io.github.luversof.boot.web.DomainModuleProperties,
+bluesky-boot.web.domain.parent,io.github.luversof.boot.web.DomainProperties,io.github.luversof.boot.web.DomainModuleProperties,
+bluesky-boot.web.domain.request-path,java.lang.String,io.github.luversof.boot.web.DomainProperties,"Set the request root path Default is ""/"" (full)"
+bluesky-boot.web.domain.static-path-list,java.util.List<java.lang.String>,io.github.luversof.boot.web.DomainProperties,List of static paths (not redirect targets)
+bluesky-boot.web.domain.web,java.net.URI,io.github.luversof.boot.web.DomainProperties,
+bluesky-boot.web.domain.web-list,java.util.List<java.net.URI>,io.github.luversof.boot.web.DomainProperties,"If the site address is multi, use. If your site doesn't have a PC web/mobile web distinction, declare only WEB and use it."
+bluesky-boot.web.modules,"java.util.Map<java.lang.String,io.github.luversof.boot.web.WebProperties>",io.github.luversof.boot.web.WebModuleProperties,
+bluesky-boot.web.not-supported-browser-exclude-path-patterns,java.lang.String[],io.github.luversof.boot.web.WebProperties,Registering an exception address pattern when checking for unsupported browsers
+bluesky-boot.web.not-supported-browser-reg-pattern,java.lang.String,io.github.luversof.boot.web.WebProperties,Unsupported browser check patterns
+bluesky-boot.web.parent,io.github.luversof.boot.web.WebProperties,io.github.luversof.boot.web.WebModuleProperties,

@@ -1,4 +1,4 @@
-include::_attributes.adoc[]
+include::{docdir}/_attributes.adoc[]
 = bluesky-boot
 
 == 소개

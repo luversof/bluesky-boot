@@ -1,0 +1,62 @@
+= Bluesky Boot Properties
+include::{docdir}/_attributes.adoc[]
+
+== bluesky-boot properties
+
+[%header,format=csv,id=bluesky-boot-properties,cols="50%,50%,0%,0%"]
+|===
+include::{docdir}/bluesky-boot/bluesky-boot-properties.csv[]
+|===
+
+
+++++
+<style>
+.hide {
+    display: none;
+}
+.strike-through {
+  text-decoration: line-through;
+}
+</style>
+<script>
+
+function decorateConfigurationMetaDataTable(id, hideColumnTextContents = ["type","sourceType", "deprecated", "deprecation/level", "deprecation/replacement"]) {
+	const table = document.querySelector(id.startsWith("table") ? id : "table" + id);
+	
+	let hideColumnIndexes = [];
+	
+	let deprecatedColumnIndex;
+	
+	let thList = table.rows[0].querySelectorAll("th");
+	for (let i = 0; i < thList.length; i++) {
+		if (hideColumnTextContents.includes(thList[i].textContent)) {
+			hideColumnIndexes.push(i);
+		}
+		
+		if (thList[i].textContent == "deprecated") {
+			deprecatedColumnIndex = i;
+		}
+	}
+	
+	for (let row of table.rows) {
+		for (let colIndex of hideColumnIndexes) {
+			if (row.cells[colIndex]) {
+				row.cells[colIndex].classList.add('hide');
+			}
+		}
+	}
+	
+	if (deprecatedColumnIndex > 0) {
+		for (let row of table.rows) {
+			if (row.cells[deprecatedColumnIndex].textContent == "true") {
+				row.classList.add('strike-through');
+			}
+		}
+	}
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+	decorateConfigurationMetaDataTable("#bluesky-boot-properties");
+});
+</script>
+++++
