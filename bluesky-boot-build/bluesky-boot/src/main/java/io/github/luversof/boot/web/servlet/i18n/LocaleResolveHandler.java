@@ -10,11 +10,16 @@ import jakarta.servlet.http.HttpServletResponse;
  * LocaleContextResolver에서 여러 방식의 resolver를 사용하기 위해 제공 
  */
 public interface LocaleResolveHandler extends BeanNameAware {
-	
+
+	/**
+	 * 실행 순서
+	 * LocaleContextResolverProperties의 설정 순서보다 우선함
+	 * @return
+	 */
 	int getOrder();
 	
-	void resolveLocaleContext(HttpServletRequest request, LocaleResolveInfo localeResolveInfo);
+	void resolveLocaleContext(HttpServletRequest request, LocaleResolveInfoContainer localeResolveInfoContainer);
 	
-	void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleResolveInfo localeResolveInfo);
+	void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleResolveInfoContainer localeResolveInfoContainer);
 
 }

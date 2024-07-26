@@ -1,25 +1,16 @@
 package io.github.luversof.boot.web.servlet.i18n;
 
-import java.util.Comparator;
-import java.util.List;
-
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.web.servlet.LocaleContextResolver;
 
+import io.github.luversof.boot.context.BlueskyContextHolder;
+import io.github.luversof.boot.web.LocaleContextResolverProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 	
 	public static final String LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME = BlueskyLocaleContextResolver.class.getName() + ".LOCALE_CONTEXT";
-	
-	// 모듈별 조회로 변경 예정
-	private final List<LocaleResolveHandler> handlerList;
-	
-	public BlueskyLocaleContextResolver(List<LocaleResolveHandler> handlerList) {
-		this.handlerList = handlerList;
-		handlerList.sort(Comparator.comparingInt(LocaleResolveHandler::getOrder));
-	}
 
 	@Override
 	public LocaleContext resolveLocaleContext(HttpServletRequest request) {
@@ -28,10 +19,11 @@ public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 			return localeContext;
 		}
 		
-		LocaleResolveInfo localeResolveInfo = new LocaleResolveInfo();
-		handlerList.forEach(x -> x.resolveLocaleContext(request, localeResolveInfo));
+		var localeResolveInfoContainer = new LocaleResolveInfoContainer();
 		
-		localeContext = localeResolveInfo.getLocaleContext();
+		BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class).getLocaleResolveHandlerList().forEach(x -> x.resolveLocaleContext(request, localeResolveInfoContainer));
+		
+		localeContext = localeResolveInfoContainer.getLocaleContext();
 		request.setAttribute(LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME, localeContext);
 		return localeContext;
 	}
@@ -39,10 +31,10 @@ public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 
 	@Override
 	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext) {
-		LocaleResolveInfo localeResolveInfo = new LocaleResolveInfo();
-		handlerList.forEach(x -> x.setLocaleContext(request, response, localeContext, localeResolveInfo));
+		var localeResolveInfoContainer = new LocaleResolveInfoContainer();
+		BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class).getLocaleResolveHandlerList().forEach(x -> x.setLocaleContext(request, response, localeContext, localeResolveInfoContainer));
 		
-		request.setAttribute(LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME, localeResolveInfo.getLocaleContext());
+		request.setAttribute(LOCALE_CONTEXT_REQUEST_ATTRIBUTE_NAME, localeResolveInfoContainer.getLocaleContext());
 	}
 
 }

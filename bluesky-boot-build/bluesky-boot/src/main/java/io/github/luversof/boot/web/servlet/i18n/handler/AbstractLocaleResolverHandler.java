@@ -1,7 +1,7 @@
 package io.github.luversof.boot.web.servlet.i18n.handler;
 
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfoContainer;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfo;
-import io.github.luversof.boot.web.servlet.i18n.LocaleResolveResult;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import lombok.Getter;
 
@@ -34,16 +34,16 @@ public abstract class AbstractLocaleResolverHandler implements LocaleResolveHand
 	
 	
 	/**
-	 * 해당 handler에서 사용할 LocaleResolveResult 생성
-	 * @param localeResolveInfo
+	 * 해당 handler에서 사용할 LocaleResolveInfo 생성
+	 * @param localeResolveInfoContainer
 	 * @return
 	 */
-	protected LocaleResolveResult createLocaleResolveResult(LocaleResolveInfo localeResolveInfo) {
-		var localeResolveResult = new LocaleResolveResult();
-		localeResolveResult.setOrder(getOrder());
-		localeResolveResult.setHandlerBeanName(getHandlerBeanName());
+	protected LocaleResolveInfo createLocaleResolveInfo(LocaleResolveInfoContainer localeResolveInfoContainer) {
+		var localeResolveInfo = new LocaleResolveInfo();
+		localeResolveInfo.setOrder(getOrder());
+		localeResolveInfo.setHandlerBeanName(getHandlerBeanName());
 		
-		localeResolveInfo.getResultList().add(localeResolveResult);
-		return localeResolveResult;
+		localeResolveInfoContainer.getLocaleResolveInfoList().add(localeResolveInfo);
+		return localeResolveInfo;
 	}
 }

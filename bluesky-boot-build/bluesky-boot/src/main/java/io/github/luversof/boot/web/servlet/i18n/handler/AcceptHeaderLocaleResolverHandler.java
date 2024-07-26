@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
-import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfo;
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfoContainer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -18,8 +18,8 @@ public class AcceptHeaderLocaleResolverHandler extends AbstractLocaleResolverHan
 	}
 	
 	@Override
-	public void resolveLocaleContext(HttpServletRequest request, LocaleResolveInfo localeResolveInfo) {
-		var localeResolveResult = createLocaleResolveResult(localeResolveInfo);
+	public void resolveLocaleContext(HttpServletRequest request, LocaleResolveInfoContainer localeResolveInfoContainer) {
+		var localeResolveInfo = createLocaleResolveInfo(localeResolveInfoContainer);
 		// accept header가 있는지 확인
 		if (request.getHeader(HttpHeaders.ACCEPT_LANGUAGE) == null) {
 			return;
@@ -29,7 +29,7 @@ public class AcceptHeaderLocaleResolverHandler extends AbstractLocaleResolverHan
 		 * 이거 없으면 defaultLocale 반환으로 알고 있음.
 		 */
 		Locale requestLocale = request.getLocale();
-		localeResolveResult.setRequestLocaleContext(() -> requestLocale);
+		localeResolveInfo.setRequestLocaleContext(() -> requestLocale);
 		
 		// 허용된 locale인지 확인
 		var localeProperties = BlueskyContextHolder.getProperties(LocaleProperties.class, getLocalePropertiesBeanName());
@@ -45,18 +45,18 @@ public class AcceptHeaderLocaleResolverHandler extends AbstractLocaleResolverHan
 		Locale resolveLocale = (enableLocaleList.contains(requestLocale)) ? requestLocale : enableLocaleList.stream().filter(x -> x.getLanguage().equals(requestLocale.getLanguage())).findFirst().orElseGet(() -> null);
 
 		if (resolveLocale != null) {
-			localeResolveResult.setResolveLocaleContext(() -> resolveLocale);
+			localeResolveInfo.setResolveLocaleContext(() -> resolveLocale);
 		}
 		
-		// 만약 앞서 설정된 localeResolveResultSupplier가 있으면 여기서 구한 requestLocale을 설정함
-		if (localeResolveInfo.getLocaleResolveResultSupplier() == null) {
-			localeResolveInfo.setLocaleResolveResultSupplier(() -> localeResolveResult);
+		// 만약 앞서 설정된 localeResolveInfoSupplier가 있으면 여기서 구한 requestLocale을 설정함
+		if (localeResolveInfoContainer.getRepresentativeLocaleResolveInfoSupplier() == null) {
+			localeResolveInfoContainer.setRepresentativeLocaleResolveInfoSupplier(() -> localeResolveInfo);
 		}
 		
 	}
 
 	@Override
-	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleResolveInfo localeResolveInfo) {
+	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleResolveInfoContainer localeResolveInfoContainer) {
 		// DO NOTHING
 	}
 
