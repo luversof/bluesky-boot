@@ -1,7 +1,5 @@
 package io.github.luversof.boot.autoconfigure.web.servlet;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -28,7 +26,6 @@ import io.github.luversof.boot.web.WebModuleProperties;
 import io.github.luversof.boot.web.WebProperties;
 import io.github.luversof.boot.web.filter.BlueskyContextHolderFilter;
 import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
-import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolverHandler;
 
 /**
@@ -112,8 +109,8 @@ public class WebMvcAutoConfiguration {
     
 	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
 	@ConditionalOnMissingBean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
-    LocaleResolver localeResolver(List<LocaleResolveHandler> localeResolverHandlerList) {
-    	return new BlueskyLocaleContextResolver(localeResolverHandlerList);
+    LocaleResolver localeResolver() {
+    	return new BlueskyLocaleContextResolver();
     }
     
 	@Bean
