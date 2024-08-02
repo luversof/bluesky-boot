@@ -25,6 +25,8 @@ import io.github.luversof.boot.web.DomainProperties;
 import io.github.luversof.boot.web.WebModuleProperties;
 import io.github.luversof.boot.web.WebProperties;
 import io.github.luversof.boot.web.filter.BlueskyContextHolderFilter;
+import io.github.luversof.boot.web.servlet.LocaleContextResolverModuleProperties;
+import io.github.luversof.boot.web.servlet.LocaleContextResolverProperties;
 import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolverHandler;
 
@@ -39,7 +41,9 @@ import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolverHand
 	DomainProperties.class,
 	DomainModuleProperties.class,
 	WebProperties.class,
-	WebModuleProperties.class
+	WebModuleProperties.class,
+	LocaleContextResolverProperties.class,
+	LocaleContextResolverModuleProperties.class
 })
 public class WebMvcAutoConfiguration {
 	

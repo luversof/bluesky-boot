@@ -4,7 +4,7 @@ import org.springframework.context.i18n.LocaleContext;
 import org.springframework.web.servlet.LocaleContextResolver;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.web.LocaleContextResolverProperties;
+import io.github.luversof.boot.web.servlet.LocaleContextResolverProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

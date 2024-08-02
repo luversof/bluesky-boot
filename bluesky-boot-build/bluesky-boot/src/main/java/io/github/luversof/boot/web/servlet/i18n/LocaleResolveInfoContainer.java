@@ -25,7 +25,7 @@ public class LocaleResolveInfoContainer {
 	public LocaleContext getLocaleContext() {
 		if (representativeLocaleResolveInfoSupplier == null) {
 			// 없으면 기본 설정한 locale이 있는지 확인
-			return () -> BlueskyContextHolder.getProperties(LocaleProperties.class, "localeProperties").getDefaultLocale();
+			return () -> BlueskyContextHolder.getProperties(LocaleProperties.class, LocaleProperties.DEFAULT_BEAN_NAME).getDefaultLocale();
 		}
 		return representativeLocaleResolveInfoSupplier.get().getResolveLocaleContext();
 	}

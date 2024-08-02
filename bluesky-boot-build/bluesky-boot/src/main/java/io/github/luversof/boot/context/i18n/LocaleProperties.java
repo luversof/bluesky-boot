@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LocaleProperties implements BlueskyProperties {
 	
+	public static final String DEFAULT_BEAN_NAME = "localeProperties";
+	
 //	/**
 //	 * 이거 필요 없을 듯
 //	 * enableLocaleList의 첫번째를 default로 간주

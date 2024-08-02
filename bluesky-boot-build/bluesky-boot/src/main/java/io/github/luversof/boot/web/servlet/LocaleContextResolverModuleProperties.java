@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web;
+package io.github.luversof.boot.web.servlet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolver")
+@ConfigurationProperties(prefix = "bluesky-boot.web.servlet.locale-context-resolver")
 public class LocaleContextResolverModuleProperties implements BlueskyModuleProperties<LocaleContextResolverProperties> {
 
 	@Setter(onMethod_ = @Autowired)

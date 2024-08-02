@@ -1,3 +1,4 @@
+io.github.luversof.boot.autoconfigure.context.i18n.LocaleAutoConfiguration
 io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration
 io.github.luversof.boot.autoconfigure.core.servlet.CoreMvcAutoConfiguration
 io.github.luversof.boot.autoconfigure.core.reactive.CoreWebFluxAutoConfiguration

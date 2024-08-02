@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web;
+package io.github.luversof.boot.web.servlet;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolver")
+@ConfigurationProperties(prefix = "bluesky-boot.web.servlet.locale-context-resolver")
 public class LocaleContextResolverProperties implements BlueskyProperties {
 
 	// TODO 목록에 대한 preset 제공

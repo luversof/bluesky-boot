@@ -3,6 +3,7 @@ package io.github.luversof.boot.autoconfigure;
 import java.util.HashSet;
 
 import io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration;
+import io.github.luversof.boot.autoconfigure.context.i18n.LocaleAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -11,7 +12,7 @@ public class AutoConfigurationTestInfo {
 
 	public static String[] BASE_PROPERTY = new String[] { "bluesky-boot-profile=opdev" };
 	
-	public static Class<?>[] CORE_USER_CONFIGURATION = new Class<?>[] { CoreAutoConfiguration.class };
+	public static Class<?>[] CORE_USER_CONFIGURATION = new Class<?>[] { CoreAutoConfiguration.class , LocaleAutoConfiguration.class};
 	
 	public static Class<?>[] CORE_MESSAGESOURCE_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class };
 	
