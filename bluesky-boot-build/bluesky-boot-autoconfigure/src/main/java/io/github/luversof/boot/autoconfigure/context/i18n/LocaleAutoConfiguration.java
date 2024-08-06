@@ -20,7 +20,7 @@ public class LocaleAutoConfiguration {
 		return new LocaleProperties();
 	}
 	
-	@Bean
+	@Bean(LocaleModuleProperties.DEFAULT_BEAN_NAME)
 	@Primary
 	@ConfigurationProperties(prefix = "bluesky-boot.locale")
 	LocaleModuleProperties localeModuleProperties(@Qualifier(LocaleProperties.DEFAULT_BEAN_NAME) LocaleProperties localeProperties) {

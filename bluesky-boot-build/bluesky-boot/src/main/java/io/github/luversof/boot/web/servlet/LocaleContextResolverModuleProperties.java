@@ -37,11 +37,16 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 			
 			var localeContextResolverProperties = getModules().get(moduleName);
 			
+			propertyMapper.from(getParent()::getPreset).to(builder::preset);
+			propertyMapper.from(localeContextResolverProperties::getPreset).to(builder::preset);
 			propertyMapper.from(getParent()::getLocaleResolverHandlerBeanNameList).to(builder::localeResolverHandlerBeanNameList);
 			propertyMapper.from(localeContextResolverProperties::getLocaleResolverHandlerBeanNameList).to(builder::localeResolverHandlerBeanNameList);
 			
 			getModules().put(moduleName, builder.build());
+			
 		});
+
+		getModules().forEach((key, value) -> value.load());
 	}
 
 }

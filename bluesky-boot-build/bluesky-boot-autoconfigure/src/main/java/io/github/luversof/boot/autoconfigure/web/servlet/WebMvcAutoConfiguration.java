@@ -18,6 +18,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
+import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.DomainModuleProperties;
@@ -25,9 +26,10 @@ import io.github.luversof.boot.web.DomainProperties;
 import io.github.luversof.boot.web.WebModuleProperties;
 import io.github.luversof.boot.web.WebProperties;
 import io.github.luversof.boot.web.filter.BlueskyContextHolderFilter;
+import io.github.luversof.boot.web.servlet.BlueskyLocaleContextResolver;
 import io.github.luversof.boot.web.servlet.LocaleContextResolverModuleProperties;
 import io.github.luversof.boot.web.servlet.LocaleContextResolverProperties;
-import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
+import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolverHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolverHandler;
 
 /**
@@ -109,6 +111,11 @@ public class WebMvcAutoConfiguration {
     		return new CookieLocaleResolverHandler(2, "otherLocaleProperties", "otherCookieProperties");
     	}
 
+    }
+    
+    @Bean(AcceptHeaderLocaleResolverHandler.DEFAULT_BEAN_NAME)
+    AcceptHeaderLocaleResolverHandler acceptHeaderLocaleResolverHandler() {
+    	return new AcceptHeaderLocaleResolverHandler(100, LocaleProperties.DEFAULT_BEAN_NAME);
     }
     
 	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)

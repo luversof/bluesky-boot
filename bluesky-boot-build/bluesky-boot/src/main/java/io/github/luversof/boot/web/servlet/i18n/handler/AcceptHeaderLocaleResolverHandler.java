@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class AcceptHeaderLocaleResolverHandler extends AbstractLocaleResolverHandler {
 	
+	public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleResolverHandler";
+	
 	public AcceptHeaderLocaleResolverHandler(int order, String localePropertiesBeanName) {
 		super(order, localePropertiesBeanName);
 	}
