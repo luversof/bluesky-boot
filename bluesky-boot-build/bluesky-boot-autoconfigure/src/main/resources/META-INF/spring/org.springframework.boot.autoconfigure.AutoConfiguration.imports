@@ -12,5 +12,6 @@ io.github.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
 io.github.luversof.boot.autoconfigure.validation.ValidationAutoConfiguration
+io.github.luversof.boot.autoconfigure.web.WebAutoConfiguration
 io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
 io.github.luversof.boot.autoconfigure.security.crypto.encrypt.TextEncryptAutoConfiguration

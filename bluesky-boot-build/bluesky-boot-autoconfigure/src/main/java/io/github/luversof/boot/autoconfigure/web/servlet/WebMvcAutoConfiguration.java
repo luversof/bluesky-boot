@@ -15,18 +15,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
-import io.github.luversof.boot.web.DomainModuleProperties;
-import io.github.luversof.boot.web.DomainProperties;
-import io.github.luversof.boot.web.WebModuleProperties;
-import io.github.luversof.boot.web.WebProperties;
 import io.github.luversof.boot.web.filter.BlueskyContextHolderFilter;
 import io.github.luversof.boot.web.servlet.BlueskyLocaleContextResolver;
+import io.github.luversof.boot.web.servlet.LocaleContextResolveHandlerProperties;
 import io.github.luversof.boot.web.servlet.LocaleContextResolverModuleProperties;
 import io.github.luversof.boot.web.servlet.LocaleContextResolverProperties;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolverHandler;
@@ -40,10 +36,6 @@ import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolverHand
 @AutoConfiguration(value = "blueskyBootWebMvcAutoConfiguration", before = org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @EnableConfigurationProperties({ 
-	DomainProperties.class,
-	DomainModuleProperties.class,
-	WebProperties.class,
-	WebModuleProperties.class,
 	LocaleContextResolverProperties.class,
 	LocaleContextResolverModuleProperties.class
 })
@@ -60,17 +52,11 @@ public class WebMvcAutoConfiguration {
         return new CoreMvcExceptionHandler();
     }
 
-    @Bean
-    MappingJackson2JsonView jsonView() {
-        return new MappingJackson2JsonView();
-    }
-    
-    
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnProperty(prefix = "bluesky-boot.web.cookie", name = "enabled", havingValue = "true")
     public static class CookieConfiguration {
     	
-    	@Bean
+    	@Bean(CookieProperties.DEFAULT_BEAN_NAME)
     	@Primary
     	@ConfigurationProperties("bluesky-boot.web.cookie")
     	CookieProperties cookieProperties() {
@@ -80,13 +66,25 @@ public class WebMvcAutoConfiguration {
     	@Bean
     	@Primary
     	@ConfigurationProperties("bluesky-boot.web.cookie")
-    	CookieModuleProperties cookieModuleProperties(@Qualifier("cookieProperties") CookieProperties cookieProperties) {
+    	CookieModuleProperties cookieModuleProperties(@Qualifier(CookieProperties.DEFAULT_BEAN_NAME) CookieProperties cookieProperties) {
     		return new CookieModuleProperties(cookieProperties);
+    	}
+    	
+    	@Bean(LocaleContextResolveHandlerProperties.DEFAULT_BEAN_NAME)
+    	@Primary
+    	@ConfigurationProperties("bluesky-boot.web.servlet.locale-context-resolve-handler")
+    	LocaleContextResolveHandlerProperties localeContextResolveHandlerProperties () {
+    		return new LocaleContextResolveHandlerProperties();
     	}
     	
     	@Bean
     	CookieLocaleResolverHandler cookieLocaleResolverHandler() {
-    		return new CookieLocaleResolverHandler(1, "localeProperties", "cookieProperties");
+    		return new CookieLocaleResolverHandler(
+    				1, 
+    				LocaleProperties.DEFAULT_BEAN_NAME, 
+    				CookieProperties.DEFAULT_BEAN_NAME,
+    				LocaleContextResolveHandlerProperties.DEFAULT_BEAN_NAME
+    			);
     	}
     }
     
@@ -107,15 +105,25 @@ public class WebMvcAutoConfiguration {
     	}
     	
     	@Bean
+    	@ConfigurationProperties("bluesky-boot.web.servlet.other-locale-context-resolve-handler")
+    	LocaleContextResolveHandlerProperties otherLocaleContextResolveHandlerProperties () {
+    		return new LocaleContextResolveHandlerProperties();
+    	}
+    	
+    	@Bean
     	CookieLocaleResolverHandler otherCookieLocaleResolverHandler() {
-    		return new CookieLocaleResolverHandler(2, "otherLocaleProperties", "otherCookieProperties");
+    		return new CookieLocaleResolverHandler(
+    				2, 
+    				"otherLocaleProperties", 
+    				"otherCookieProperties", 
+    				"otherLocaleContextResolveHandlerProperties");
     	}
 
     }
     
     @Bean(AcceptHeaderLocaleResolverHandler.DEFAULT_BEAN_NAME)
     AcceptHeaderLocaleResolverHandler acceptHeaderLocaleResolverHandler() {
-    	return new AcceptHeaderLocaleResolverHandler(100, LocaleProperties.DEFAULT_BEAN_NAME);
+    	return new AcceptHeaderLocaleResolverHandler(100, LocaleProperties.DEFAULT_BEAN_NAME, LocaleContextResolveHandlerProperties.DEFAULT_BEAN_NAME);
     }
     
 	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)

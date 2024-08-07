@@ -5,7 +5,7 @@ import org.springframework.context.i18n.LocaleContext;
 import lombok.Data;
 
 @Data
-public class LocaleResolveInfo {
+public class LocaleContextResolveInfo {
 	
 	private int order;
 	

@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CookieProperties implements BlueskyProperties {
 	
+	public static final String DEFAULT_BEAN_NAME = "localeProperties";
+	
 	private Boolean enabled;
 
 	private String name;

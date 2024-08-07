@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.core.BlueskyProperties;
-import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
+import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveHandler;
+import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolverHandler;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,20 +32,20 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 	/**
 	 * 목록에 대한 preset 제공
 	 */
-	private LocaleContextResolverPreSet preset;
+	private LocaleContextResolverPreset preset;
 	
 	/**
 	 * 사용할 localeResolverHandler beanName 목록, 순서대로 수행됨
 	 */
 	@Builder.Default
-	private List<String> localeResolverHandlerBeanNameList = new ArrayList<>();
+	private List<String> localeContextResolverHandlerBeanNameList = new ArrayList<>();
 
 	@JsonIgnore
-	public List<LocaleResolveHandler> getLocaleResolveHandlerList() {
-		if (localeResolverHandlerBeanNameList == null) {
+	public List<LocaleContextResolveHandler> getLocaleResolveHandlerList() {
+		if (localeContextResolverHandlerBeanNameList == null) {
 			return Collections.emptyList(); 
 		}
-		return localeResolverHandlerBeanNameList.stream().map(beanName -> ApplicationContextUtil.getApplicationContext().getBean(beanName, LocaleResolveHandler.class)).sorted(Comparator.comparingInt(LocaleResolveHandler::getOrder)).toList();
+		return localeContextResolverHandlerBeanNameList.stream().map(beanName -> ApplicationContextUtil.getApplicationContext().getBean(beanName, LocaleContextResolveHandler.class)).sorted(Comparator.comparingInt(LocaleContextResolveHandler::getOrder)).toList();
 	}
 	
 	/**
@@ -57,18 +58,18 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 			return;
 		}
 		
-		if (localeResolverHandlerBeanNameList != null &&  !localeResolverHandlerBeanNameList.isEmpty()) {
+		if (localeContextResolverHandlerBeanNameList != null &&  !localeContextResolverHandlerBeanNameList.isEmpty()) {
 			return;
 		}
 		
-		localeResolverHandlerBeanNameList = preset.getLocaleResolverHandlerBeanNameList();
+		localeContextResolverHandlerBeanNameList = preset.getLocaleResolverHandlerBeanNameList();
 	}
 	
 	@AllArgsConstructor
 	@Getter
-	public enum LocaleContextResolverPreSet {
-		BASIC(List.of(""))
-		
+	public enum LocaleContextResolverPreset {
+		BASIC(List.of("test", AcceptHeaderLocaleResolverHandler.DEFAULT_BEAN_NAME)),
+		ACCEPT_HEADER(List.of(AcceptHeaderLocaleResolverHandler.DEFAULT_BEAN_NAME))
 		;
 		
 		private List<String> localeResolverHandlerBeanNameList;

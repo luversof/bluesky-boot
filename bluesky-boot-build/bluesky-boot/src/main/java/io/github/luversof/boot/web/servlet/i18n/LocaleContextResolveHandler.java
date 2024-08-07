@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * LocaleContextResolver에서 여러 방식의 resolver를 사용하기 위해 제공 
  */
-public interface LocaleResolveHandler extends BeanNameAware {
+public interface LocaleContextResolveHandler extends BeanNameAware {
 
 	/**
 	 * 실행 순서
@@ -18,8 +18,8 @@ public interface LocaleResolveHandler extends BeanNameAware {
 	 */
 	int getOrder();
 	
-	void resolveLocaleContext(HttpServletRequest request, LocaleResolveInfoContainer localeResolveInfoContainer);
+	void resolveLocaleContext(HttpServletRequest request, LocaleContextResolveInfoContainer localeContextResolveInfoContainer);
 	
-	void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleResolveInfoContainer localeResolveInfoContainer);
+	void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleContextResolveInfoContainer localeContextResolveInfoContainer);
 
 }
