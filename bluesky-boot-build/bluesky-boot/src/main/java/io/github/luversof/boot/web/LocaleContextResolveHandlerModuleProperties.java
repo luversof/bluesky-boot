@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.servlet;
+package io.github.luversof.boot.web;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.servlet.locale-context-resolve-handler")
+@ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolve-handler")
 public class LocaleContextResolveHandlerModuleProperties implements BlueskyModuleProperties<LocaleContextResolveHandlerProperties> {
 
 	private final LocaleContextResolveHandlerProperties parent;
@@ -22,7 +22,7 @@ public class LocaleContextResolveHandlerModuleProperties implements BlueskyModul
 	public void load() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
+		// var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
 		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		

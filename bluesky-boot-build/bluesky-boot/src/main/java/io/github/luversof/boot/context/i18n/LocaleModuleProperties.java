@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -11,6 +12,7 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
 
 @Data
+@ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
 	
 	public static final String DEFAULT_BEAN_NAME = "localeModuleProperties";

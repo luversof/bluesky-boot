@@ -23,11 +23,11 @@ import lombok.extern.slf4j.Slf4j;
  * 설정된 LocaleModuleProperties와 CookieModuleProperties를 기준으로 locale을 처리
  */
 @Slf4j
-public class CookieLocaleResolverHandler extends AbstractLocaleResolverHandler {
+public class CookieLocaleContextResolveHandler extends AbstractLocaleContextResolveHandler {
 	
 	private final String cookiePropertiesBeanName;
 	
-	public CookieLocaleResolverHandler(int order, String localePropertiesBeanName, String cookiePropertiesBeanName, String localeContextResolveHandlerPropertiesBeanName) {
+	public CookieLocaleContextResolveHandler(int order, String localePropertiesBeanName, String cookiePropertiesBeanName, String localeContextResolveHandlerPropertiesBeanName) {
 		super(order, localePropertiesBeanName, localeContextResolveHandlerPropertiesBeanName);
 		this.cookiePropertiesBeanName = cookiePropertiesBeanName;
 	}

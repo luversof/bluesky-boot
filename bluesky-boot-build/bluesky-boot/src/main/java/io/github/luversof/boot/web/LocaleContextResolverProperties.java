@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.servlet;
+package io.github.luversof.boot.web;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveHandler;
-import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolverHandler;
+import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleContextResolveHandler;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.servlet.locale-context-resolver")
+@ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolver")
 public class LocaleContextResolverProperties implements BlueskyProperties {
 
 	/**
@@ -68,8 +68,8 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 	@AllArgsConstructor
 	@Getter
 	public enum LocaleContextResolverPreset {
-		BASIC(List.of("test", AcceptHeaderLocaleResolverHandler.DEFAULT_BEAN_NAME)),
-		ACCEPT_HEADER(List.of(AcceptHeaderLocaleResolverHandler.DEFAULT_BEAN_NAME))
+		BASIC(List.of("cookieLocaleResolveHandler", AcceptHeaderLocaleContextResolveHandler.DEFAULT_BEAN_NAME)),
+		ACCEPT_HEADER(List.of(AcceptHeaderLocaleContextResolveHandler.DEFAULT_BEAN_NAME))
 		;
 		
 		private List<String> localeResolverHandlerBeanNameList;

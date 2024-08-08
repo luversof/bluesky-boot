@@ -11,11 +11,11 @@ import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfoContaine
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class AcceptHeaderLocaleResolverHandler extends AbstractLocaleResolverHandler {
+public class AcceptHeaderLocaleContextResolveHandler extends AbstractLocaleContextResolveHandler {
 	
-	public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleResolverHandler";
+	public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleContextResolverHandler";
 	
-	public AcceptHeaderLocaleResolverHandler(int order, String localePropertiesBeanName, String localeContextResolveHandlerPropertiesBeanName) {
+	public AcceptHeaderLocaleContextResolveHandler(int order, String localePropertiesBeanName, String localeContextResolveHandlerPropertiesBeanName) {
 		super(order, localePropertiesBeanName, localeContextResolveHandlerPropertiesBeanName);
 	}
 	

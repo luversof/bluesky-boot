@@ -5,7 +5,7 @@ import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfo;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveHandler;
 import lombok.Getter;
 
-public abstract class AbstractLocaleResolverHandler implements LocaleContextResolveHandler {
+public abstract class AbstractLocaleContextResolveHandler implements LocaleContextResolveHandler {
 	
 	/**
 	 *  실행할 순서
@@ -25,7 +25,7 @@ public abstract class AbstractLocaleResolverHandler implements LocaleContextReso
 	@Getter
 	private String handlerBeanName;
 	
-	AbstractLocaleResolverHandler(int order, String localePropertiesBeanName, String localeContextResolveHandlerPropertiesBeanName) {
+	AbstractLocaleContextResolveHandler(int order, String localePropertiesBeanName, String localeContextResolveHandlerPropertiesBeanName) {
 		this.order = order;
 		this.localePropertiesBeanName = localePropertiesBeanName;
 		this.localeContextResolveHandlerPropertiesBeanName = localeContextResolveHandlerPropertiesBeanName;

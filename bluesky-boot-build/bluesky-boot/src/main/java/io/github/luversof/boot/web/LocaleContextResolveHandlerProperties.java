@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.servlet;
+package io.github.luversof.boot.web;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -16,11 +16,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.servlet.locale-context-resolve-handler")
+@ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolve-handler")
 public class LocaleContextResolveHandlerProperties implements BlueskyProperties {
 	
-	public static final String DEFAULT_BEAN_NAME = "localeContextResolveHandlerProperties";
-
 	/**
 	 * resolveLocale 시 쿠키 생성 여부
 	 */
