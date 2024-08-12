@@ -35,8 +35,8 @@ public class LocaleContextResolveHandlerModuleProperties implements BlueskyModul
 			
 			var localeContextResolveHandlerProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getResolveLocaleCookieCreate).to(builder::resolveLocaleCookieCreate);
-			propertyMapper.from(localeContextResolveHandlerProperties::getResolveLocaleCookieCreate).to(builder::resolveLocaleCookieCreate);
+			propertyMapper.from(getParent()::getResolveLocaleContextCookieCreate).to(builder::resolveLocaleContextCookieCreate);
+			propertyMapper.from(localeContextResolveHandlerProperties::getResolveLocaleContextCookieCreate).to(builder::resolveLocaleContextCookieCreate);
 			
 			
 			getModules().put(moduleName, builder.build());

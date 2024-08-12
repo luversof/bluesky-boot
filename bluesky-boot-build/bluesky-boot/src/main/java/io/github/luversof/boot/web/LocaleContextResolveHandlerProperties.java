@@ -22,6 +22,6 @@ public class LocaleContextResolveHandlerProperties implements BlueskyProperties 
 	/**
 	 * resolveLocale 시 쿠키 생성 여부
 	 */
-	private Boolean resolveLocaleCookieCreate;
+	private Boolean resolveLocaleContextCookieCreate;
 
 }

@@ -1,7 +1,10 @@
 package io.github.luversof.boot.web.servlet.i18n.handler;
 
-import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfoContainer;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfo;
+import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfoContainer;
+import io.github.luversof.boot.context.BlueskyContextHolder;
+import io.github.luversof.boot.context.i18n.LocaleProperties;
+import io.github.luversof.boot.web.LocaleContextResolveHandlerProperties;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveHandler;
 import lombok.Getter;
 
@@ -42,12 +45,27 @@ public abstract class AbstractLocaleContextResolveHandler implements LocaleConte
 	 * @param localeContextResolveInfoContainer
 	 * @return
 	 */
-	protected LocaleContextResolveInfo createLocaleResolveInfo(LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
-		var localeResolveInfo = new LocaleContextResolveInfo();
-		localeResolveInfo.setOrder(getOrder());
-		localeResolveInfo.setHandlerBeanName(getHandlerBeanName());
-		
-		localeContextResolveInfoContainer.getResolveList().add(localeResolveInfo);
-		return localeResolveInfo;
+	protected LocaleContextResolveInfo createLocaleContextResolveInfo() {
+		var localeContextResolveInfo = new LocaleContextResolveInfo();
+		localeContextResolveInfo.setOrder(getOrder());
+		localeContextResolveInfo.setHandlerBeanName(getHandlerBeanName());
+		return localeContextResolveInfo;
+	}
+	
+	/**
+	 * localeContextResolveInfoContainer에 localeContextResolveInfo를 추가
+	 * @param localeContextResolveInfoContainer
+	 * @param localeContextResolveInfo
+	 */
+	protected void addLocaleContextResolveInfo(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
+		localeContextResolveInfoContainer.getResolveList().add(localeContextResolveInfo);
+	}
+	
+	protected LocaleProperties getLocaleProperties() {
+		return BlueskyContextHolder.getProperties(LocaleProperties.class, localePropertiesBeanName);
+	}
+	
+	protected LocaleContextResolveHandlerProperties getLocaleContextResolveHandlerProperties() {
+		return BlueskyContextHolder.getProperties(LocaleContextResolveHandlerProperties.class, localeContextResolveHandlerPropertiesBeanName);
 	}
 }

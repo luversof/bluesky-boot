@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfoContainer;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfo;
@@ -34,9 +33,14 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 	
 	@Override
 	public void resolveLocaleContext(HttpServletRequest request, LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
-		var currentLocaleResolveInfo = createLocaleResolveInfo(localeContextResolveInfoContainer);
-		setRequestLocaleContext(request, currentLocaleResolveInfo);
-		setResolveLocaleContext(localeContextResolveInfoContainer, currentLocaleResolveInfo);
+		var localeContextResolveInfo = createLocaleContextResolveInfo();
+		var requestLocaleContext = getRequestLocaleContext(request);
+		localeContextResolveInfo.setRequestLocaleContext(requestLocaleContext);
+		
+		resolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
+		setRepresenatativeSupplier(localeContextResolveInfoContainer, localeContextResolveInfo);
+		
+		addLocaleContextResolveInfo(localeContextResolveInfoContainer, localeContextResolveInfo);
 		
 		// do something
 		// requestLocale과 resolveLocale이 다르거나 혹은 resolveLocale을 기준으로 쿠키를 굽거나 기존 쿠키를 삭제하는 등의 처리?
@@ -44,30 +48,37 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 
 	@Override
 	public void setLocaleContext(HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext, LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
-		var currentLocaleResolveInfo = createLocaleResolveInfo(localeContextResolveInfoContainer);
-		currentLocaleResolveInfo.setRequestLocaleContext(localeContext);
-		setResolveLocaleContext(localeContextResolveInfoContainer, currentLocaleResolveInfo);
+		var localeContextResolveInfo = createLocaleContextResolveInfo();
+		// 해당 locale이 허용되었는지 체크하는 과정
+		localeContextResolveInfo.setRequestLocaleContext(localeContext);
+		
+		resolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
 
-		createCookie(response, currentLocaleResolveInfo);
+		setRepresenatativeSupplier(localeContextResolveInfoContainer, localeContextResolveInfo);
+		addLocaleContextResolveInfo(localeContextResolveInfoContainer, localeContextResolveInfo);
+		
+		createCookie(response, localeContextResolveInfo);
+		
 	}
 	
+	
 	/**
-	 * 요청된 Locale을 구한다.
+	 * request에서 Locale을 구함
 	 * @param request
 	 * @param localeContextResolveInfo
 	 */
-	private void setRequestLocaleContext(HttpServletRequest request, LocaleContextResolveInfo localeContextResolveInfo) {
+	private LocaleContext getRequestLocaleContext(HttpServletRequest request) {
 		
 		// 쿠키 조회
-		CookieProperties cookieProperties = BlueskyContextHolder.getProperties(CookieProperties.class);
+		var cookieProperties = getCookieProperties();
 		String cookieName = cookieProperties.getName();
 		if (cookieName == null) {
-			return;
+			return null;
 		}
 		
 		var cookie = WebUtils.getCookie(request, cookieName);
 		if (cookie == null) {
-			return;
+			return null;
 		}
 		
 		Locale locale = null;
@@ -96,12 +107,12 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		}
 		
 		if (locale == null) {
-			return;
+			return null;
 		}
 		
 		Locale requestLocale = locale;
 		TimeZone requestTimezone = timeZone;
-		localeContextResolveInfo.setRequestLocaleContext(new TimeZoneAwareLocaleContext() {
+		return new TimeZoneAwareLocaleContext() {
 
 			@Override
 			public Locale getLocale() {
@@ -113,18 +124,15 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 				return requestTimezone;
 			}
 			
-		});
+		};
 	}
 	
 	// 언어만 체크하는 등의 추가 조건이 있을 수 있음
-	private void setResolveLocaleContext(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
-		var localeProperties = BlueskyContextHolder.getProperties(LocaleProperties.class, getLocalePropertiesBeanName());
+	private void resolveLocaleContext(LocaleContextResolveInfo localeContextResolveInfo, LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
+		var localeProperties = getLocaleProperties();
 		if (localeProperties.getEnableLocaleList().isEmpty()) {
 			return;
 		}
-		
-		// LocaleContext 제공자
-		localeContextResolveInfoContainer.setRepresentativeSupplier(() -> localeContextResolveInfo);
 		
 		var requestLocaleContext = localeContextResolveInfo.getRequestLocaleContext();
 		if (requestLocaleContext == null) {
@@ -148,10 +156,15 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		
 	}
 	
-	private void createCookie(HttpServletResponse response, LocaleContextResolveInfo localeContextResolveInfo) {
+	private void setRepresenatativeSupplier(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
+		// LocaleContext 제공자
+		localeContextResolveInfoContainer.setRepresentativeSupplier(() -> localeContextResolveInfo);
+	}
+	
+	private void createCookie(HttpServletResponse response, LocaleContextResolveInfo localeContextResolveResult) {
 		// resolveLocale을 기준으로 쿠키를 굽는 처리
 		// 변경을 요청한 경우이므로 무조건 구우면 된다.
-		var resolveLocaleContext = localeContextResolveInfo.getResolveLocaleContext();
+		var resolveLocaleContext = localeContextResolveResult.getResolveLocaleContext();
 		if (resolveLocaleContext == null) {
 			return;
 		}
@@ -161,7 +174,7 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 			return;
 		}
 		
-		CookieProperties cookieProperties = BlueskyContextHolder.getProperties(CookieProperties.class, cookiePropertiesBeanName);
+		var cookieProperties = getCookieProperties();
 		// cookie 생성여부 확인 후 쿠키 생성
 		if (!Boolean.TRUE.equals(cookieProperties.getEnabled())) {
 			return;
@@ -179,6 +192,8 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 
-
+	protected CookieProperties getCookieProperties() {
+		return BlueskyContextHolder.getProperties(CookieProperties.class, cookiePropertiesBeanName);
+	}
 
 }
