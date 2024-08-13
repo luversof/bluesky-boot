@@ -37,7 +37,7 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		var requestLocaleContext = getRequestLocaleContext(request);
 		localeContextResolveInfo.setRequestLocaleContext(requestLocaleContext);
 		
-		resolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
+		setResolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
 		setRepresenatativeSupplier(localeContextResolveInfoContainer, localeContextResolveInfo);
 		
 		addLocaleContextResolveInfo(localeContextResolveInfoContainer, localeContextResolveInfo);
@@ -52,7 +52,7 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		// 해당 locale이 허용되었는지 체크하는 과정
 		localeContextResolveInfo.setRequestLocaleContext(localeContext);
 		
-		resolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
+		setResolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
 
 		setRepresenatativeSupplier(localeContextResolveInfoContainer, localeContextResolveInfo);
 		addLocaleContextResolveInfo(localeContextResolveInfoContainer, localeContextResolveInfo);
@@ -128,9 +128,15 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 	}
 	
 	// 언어만 체크하는 등의 추가 조건이 있을 수 있음
-	private void resolveLocaleContext(LocaleContextResolveInfo localeContextResolveInfo, LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
+	private void setResolveLocaleContext(LocaleContextResolveInfo localeContextResolveInfo, LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
 		var localeProperties = getLocaleProperties();
 		if (localeProperties.getEnableLocaleList().isEmpty()) {
+			return;
+		}
+		
+		// locale이 단일이면 해당 로케일로 지정 처리
+		if (localeProperties.getEnableLocaleList().size() == 1) {
+			localeContextResolveInfo.setResolveLocaleContext(localeProperties::getDefaultLocale);
 			return;
 		}
 		

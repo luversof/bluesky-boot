@@ -20,7 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * LocaleContextResolver 관련 설정 담당
+ * LocaleContextResovler에서 사용할 localeContextResolveHandler를 설정
  */
 @Data
 @Builder
@@ -32,20 +32,20 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 	/**
 	 * 목록에 대한 preset 제공
 	 */
-	private LocaleContextResolverPreset preset;
+	private LocaleContextResolveHandlerPreset preset;
 	
 	/**
 	 * 사용할 localeResolverHandler beanName 목록, 순서대로 수행됨
 	 */
 	@Builder.Default
-	private List<String> localeContextResolverHandlerBeanNameList = new ArrayList<>();
+	private List<String> localeContextResolveHandlerBeanNameList = new ArrayList<>();
 
 	@JsonIgnore
 	public List<LocaleContextResolveHandler> getLocaleResolveHandlerList() {
-		if (localeContextResolverHandlerBeanNameList == null) {
+		if (localeContextResolveHandlerBeanNameList == null) {
 			return Collections.emptyList(); 
 		}
-		return localeContextResolverHandlerBeanNameList.stream().map(beanName -> ApplicationContextUtil.getApplicationContext().getBean(beanName, LocaleContextResolveHandler.class)).sorted(Comparator.comparingInt(LocaleContextResolveHandler::getOrder)).toList();
+		return localeContextResolveHandlerBeanNameList.stream().map(beanName -> ApplicationContextUtil.getApplicationContext().getBean(beanName, LocaleContextResolveHandler.class)).sorted(Comparator.comparingInt(LocaleContextResolveHandler::getOrder)).toList();
 	}
 	
 	/**
@@ -58,20 +58,20 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 			return;
 		}
 		
-		if (localeContextResolverHandlerBeanNameList != null &&  !localeContextResolverHandlerBeanNameList.isEmpty()) {
+		if (localeContextResolveHandlerBeanNameList != null &&  !localeContextResolveHandlerBeanNameList.isEmpty()) {
 			return;
 		}
 		
-		localeContextResolverHandlerBeanNameList = preset.getLocaleResolverHandlerBeanNameList();
+		localeContextResolveHandlerBeanNameList = preset.getLocaleContextResolveHandlerBeanNameList();
 	}
 	
 	@AllArgsConstructor
 	@Getter
-	public enum LocaleContextResolverPreset {
+	public enum LocaleContextResolveHandlerPreset {
 		BASIC(List.of("cookieLocaleResolveHandler", AcceptHeaderLocaleContextResolveHandler.DEFAULT_BEAN_NAME)),
 		ACCEPT_HEADER(List.of(AcceptHeaderLocaleContextResolveHandler.DEFAULT_BEAN_NAME))
 		;
 		
-		private List<String> localeResolverHandlerBeanNameList;
+		private List<String> localeContextResolveHandlerBeanNameList;
 	}
 }

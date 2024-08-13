@@ -54,11 +54,17 @@ public abstract class AbstractLocaleContextResolveHandler implements LocaleConte
 	
 	/**
 	 * localeContextResolveInfoContainer에 localeContextResolveInfo를 추가
+	 * 대표 로케일로 지정할 대상인 경우 추가
+	 * 대표 로케일로 지정할 조건이 있는 경우는 어떻게? 이 부분을 고민해보아야 함
+	 * ex) 기존 대표 로케일이 있으면 덮어쓰지 않기 같은 옵션?
 	 * @param localeContextResolveInfoContainer
 	 * @param localeContextResolveInfo
 	 */
 	protected void addLocaleContextResolveInfo(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
 		localeContextResolveInfoContainer.getResolveList().add(localeContextResolveInfo);
+		if (Boolean.TRUE.equals(getLocaleContextResolveHandlerProperties().getSetRepresentative())) {
+			localeContextResolveInfoContainer.setRepresentativeSupplier(() -> localeContextResolveInfo);
+		}
 	}
 	
 	protected LocaleProperties getLocaleProperties() {

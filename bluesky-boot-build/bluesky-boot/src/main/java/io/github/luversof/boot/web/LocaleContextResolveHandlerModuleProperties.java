@@ -14,15 +14,14 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolve-handler")
 public class LocaleContextResolveHandlerModuleProperties implements BlueskyModuleProperties<LocaleContextResolveHandlerProperties> {
 
-	private final LocaleContextResolveHandlerProperties parent;
+private final LocaleContextResolveHandlerProperties parent;
 	
 	private Map<String, LocaleContextResolveHandlerProperties> modules = new HashMap<>();
 	
 	@Override
 	public void load() {
-		var blueskyBootContext = BlueskyBootContextHolder.getContext();
-		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		// var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
+		var brickBootContext = BlueskyBootContextHolder.getContext();
+		var moduleNameSet = brickBootContext.getModuleNameSet();
 		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
@@ -35,12 +34,19 @@ public class LocaleContextResolveHandlerModuleProperties implements BlueskyModul
 			
 			var localeContextResolveHandlerProperties = getModules().get(moduleName);
 			
+			propertyMapper.from(getParent()::getSetRepresentative).to(builder::setRepresentative);
+			propertyMapper.from(localeContextResolveHandlerProperties::getSetRepresentative).to(builder::setRepresentative);
+			propertyMapper.from(getParent()::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
+			propertyMapper.from(localeContextResolveHandlerProperties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
 			propertyMapper.from(getParent()::getResolveLocaleContextCookieCreate).to(builder::resolveLocaleContextCookieCreate);
 			propertyMapper.from(localeContextResolveHandlerProperties::getResolveLocaleContextCookieCreate).to(builder::resolveLocaleContextCookieCreate);
+			propertyMapper.from(getParent()::getSetLocaleContextCookieCreate).to(builder::setLocaleContextCookieCreate);
+			propertyMapper.from(localeContextResolveHandlerProperties::getSetLocaleContextCookieCreate).to(builder::setLocaleContextCookieCreate);
+			
 			
 			
 			getModules().put(moduleName, builder.build());
-			
 		});
+		
 	}
 }
