@@ -34,16 +34,14 @@ private final LocaleContextResolveHandlerProperties parent;
 			
 			var localeContextResolveHandlerProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getSetRepresentative).to(builder::setRepresentative);
-			propertyMapper.from(localeContextResolveHandlerProperties::getSetRepresentative).to(builder::setRepresentative);
-			propertyMapper.from(getParent()::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
-			propertyMapper.from(localeContextResolveHandlerProperties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
 			propertyMapper.from(getParent()::getResolveLocaleContextCookieCreate).to(builder::resolveLocaleContextCookieCreate);
 			propertyMapper.from(localeContextResolveHandlerProperties::getResolveLocaleContextCookieCreate).to(builder::resolveLocaleContextCookieCreate);
 			propertyMapper.from(getParent()::getSetLocaleContextCookieCreate).to(builder::setLocaleContextCookieCreate);
 			propertyMapper.from(localeContextResolveHandlerProperties::getSetLocaleContextCookieCreate).to(builder::setLocaleContextCookieCreate);
-			
-			
+			propertyMapper.from(getParent()::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
+			propertyMapper.from(localeContextResolveHandlerProperties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
+			propertyMapper.from(getParent()::getUsePreLocaleContextResolveInfoCondition).to(builder::usePreLocaleContextResolveInfoCondition);
+			propertyMapper.from(localeContextResolveHandlerProperties::getUsePreLocaleContextResolveInfoCondition).to(builder::usePreLocaleContextResolveInfoCondition);
 			
 			getModules().put(moduleName, builder.build());
 		});

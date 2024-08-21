@@ -2,9 +2,15 @@ package io.github.luversof.boot.web.servlet.i18n.handler;
 
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfo;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfoContainer;
+
+import java.util.Locale;
+
+import org.springframework.util.CollectionUtils;
+
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.LocaleContextResolveHandlerProperties;
+import io.github.luversof.boot.web.LocaleContextResolveHandlerProperties.SetRepresentativeCondition;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveHandler;
 import lombok.Getter;
 
@@ -39,6 +45,13 @@ public abstract class AbstractLocaleContextResolveHandler implements LocaleConte
 		this.handlerBeanName = name;
 	}
 	
+	protected LocaleProperties getLocaleProperties() {
+		return BlueskyContextHolder.getProperties(LocaleProperties.class, localePropertiesBeanName);
+	}
+	
+	protected LocaleContextResolveHandlerProperties getLocaleContextResolveHandlerProperties() {
+		return BlueskyContextHolder.getProperties(LocaleContextResolveHandlerProperties.class, localeContextResolveHandlerPropertiesBeanName);
+	}
 	
 	/**
 	 * 해당 handler에서 사용할 LocaleResolveInfo 생성
@@ -53,25 +66,85 @@ public abstract class AbstractLocaleContextResolveHandler implements LocaleConte
 	}
 	
 	/**
-	 * localeContextResolveInfoContainer에 localeContextResolveInfo를 추가
-	 * 대표 로케일로 지정할 대상인 경우 추가
-	 * 대표 로케일로 지정할 조건이 있는 경우는 어떻게? 이 부분을 고민해보아야 함
-	 * ex) 기존 대표 로케일이 있으면 덮어쓰지 않기 같은 옵션?
-	 * @param localeContextResolveInfoContainer
-	 * @param localeContextResolveInfo
+	 * localeContextResolveInfoContainer에 localeContextResolveInfo를 추가하고 대표 locale 설정 
 	 */
 	protected void addLocaleContextResolveInfo(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
 		localeContextResolveInfoContainer.getResolveList().add(localeContextResolveInfo);
-		if (Boolean.TRUE.equals(getLocaleContextResolveHandlerProperties().getSetRepresentative())) {
+	}
+	
+	/**
+	 * 대표 로케일 지정 설정
+	 * @param localeContextResolveInfoContainer
+	 * @param localeContextResolveInfo
+	 */
+	protected void setRepresenatativeSupplier(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
+		var localeContextResolveHandlerProperties = getLocaleContextResolveHandlerProperties();
+		var setRepresentativeCondition = localeContextResolveHandlerProperties.getSetRepresentativeCondition();
+		
+		switch(setRepresentativeCondition == null ? SetRepresentativeCondition.NONE : setRepresentativeCondition) {
+		case NONE:
+			break;
+		case OVERWRITE:
 			localeContextResolveInfoContainer.setRepresentativeSupplier(() -> localeContextResolveInfo);
+			break;
+		case OVERWRITE_IF_NOT_EXISTS:
+			if (localeContextResolveInfoContainer.getRepresentativeSupplier() == null || localeContextResolveInfoContainer.getRepresentativeSupplier().get().getResolveLocaleContext() == null) {
+				localeContextResolveInfoContainer.setRepresentativeSupplier(() -> localeContextResolveInfo);
+			}
+			break;
+		default:
+			break;
 		}
 	}
-	
-	protected LocaleProperties getLocaleProperties() {
-		return BlueskyContextHolder.getProperties(LocaleProperties.class, localePropertiesBeanName);
+
+	/**
+	 * 대상 Locale을 기준으로 현재 설정된 locale을 가져옴
+	 * @param requestLocale
+	 */
+	protected Locale getResolveLocale(Locale targetLocale, boolean checkLanguageMatchOnly) {
+		if (targetLocale == null) {
+			return null;
+		}
+		
+		var localeProperties = getLocaleProperties();
+		var enableLocaleList = localeProperties.getEnableLocaleList();
+		
+		if (CollectionUtils.isEmpty(enableLocaleList)) {
+			return null;
+		}
+		
+		if (enableLocaleList.contains(targetLocale)) {
+			return targetLocale;
+		}
+		
+		if (checkLanguageMatchOnly) {
+			for (var enableLocale : enableLocaleList) {
+				if (targetLocale.getLanguage().equals(enableLocale.getLanguage())) {
+					return enableLocale;
+				}
+			}
+		}
+			
+		return null;
 	}
-	
-	protected LocaleContextResolveHandlerProperties getLocaleContextResolveHandlerProperties() {
-		return BlueskyContextHolder.getProperties(LocaleContextResolveHandlerProperties.class, localeContextResolveHandlerPropertiesBeanName);
+
+	/**
+	 * 선행 handler에서 계산된 locale을 기준으로 resolveLocale 계산
+	 * @param localeContextResolveInfoContainer
+	 * @return
+	 */
+	protected Locale getResolveLocaleByPreResolveInfo(LocaleContextResolveInfoContainer localeContextResolveInfoContainer) {
+		var resolveList = localeContextResolveInfoContainer.getResolveList();
+		var preResolveLocaleContext = CollectionUtils.isEmpty(resolveList) ? null : resolveList.getLast().getResolveLocaleContext();
+		var preResolveLocale = preResolveLocaleContext == null ? null : preResolveLocaleContext.getLocale();
+		
+		var localeContextResolveHandlerProperties = getLocaleContextResolveHandlerProperties();
+		var usePreLocaleContextResolveInfoCondition = localeContextResolveHandlerProperties.getUsePreLocaleContextResolveInfoCondition();
+		
+		if (preResolveLocale != null) {
+			// preResolveLocale을 기준으로 resolveLocale을 구한다.
+			return getResolveLocale(preResolveLocale, usePreLocaleContextResolveInfoCondition.isCheckLanguageMatchOnly());
+		}
+		return null;
 	}
 }

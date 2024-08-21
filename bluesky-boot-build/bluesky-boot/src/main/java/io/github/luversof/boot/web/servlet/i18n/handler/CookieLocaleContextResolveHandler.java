@@ -8,10 +8,13 @@ import org.springframework.context.i18n.TimeZoneAwareLocaleContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.WebUtils;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.web.CookieProperties;
+import io.github.luversof.boot.web.LocaleContextResolveHandlerProperties.UsePreLocaleContextResolveInfoCondition;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfoContainer;
 import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveInfo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,12 +41,15 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		localeContextResolveInfo.setRequestLocaleContext(requestLocaleContext);
 		
 		setResolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
+		
+		var localeContextResolveHandlerProperties = getLocaleContextResolveHandlerProperties();
+		if (Boolean.TRUE.equals(localeContextResolveHandlerProperties.getResolveLocaleContextCookieCreate())) {
+			HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+			createCookie(response, localeContextResolveInfo);
+		}
+		
 		setRepresenatativeSupplier(localeContextResolveInfoContainer, localeContextResolveInfo);
-		
 		addLocaleContextResolveInfo(localeContextResolveInfoContainer, localeContextResolveInfo);
-		
-		// do something
-		// requestLocale과 resolveLocale이 다르거나 혹은 resolveLocale을 기준으로 쿠키를 굽거나 기존 쿠키를 삭제하는 등의 처리?
 	}
 
 	@Override
@@ -51,14 +57,15 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 		var localeContextResolveInfo = createLocaleContextResolveInfo();
 		// 해당 locale이 허용되었는지 체크하는 과정
 		localeContextResolveInfo.setRequestLocaleContext(localeContext);
-		
 		setResolveLocaleContext(localeContextResolveInfo, localeContextResolveInfoContainer);
 
+		var localeContextResolveHandlerProperties = getLocaleContextResolveHandlerProperties();
+		if (Boolean.TRUE.equals(localeContextResolveHandlerProperties.getSetLocaleContextCookieCreate())) {
+			createCookie(response, localeContextResolveInfo);
+		}
+		
 		setRepresenatativeSupplier(localeContextResolveInfoContainer, localeContextResolveInfo);
 		addLocaleContextResolveInfo(localeContextResolveInfoContainer, localeContextResolveInfo);
-		
-		createCookie(response, localeContextResolveInfo);
-		
 	}
 	
 	
@@ -140,31 +147,42 @@ public class CookieLocaleContextResolveHandler extends AbstractLocaleContextReso
 			return;
 		}
 		
-		var requestLocaleContext = localeContextResolveInfo.getRequestLocaleContext();
-		if (requestLocaleContext == null) {
-			// 요청 localeContext가 없어도 이전 localeResolverHandler에서 계산된 resolve LocaleContext가 있으면 해당 기준으로 처리하는 경우가 있을 수 있음
-			
-			localeContextResolveInfo.setResolveLocaleContext(localeProperties::getDefaultLocale);
+		var localeContextResolveHandlerProperties = getLocaleContextResolveHandlerProperties();
+		var usePreLocaleContextResolveInfoCondition = localeContextResolveHandlerProperties.getUsePreLocaleContextResolveInfoCondition();
+		
+		Locale resolveLocale = null;
+		// 선행 handler resolveLocale을 먼저 참고하는 경우
+		if (UsePreLocaleContextResolveInfoCondition.USE_FIRST.equals(usePreLocaleContextResolveInfoCondition) || UsePreLocaleContextResolveInfoCondition.USE_LANGUAGE_FIRST.equals(usePreLocaleContextResolveInfoCondition)) {
+			resolveLocale = getResolveLocaleByPreResolveInfo(localeContextResolveInfoContainer);
+		}
+		
+		if (resolveLocale != null) {
+			var targetResolveLocale = resolveLocale;
+			localeContextResolveInfo.setResolveLocaleContext(() -> targetResolveLocale);
 			return;
 		}
 		
-		var requestLocale = requestLocaleContext.getLocale();
-		
-		// 현재 계산된 requestLocaleContext도 있고, 이전 localeResolverHandler에서 계산된 localeContext 도 있는 경우 
-		
-		if (localeProperties.getEnableLocaleList().contains(requestLocale)) {
-			localeContextResolveInfo.setResolveLocaleContext(() -> requestLocale);
-		} else {
-			// 해당하는 locale이 없으면 default Locale을 설정해야 할듯?
-			localeContextResolveInfo.setResolveLocaleContext(localeProperties::getDefaultLocale);
+		// 내 자신 로케일 계산하고 있으면 해당 설정
+		var requestLocaleContext = localeContextResolveInfo.getRequestLocaleContext();
+		var requestLocale = requestLocaleContext == null ? null : requestLocaleContext.getLocale();
+		resolveLocale = getResolveLocale(requestLocale, false);
+		if (resolveLocale != null) {
+			var targetResolveLocale = resolveLocale;
+			localeContextResolveInfo.setResolveLocaleContext(() -> targetResolveLocale);
+			return;
 		}
 		
+		// 자신의 resolveLocale이 없으면 선행 로케일 참조하는지 체크 
+		if (UsePreLocaleContextResolveInfoCondition.USE_WHEN_NOT_RESOLVED.equals(usePreLocaleContextResolveInfoCondition) || UsePreLocaleContextResolveInfoCondition.USE_LANGUAGE_WHEN_NOT_RESOLVED.equals(usePreLocaleContextResolveInfoCondition)) {
+			resolveLocale = getResolveLocaleByPreResolveInfo(localeContextResolveInfoContainer);
+		}
 		
-	}
-	
-	private void setRepresenatativeSupplier(LocaleContextResolveInfoContainer localeContextResolveInfoContainer, LocaleContextResolveInfo localeContextResolveInfo) {
-		// LocaleContext 제공자
-		localeContextResolveInfoContainer.setRepresentativeSupplier(() -> localeContextResolveInfo);
+		if (resolveLocale != null) {
+			var targetResolveLocale = resolveLocale;
+			localeContextResolveInfo.setResolveLocaleContext(() -> targetResolveLocale);
+			return;
+		}
+		// 최종적으로 resolveLocale이 없는 경우 굳이 설정하지 않음
 	}
 	
 	private void createCookie(HttpServletResponse response, LocaleContextResolveInfo localeContextResolveResult) {
