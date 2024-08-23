@@ -161,7 +161,7 @@ public final class BlueskyContextHolder {
 		if (blueskyPropertiesBeanName == null) {
 			blueskyModuleProperties =  moduleBeanProvider.orderedStream().toList().get(0);
 		} else {
-			var parent = applicationContext.getBean(blueskyPropertiesClass, blueskyPropertiesBeanName);
+			var parent = applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
 			blueskyModuleProperties = moduleBeanProvider.stream().filter(x-> x.getParent() == parent).findFirst().orElseThrow(() -> new BlueskyException("NOT EXIST TARGET BLUESKY MODULE PROPERTIES"));
 		}
 		

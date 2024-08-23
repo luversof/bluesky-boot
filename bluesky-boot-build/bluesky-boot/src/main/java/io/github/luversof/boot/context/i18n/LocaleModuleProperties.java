@@ -16,6 +16,7 @@ import lombok.Data;
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
 	
 	public static final String DEFAULT_BEAN_NAME = "localeModuleProperties";
+	public static final String EXTERNAL_LOCALE_BEAN_NAME = "externalLocaleModuleProperties";
 
 	private final LocaleProperties parent;
 	

@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class LocaleProperties implements BlueskyProperties {
 	
 	public static final String DEFAULT_BEAN_NAME = "localeProperties";
+	public static final String EXTERNAL_LOCALE_BEAN_NAME = "externalLocaleProperties";
 
 	/**
 	 * 사용 가능 로케일 목록,

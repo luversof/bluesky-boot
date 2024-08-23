@@ -33,17 +33,23 @@ public class LocaleAutoConfiguration {
 		);
 	}
 	
-	@Bean
-	@ConfigurationProperties(prefix = "bluesky-boot.other-locale")
-	LocaleProperties otherLocaleProperties() {
+	@Bean(LocaleProperties.EXTERNAL_LOCALE_BEAN_NAME)
+	@ConfigurationProperties(prefix = "bluesky-boot.external-locale")
+	LocaleProperties externalLocaleProperties() {
 		return new LocaleProperties();
 	}
 	
-	@Bean
-	@ConfigurationProperties(prefix = "bluesky-boot.other-locale")
-	LocaleModuleProperties otherLocaleModuleProperties(@Qualifier("otherLocaleProperties") LocaleProperties otherLocaleProperties) {
+	/**
+	 * external-locale이랑 locale이랑 동일 builder를 사용하고 있음. (ServiceInfo 도 동일 정보 사용)
+	 * 분기 처리 필요한지 검토 필요
+	 * @param localeProperties
+	 * @return
+	 */
+	@Bean(LocaleModuleProperties.EXTERNAL_LOCALE_BEAN_NAME)
+	@ConfigurationProperties(prefix = "bluesky-boot.external-locale")
+	LocaleModuleProperties externalLocaleModuleProperties(@Qualifier(LocaleProperties.EXTERNAL_LOCALE_BEAN_NAME) LocaleProperties localeProperties) {
 		return new LocaleModuleProperties(
-				otherLocaleProperties,
+				localeProperties,
 				moduleName -> {
 					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
 					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocalePropertiesBuilder() : LocaleProperties.builder();

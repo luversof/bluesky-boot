@@ -2,8 +2,8 @@ package io.github.luversof.boot.web;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -11,17 +11,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.core.BlueskyProperties;
-import io.github.luversof.boot.web.servlet.i18n.LocaleContextResolveHandler;
-import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleContextResolveHandler;
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
+import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * LocaleContextResovler에서 사용할 localeContextResolveHandler를 설정
  */
+@Slf4j
 @Data
 @Builder
 @NoArgsConstructor
@@ -38,14 +40,25 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 	 * 사용할 localeResolverHandler beanName 목록, 순서대로 수행됨
 	 */
 	@Builder.Default
-	private List<String> localeContextResolveHandlerBeanNameList = new ArrayList<>();
+	private List<String> localeResolveHandlerBeanNameList = new ArrayList<>();
 
 	@JsonIgnore
-	public List<LocaleContextResolveHandler> getLocaleResolveHandlerList() {
-		if (localeContextResolveHandlerBeanNameList == null) {
+	public List<LocaleResolveHandler> getLocaleResolveHandlerList() {
+		if (localeResolveHandlerBeanNameList == null) {
 			return Collections.emptyList(); 
 		}
-		return localeContextResolveHandlerBeanNameList.stream().map(beanName -> ApplicationContextUtil.getApplicationContext().getBean(beanName, LocaleContextResolveHandler.class)).sorted(Comparator.comparingInt(LocaleContextResolveHandler::getOrder)).toList();
+		
+		Map<String, LocaleResolveHandler> beansOfType = ApplicationContextUtil.getApplicationContext().getBeansOfType(LocaleResolveHandler.class);
+		
+		List<LocaleResolveHandler> localeResolveHandlerList = new ArrayList<>();
+		localeResolveHandlerBeanNameList.forEach(beanName -> {
+			if (!beansOfType.containsKey(beanName)) {
+				log.warn("LocaleResolveHandler bean {} is not exist", beanName);
+				return;
+			}
+			localeResolveHandlerList.add(beansOfType.get(beanName));
+		});
+		return localeResolveHandlerList;
 	}
 	
 	/**
@@ -58,18 +71,18 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 			return;
 		}
 		
-		if (localeContextResolveHandlerBeanNameList != null &&  !localeContextResolveHandlerBeanNameList.isEmpty()) {
+		if (localeResolveHandlerBeanNameList != null &&  !localeResolveHandlerBeanNameList.isEmpty()) {
 			return;
 		}
 		
-		localeContextResolveHandlerBeanNameList = preset.getLocaleContextResolveHandlerBeanNameList();
+		localeResolveHandlerBeanNameList = preset.getLocaleContextResolveHandlerBeanNameList();
 	}
 	
 	@AllArgsConstructor
 	@Getter
 	public enum LocaleContextResolveHandlerPreset {
-		BASIC(List.of("cookieLocaleResolveHandler", AcceptHeaderLocaleContextResolveHandler.DEFAULT_BEAN_NAME)),
-		ACCEPT_HEADER(List.of(AcceptHeaderLocaleContextResolveHandler.DEFAULT_BEAN_NAME))
+		BASIC(List.of("cookieLocaleResolveHandler", AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)),
+		ACCEPT_HEADER(List.of(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME))
 		;
 		
 		private List<String> localeContextResolveHandlerBeanNameList;
