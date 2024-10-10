@@ -37,33 +37,33 @@ class MongoReactiveRepositoriesAutoConfigurationTests {
 	@Test
 	void testNoRepositoryConfiguration() {
 		this.contextRunner.withUserConfiguration(EmptyConfiguration.class)
-				.run((context) -> assertThat(context).hasSingleBean(MongoClient.class));
+				.run(context -> assertThat(context).hasSingleBean(MongoClient.class));
 	}
 
 	@Test
 	void doesNotTriggerDefaultRepositoryDetectionIfCustomized() {
 		this.contextRunner.withUserConfiguration(CustomizedConfiguration.class)
-				.run((context) -> assertThat(context).doesNotHaveBean(ReactiveCityMongoDbRepository.class));
+				.run(context -> assertThat(context).doesNotHaveBean(ReactiveCityMongoDbRepository.class));
 	}
 
 	@Test
 	void autoConfigurationShouldNotKickInEvenIfManualConfigDidNotCreateAnyRepositories() {
 		this.contextRunner.withUserConfiguration(SortOfInvalidCustomConfiguration.class)
-				.run((context) -> assertThat(context).doesNotHaveBean(ReactiveCityRepository.class));
+				.run(context -> assertThat(context).doesNotHaveBean(ReactiveCityRepository.class));
 	}
 
 	@Test
 	void enablingImperativeRepositoriesDisablesReactiveRepositories() {
 		this.contextRunner.withUserConfiguration(TestConfiguration.class)
 				.withPropertyValues("spring.data.mongodb.repositories.type=imperative")
-				.run((context) -> assertThat(context).doesNotHaveBean(ReactiveCityRepository.class));
+				.run(context -> assertThat(context).doesNotHaveBean(ReactiveCityRepository.class));
 	}
 
 	@Test
 	void enablingNoRepositoriesDisablesReactiveRepositories() {
 		this.contextRunner.withUserConfiguration(TestConfiguration.class)
 				.withPropertyValues("spring.data.mongodb.repositories.type=none")
-				.run((context) -> assertThat(context).doesNotHaveBean(ReactiveCityRepository.class));
+				.run(context -> assertThat(context).doesNotHaveBean(ReactiveCityRepository.class));
 	}
 
 	@Configuration(proxyBeanMethods = false)

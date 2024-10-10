@@ -54,22 +54,28 @@ class SimpleTest {
 		assertThat(split).isNotNull();
 	}
 	
-	@Test
-	void spelTest() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+		"T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST",
+		"new String('hello world').toUpperCase()"
+	})
+	void spelTest(String expressionString) {
 		ExpressionParser parser = new SpelExpressionParser();
-		Expression exp = parser.parseExpression("T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST");
-//		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
+		Expression exp = parser.parseExpression(expressionString);
 		var value = exp.getValue();
 		log.debug("result : {}", value);
 		assertThat(value).isNotNull();
 	}
 	
-	@Test
-	void spelTest2() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+		"T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST",
+		"new String('hello world').toUpperCase()"
+	})
+	void spelTest2(String expressionString) {
 		SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, this.getClass().getClassLoader());
 		SpelExpressionParser parser = new SpelExpressionParser(config);
-		Expression exp = parser.parseExpression("T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST");
-//		Expression exp = parser.parseExpression("new String('hello world').toUpperCase()");
+		Expression exp = parser.parseExpression(expressionString);
 		var value = exp.getValue();
 		log.debug("result : {}", value);
 		assertThat(value).isNotNull();

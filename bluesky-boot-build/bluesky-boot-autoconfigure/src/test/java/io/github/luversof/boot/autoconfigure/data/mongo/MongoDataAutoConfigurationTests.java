@@ -42,12 +42,6 @@ class MongoDataAutoConfigurationTests {
 			.withConfiguration(AutoConfigurations.of(DATA_MONGO_CONFIGURATION))
 			.withUserConfiguration(DATA_MONGO_USER_CONFIGURATION);
 
-//	@Configuration
-//	@EnableMongoRepositories(basePackages = "io.github.luversof.boot.autoconfigure.data.mongo", mongoTemplateRef = "userMongoTemplate")
-//	public class Config {
-//		
-//	}
-	
 	@Test
 	void templateExists() {
 		this.contextRunner.run(context -> assertThat(context).hasSingleBean(MongoTemplate.class));

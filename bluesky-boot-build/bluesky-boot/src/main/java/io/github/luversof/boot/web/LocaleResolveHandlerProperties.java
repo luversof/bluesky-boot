@@ -54,12 +54,6 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties {
 	@AllArgsConstructor
 	@Getter
 	public enum LocaleResolveInfoCondition {
-		// set 은 무조건 쿠키를 굽는다? resolve시 쿠키 굽는다
-		// set 은 무조건 쿠키를 굽는다? resolve시 쿠키 안굽는다
-		// 언어만 참조한다 여부?
-		// 내부 사용 cookie에서가져오는 경우는 쿠키 언어_국가 전부 체크
-		// accept-header는 언어 기준으로 체크
-		// 이걸 뭐로 지정해야 하나?-ㅅ-;;
 		COOKIE(false, true, true),
 		EXTERNAL_COOKIE(false, false, true),
 		ACCEPT_HEADER(true, false, false)
