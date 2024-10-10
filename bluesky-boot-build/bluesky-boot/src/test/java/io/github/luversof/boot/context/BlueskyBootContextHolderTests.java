@@ -33,8 +33,8 @@ class BlueskyBootContextHolderTests {
 	@Test
 	void getBlueskyContext() {
 		load();
-		var context = BlueskyContextHolder.getContext();
-		assertThat(context).isNotNull();
+		var blueskyContext = BlueskyContextHolder.getContext();
+		assertThat(blueskyContext).isNotNull();
 	}
 	
 	@Test
@@ -42,15 +42,15 @@ class BlueskyBootContextHolderTests {
 	void getBlueskyContext2() {
 		System.setProperty(BlueskyContextHolder.SYSTEM_PROPERTY, BlueskyContextHolder.MODE_GLOBAL);
 		load();
-		var context = BlueskyContextHolder.getContext();
-		assertThat(context).isNotNull();
+		var blueskyContext = BlueskyContextHolder.getContext();
+		assertThat(blueskyContext).isNotNull();
 	}
 	
 	@Test
 	void getBlueskyBootContext() {
 		load();
-		var context = BlueskyBootContextHolder.getContext();
-		assertThat(context).isNotNull();
+		var blueskyContext = BlueskyBootContextHolder.getContext();
+		assertThat(blueskyContext).isNotNull();
 	}
 	
 	@Configuration(proxyBeanMethods = false)

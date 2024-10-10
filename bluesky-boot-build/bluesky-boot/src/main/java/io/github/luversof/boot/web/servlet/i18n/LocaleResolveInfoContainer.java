@@ -19,7 +19,11 @@ public class LocaleResolveInfoContainer {
 	 */
 	private Supplier<LocaleResolveInfo> representativeSupplier;
 	
-	// 최종 결과 localeContext
+	/**
+	 * 최종 결과 localeContext
+	 * representativeSupplier가 지정되지 않으면 defaultLocale을 사용
+	 * @return
+	 */
 	public Locale getLocale() {
 		if (representativeSupplier == null) {
 			return getDefaultLocale();
@@ -32,9 +36,5 @@ public class LocaleResolveInfoContainer {
 	private Locale getDefaultLocale() {
 		return BlueskyContextHolder.getProperties(LocaleProperties.class, LocaleProperties.DEFAULT_BEAN_NAME).getDefaultLocale();
 	}
-	
-//	public Optional<LocaleResolveInfo> findByHandlerBeanName(String handlerBeanName) {
-//		return resolveList.stream().filter(x -> x.getHandlerBeanName().equals(handlerBeanName)).findFirst();
-//	}
 	
 }

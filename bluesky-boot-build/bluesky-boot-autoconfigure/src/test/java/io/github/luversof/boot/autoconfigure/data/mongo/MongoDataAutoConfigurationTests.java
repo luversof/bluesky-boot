@@ -50,20 +50,20 @@ class MongoDataAutoConfigurationTests {
 	
 	@Test
 	void templateExists() {
-		this.contextRunner.run((context) -> assertThat(context).hasSingleBean(MongoTemplate.class));
+		this.contextRunner.run(context -> assertThat(context).hasSingleBean(MongoTemplate.class));
 	}
 	
 	@Test
 	void gridFsTemplateExists() {
 		this.contextRunner.withPropertyValues("spring.data.mongodb.gridFsDatabase:grid")
-				.run((context) -> assertThat(context)
+				.run(context -> assertThat(context)
 						.hasSingleBean(GridFsTemplate.class));
 	}
 	
 	@Test
 	void customConversions() {
 		this.contextRunner.withUserConfiguration(CustomConversionsConfig.class)
-				.run((context) -> {
+				.run(context -> {
 					MongoTemplate template = context.getBean(MongoTemplate.class);
 					assertThat(template.getConverter().getConversionService()
 							.canConvert(MongoClient.class, Boolean.class)).isTrue();
@@ -72,7 +72,7 @@ class MongoDataAutoConfigurationTests {
 
 	@Test
 	void defaultFieldNamingStrategy() {
-		this.contextRunner.run((context) -> {
+		this.contextRunner.run(context -> {
 			MongoMappingContext mappingContext = context
 					.getBean(MongoMappingContext.class);
 			FieldNamingStrategy fieldNamingStrategy = (FieldNamingStrategy) ReflectionTestUtils
@@ -87,7 +87,7 @@ class MongoDataAutoConfigurationTests {
 		this.contextRunner
 				.withPropertyValues("spring.data.mongodb.field-naming-strategy:"
 						+ CamelCaseAbbreviatingFieldNamingStrategy.class.getName())
-				.run((context) -> {
+				.run(context -> {
 					MongoMappingContext mappingContext = context
 							.getBean(MongoMappingContext.class);
 					FieldNamingStrategy fieldNamingStrategy = (FieldNamingStrategy) ReflectionTestUtils
@@ -108,7 +108,7 @@ class MongoDataAutoConfigurationTests {
 	
 	@Test
 	void registersDefaultSimpleTypesWithMappingContext() {
-		this.contextRunner.run((context) -> {
+		this.contextRunner.run(context -> {
 			MongoMappingContext mappingContext = context.getBean(MongoMappingContext.class);
 			MongoPersistentEntity<?> entity = mappingContext.getPersistentEntity(Sample.class);
 			MongoPersistentProperty dateProperty = entity.getPersistentProperty("date");
@@ -119,7 +119,7 @@ class MongoDataAutoConfigurationTests {
 	
 	@Test
 	void createsMongoDbFactoryForPreferredMongoClient() {
-		this.contextRunner.run((context) -> {
+		this.contextRunner.run(context -> {
 			MongoDatabaseFactory dbFactory = context.getBean(MongoDatabaseFactory.class);
 			assertThat(dbFactory).isInstanceOf(SimpleMongoClientDatabaseFactory.class);
 		});
@@ -128,7 +128,7 @@ class MongoDataAutoConfigurationTests {
 	@Test
 	void createsMongoDbFactoryForFallbackMongoClient() {
 		this.contextRunner.withUserConfiguration(FallbackMongoClientConfiguration.class)
-				.run((context) -> {
+				.run(context -> {
 					MongoDatabaseFactory dbFactory = context.getBean(MongoDatabaseFactory.class);
 					assertThat(dbFactory).isInstanceOf(SimpleMongoClientDatabaseFactory.class);
 				});
@@ -175,41 +175,4 @@ class MongoDataAutoConfigurationTests {
 		LocalDateTime date;
 
 	}
-//	
-//	@Test
-//	public void test() {
-//		repository.deleteAll();
-//
-//		// save a couple of customers
-//		repository.save(new User("Alice", "Smith"));
-//		repository.save(new User("Bob", "Smith"));
-//
-//		// fetch all customers
-//		System.out.println("Customers found with findAll():");
-//		System.out.println("-------------------------------");
-//		for (User customer : repository.findAll()) {
-//			System.out.println(customer);
-//		}
-//		System.out.println();
-//
-//		// fetch an individual customer
-//		System.out.println("Customer found with findByFirstName('Alice'):");
-//		System.out.println("--------------------------------");
-//		System.out.println(repository.findByFirstName("Alice"));
-//
-//		System.out.println("Customers found with findByLastName('Smith'):");
-//		System.out.println("--------------------------------");
-//		for (User customer : repository.findByLastName("Smith")) {
-//			System.out.println(customer);
-//		}
-//
-//	}
-//	
-//	@Test
-//	public void test2() {
-//		this.contextRunner.run((context) -> {
-//			CityRepository repository = context.getBean(CityRepository.class);
-//			log.debug("result : {}", repository.findAll());
-//		});
-//	}
 }

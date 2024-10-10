@@ -28,7 +28,7 @@ import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcess
 class DataSourceAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer((applicationContext) -> new ProfileEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+			.withInitializer(applicationContext -> new ProfileEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 			.withConfiguration(AutoConfigurations.of(JDBC_CONFIGURATION))
 			.withUserConfiguration(JDBC_USER_CONFIGURATION)
 			.withPropertyValues("spring.datasource.initialization-mode=never",
@@ -36,13 +36,13 @@ class DataSourceAutoConfigurationTests {
 	
 	@Test
 	void testDefaultDataSourceExists() {
-		this.contextRunner.run((context) -> assertThat(context).hasSingleBean(DataSource.class));
+		this.contextRunner.run(context -> assertThat(context).hasSingleBean(DataSource.class));
 	}
 	
 	@Test
 	void testWithConnectionInfo() {
 		this.contextRunner
-			.withInitializer((applicationContext) -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+			.withInitializer(applicationContext -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 			.withPropertyValues(
 				"bluesky-boot.connection-info.loaders.mariadb-datasource.enabled=true",
 				"bluesky-boot.connection-info.loaders.mariadb-datasource.properties.url=jdbc:mariadb://mariadb.bluesky.local:3306/connection_info",
@@ -59,7 +59,7 @@ class DataSourceAutoConfigurationTests {
 			.withPropertyValues("bluesky-boot.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
 			.withUserConfiguration(CORE_USER_CONFIGURATION)
 			.withUserConfiguration(ConnectionInfoAutoConfiguration.class)
-			.run((context) -> {
+			.run(context -> {
 				DataSource dataSource = context.getBean("routingDataSource", DataSource.class);
 				assertThat(dataSource).isNotNull();
 				if (dataSource instanceof LazyConnectionDataSourceProxy lazyConnectionDataSourceProxy) {

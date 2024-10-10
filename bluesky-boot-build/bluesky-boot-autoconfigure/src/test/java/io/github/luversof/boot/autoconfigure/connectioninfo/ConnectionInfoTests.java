@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 class ConnectionInfoTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer((applicationContext) -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+			.withInitializer(applicationContext -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues(
 				"bluesky-boot.connection-info.loaders.mariadb-datasource.enabled=true",

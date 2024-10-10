@@ -10,31 +10,31 @@ import io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 public class AutoConfigurationTestInfo {
 
-	public static String[] BASE_PROPERTY = new String[] { "bluesky-boot-profile=opdev" };
+	public static final String[] BASE_PROPERTY = new String[] { "bluesky-boot-profile=opdev" };
 	
-	public static Class<?>[] CORE_USER_CONFIGURATION = new Class<?>[] { CoreAutoConfiguration.class , LocaleAutoConfiguration.class};
+	public static final Class<?>[] CORE_USER_CONFIGURATION = new Class<?>[] { CoreAutoConfiguration.class , LocaleAutoConfiguration.class};
 	
-	public static Class<?>[] CORE_MESSAGESOURCE_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class };
+	public static final Class<?>[] CORE_MESSAGESOURCE_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class };
 	
-	public static Class<?>[] CORE_MESSAGESOURCE_USER_CONFIGURATION = addClassAll(CORE_USER_CONFIGURATION, MessageSourceAutoConfiguration.class);
+	public static final Class<?>[] CORE_MESSAGESOURCE_USER_CONFIGURATION = addClassAll(CORE_USER_CONFIGURATION, MessageSourceAutoConfiguration.class);
 	
-	public static Class<?>[] JDBC_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class };
+	public static final Class<?>[] JDBC_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class };
 	
-	public static Class<?>[] JDBC_USER_CONFIGURATION = new Class<?>[] { DataSourceAutoConfiguration.class} ;
+	public static final Class<?>[] JDBC_USER_CONFIGURATION = new Class<?>[] { DataSourceAutoConfiguration.class} ;
 	
-	public static Class<?>[] MONGO_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration.class };
+	public static final Class<?>[] MONGO_CONFIGURATION = new Class<?>[] { org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration.class };
 	
-	public static Class<?>[] MONGO_REACTIVE_CONFIGURATION = addClassAll(MONGO_CONFIGURATION, org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration.class);
+	public static final Class<?>[] MONGO_REACTIVE_CONFIGURATION = addClassAll(MONGO_CONFIGURATION, org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration.class);
 	
-	public static Class<?>[] MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
+	public static final Class<?>[] MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
 	
-	public static Class<?>[] DATA_MONGO_CONFIGURATION = addClassAll(MONGO_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration.class);
+	public static final Class<?>[] DATA_MONGO_CONFIGURATION = addClassAll(MONGO_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration.class);
 		
-	public static Class<?>[] DATA_MONGO_REACTIVE_CONFIGURATION = addClassAll(DATA_MONGO_CONFIGURATION, MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration.class);
+	public static final Class<?>[] DATA_MONGO_REACTIVE_CONFIGURATION = addClassAll(DATA_MONGO_CONFIGURATION, MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration.class);
 	
-	public static Class<?>[] DATA_MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
+	public static final Class<?>[] DATA_MONGO_USER_CONFIGURATION = new Class<?>[] { MongoAutoConfiguration.class };
 	
-	public static Class<?>[] DATA_MONGO_REACTIVE_USER_CONFIGURATION = addClassAll(DATA_MONGO_USER_CONFIGURATION);
+	public static final Class<?>[] DATA_MONGO_REACTIVE_USER_CONFIGURATION = addClassAll(DATA_MONGO_USER_CONFIGURATION);
 	
 	@SuppressWarnings("unused")
 	private static String[] addAll(String[] target, String...strings) {

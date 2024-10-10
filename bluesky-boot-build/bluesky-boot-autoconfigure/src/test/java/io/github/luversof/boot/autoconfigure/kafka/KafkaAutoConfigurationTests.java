@@ -18,7 +18,7 @@ class KafkaAutoConfigurationTests {
 	@Disabled("kafka 서버 제거로 인해 테스트 비활성화")
 	void test() {
 		this.contextRunner.withPropertyValues("spring.kafka.bootstrap-servers=localhost:9092", "spring.kafka.consumer.group-id=myGroup")
-				.run((context) -> {
+				.run(context -> {
 					@SuppressWarnings("unchecked")
 					KafkaTemplate<String, String> kafkaTemplate = context.getBean(KafkaTemplate.class);
 					assertThat(kafkaTemplate).isNotNull();

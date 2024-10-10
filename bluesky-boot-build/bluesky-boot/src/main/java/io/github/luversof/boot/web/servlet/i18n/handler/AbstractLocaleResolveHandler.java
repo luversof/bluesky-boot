@@ -103,7 +103,6 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 		
 		if (resolveLocale != null) {
 			localeResolveInfo.setResolveLocale(resolveLocale);
-			return;
 		}
 		// 최종적으로 resolveLocale이 없는 경우 굳이 설정하지 않음
 	}

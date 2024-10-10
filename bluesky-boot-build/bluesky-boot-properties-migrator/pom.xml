@@ -4,25 +4,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.luversof</groupId>
-		<artifactId>bluesky-boot-build</artifactId>
+		<artifactId>bluesky-boot-parent</artifactId>
 		<version>3.3.0-SNAPSHOT</version>
+		<relativePath>../bluesky-boot-parent</relativePath>
 	</parent>
 	<artifactId>bluesky-boot-properties-migrator</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
-			<!--<scope>runtime</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-properties-migrator</artifactId>
-			<!--<scope>runtime</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-metadata</artifactId>
-			<!--<scope>runtime</scope>-->
 		</dependency>
 	</dependencies>
 </project>

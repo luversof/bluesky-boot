@@ -52,8 +52,9 @@ public class CookieLocaleResolveHandler extends AbstractLocaleResolveHandler {
 		
 		var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
 		var localeResolveInfoCondition = localeResolveHandlerProperties.getLocaleResolveInfoCondition();
-		if (localeResolveInfoCondition != null && localeResolveInfoCondition.isResolveLocaleCookieCreate()) {
-			HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+		var requestAttributes = RequestContextHolder.getRequestAttributes();
+		if (localeResolveInfoCondition != null && localeResolveInfoCondition.isResolveLocaleCookieCreate() && requestAttributes != null) {
+			HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
 			createCookie(response, localeResolveInfo);
 		}
 		
@@ -134,6 +135,11 @@ public class CookieLocaleResolveHandler extends AbstractLocaleResolveHandler {
 	}
 	
 	private void createCookie(HttpServletResponse response, LocaleResolveInfo localeResolveResult) {
+		if (response == null) {
+			log.debug("response is null");
+			return;
+		}
+		
 		// resolveLocale을 기준으로 쿠키를 굽는 처리
 		// 변경을 요청한 경우이므로 무조건 구우면 된다.
 		var resolveLocale = localeResolveResult.getResolveLocale();

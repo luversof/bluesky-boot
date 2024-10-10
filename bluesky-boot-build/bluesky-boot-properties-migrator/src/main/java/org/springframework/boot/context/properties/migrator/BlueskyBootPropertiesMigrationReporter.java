@@ -22,6 +22,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
+import lombok.EqualsAndHashCode;
+
 class BlueskyBootPropertiesMigrationReporter {
 
 	private final Map<String, ConfigurationMetadataProperty> allProperties;
@@ -91,7 +93,7 @@ class BlueskyBootPropertiesMigrationReporter {
 			Predicate<ConfigurationMetadataProperty> filter) {
 		MultiValueMap<String, PropertyMigration> result = new LinkedMultiValueMap<>();
 		List<ConfigurationMetadataProperty> candidates = this.allProperties.values().stream().filter(filter).toList();
-		getPropertySourcesAsMap().forEach((propertySourceName, propertySource) -> candidates.forEach((metadata) -> {
+		getPropertySourcesAsMap().forEach((propertySourceName, propertySource) -> candidates.forEach(metadata -> {
 			ConfigurationPropertyName metadataName = ConfigurationPropertyName.isValid(metadata.getId())
 					? ConfigurationPropertyName.of(metadata.getId())
 					: ConfigurationPropertyName.adapt(metadata.getId(), '.');
@@ -102,12 +104,11 @@ class BlueskyBootPropertiesMigrationReporter {
 						new PropertyMigration(match, metadata, determineReplacementMetadata(metadata), false));
 			}
 			// Prefix match for maps
-			if (isMapType(metadata) && propertySource instanceof IterableConfigurationPropertySource) {
-				IterableConfigurationPropertySource iterableSource = (IterableConfigurationPropertySource) propertySource;
+			if (isMapType(metadata) && propertySource instanceof IterableConfigurationPropertySource iterableSource) {
 				iterableSource.stream()
 					.filter(metadataName::isAncestorOf)
 					.map(propertySource::getConfigurationProperty)
-					.forEach((property) -> {
+					.forEach(property -> {
 						ConfigurationMetadataProperty replacement = determineReplacementMetadata(metadata);
 						result.add(propertySourceName, new PropertyMigration(property, metadata, replacement, true));
 					});
@@ -159,6 +160,7 @@ class BlueskyBootPropertiesMigrationReporter {
 	 * {@link PropertySource} used to track accessed properties to protect against
 	 * circular references.
 	 */
+	@EqualsAndHashCode(callSuper = true)
 	private class NameTrackingPropertySource extends PropertySource<Object> {
 
 		private final Set<String> accessedNames = new HashSet<>();
@@ -168,9 +170,9 @@ class BlueskyBootPropertiesMigrationReporter {
 		}
 
 		boolean isPlaceholderThatAccessesName(Object value, String name) {
-			if (value instanceof String) {
+			if (value instanceof String string) {
 				this.accessedNames.clear();
-				BlueskyBootPropertiesMigrationReporter.this.environment.resolvePlaceholders((String) value);
+				BlueskyBootPropertiesMigrationReporter.this.environment.resolvePlaceholders(string);
 				return this.accessedNames.contains(name);
 			}
 			return false;
