@@ -96,7 +96,7 @@ class MongoDataAutoConfigurationTests {
 		this.contextRunner
 				.withPropertyValues("spring.data.mongodb.field-naming-strategy:"
 						+ FieldNamingStrategy.class.getName())
-				.run((context) -> assertThat(context).getFailure()
+				.run(context -> assertThat(context).getFailure()
 						.isInstanceOf(BeanCreationException.class));
 	}
 	
