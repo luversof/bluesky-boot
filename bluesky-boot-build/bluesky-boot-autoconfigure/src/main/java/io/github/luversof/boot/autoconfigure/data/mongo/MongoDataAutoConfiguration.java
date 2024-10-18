@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -20,6 +21,7 @@ import com.mongodb.client.MongoClient;
 @AutoConfiguration("blueskyBootMongoDataAutoConfiguration")
 @ConditionalOnClass({ MongoClient.class, MongoTemplate.class })
 // @AutoConfigureAfter(MongoAutoConfiguration.class)
+@ConditionalOnProperty(prefix= "bluesky-boot.mongodb.default-mongo-properties", name = "host")
 public class MongoDataAutoConfiguration {
 
     @Bean
