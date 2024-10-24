@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,10 +24,13 @@ import io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties;
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
 import io.github.luversof.boot.web.LocaleContextResolverModuleProperties;
 import io.github.luversof.boot.web.LocaleContextResolverProperties;
-import io.github.luversof.boot.web.filter.BlueskyContextHolderFilter;
-import io.github.luversof.boot.web.servlet.BlueskyLocaleContextResolver;
+import io.github.luversof.boot.web.servlet.filter.BlueskyContextHolderFilter;
+import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolveHandler;
+import io.github.luversof.boot.web.servlet.support.AddPathPatternModuleNameResolver;
+import io.github.luversof.boot.web.servlet.support.DomainModuleNameResolver;
+import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for WebMvc support.
@@ -44,6 +48,20 @@ public class WebMvcAutoConfiguration {
     @Bean
     BlueskyContextHolderFilter blueskyContextHolderFilter() {
         return new BlueskyContextHolderFilter();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "domain", matchIfMissing = true)
+    ModuleNameResolver domainModuleNameResolver() {
+    	return new DomainModuleNameResolver();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "add-path-pattern")
+    ModuleNameResolver addPathPatternModuleNameResolver() {
+    	return new AddPathPatternModuleNameResolver();
     }
 
     @Bean

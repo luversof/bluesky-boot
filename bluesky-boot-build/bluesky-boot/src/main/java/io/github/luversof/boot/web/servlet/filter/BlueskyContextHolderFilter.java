@@ -1,14 +1,13 @@
-package io.github.luversof.boot.web.filter;
+package io.github.luversof.boot.web.servlet.filter;
 
 import java.io.IOException;
-import java.util.Map.Entry;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.web.DomainProperties;
-import io.github.luversof.boot.web.util.ServletRequestUtil;
+import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +30,11 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 		ModuleNameInfo moduleNameInfo = new ModuleNameInfo();
 		BlueskyContextHolder.setContext(() -> {
 			if (moduleNameInfo.getModuleName() == null) {
-				Entry<String, DomainProperties> modulePropertiesEntry = ServletRequestUtil.getModulePropertiesEntry(request);
-				if (modulePropertiesEntry == null) {
+				var resolvedModuleName = ApplicationContextUtil.getApplicationContext().getBean(ModuleNameResolver.class).resolve(request);
+				if (resolvedModuleName == null) {
 					return null;
 				}
-				moduleNameInfo.setModuleName(modulePropertiesEntry.getKey());
+				moduleNameInfo.setModuleName(resolvedModuleName);
 			}
 			return moduleNameInfo.getModuleName();
 		});

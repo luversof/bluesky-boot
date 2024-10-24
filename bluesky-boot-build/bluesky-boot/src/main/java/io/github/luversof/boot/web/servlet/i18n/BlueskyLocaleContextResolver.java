@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.servlet;
+package io.github.luversof.boot.web.servlet.i18n;
 
 import java.util.Locale;
 
@@ -7,7 +7,6 @@ import org.springframework.web.servlet.LocaleContextResolver;
 
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.web.LocaleContextResolverProperties;
-import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfoContainer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

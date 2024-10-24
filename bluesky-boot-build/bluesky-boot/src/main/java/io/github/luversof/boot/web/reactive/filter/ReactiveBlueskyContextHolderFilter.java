@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.filter;
+package io.github.luversof.boot.web.reactive.filter;
 
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -6,7 +6,7 @@ import org.springframework.web.server.WebFilterChain;
 
 import io.github.luversof.boot.context.BlueskyContext;
 import io.github.luversof.boot.context.ReactiveBlueskyContextHolder;
-import io.github.luversof.boot.web.reactive.util.ServerWebExchangeUtil;
+import io.github.luversof.boot.web.reactive.support.ModuleNameResolver;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
@@ -23,8 +23,7 @@ public class ReactiveBlueskyContextHolderFilter implements WebFilter {
 	}
 
 	private Mono<BlueskyContext> load(ServerWebExchange exchange) {
-		return exchange.getSession().flatMap(attrs -> Mono
-				.just(() -> ServerWebExchangeUtil.getModulePropertiesEntry(exchange).getKey()));
+		return exchange.getSession().flatMap(attrs -> Mono.justOrEmpty(() -> exchange.getApplicationContext().getBean(ModuleNameResolver.class).resolve(exchange)));
 	}
 
 }

@@ -1,4 +1,4 @@
-package io.github.luversof.boot.web.bind;
+package io.github.luversof.boot.web.servlet.util;
 
 
 
