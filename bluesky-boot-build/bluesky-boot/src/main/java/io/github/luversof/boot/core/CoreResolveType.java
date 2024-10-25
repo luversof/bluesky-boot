@@ -12,6 +12,8 @@ public enum CoreResolveType {
 	 * Used when handling branches by request path
 	 */
 	ADD_PATH_PATTERN,
+	
+	DOMAIN_ADD_PATH_PATTERN,
 
 	/**
 	 * Use if you have implemented a separate resolver

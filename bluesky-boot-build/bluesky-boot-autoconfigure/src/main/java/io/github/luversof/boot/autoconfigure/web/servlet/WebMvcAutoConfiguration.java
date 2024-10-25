@@ -29,6 +29,7 @@ import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.support.AddPathPatternModuleNameResolver;
+import io.github.luversof.boot.web.servlet.support.DomainAddPathPatternModuleNameResolver;
 import io.github.luversof.boot.web.servlet.support.DomainModuleNameResolver;
 import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 
@@ -62,6 +63,13 @@ public class WebMvcAutoConfiguration {
     @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "add-path-pattern")
     ModuleNameResolver addPathPatternModuleNameResolver() {
     	return new AddPathPatternModuleNameResolver();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "domain-add-path-pattern")
+    ModuleNameResolver domainAddPathPatternModuleNameResolver() {
+    	return new DomainAddPathPatternModuleNameResolver();
     }
 
     @Bean
