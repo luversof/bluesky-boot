@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@RefreshScope
 @Data
 @Builder
 @NoArgsConstructor

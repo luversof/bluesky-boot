@@ -138,6 +138,14 @@
 		</dependency>
 		<!-- (e) reactive web -->
 		
+		<!-- (s) spring cloud context -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-context</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) spring cloud context -->
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
