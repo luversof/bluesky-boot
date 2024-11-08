@@ -13,8 +13,12 @@ import lombok.Data;
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-resolve-handler")
 public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProperties<LocaleResolveHandlerProperties> {
+	
+	private static final long serialVersionUID = 1L;
 
-private final LocaleResolveHandlerProperties parent;
+	private String beanName;
+
+	private final LocaleResolveHandlerProperties parent;
 	
 	private Map<String, LocaleResolveHandlerProperties> modules = new HashMap<>();
 	

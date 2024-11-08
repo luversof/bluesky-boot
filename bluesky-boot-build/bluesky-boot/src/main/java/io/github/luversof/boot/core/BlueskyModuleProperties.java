@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
  * Top-level class provided for handling module branching
@@ -14,8 +13,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  *
  * @param <T>
  */
-@RefreshScope
-public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean {
+public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
 	
 	T getParent();
 	
@@ -25,7 +23,9 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	
 	@Override
 	default void afterPropertiesSet() throws Exception {
+		initialRefreshPropertiesStore();
 		load();
+		initialLoadRefreshPropertiesStore();
 	}
 	
 	/**

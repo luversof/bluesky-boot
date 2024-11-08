@@ -19,8 +19,12 @@ import lombok.NoArgsConstructor;
 @ConfigurationProperties(prefix = "brick-boot.web.cookie")
 public class CookieProperties implements BlueskyProperties {
 	
+	private static final long serialVersionUID = 1L;
+	
 	public static final String DEFAULT_BEAN_NAME = "cookieProperties";
 	public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieProperties";
+	
+	private String beanName;
 	
 	private String name;
 	

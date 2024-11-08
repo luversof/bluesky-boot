@@ -15,6 +15,10 @@ import lombok.Setter;
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.web")
 public class WebModuleProperties implements BlueskyModuleProperties<WebProperties> {
+	
+	private static final long serialVersionUID = 1L;
+
+	private String beanName;
 
 	@Setter(onMethod_ = @Autowired)
 	private WebProperties parent;

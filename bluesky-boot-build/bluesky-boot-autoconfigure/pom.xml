@@ -194,5 +194,13 @@
 			<artifactId>jsqlparser</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<!-- (s) spring cloud context -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-context</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) spring cloud context -->
 	</dependencies>
 </project>

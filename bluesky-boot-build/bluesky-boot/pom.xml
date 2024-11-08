@@ -104,13 +104,18 @@
 		<!-- (e) data-mongodb -->
 		
 		
-		<!-- (s) validation -->
+		<!-- (s) jakarta -->
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- (e) validation -->
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) jakarta -->
 
 		<!-- (s) servlet web -->
 		<dependency>

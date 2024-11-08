@@ -15,3 +15,4 @@ io.github.luversof.boot.autoconfigure.validation.ValidationAutoConfiguration
 io.github.luversof.boot.autoconfigure.web.WebAutoConfiguration
 io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
 io.github.luversof.boot.autoconfigure.security.crypto.encrypt.TextEncryptAutoConfiguration
+io.github.luversof.cloud.autoconfigure.RefreshEndpointAutoConfiguration

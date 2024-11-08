@@ -30,6 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolver")
 public class LocaleContextResolverProperties implements BlueskyProperties {
+	
+	private static final long serialVersionUID = 1L;
+
+	private String beanName;
 
 	/**
 	 * 목록에 대한 preset 제공

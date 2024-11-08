@@ -22,8 +22,12 @@ import lombok.NoArgsConstructor;
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleProperties implements BlueskyProperties {
 	
+	private static final long serialVersionUID = 1L;
+	
 	public static final String DEFAULT_BEAN_NAME = "localeProperties";
 	public static final String EXTERNAL_LOCALE_BEAN_NAME = "externalLocaleProperties";
+	
+	private String beanName;
 
 	/**
 	 * 사용 가능 로케일 목록,

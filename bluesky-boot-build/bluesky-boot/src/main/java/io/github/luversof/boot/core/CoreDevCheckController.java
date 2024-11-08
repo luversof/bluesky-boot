@@ -10,6 +10,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
+import io.github.luversof.boot.context.BlueskyBootContext;
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.context.BlueskyContext;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;
@@ -99,4 +101,11 @@ public class CoreDevCheckController {
 	BlueskyContext blueskyContext() {
 		return BlueskyContextHolder.getContext();
 	}
+	
+	@DevCheckDescription("blueskyBootContext 확인")
+	@GetMapping(PATH_PREFIX + "/blueskyBootContext")
+	BlueskyBootContext blueskyBootContext() {
+		return BlueskyBootContextHolder.getContext();
+	}
+	
 }
