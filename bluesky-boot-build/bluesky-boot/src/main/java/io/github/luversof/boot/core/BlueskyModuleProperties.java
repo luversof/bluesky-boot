@@ -34,7 +34,6 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	 */
 	@Autowired
 	default void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
-
 	}
 
 }

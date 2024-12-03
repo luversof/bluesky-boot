@@ -22,9 +22,6 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	@Setter(onMethod_ = @Autowired)
 	private CoreProperties parent;
 	
-	@Setter(onMethod_ = @Autowired)
-	private CoreBaseProperties base;
-	
 	private Map<String, CoreProperties> modules = new HashMap<>();
 	
 	@Override
@@ -79,6 +76,11 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	@Override
 	public void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
+		// DO NOTHING
+	}
+	
+	@Autowired
+	void setCoreBaseProperties(CoreBaseProperties coreBaseProperties) {
 		// DO NOTHING
 	}
 
