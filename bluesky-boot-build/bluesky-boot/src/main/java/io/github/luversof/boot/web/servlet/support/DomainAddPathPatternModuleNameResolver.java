@@ -36,7 +36,7 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
 		
 		var moduleEntryList = List.copyOf(domainModuleProperties.getModules().entrySet());
 		
-		moduleEntryList = isDomainFirst ? getEntryListFilterByDomain(request, domainModuleProperties, moduleEntryList) : getEntryListFilterByAddPathPattern(request, domainModuleProperties, moduleEntryList);
+		moduleEntryList = isDomainFirst ? getEntryListFilterByDomain(request, moduleEntryList) : getEntryListFilterByAddPathPattern(request, moduleEntryList);
 		
 		if (moduleEntryList.isEmpty()) {
 			return null;
@@ -44,7 +44,7 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
 		
 		// 대상 entry List가 2개 이상인 경우 다음 체크
 		if (moduleEntryList.size() > 1) {
-			moduleEntryList = !isDomainFirst ? getEntryListFilterByDomain(request, domainModuleProperties, moduleEntryList) : getEntryListFilterByAddPathPattern(request, domainModuleProperties, moduleEntryList);
+			moduleEntryList = !isDomainFirst ? getEntryListFilterByDomain(request, moduleEntryList) : getEntryListFilterByAddPathPattern(request, moduleEntryList);
 		}
 		
 		if (moduleEntryList.isEmpty()) {
@@ -58,11 +58,11 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
 		return null;
 	}
 	
-	private List<Entry<String, DomainProperties>> getEntryListFilterByDomain(HttpServletRequest request, DomainModuleProperties domainModuleProperties, List<Entry<String, DomainProperties>> moduleEntryList) {
+	private List<Entry<String, DomainProperties>> getEntryListFilterByDomain(HttpServletRequest request, List<Entry<String, DomainProperties>> moduleEntryList) {
 		return moduleEntryList.stream().filter(moduleEntry -> checkDomain(request, moduleEntry.getValue())).toList();
 	}
 	
-	private List<Entry<String, DomainProperties>> getEntryListFilterByAddPathPattern(HttpServletRequest request, DomainModuleProperties domainModuleProperties, List<Entry<String, DomainProperties>> moduleEntryList) {
+	private List<Entry<String, DomainProperties>> getEntryListFilterByAddPathPattern(HttpServletRequest request, List<Entry<String, DomainProperties>> moduleEntryList) {
 		var moduleEntry = moduleEntryList.stream().filter(entry -> Arrays.asList(entry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, request.getServletPath()))).sorted(addPathPatternComparator.reversed()).findFirst().orElse(null);
 		return moduleEntry == null ? Collections.emptyList() : List.of(moduleEntry);
 	}
