@@ -4,29 +4,29 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.luversof</groupId>
 	<artifactId>bluesky-boot-dependencies</artifactId>
-	<version>3.3.0-SNAPSHOT</version>
+	<version>3.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.5</version>
+		<version>3.4.0</version>
 		<relativePath/>
 	</parent>
 	<properties>
 		<java.version>21</java.version>
-		<spring-cloud-dependencies.version>2023.0.3</spring-cloud-dependencies.version>
-		<bluesky-boot.version>3.3.0-SNAPSHOT</bluesky-boot.version>
-		<bluesky-boot-crypto.version>3.3.0-SNAPSHOT</bluesky-boot-crypto.version>
-		<bluesky-boot-devcheck.version>3.3.0-SNAPSHOT</bluesky-boot-devcheck.version>
-		<spring-boot-admin-starter.version>3.3.4</spring-boot-admin-starter.version>
-		<mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
-		<springdoc-openapi.version>2.6.0</springdoc-openapi.version>
+		<spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
+		<bluesky-boot.version>3.4.0-SNAPSHOT</bluesky-boot.version>
+		<bluesky-boot-crypto.version>3.4.0-SNAPSHOT</bluesky-boot-crypto.version>
+		<bluesky-boot-devcheck.version>3.4.0-SNAPSHOT</bluesky-boot-devcheck.version>
+		<spring-boot-admin-starter.version>3.4.0</spring-boot-admin-starter.version>
+		<mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
+		<springdoc-openapi.version>2.7.0</springdoc-openapi.version>
 		
 		<jsqlparser.version>5.0</jsqlparser.version>
-		<logback-access.version>2.0.3</logback-access.version>
+		<logback-access.version>2.0.4</logback-access.version>
 		
 		<!-- tag:asciidoctor-properties[] -->
-		<asciidoctor-maven-plugin.version>2.2.6</asciidoctor-maven-plugin.version>
+		<asciidoctor-maven-plugin.version>3.3.1</asciidoctor-maven-plugin.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidoctor.backend>spring-html</asciidoctor.backend>
 		<asciidoctor.sourceDirectory>${refdocs.build.directory}</asciidoctor.sourceDirectory>
@@ -152,7 +152,7 @@
 			<!-- (s) logback access-->
 			<dependency> 
 				<groupId>ch.qos.logback.access</groupId>
-				<artifactId>tomcat</artifactId>
+				<artifactId>logback-access-tomcat</artifactId>
 				<version>${logback-access.version}</version>      
 			</dependency>
 			<!-- (e) logback access-->

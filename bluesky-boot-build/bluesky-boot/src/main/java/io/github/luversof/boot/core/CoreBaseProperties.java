@@ -1,5 +1,6 @@
 package io.github.luversof.boot.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.AllArgsConstructor;
@@ -15,13 +17,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@RefreshScope
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.core")
-public class CoreBaseProperties implements InitializingBean {
+public class CoreBaseProperties implements InitializingBean, Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Define module invocation criteria
 	 * 
@@ -65,7 +70,9 @@ public class CoreBaseProperties implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		BlueskyBootContextHolder.getContext().getModuleNameSet().addAll(getModuleNameSet());
+		var targetModuleNameSet = BlueskyBootContextHolder.getContext().getModuleNameSet();
+		targetModuleNameSet.clear();
+		targetModuleNameSet.addAll(getModuleNameSet());
 	}
 
 }

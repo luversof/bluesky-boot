@@ -2,25 +2,29 @@ package io.github.luversof.boot.context.i18n;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
 	
+	private static final long serialVersionUID = 1L;
+	
 	public static final String DEFAULT_BEAN_NAME = "localeModuleProperties";
 	public static final String EXTERNAL_LOCALE_BEAN_NAME = "externalLocaleModuleProperties";
+	
+	private String beanName;
 
 	private final LocaleProperties parent;
 	
-	private final Function<String, LocaleProperties.LocalePropertiesBuilder> builderFunction;
+	private final SerializableFunction<String, LocaleProperties.LocalePropertiesBuilder> builderFunction;
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();
 

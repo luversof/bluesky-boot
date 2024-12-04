@@ -15,11 +15,12 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreModuleProperties implements BlueskyModuleProperties<CoreProperties> {
 	
-	@Setter(onMethod_ = @Autowired)
-	private CoreProperties parent;
+	private static final long serialVersionUID = 1L;
+
+	private String beanName;
 	
 	@Setter(onMethod_ = @Autowired)
-	private CoreBaseProperties base;
+	private CoreProperties parent;
 	
 	private Map<String, CoreProperties> modules = new HashMap<>();
 	
@@ -32,10 +33,10 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 		
 		// coreProperties의 경우 moduleNameSet과 modules의 key를 병합한다.
 		moduleNameSet.addAll(getModules().keySet());
-				
-		blueskyBootContext.setParentModuleInfo(getParent().getModuleInfo());
 		
-		blueskyBootContext.getModuleNameSet().forEach(moduleName -> {
+		blueskyBootContext.setParentModuleInfo(getParent().getModuleInfo());
+				
+		moduleNameSet.forEach(moduleName -> {
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, getParent().getModuleInfo() == null ? CoreProperties.builder().build() : getParent().getModuleInfo().getCorePropertiesBuilder().build());
 			}
@@ -75,6 +76,11 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	@Override
 	public void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
+		// DO NOTHING
+	}
+	
+	@Autowired
+	void setCoreBaseProperties(CoreBaseProperties coreBaseProperties) {
 		// DO NOTHING
 	}
 

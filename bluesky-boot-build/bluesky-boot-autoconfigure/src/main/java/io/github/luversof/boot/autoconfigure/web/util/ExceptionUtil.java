@@ -32,8 +32,8 @@ public class ExceptionUtil {
 		return errorViewResolverList;
 	}
 	
-	public static Object handleException(ProblemDetail problemDetail, HandlerMethod handlerMethod, NativeWebRequest nativeWebRequest) {
-		if (ExceptionUtil.isJsonResponse(handlerMethod, nativeWebRequest)) {
+	public static Object handleException(ProblemDetail problemDetail, Object handler, NativeWebRequest nativeWebRequest) {
+		if (ExceptionUtil.isJsonResponse(handler, nativeWebRequest)) {
 			return problemDetail;
 		} else {
 			for (ErrorViewResolver resolver : getErrorViewResolverList()) {
@@ -52,16 +52,17 @@ public class ExceptionUtil {
 	}
 	
 	@SneakyThrows
-	public static boolean isJsonResponse(HandlerMethod handlerMethod, NativeWebRequest request) {
+	public static boolean isJsonResponse(Object handler, NativeWebRequest request) {
 
 		var contentNegotiationManager = ApplicationContextUtil.getApplicationContext().getBean(ContentNegotiationManager.class);
 		if (contentNegotiationManager.resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON)) {
 			return true;
 		}
 		
-		if (handlerMethod == null) {
+		if (handler == null || handler instanceof HandlerMethod) {
 			return false;
 		}
+		var handlerMethod = (HandlerMethod) handler;
 		
 		var methodAnnotation = handlerMethod.getMethodAnnotation(RequestMapping.class);
 		if (methodAnnotation != null && Arrays.asList(methodAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE)) {

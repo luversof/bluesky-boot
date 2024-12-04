@@ -22,7 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreProperties implements BlueskyProperties {
+	
+	private static final long serialVersionUID = 1L;
 
+	private String beanName;
+	
 	private ModuleInfo moduleInfo;
 	
 	/**

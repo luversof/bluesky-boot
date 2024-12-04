@@ -1,7 +1,6 @@
 package io.github.luversof.boot.autoconfigure.context;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,7 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
 import io.github.luversof.boot.context.support.MessageSourceDevCheckController;
@@ -41,8 +40,8 @@ public class MessageSourceAutoConfiguration {
 
         var baseNameList = new ArrayList<>();
 
-        if (StringUtils.hasText(messageSourceProperties.getBasename())) {
-            baseNameList.addAll(Arrays.asList(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(messageSourceProperties.getBasename()))));
+        if (CollectionUtils.isEmpty(messageSourceProperties.getBasename())) {
+            baseNameList.addAll(messageSourceProperties.getBasename());
         }
 
         messageSourceExtensionProperties.getMessageSource().values().stream().forEach(baseNameList::addAll);

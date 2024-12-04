@@ -20,6 +20,10 @@ import lombok.NoArgsConstructor;
 @ConfigurationProperties(prefix = "bluesky-boot.web.domain")
 public class DomainProperties implements BlueskyProperties {
 	
+	private static final long serialVersionUID = 1L;
+
+	private String beanName;
+	
 	/**
 	 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.
 	 * 

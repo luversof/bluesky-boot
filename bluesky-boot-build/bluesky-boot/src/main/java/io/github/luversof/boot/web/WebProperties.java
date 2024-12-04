@@ -14,6 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.web")
 public class WebProperties implements BlueskyProperties {
+	
+	private static final long serialVersionUID = 1L;
+
+	private String beanName;
+	
 	/**
 	 * Whether to check unsupported browsers
 	 */

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @param <T>
  */
-public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean {
+public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
 	
 	T getParent();
 	
@@ -23,7 +23,9 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	
 	@Override
 	default void afterPropertiesSet() throws Exception {
+		initialRefreshPropertiesStore();
 		load();
+		initialLoadRefreshPropertiesStore();
 	}
 	
 	/**
@@ -32,7 +34,6 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	 */
 	@Autowired
 	default void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
-
 	}
 
 }

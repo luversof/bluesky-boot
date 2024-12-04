@@ -20,9 +20,13 @@ import lombok.NoArgsConstructor;
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-resolve-handler")
 public class LocaleResolveHandlerProperties implements BlueskyProperties {
 	
+	private static final long serialVersionUID = 1L;
+	
 	public static final String ACCEPT_HEADER_BEAN_NAME = "acceptHeaderLocaleResolveHandlerProperties";
 	public static final String COOKIE_BEAN_NAME = "cookieLocaleResolveHandlerProperties";
 	public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieLocaleResolveHandlerProperties";
+	
+	private String beanName;
 
 	/**
 	 * localeResolve 처리 조건
