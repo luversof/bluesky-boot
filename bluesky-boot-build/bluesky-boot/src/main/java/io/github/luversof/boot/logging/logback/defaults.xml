@@ -39,12 +39,12 @@ Default logback configuration provided for import
 	
 	<logger name="org.springframework" level="${SPRING_ACTIVE_LOG_LEVEL}" />
 	
-	<logger name="io.github.luversof.boot" level="${BLUESKYBOOT_ACTIVE_LOG_LEVEL}" />
-	
+	<logger name="io.opentelemetry" level="${OTHER_ACTIVE_LOG_LEVEL}" />
 	<logger name="org.mybatis.spring" level="${OTHER_ACTIVE_LOG_LEVEL}" />
 	<logger name="org.hibernate" level="${OTHER_ACTIVE_LOG_LEVEL}" />
 	<logger name="com.google.code.ssm" level="${OTHER_ACTIVE_LOG_LEVEL}" />
 	
 	<logger name="org.hibernate.orm.jdbc.bind" level="${SQL_ACTIVE_LOG_LEVEL}" />
 	
+	<logger name="io.github.luversof.boot" level="${BLUESKYBOOT_ACTIVE_LOG_LEVEL}" />
 </included>
