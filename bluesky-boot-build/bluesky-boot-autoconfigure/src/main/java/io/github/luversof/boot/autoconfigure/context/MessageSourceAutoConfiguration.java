@@ -40,7 +40,7 @@ public class MessageSourceAutoConfiguration {
 
         var baseNameList = new ArrayList<>();
 
-        if (CollectionUtils.isEmpty(messageSourceProperties.getBasename())) {
+        if (!CollectionUtils.isEmpty(messageSourceProperties.getBasename())) {
             baseNameList.addAll(messageSourceProperties.getBasename());
         }
 
