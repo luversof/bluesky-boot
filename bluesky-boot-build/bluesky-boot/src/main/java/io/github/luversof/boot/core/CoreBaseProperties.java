@@ -77,9 +77,9 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 	
 	@NoArgsConstructor(access = AccessLevel.NONE)
 	public static class CoreBasePropertiesBuilder {
-		private CoreResolveType resolveType;
-		private Set<String> moduleNameSet;
-		private List<String> logExceptExceptionList;
+		private CoreResolveType resolveType = CoreResolveType.DOMAIN;
+		private Set<String> moduleNameSet = new HashSet<>();
+		private List<String> logExceptExceptionList = new ArrayList<>();
 		
 		public CoreBasePropertiesBuilder resolveType(CoreResolveType resolveType) {
 			this.resolveType = resolveType;
@@ -87,26 +87,20 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 		}
 		
 		public CoreBasePropertiesBuilder moduleNameSet(Set<String> moduleNameSet) {
-			if (this.moduleNameSet == null) {
-				this.moduleNameSet = new HashSet<>();
-			}
 			this.moduleNameSet.addAll(moduleNameSet);
 			return this;
 		}
 		
 		public CoreBasePropertiesBuilder logExceptExceptionList(List<String> logExceptExceptionList) {
-			if (this.logExceptExceptionList == null) {
-				this.logExceptExceptionList = new ArrayList<>();
-			}
 			this.logExceptExceptionList.addAll(logExceptExceptionList);
 			return this;
 		}
 		
 		public CoreBaseProperties build() {
 			return new CoreBaseProperties(
-				resolveType == null ? CoreResolveType.DOMAIN : resolveType,
-				moduleNameSet == null ? new HashSet<>() : moduleNameSet,
-				logExceptExceptionList == null ? new ArrayList<>() : logExceptExceptionList
+				this.resolveType == null ? CoreResolveType.DOMAIN : this.resolveType,
+				this.moduleNameSet,
+				this.logExceptExceptionList
 			);
 		}
 	}
