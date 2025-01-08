@@ -12,14 +12,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @RefreshScope
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.core")
@@ -32,13 +31,11 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 	 * 
 	 * [domain (default), addPathPattern, moduleNameResolver]
 	 */
-	@Builder.Default
 	private CoreResolveType resolveType = CoreResolveType.DOMAIN;
 	
 	/**
 	 * 별다른 설정 없이 moduleName만 지정하고자 하는 경우 사용
 	 */
-	@Builder.Default
 	private Set<String> moduleNameSet = new HashSet<>();
 	
 	/**
@@ -46,7 +43,6 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 	 * 로그 확인이 불필요한 에러 항목에 대해 exception log 제외 처리
 	 * 목록을 추가하고자 하는 경우 bluesky-boot.core.log-except-exception-additional-list로 설정하면 합산처리 됨.
 	 */
-	@Builder.Default
 	private List<String> logExceptExceptionList = new ArrayList<>();
 	
 	public void setLogExceptExceptionList(List<String> list) {
@@ -73,6 +69,46 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 		var targetModuleNameSet = BlueskyBootContextHolder.getContext().getModuleNameSet();
 		targetModuleNameSet.clear();
 		targetModuleNameSet.addAll(getModuleNameSet());
+	}
+	
+	public static CoreBasePropertiesBuilder builder() {
+		return new CoreBasePropertiesBuilder();
+	}
+	
+	@NoArgsConstructor(access = AccessLevel.NONE)
+	public static class CoreBasePropertiesBuilder {
+		private CoreResolveType resolveType;
+		private Set<String> moduleNameSet;
+		private List<String> logExceptExceptionList;
+		
+		public CoreBasePropertiesBuilder resolveType(CoreResolveType resolveType) {
+			this.resolveType = resolveType;
+			return this;
+		}
+		
+		public CoreBasePropertiesBuilder moduleNameSet(Set<String> moduleNameSet) {
+			if (this.moduleNameSet == null) {
+				this.moduleNameSet = new HashSet<>();
+			}
+			this.moduleNameSet.addAll(moduleNameSet);
+			return this;
+		}
+		
+		public CoreBasePropertiesBuilder logExceptExceptionList(List<String> logExceptExceptionList) {
+			if (this.logExceptExceptionList == null) {
+				this.logExceptExceptionList = new ArrayList<>();
+			}
+			this.logExceptExceptionList.addAll(logExceptExceptionList);
+			return this;
+		}
+		
+		public CoreBaseProperties build() {
+			return new CoreBaseProperties(
+				resolveType == null ? CoreResolveType.DOMAIN : resolveType,
+				moduleNameSet == null ? new HashSet<>() : moduleNameSet,
+				logExceptExceptionList == null ? new ArrayList<>() : logExceptExceptionList
+			);
+		}
 	}
 
 }
