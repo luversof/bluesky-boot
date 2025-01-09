@@ -3,6 +3,7 @@ package io.github.luversof.boot.context.i18n;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -13,7 +14,7 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
-public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties> {
+public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -41,6 +42,9 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 			}
 			
 			var localeProperties = getModules().get(moduleName);
+			
+			propertyMapper.from(getParent()::getBeanName).to(builder::beanName);
+			propertyMapper.from(localeProperties::getBeanName).to(builder::beanName);
 			
 			propertyMapper.from(getParent()::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
 			propertyMapper.from(localeProperties::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);

@@ -1,7 +1,6 @@
 package io.github.luversof.boot.web.servlet.support;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameResolver {
 	
 	private final PathMatcher pathMatcher = new AntPathMatcher();
-	private final Comparator<Entry<String, DomainProperties>> addPathPatternComparator = (o1, o2) -> Integer.compare(o1.getValue().getAddPathPatterns()[0].length(), o2.getValue().getAddPathPatterns()[0].length());
+	private final Comparator<Entry<String, DomainProperties>> addPathPatternComparator = (o1, o2) -> Integer.compare(o1.getValue().getAddPathPatternList().get(0).length(), o2.getValue().getAddPathPatternList().get(0).length());
 	
 	/**
 	 * 도메인을 먼저 체크한 후 addPathPattern을 체크
@@ -63,7 +62,9 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
 	}
 	
 	private List<Entry<String, DomainProperties>> getEntryListFilterByAddPathPattern(HttpServletRequest request, List<Entry<String, DomainProperties>> moduleEntryList) {
-		var moduleEntry = moduleEntryList.stream().filter(entry -> Arrays.asList(entry.getValue().getAddPathPatterns()).stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, request.getServletPath()))).sorted(addPathPatternComparator.reversed()).findFirst().orElse(null);
+		var moduleEntry = moduleEntryList.stream().filter(
+			entry -> entry.getValue().getAddPathPatternList().stream().anyMatch(addPathPattern -> pathMatcher.match(addPathPattern, request.getServletPath()))
+		).sorted(addPathPatternComparator.reversed()).findFirst().orElse(null);
 		return moduleEntry == null ? Collections.emptyList() : List.of(moduleEntry);
 	}
 	
@@ -73,9 +74,10 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
 		}
 		
 		return domainProperties != null && (
-				checkDomain(request, domainProperties.getWebList())
-				|| checkDomain(request, domainProperties.getMobileWebList())
-				|| checkDomain(request, domainProperties.getDevDomainList()));
+			checkDomain(request, domainProperties.getWebList())
+			|| checkDomain(request, domainProperties.getMobileWebList())
+			|| checkDomain(request, domainProperties.getDevDomainList())
+		);
 	}
 	
 	private boolean checkDomain(HttpServletRequest request, List<URI> uriList) {

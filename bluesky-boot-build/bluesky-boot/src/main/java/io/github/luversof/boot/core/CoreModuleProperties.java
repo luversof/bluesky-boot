@@ -17,8 +17,6 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	private static final long serialVersionUID = 1L;
 
-	private String beanName;
-	
 	@Setter(onMethod_ = @Autowired)
 	private CoreProperties parent;
 	

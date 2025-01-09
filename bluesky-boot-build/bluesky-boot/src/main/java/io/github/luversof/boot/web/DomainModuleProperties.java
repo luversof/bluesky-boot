@@ -18,8 +18,6 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 
 	private static final long serialVersionUID = 1L;
 
-	private String beanName;
-	
 	@Setter(onMethod_ = @Autowired)
 	private DomainProperties parent;
 	
@@ -42,8 +40,8 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 			
 			var domainProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getAddPathPatterns).to(builder::addPathPatterns);
-			propertyMapper.from(domainProperties::getAddPathPatterns).to(builder::addPathPatterns);
+			propertyMapper.from(getParent()::getAddPathPatternList).to(builder::addPathPatternList);
+			propertyMapper.from(domainProperties::getAddPathPatternList).to(builder::addPathPatternList);
 			propertyMapper.from(getParent()::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
 			propertyMapper.from(domainProperties::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
 			propertyMapper.from(getParent()::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);

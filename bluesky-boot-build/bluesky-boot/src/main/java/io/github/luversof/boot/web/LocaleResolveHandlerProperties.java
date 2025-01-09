@@ -1,5 +1,6 @@
 package io.github.luversof.boot.web;
 
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.core.BlueskyProperties;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-resolve-handler")
-public class LocaleResolveHandlerProperties implements BlueskyProperties {
+public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	

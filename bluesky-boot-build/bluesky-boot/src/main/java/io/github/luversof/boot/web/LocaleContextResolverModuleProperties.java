@@ -18,8 +18,6 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 	
 	private static final long serialVersionUID = 1L;
 
-	private String beanName;
-
 	@Setter(onMethod_ = @Autowired)
 	private LocaleContextResolverProperties parent;
 	

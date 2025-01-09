@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,15 +17,12 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.core")
 public class CoreProperties implements BlueskyProperties {
 	
 	private static final long serialVersionUID = 1L;
-
-	private String beanName;
 	
 	private ModuleInfo moduleInfo;
 	
@@ -33,7 +30,6 @@ public class CoreProperties implements BlueskyProperties {
 	 * 개별적으로 선언해서 사용하고자 하는 변수가 있는 경우 저장하는 map <br />
 	 * parent의 값을 module이 상속받아 사용함 
 	 */
-	@Builder.Default
 	private Map<String, String> properties = new HashMap<>();
 	
 	@SuppressWarnings("unchecked")
@@ -52,6 +48,35 @@ public class CoreProperties implements BlueskyProperties {
 	@Override
 	public void setCoreProperties(CoreProperties coreProperties) {
 		// DO NOTHING
+	}
+	
+	public static CorePropertiesBuilder builder() {
+		return new CorePropertiesBuilder();
+	}
+	
+	@NoArgsConstructor(access = AccessLevel.NONE)
+	public static class CorePropertiesBuilder {
+		
+		private ModuleInfo moduleInfo;
+		
+		private Map<String, String> properties = new HashMap<>();
+		
+		public CorePropertiesBuilder moduleInfo(ModuleInfo moduleInfo) {
+			this.moduleInfo = moduleInfo;
+			return this;
+		}
+		
+		public CorePropertiesBuilder properties(Map<String, String> properties) {
+			this.properties = properties;
+			return this;
+		}
+		
+		public CoreProperties build() {
+			return new CoreProperties(
+				this.moduleInfo,
+				this.properties == null ? new HashMap<>() : this.properties
+			);
+		}
 	}
 	
 }

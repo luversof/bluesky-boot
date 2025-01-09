@@ -18,8 +18,6 @@ public class WebModuleProperties implements BlueskyModuleProperties<WebPropertie
 	
 	private static final long serialVersionUID = 1L;
 
-	private String beanName;
-
 	@Setter(onMethod_ = @Autowired)
 	private WebProperties parent;
 	
@@ -45,10 +43,10 @@ public class WebModuleProperties implements BlueskyModuleProperties<WebPropertie
 			
 			propertyMapper.from(getParent()::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
 			propertyMapper.from(webProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(getParent()::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
-			propertyMapper.from(webProperties::getNotSupportedBrowserRegPattern).to(builder::notSupportedBrowserRegPattern);
-			propertyMapper.from(getParent()::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
-			propertyMapper.from(webProperties::getNotSupportedBrowserExcludePathPatterns).to(builder::notSupportedBrowserExcludePathPatterns);
+			propertyMapper.from(getParent()::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
+			propertyMapper.from(webProperties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
+			propertyMapper.from(getParent()::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);
+			propertyMapper.from(webProperties::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);
 			
 			getModules().put(moduleName, builder.build());
 		});

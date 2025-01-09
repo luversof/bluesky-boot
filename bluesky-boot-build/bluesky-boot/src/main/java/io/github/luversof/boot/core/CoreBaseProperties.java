@@ -77,8 +77,11 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 	
 	@NoArgsConstructor(access = AccessLevel.NONE)
 	public static class CoreBasePropertiesBuilder {
+		
 		private CoreResolveType resolveType = CoreResolveType.DOMAIN;
+		
 		private Set<String> moduleNameSet = new HashSet<>();
+		
 		private List<String> logExceptExceptionList = new ArrayList<>();
 		
 		public CoreBasePropertiesBuilder resolveType(CoreResolveType resolveType) {
@@ -87,20 +90,20 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 		}
 		
 		public CoreBasePropertiesBuilder moduleNameSet(Set<String> moduleNameSet) {
-			this.moduleNameSet.addAll(moduleNameSet);
+			this.moduleNameSet = moduleNameSet;
 			return this;
 		}
 		
 		public CoreBasePropertiesBuilder logExceptExceptionList(List<String> logExceptExceptionList) {
-			this.logExceptExceptionList.addAll(logExceptExceptionList);
+			this.logExceptExceptionList = logExceptExceptionList;
 			return this;
 		}
 		
 		public CoreBaseProperties build() {
 			return new CoreBaseProperties(
 				this.resolveType == null ? CoreResolveType.DOMAIN : this.resolveType,
-				this.moduleNameSet,
-				this.logExceptExceptionList
+				this.moduleNameSet == null ? new HashSet<>() : this.moduleNameSet,
+				this.logExceptExceptionList == null ? new ArrayList<>() : this.logExceptExceptionList
 			);
 		}
 	}

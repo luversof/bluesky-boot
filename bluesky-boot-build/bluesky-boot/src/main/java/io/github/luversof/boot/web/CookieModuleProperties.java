@@ -3,6 +3,7 @@ package io.github.luversof.boot.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "brick-boot.web.cookie")
-public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties> {
+public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -42,6 +43,8 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 			
 			var cookieProperties = getModules().get(moduleName);
 			
+			propertyMapper.from(getParent()::getBeanName).to(builder::beanName);
+			propertyMapper.from(cookieProperties::getBeanName).to(builder::beanName);
 			propertyMapper.from(getParent()::getName).to(builder::name);
 			propertyMapper.from(cookieProperties::getName).to(builder::name);
 			propertyMapper.from(getParent()::getMaxAge).to(builder::maxAge);
