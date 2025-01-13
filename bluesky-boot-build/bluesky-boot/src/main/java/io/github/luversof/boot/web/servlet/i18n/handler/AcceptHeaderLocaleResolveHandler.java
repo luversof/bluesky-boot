@@ -8,6 +8,9 @@ import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfoContainer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Handler for resolving the locale requested by AcceptHeader
+ */
 public class AcceptHeaderLocaleResolveHandler extends AbstractLocaleResolveHandler {
 	
 	public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleResolverHandler";

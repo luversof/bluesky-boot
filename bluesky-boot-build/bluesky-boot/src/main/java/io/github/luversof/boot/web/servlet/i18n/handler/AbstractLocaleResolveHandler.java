@@ -17,14 +17,20 @@ import lombok.Getter;
 
 public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandler {
 	
+	/**
+	 * localePropertiesBeanName to use
+	 */
 	@Getter
 	private final String localePropertiesBeanName;
 	
+	/**
+	 * localeResolveHandlerPropertiesBeanName to use
+	 */
 	@Getter
 	private final String localeResolveHandlerPropertiesBeanName;
 
 	/**
-	 * 등록된 localeReolverHandler bean Name
+	 * Registered localeReolverHandler bean Name
 	 */
 	@Getter
 	private String handlerBeanName;
@@ -48,8 +54,9 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	}
 	
 	/**
-	 * 해당 handler에서 사용할 LocaleResolveInfo 생성
-	 * @return
+	 * Create a LocaleResolveInfo to be used in the corresponding handler.
+	 * 
+	 * @return The generated LocaleResolveInfo object
 	 */
 	protected LocaleResolveInfo createLocaleResolveInfo() {
 		var localeResolveInfo = new LocaleResolveInfo();
@@ -58,9 +65,10 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	}
 	
 	/**
-	 * resolve localeContext
-	 * @param localeResolveInfo
-	 * @param localeResolveInfoContainer
+	 * set localeContext
+	 * 
+	 * @param localeResolveInfo Object to contain resolveLocale
+	 * @param localeResolveInfoContainer Passed in case of referencing the preceding localeResolveInfo
 	 */
 	protected void setResolveLocale(LocaleResolveInfo localeResolveInfo, LocaleResolveInfoContainer localeResolveInfoContainer) {
 		var localeProperties = getLocaleProperties();
@@ -109,14 +117,15 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	
 	
 	/**
-	 * localeResolveInfoContainer에 localeResolveInfo를 추가하고 대표 locale 설정 
+	 * Add localeResolveInfo to localeResolveInfoContainer
 	 */
 	protected void addLocaleResolveInfo(LocaleResolveInfoContainer localeResolveInfoContainer, LocaleResolveInfo localeResolveInfo) {
 		localeResolveInfoContainer.getResolveList().add(localeResolveInfo);
 	}
 	
 	/**
-	 * 대표 로케일 지정 설정
+	 * Set the representative locale
+	 * 
 	 * @param localeResolveInfoContainer
 	 * @param localeResolveInfo
 	 */

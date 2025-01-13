@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.core")
@@ -17,7 +16,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	private static final long serialVersionUID = 1L;
 
-	@Setter(onMethod_ = @Autowired)
+	@Autowired
 	private CoreProperties parent;
 	
 	private Map<String, CoreProperties> modules = new HashMap<>();

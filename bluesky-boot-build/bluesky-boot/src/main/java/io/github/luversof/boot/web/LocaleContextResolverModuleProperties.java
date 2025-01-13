@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.PropertyMapper;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolver")
@@ -18,7 +17,7 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 	
 	private static final long serialVersionUID = 1L;
 
-	@Setter(onMethod_ = @Autowired)
+	@Autowired
 	private LocaleContextResolverProperties parent;
 	
 	private Map<String, LocaleContextResolverProperties> modules = new HashMap<>();

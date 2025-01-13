@@ -13,6 +13,8 @@ import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextH
 
 /**
  * lookupKey에 대한 DataSource 후처리 생성을 지원
+ * 
+ * @param <T> 대상 DataSource 타입
  */
 public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingDataSource {
 	

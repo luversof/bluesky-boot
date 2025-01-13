@@ -23,15 +23,22 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * DB에서 connectionInfo를 load 해서 DataSource를 구하는 경우 사용
+ * Used when obtaining DataSource by loading connectionInfo from DB
  * @author bluesky
- *
+ * 
+ * @param <T> The type of DataSource to be loaded via Loader
  */
 @Slf4j
 public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSource> implements ConnectionInfoLoader<T> {
 	
+	/**
+	 * An object containing loader information and a list of connection targets to load.
+	 */
 	protected final ConnectionInfoLoaderProperties connectionInfoLoaderProperties;
 	
+	/**
+	 * Query to retrieve connection information from loader
+	 */
 	@Getter
 	protected String loaderQuery = """
 		SELECT connection, url, username, password, extradata 
@@ -39,6 +46,11 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 		WHERE connection IN ({0})
 		""";
 	
+	/**
+	 * DB's datasource requires connectionInfoLoaderProperties, so pass it to the constructor.
+	 * 
+	 * @param connectionInfoLoaderProperties An object containing loader information and a list of connection targets to load.
+	 */
 	protected AbstractDBDataSourceConnectionInfoLoader(ConnectionInfoLoaderProperties connectionInfoLoaderProperties) {
 		this.connectionInfoLoaderProperties = connectionInfoLoaderProperties;
 	}
@@ -98,12 +110,31 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 		return new JdbcTemplate(new SimpleDriverDataSource(getLoaderDriver(), url, username, password));
 	}
 
+	/**
+	 * Creating a DataSource for ConnectionInfo
+	 * 
+	 * @param connectionInfo Connection information obtained through the loader
+	 * @return Generated DataSource
+	 */
 	protected abstract T createDataSource(ConnectionInfo connectionInfo);
 
+	/**
+	 * Key to be used among the keys in the ConnectionInfoLoaderProperties loader map
+	 * 
+	 * @return Target key of loader map
+	 */
 	protected abstract String getLoaderKey();
 
+	/**
+	 * Call the target Driver object to be used by the loader
+	 * 
+	 * @return Target Driver object
+	 */
 	protected abstract Driver getLoaderDriver();
 	
+	/**
+	 * Connection information obtained through the loader
+	 */
 	@Data
 	public static class ConnectionInfo {
 		private String connection;

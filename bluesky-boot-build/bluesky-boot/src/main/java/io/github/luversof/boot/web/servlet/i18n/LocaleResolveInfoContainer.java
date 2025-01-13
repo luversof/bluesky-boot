@@ -9,6 +9,9 @@ import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import lombok.Data;
 
+/**
+ * Container containing locale information to use
+ */
 @Data
 public class LocaleResolveInfoContainer {
 	

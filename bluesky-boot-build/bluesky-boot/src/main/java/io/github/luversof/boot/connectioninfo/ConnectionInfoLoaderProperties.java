@@ -11,10 +11,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * An object containing loader information and a list of connection targets to load.
+ * @author bluesky
+ */
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.connection-info")
 public class ConnectionInfoLoaderProperties {
 	
+	/**
+	 * Manage loader information for each loader and a list of connection targets to be called through the loader.
+	 */
 	private Map<String, LoaderInfo> loaders = new HashMap<>();
 	
 	@Data
@@ -24,20 +31,18 @@ public class ConnectionInfoLoaderProperties {
 	public static class LoaderInfo {
 		
 		/**
-		 * 해당 Loader를 사용할지 여부를 설정 
+		 * Whether to use this Loader or not
 		 */
 		private boolean enabled;
 		
 		/**
-		 * loader 호출 정보 관리
-		 * 현재는 비정형화 하여 제공.
-		 * 추후 정형화가 가능해지면 변경도 고려할 수 있으나 그럴일이 있을까?
+		 * Manage loader call information
+		 * Currently used in an informal form.
 		 */
 		private Map<String, String> properties;
 		
 		/**
-		 * 사용할 connection 목록
-		 * 사용자가 사용할 connection을 설정
+		 * List of connections to use
 		 */
 		private Map<String, List<String>> connections;
 	}

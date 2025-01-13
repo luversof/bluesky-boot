@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Used to implement per-feature module branch handling
  * @author bluesky
  *
- * @param <T>
+ * @param <T> ModuleProperties가 module에 담을 대상 BlueskyProperties 타입
  */
 public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
 	

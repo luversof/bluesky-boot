@@ -8,23 +8,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * LocaleContextResolver에서 여러 방식의 resolver를 사용하기 위해 제공 
+ * Provides multiple resolver types to use in LocaleContextResolver
  */
 public interface LocaleResolveHandler extends BeanNameAware {
 
 	/**
-	 * 요청마다 Locale을 계산
-	 * @param request
-	 * @param localeResolveInfoContainer
+	 * Resolve locale for each request
+	 * 
+	 * @param request request
+	 * @param localeResolveInfoContainer An object containing the resolved results and final results.
 	 */
 	void resolveLocale(HttpServletRequest request, LocaleResolveInfoContainer localeResolveInfoContainer);
 	
 	/**
-	 * 유저가 locale 변경 요청하는 경우 처리
-	 * @param request
-	 * @param response
-	 * @param localeContext
-	 * @param localeResolveInfoContainer
+	 * Method to use when a user requests a locale change
+	 * 
+	 * @param request request
+	 * @param response response
+	 * @param locale locale
+	 * @param localeResolveInfoContainer An object containing the result set and the final result.
 	 */
 	void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale, LocaleResolveInfoContainer localeResolveInfoContainer);
 
