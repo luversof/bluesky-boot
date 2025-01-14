@@ -12,9 +12,12 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import io.github.luversof.boot.context.BlueskyApplicationContextInitializer;
+
 class MessageSourceAutoConfigurationTests {
 	
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+			.withInitializer(new BlueskyApplicationContextInitializer())
 			.withPropertyValues(BASE_PROPERTY)
 			.withConfiguration(
 					AutoConfigurations.of(CORE_MESSAGESOURCE_CONFIGURATION))
