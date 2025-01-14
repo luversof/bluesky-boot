@@ -9,6 +9,9 @@ import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.DomainProperties;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Resolver that resolves moduleName based on domain
+ */
 public class DomainModuleNameResolver extends AbstractModuleNameResolver {
 	
 	/**

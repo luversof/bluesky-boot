@@ -5,6 +5,9 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 
 import ch.qos.logback.access.tomcat.LogbackValve;
 
+/**
+ *  WebServerFactoryCustomizer to provide logback access log processing
+ */
 public class LogbackTomcatServletWebServerFactoryCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
 	@Override

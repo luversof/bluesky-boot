@@ -2,6 +2,7 @@ package io.github.luversof.boot.autoconfigure.context.i18n;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -10,6 +11,11 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleModuleProperties;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for Locale support.
+ * 
+ * @author bluesky
+ */
 @AutoConfiguration(value = "blueskyBootLocaleAutoConfiguration")
 public class LocaleAutoConfiguration {
 	

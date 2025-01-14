@@ -8,9 +8,15 @@ import org.springframework.web.server.ServerWebExchange;
 import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.DomainProperties;
 
+/**
+ * Abstract classes of DomainModuleNameResolver and AddPathPatternModuleNameResolver
+ */
 public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
 	
-	protected static final String APPLICATION_CONTEXT_MUST_EXIST = "ApplicationContext must exist";
+	/**
+	 * ApplicationContext null error message
+	 */
+	protected static final String ERROR_MESSAGE_NOT_NULL_APPLICATION_CONTEXT = "ApplicationContext must exist";
 
 	@Override
 	public String resolve(ServerWebExchange exchange) {
@@ -18,9 +24,15 @@ public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
 		return modulePropertiesEntry == null ? null : modulePropertiesEntry.getKey();
 	}
 	
+	/**
+	 * Find module Entry matching the current request
+	 * 
+	 * @param exchange ServerWebExchange
+	 * @return Entry of DomainProperties
+	 */
 	public Entry<String, DomainProperties> getModulePropertiesEntry(ServerWebExchange exchange) {
 		var applicationContext = exchange.getApplicationContext();
-		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
+		Assert.notNull(applicationContext, ERROR_MESSAGE_NOT_NULL_APPLICATION_CONTEXT);
 		var domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
 		Assert.notEmpty(domainModuleProperties.getModules(), "domainModuleProperties is not set");
 		

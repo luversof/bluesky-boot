@@ -10,7 +10,8 @@ import io.github.luversof.boot.core.ModuleInfo;
 import lombok.Data;
 
 /**
- * 이거 상위 설정과 module 설정에 대해 정리가 좀 필요할듯?
+ * A context object to manage the data that is used while resident
+ * BlueskyContext is created per request, while BlueskyBootContext persists while the application is running.
  * 
  */
 @Data

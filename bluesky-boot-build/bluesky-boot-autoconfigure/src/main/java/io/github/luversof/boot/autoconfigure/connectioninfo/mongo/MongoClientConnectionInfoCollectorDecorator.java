@@ -30,10 +30,11 @@ public class MongoClientConnectionInfoCollectorDecorator implements ConnectionIn
 	
 	
 	/**
-	 * 단건 조회
-	 * 없으면 loader에서 가져오기 시도
-	 * @param connectionList
-	 * @return
+	 * Return MongoClient for connection key in connectionInfoMap
+	 * If not found, load from mongoClientConnectionInfoLoaderMap and add to connectionInfoMap
+	 * 
+	 * @param connection connection
+	 * @return MongoClient
 	 */
 	public MongoClient getConnectionInfo(String connection) {
 		if (connectionInfoMap.containsKey(connection)) {

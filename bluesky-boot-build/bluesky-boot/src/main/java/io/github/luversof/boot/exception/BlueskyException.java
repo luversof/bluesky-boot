@@ -5,6 +5,10 @@ import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Exception declared for common use
+ * You can implement individual Exceptions by extending the Exception, or you can use this Exception.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BlueskyException extends RuntimeException {
@@ -30,6 +34,13 @@ public class BlueskyException extends RuntimeException {
 	private final ErrorMessage errorMessage;
 	private final List<ErrorMessage> errorMessageList;
 	
+	/**
+	 * Constructor using errorCode, status, errorMessageArgument
+	 * 
+	 * @param errorCode errorCode
+	 * @param status http status
+	 * @param errorMessageArgs errorMessage arguments
+	 */
 	public BlueskyException(String errorCode, int status, String... errorMessageArgs) {
 		this.errorCode = errorCode;
 		this.status = status;
@@ -38,14 +49,30 @@ public class BlueskyException extends RuntimeException {
 		this.errorMessageList = null;
 	}
 	
+	/**
+	 * Constructor using errorCode
+	 * 
+	 * @param errorCode errorCode
+	 */
 	public BlueskyException(String errorCode) {
 		this(errorCode, DEFAULT_STATUS);
 	}
 	
+	/**
+	 * Constructor using errorCode, errorMessageArgument
+	 * 
+	 * @param errorCode errorCode
+	 * @param errorMessageArgs errorMessage arguments
+	 */
 	public BlueskyException(String errorCode, String... errorMessageArgs) {
 		this(errorCode, DEFAULT_STATUS, errorMessageArgs);
 	}
 	
+	/**
+	 * Constructor using enum errorCode
+	 * 
+	 * @param errorCode errorCode
+	 */
 	public BlueskyException(Enum<?> errorCode) {
 		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS);
 	}

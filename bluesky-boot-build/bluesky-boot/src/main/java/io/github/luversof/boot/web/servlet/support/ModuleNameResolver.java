@@ -5,6 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 @FunctionalInterface
 public interface ModuleNameResolver {
 
+	/**
+	 * Resolve moduleName based on HttpServletRequest
+	 * 
+	 * @param request HttpServletRequest
+	 * @return resolved moduleName
+	 */
 	String resolve(HttpServletRequest request);
 
 }

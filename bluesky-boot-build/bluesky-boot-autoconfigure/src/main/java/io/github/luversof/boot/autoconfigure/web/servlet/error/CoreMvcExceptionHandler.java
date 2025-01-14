@@ -29,20 +29,42 @@ import jakarta.servlet.http.HttpServletRequest;
 public class CoreMvcExceptionHandler {
 	
 	/**
-	 * 프로젝트 공통 Exception 처리
-	 * @param exception Thrown exception
-	 * @return the created {@code ProblemDetail} instance
+	 * BlueskyException handling
+	 * 
+	 * @param <T> BlueskyException extension type
+	 * @param exception exception
+	 * @param handlerMethod handlerMethod
+	 * @param nativeWebRequest nativeWebRequest
+	 * @return Returns a modelAndView or problemDetail object depending on the situation.
 	 */
 	@ExceptionHandler
 	public <T extends BlueskyException> Object handleException(T exception, HandlerMethod handlerMethod, NativeWebRequest nativeWebRequest) {
 		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerMethod, nativeWebRequest);
 	}
 	
+	/**
+	 * BindException handling
+	 * 
+	 * @param <T> BindException extension type
+	 * @param exception exception
+	 * @param handlerMethod handlerMethod
+	 * @param nativeWebRequest nativeWebRequest
+	 * @return Returns a modelAndView or problemDetail object depending on the situation.
+	 */
 	@ExceptionHandler
 	public <T extends BindException> Object handleException(T exception, HandlerMethod handlerMethod, NativeWebRequest nativeWebRequest) {
 		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerMethod, nativeWebRequest);
 	}
 	
+	/**
+	 * Exception handling
+	 * 
+	 * @param <T> Exception extension type
+	 * @param exception exception
+	 * @param nativeWebRequest nativeWebRequest
+	 * @param servletRequest servletRequest
+	 * @return Returns a modelAndView or problemDetail object depending on the situation.
+	 */
 	@ExceptionHandler
 	public <T extends Exception> Object handleException(T exception, NativeWebRequest nativeWebRequest, ServletRequest servletRequest) {
 		

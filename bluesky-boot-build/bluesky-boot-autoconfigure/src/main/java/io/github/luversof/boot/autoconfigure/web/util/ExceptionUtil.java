@@ -17,10 +17,17 @@ import io.github.luversof.boot.context.ApplicationContextUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class ExceptionUtil {
+/**
+ * Utility for handling responses to exceptions
+ */
+public final class ExceptionUtil {
+	
+	/**
+	 * Handling utility class constructors
+	 */
+	private ExceptionUtil() {
+	}
 	
 	@Setter
 	private static List<ErrorViewResolver> errorViewResolverList;
@@ -32,6 +39,14 @@ public class ExceptionUtil {
 		return errorViewResolverList;
 	}
 	
+	/**
+	 * If the response is json, return a ProblemDetail object, otherwise return a ModelAndView object using ErrorViewResolver.
+	 * 
+	 * @param problemDetail problemDetail
+	 * @param handler handler
+	 * @param nativeWebRequest nativeWebRequest
+	 * @return Returns a modelAndView or problemDetail object depending on the situation.
+	 */
 	public static Object handleException(ProblemDetail problemDetail, Object handler, NativeWebRequest nativeWebRequest) {
 		if (ExceptionUtil.isJsonResponse(handler, nativeWebRequest)) {
 			return problemDetail;
@@ -47,12 +62,15 @@ public class ExceptionUtil {
 		}
 	}
 
-	public static boolean isHtmlResponse(HandlerMethod handlerMethod, NativeWebRequest request) {
-		return !isJsonResponse(handlerMethod, request);
-	}
-	
+	/**
+	 * Returns whether the request should be processed as a json response.
+	 * 
+	 * @param handler handler
+	 * @param request request
+	 * @return isJsonResponse
+	 */
 	@SneakyThrows
-	public static boolean isJsonResponse(Object handler, NativeWebRequest request) {
+	private static boolean isJsonResponse(Object handler, NativeWebRequest request) {
 
 		var contentNegotiationManager = ApplicationContextUtil.getApplicationContext().getBean(ContentNegotiationManager.class);
 		if (contentNegotiationManager.resolveMediaTypes(request).contains(MediaType.APPLICATION_JSON)) {

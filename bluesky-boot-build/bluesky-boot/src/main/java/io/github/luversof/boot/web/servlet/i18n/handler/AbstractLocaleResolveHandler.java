@@ -15,6 +15,9 @@ import io.github.luversof.boot.web.LocaleResolveHandlerProperties.PreLocaleResol
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import lombok.Getter;
 
+/**
+ * Abstract classes of CookieLocaleResolveHandler and AcceptHeaderLocaleResolveHandler
+ */
 public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandler {
 	
 	/**
@@ -45,10 +48,22 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 		this.handlerBeanName = name;
 	}
 	
+	/**
+	 * Search for LocaleProperties based on Context
+	 * In the case of LocaleProperties, multiple beans can be registered and used, so search based on localePropertiesBeanName
+	 * 
+	 * @return LocaleProperties
+	 */
 	protected LocaleProperties getLocaleProperties() {
 		return BlueskyContextHolder.getProperties(LocaleProperties.class, localePropertiesBeanName);
 	}
 	
+	/**
+	 * Search for LocaleResolveHandlerProperties based on Context
+	 * In the case of LocaleResolveHandlerProperties, multiple beans can be registered and used, so search based on localeResolveHandlerPropertiesBeanName
+	 * 
+	 * @return LocaleResolveHandlerProperties
+	 */
 	protected LocaleResolveHandlerProperties getLocaleResolveHandlerProperties() {
 		return BlueskyContextHolder.getProperties(LocaleResolveHandlerProperties.class, localeResolveHandlerPropertiesBeanName);
 	}
@@ -67,7 +82,7 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	/**
 	 * set localeContext
 	 * 
-	 * @param localeResolveInfo Object to contain resolveLocale
+	 * @param localeResolveInfo An object containing information related to locale resolve processing.
 	 * @param localeResolveInfoContainer Passed in case of referencing the preceding localeResolveInfo
 	 */
 	protected void setResolveLocale(LocaleResolveInfo localeResolveInfo, LocaleResolveInfoContainer localeResolveInfoContainer) {
@@ -118,6 +133,9 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	
 	/**
 	 * Add localeResolveInfo to localeResolveInfoContainer
+	 * 
+	 * @param localeResolveInfoContainer Container containing locale information to use
+	 * @param localeResolveInfo An object containing information related to locale resolve processing.
 	 */
 	protected void addLocaleResolveInfo(LocaleResolveInfoContainer localeResolveInfoContainer, LocaleResolveInfo localeResolveInfo) {
 		localeResolveInfoContainer.getResolveList().add(localeResolveInfo);
@@ -126,8 +144,8 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	/**
 	 * Set the representative locale
 	 * 
-	 * @param localeResolveInfoContainer
-	 * @param localeResolveInfo
+	 * @param localeResolveInfoContainer Container containing locale information to use
+	 * @param localeResolveInfo An object containing information related to locale resolve processing.
 	 */
 	protected void setRepresenatativeSupplier(LocaleResolveInfoContainer localeResolveInfoContainer, LocaleResolveInfo localeResolveInfo) {
 		var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
@@ -150,8 +168,11 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	}
 
 	/**
-	 * 대상 Locale을 기준으로 현재 설정된 locale을 가져옴
-	 * @param requestLocale
+	 * Obtain the currently set locale based on the target Locale
+	 * 
+	 * @param targetLocale targetLocale
+	 * @param checkLanguageMatchOnly checkLanguageMatchOnly
+	 * @return resolved locale
 	 */
 	protected Locale getResolveLocale(Locale targetLocale, boolean checkLanguageMatchOnly) {
 		if (targetLocale == null) {
@@ -181,9 +202,10 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 	}
 
 	/**
-	 * 선행 handler에서 계산된 locale을 기준으로 resolveLocale 계산
-	 * @param localeResolveInfoContainer
-	 * @return
+	 * Calculate resolveLocale based on the locale calculated in the preceding handler
+	 * 
+	 * @param localeResolveInfoContainer Container containing locale information to use
+	 * @return resolved locale
 	 */
 	protected Locale getResolveLocaleByPreResolveInfo(LocaleResolveInfoContainer localeResolveInfoContainer) {
 		var resolveList = localeResolveInfoContainer.getResolveList();

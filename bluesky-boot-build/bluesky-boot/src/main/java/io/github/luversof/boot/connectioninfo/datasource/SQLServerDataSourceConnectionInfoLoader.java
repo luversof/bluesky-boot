@@ -28,9 +28,9 @@ public class SQLServerDataSourceConnectionInfoLoader extends AbstractDBDataSourc
 	protected HikariDataSource createDataSource(ConnectionInfo connectionInfo) {
 		var config = new HikariConfig();
 		var textEncryptor = TextEncryptorFactories.getDelegatingTextEncryptor();
-		config.setJdbcUrl(connectionInfo.getUrl());
-		config.setUsername(textEncryptor.decrypt(connectionInfo.getUsername()));
-		config.setPassword(textEncryptor.decrypt(connectionInfo.getPassword()));
+		config.setJdbcUrl(connectionInfo.url());
+		config.setUsername(textEncryptor.decrypt(connectionInfo.username()));
+		config.setPassword(textEncryptor.decrypt(connectionInfo.password()));
 		return new HikariDataSource(config);
 	}
 

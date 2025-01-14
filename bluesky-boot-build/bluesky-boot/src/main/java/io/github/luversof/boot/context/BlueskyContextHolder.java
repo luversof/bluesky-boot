@@ -10,22 +10,42 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.exception.BlueskyException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+/**
+ * Holder of BlueskyContext
+ */
 public final class BlueskyContextHolder {
 	
+	/**
+	 * Handling utility class constructors
+	 */
+	private BlueskyContextHolder() {}
+	
+	/**
+	 * mode value when used with threadLocal
+	 */
 	public static final String MODE_THREADLOCAL = "MODE_THREADLOCAL";
 	
+	/**
+	 * mode value when used with inheritableThreadLocal
+	 */
 	public static final String MODE_INHERITABLETHREADLOCAL = "MODE_INHERITABLETHREADLOCAL";
 	
+	/**
+	 * mode value when used with global
+	 */
 	public static final String MODE_GLOBAL = "MODE_GLOBAL";
 	
+	/**
+	 * mode value when used as pre-initialized
+	 */
 	private static final String MODE_PRE_INITIALIZED = "MODE_PRE_INITIALIZED";
 	
 	public static final String SYSTEM_PROPERTY = "bluesky.context.strategy";
 	
+	/**
+	 * mode property key
+	 */
 	private static String strategyName = System.getProperty(SYSTEM_PROPERTY);
 	
 	private static BlueskyContextHolderStrategy strategy;
@@ -75,22 +95,41 @@ public final class BlueskyContextHolder {
 		}
 	}
 
+	/**
+	 * clear context
+	 */
 	public static void clearContext() {
 		strategy.clearContext();
 	}
 
+	/**
+	 * get context
+	 * @return BlueskyContext
+	 */
 	public static BlueskyContext getContext() {
 		return strategy.getContext();
 	}
-
+	
+	/**
+	 * get initializeCount
+	 * @return initializeCount
+	 */
 	public static int getInitializeCount() {
 		return initializeCount;
 	}
 	
+	/**
+	 * set context
+	 * @param context BlueskyContext
+	 */
 	public static void setContext(BlueskyContext context) {
 		strategy.setContext(context);
 	}
 	
+	/**
+	 * set context
+	 * @param moduleName moduleName to set in context
+	 */
 	public static void setContext(String moduleName) {
 		setContext(() -> moduleName);
 	}
@@ -123,9 +162,10 @@ public final class BlueskyContextHolder {
 	
 	/**
 	 * 현재 module에 대한 Properties 반환
-	 * @param <T>
-	 * @param blueskyPropertiesClass
-	 * @return
+	 * 
+	 * @param <T> T extends BlueskyProperties
+	 * @param blueskyPropertiesClass blueskyProperties extension class
+	 * @return BlueskyProperties extension object
 	 */
 	public static <T extends BlueskyProperties> T getProperties(Class<T> blueskyPropertiesClass) {
 		return getProperties(blueskyPropertiesClass, null);
@@ -133,10 +173,11 @@ public final class BlueskyContextHolder {
 	
 	/**
 	 * 같은 class로 여러 properties object를 사용하는 경우 지정된 bean name의 properties object를 호출
-	 * @param <T>
-	 * @param blueskyPropertiesClass
-	 * @param blueskyPropertiesBeanName
-	 * @return
+	 * 
+	 * @param <T> T extends BlueskyProperties
+	 * @param blueskyPropertiesClass blueskyProperties extension class
+	 * @param blueskyPropertiesBeanName blueskyProperties bean name
+	 * @return BlueskyProperties extension object
 	 */
 	public static <T extends BlueskyProperties> T getProperties(Class<T> blueskyPropertiesClass, String blueskyPropertiesBeanName) {
 		var moduleResolvableType = ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, blueskyPropertiesClass);

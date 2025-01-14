@@ -11,6 +11,9 @@ import org.springframework.web.server.ServerWebExchange;
 import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.DomainProperties;
 
+/**
+ * Resolver that resolves moduleName based on domain
+ */
 public class DomainModuleNameResolver extends AbstractModuleNameResolver {
 	
 	/**
@@ -37,7 +40,7 @@ public class DomainModuleNameResolver extends AbstractModuleNameResolver {
 	@Override
 	protected Entry<String, DomainProperties> getModulePropertiesEntry(ServerWebExchange exchange, DomainModuleProperties domainModuleProperties) {
 		var applicationContext = exchange.getApplicationContext();
-		Assert.notNull(applicationContext, APPLICATION_CONTEXT_MUST_EXIST);
+		Assert.notNull(applicationContext, ERROR_MESSAGE_NOT_NULL_APPLICATION_CONTEXT);
 		// 해당 도메인에 해당하는 모듈 entry list 확인
 		List<Entry<String, DomainProperties>> moduleEntryList = domainModuleProperties.getModules().entrySet().stream().filter(moduleEntry -> checkDomain(exchange, moduleEntry.getValue())).toList();
 		

@@ -21,7 +21,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.Setter;
 import lombok.SneakyThrows;
 
 @ExtendWith(RestDocumentationExtension.class)
@@ -29,7 +28,7 @@ public abstract class RestDocsTest {
 
 	private static final String DEFAULT_MOCK_RESPONSE_PATH = "src/test/resources/mockResponse/";
 
-	@Setter(onMethod_ = @Autowired)
+	@Autowired
 	private ObjectMapper objectMapper;
 
 	protected MockMvc mockMvc;

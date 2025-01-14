@@ -15,6 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * A resolver that resolves moduleName based on a combination of Domain and AddPathPattern.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameResolver {

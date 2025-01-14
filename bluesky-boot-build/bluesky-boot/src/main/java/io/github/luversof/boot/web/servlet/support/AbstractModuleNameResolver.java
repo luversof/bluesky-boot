@@ -8,6 +8,9 @@ import io.github.luversof.boot.web.DomainProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Abstract classes of DomainModuleNameResolver, DomainAddPathPatternModuleNameResolver, and AddPathPatternModuleNameResolver
+ */
 @Slf4j
 public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
 
@@ -18,9 +21,10 @@ public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
 	}
 	
 	/**
-	 * 현재 요청에 대한 액티브 모듈 조회
-	 * @param request
-	 * @return
+	 * Find module Entry matching the current request
+	 * 
+	 * @param request HttpServletRequest
+	 * @return Entry of DomainProperties
 	 */
 	private Entry<String, DomainProperties> getModulePropertiesEntry(HttpServletRequest request) {
 		var domainModuleProperties = ApplicationContextUtil.getApplicationContext().getBean(DomainModuleProperties.class);

@@ -10,6 +10,9 @@ import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.DomainProperties;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Resolver that resolves moduleName based on AddPathPattern
+ */
 public class AddPathPatternModuleNameResolver extends AbstractModuleNameResolver {
 	
 	private final PathMatcher pathMatcher = new AntPathMatcher();

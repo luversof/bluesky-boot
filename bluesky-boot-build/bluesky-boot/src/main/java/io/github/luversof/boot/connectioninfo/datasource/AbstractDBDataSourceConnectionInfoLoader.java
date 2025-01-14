@@ -9,7 +9,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.util.CollectionUtils;
@@ -18,7 +18,6 @@ import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
-import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,10 +60,10 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 		
 		String sql = MessageFormat.format(getLoaderQuery(), String.join(",", Collections.nCopies(connectionList.size(), "?")));
 		
-		List<ConnectionInfo> connectionInfoList = loaderJdbcTemplate.query(sql, new ArgumentPreparedStatementSetter(connectionList.toArray()), new BeanPropertyRowMapper<ConnectionInfo>(ConnectionInfo.class));
+		List<ConnectionInfo> connectionInfoList = loaderJdbcTemplate.query(sql, new ArgumentPreparedStatementSetter(connectionList.toArray()), new DataClassRowMapper<ConnectionInfo>(ConnectionInfo.class));
 		
 		connectionList.forEach(connection -> {
-			if (connectionInfoList.stream().anyMatch(connetionInfo -> connetionInfo.getConnection().equalsIgnoreCase(connection))) {
+			if (connectionInfoList.stream().anyMatch(connetionInfo -> connetionInfo.connection().equalsIgnoreCase(connection))) {
 				log.debug("find database connection ({})", connection);
 			} else {
 				log.debug("cannot find database connection ({})", connection);
@@ -77,7 +76,7 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 
 		var dataSourceMap = new HashMap<String, T>();
 		for (var connectionInfo : connectionInfoList) {
-			dataSourceMap.put(connectionInfo.getConnection(), createDataSource(connectionInfo));
+			dataSourceMap.put(connectionInfo.connection(), createDataSource(connectionInfo));
 		}
 		
 		return () -> dataSourceMap;
@@ -134,14 +133,14 @@ public abstract class AbstractDBDataSourceConnectionInfoLoader<T extends DataSou
 	
 	/**
 	 * Connection information obtained through the loader
+	 * 
+	 * @param connection connection
+	 * @param url url
+	 * @param username username
+	 * @param password password
+	 * @param extradata extradata
 	 */
-	@Data
-	public static class ConnectionInfo {
-		private String connection;
-		private String url;
-		private String username;
-		private String password;
-		private String extradata;
+	public static record ConnectionInfo(String connection, String url, String username, String password, String extradata) {
 	}
 
 }

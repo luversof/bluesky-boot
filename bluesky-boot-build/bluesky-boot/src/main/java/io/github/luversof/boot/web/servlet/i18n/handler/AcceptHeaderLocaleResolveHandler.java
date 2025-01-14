@@ -13,8 +13,17 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class AcceptHeaderLocaleResolveHandler extends AbstractLocaleResolveHandler {
 	
+	/**
+	 * default bean name of AcceptHeaderLocaleResolveHandler
+	 */
 	public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleResolverHandler";
 	
+	/**
+	 * When creating an AcceptHeaderLocaleResolveHandler, localePropertiesBeanName and localeResolveHandlerPropertiesBeanName are required.
+	 * 
+	 * @param localePropertiesBeanName
+	 * @param localeResolveHandlerPropertiesBeanName
+	 */
 	public AcceptHeaderLocaleResolveHandler(String localePropertiesBeanName, String localeResolveHandlerPropertiesBeanName) {
 		super(localePropertiesBeanName, localeResolveHandlerPropertiesBeanName);
 	}

@@ -4,6 +4,9 @@ import java.util.Locale;
 
 import lombok.Data;
 
+/**
+ *	An object containing information related to locale resolve processing.
+ */
 @Data
 public class LocaleResolveInfo {
 	
