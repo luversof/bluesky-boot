@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.util.SerializationUtils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.exception.BlueskyException;
@@ -19,6 +21,7 @@ public interface BlueskyRefreshProperties extends Serializable {
 	 * If you use multiple beans in the same class, you need to specify the beanName through beanNameAware implementation.
 	 * @return
 	 */
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	default String getBeanName() {
 		return null;
 	}
