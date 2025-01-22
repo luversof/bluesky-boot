@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +71,18 @@ public class CoreDevCheckController {
 	@GetMapping(PATH_PREFIX + "/coreModuleProperties")
 	CoreModuleProperties coreModuleProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
+	}
+	
+	@DevCheckDescription("initialBlueskyResfreshPropertiesMapKeySet 조회")
+	@GetMapping(PATH_PREFIX + "/initialBlueskyResfreshPropertiesMapKeySet")
+	Set<String> initialBlueskyResfreshPropertiesMapKeySet() {
+		return BlueskyBootContextHolder.getContext().getInitialBlueskyResfreshPropertiesMap().keySet();
+	}
+	
+	@DevCheckDescription("initialLoadBlueskyResfreshPropertiesMapKeySet 조회")
+	@GetMapping(PATH_PREFIX + "/initialLoadBlueskyResfreshPropertiesMapKeySet")
+	Set<String> initialLoadBlueskyResfreshPropertiesMapKeySet() {
+		return BlueskyBootContextHolder.getContext().getInitialLoadBlueskyResfreshPropertiesMap().keySet();
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")

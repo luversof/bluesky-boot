@@ -19,10 +19,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.core")
+@ConfigurationProperties(prefix = CoreProperties.PREFIX)
 public class CoreProperties implements BlueskyProperties {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.core";
 	
 	private ModuleInfo moduleInfo;
 	

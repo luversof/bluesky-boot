@@ -1,6 +1,5 @@
 package io.github.luversof.boot.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,7 +8,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.AccessLevel;
@@ -17,14 +15,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@RefreshScope
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.core")
-public class CoreBaseProperties implements InitializingBean, Serializable {
+@ConfigurationProperties(prefix = CoreBaseProperties.PREFIX)
+public class CoreBaseProperties implements InitializingBean, BlueskyRefreshProperties {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.core";
 
 	/**
 	 * Define module invocation criteria
@@ -66,9 +65,13 @@ public class CoreBaseProperties implements InitializingBean, Serializable {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		initialRefreshPropertiesStore();
+		
 		var targetModuleNameSet = BlueskyBootContextHolder.getContext().getModuleNameSet();
 		targetModuleNameSet.clear();
 		targetModuleNameSet.addAll(getModuleNameSet());
+		
+		initialLoadRefreshPropertiesStore();
 	}
 	
 	public static CoreBasePropertiesBuilder builder() {

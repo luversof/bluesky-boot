@@ -25,7 +25,9 @@ public class RefreshResetEndpoint {
 		
 		List<String> targetList = new ArrayList<>();
 		
-		// 최초 properties 설정 복원
+		// TODO BaseProperties의 afterPropertiesSet을 우선 호출해야 함
+		
+		// 최초 로드된 properties 설정 복원
 		BlueskyBootContextHolder.getContext().getInitialLoadBlueskyResfreshPropertiesMap().forEach((key, value) -> {
 			log.debug("restore properties : {}", key);
 			var targetProperties = applicationContext.getBean(key, BlueskyRefreshProperties.class);

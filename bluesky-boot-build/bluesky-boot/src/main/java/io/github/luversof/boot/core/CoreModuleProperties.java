@@ -11,10 +11,12 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.core")
+@ConfigurationProperties(prefix = CoreModuleProperties.PREFIX)
 public class CoreModuleProperties implements BlueskyModuleProperties<CoreProperties> {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.core";
 
 	@Autowired
 	private CoreProperties parent;
