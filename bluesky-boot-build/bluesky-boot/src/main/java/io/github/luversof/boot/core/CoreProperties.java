@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,11 @@ public class CoreProperties implements BlueskyProperties {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String PREFIX = "bluesky-boot.core";
+	
+	/**
+	 * Bean 생성 시 지정할 이름
+	 */
+	public static final String BEAN_NAME = "blueskyCoreProperties";
 	
 	private ModuleInfo moduleInfo;
 	
@@ -48,10 +54,16 @@ public class CoreProperties implements BlueskyProperties {
 	}
 	
 	@Override
-	public void setCoreProperties(CoreProperties coreProperties) {
-		// DO NOTHING
+	public void load() {
+		BlueskyBootContextHolder.getContext().setParentModuleInfo(getModuleInfo());
 	}
-	
+
+	/**
+	 * Handling coreModuleInfo specification set by a spel expression
+	 * 
+	 * @param moduleInfo Location of the generated coreModuleInfo, written as a SpEL
+	 *                   expression
+	 */
 	public static CorePropertiesBuilder builder() {
 		return new CorePropertiesBuilder();
 	}

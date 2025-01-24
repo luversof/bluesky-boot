@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -19,11 +18,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = CoreBaseProperties.PREFIX)
-public class CoreBaseProperties implements InitializingBean, BlueskyRefreshProperties {
+public class CoreBaseProperties implements BlueskyProperties {
 	
 	private static final long serialVersionUID = 1L;
 	
 	public static final String PREFIX = "bluesky-boot.core";
+	
+	/**
+	 * Bean 생성 시 지정할 이름
+	 */
+	public static final String BEAN_NAME = "blueskyCoreBaseProperties";
 
 	/**
 	 * Define module invocation criteria
@@ -63,15 +67,14 @@ public class CoreBaseProperties implements InitializingBean, BlueskyRefreshPrope
 		return new String[] {};
 	}
 
+	/**
+	 * BrickProperties 중 제일 먼저 호출되기 때문에 refresh 초기화 관련 처리를 여기에서 담당함
+	 */
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		initialRefreshPropertiesStore();
-		
-		var targetModuleNameSet = BlueskyBootContextHolder.getContext().getModuleNameSet();
-		targetModuleNameSet.clear();
-		targetModuleNameSet.addAll(getModuleNameSet());
-		
-		initialLoadRefreshPropertiesStore();
+	public void load() {
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		blueskyBootContext.clear();
+		blueskyBootContext.getModuleNameSet().addAll(getModuleNameSet());
 	}
 	
 	public static CoreBasePropertiesBuilder builder() {

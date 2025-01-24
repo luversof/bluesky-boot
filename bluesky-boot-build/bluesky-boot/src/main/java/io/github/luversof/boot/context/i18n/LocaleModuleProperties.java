@@ -23,15 +23,20 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	
 	private String beanName;
 
-	private final LocaleProperties parent;
+	private LocaleProperties parent;
 	
 	private final SerializableFunction<String, LocaleProperties.LocalePropertiesBuilder> builderFunction;
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();
+	
+	public LocaleModuleProperties(LocaleProperties parent, SerializableFunction<String, LocaleProperties.LocalePropertiesBuilder> builderFunction) {
+		this.parent = parent;
+		this.builderFunction = builderFunction;
+	}
 
 	@Override
 	public void load() {
-		
+		this.parent = getParentByBeanName();
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {

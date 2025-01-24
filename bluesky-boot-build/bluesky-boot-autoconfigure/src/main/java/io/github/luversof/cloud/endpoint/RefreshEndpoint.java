@@ -26,8 +26,9 @@ public class RefreshEndpoint {
 	
 	@WriteOperation
 	public Collection<String> refresh() {
-
+		
 		var applicationContext = ApplicationContextUtil.getApplicationContext();
+		
 		// 최초 properties 설정 복원
 		BlueskyBootContextHolder.getContext().getInitialBlueskyResfreshPropertiesMap().forEach((key, value) -> {
 			log.debug("refresh properties : {}", key);

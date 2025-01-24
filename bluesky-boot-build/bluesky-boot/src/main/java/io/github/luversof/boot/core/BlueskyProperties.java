@@ -1,26 +1,20 @@
 package io.github.luversof.boot.core;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * 모듈 기반 설정을 제공하기 위한 interface
+ * 모든 BlueskyProperties 중 CoreBaseProperties, CoreProperties가 가장 우선 순위가 높음
+ */
 public interface BlueskyProperties extends InitializingBean, BlueskyRefreshProperties {
 	
 	default void load() {}
 	
 	@Override
 	default void afterPropertiesSet() throws Exception {
-		initialRefreshPropertiesStore();
+		storeInitialProperties();
 		load();
-		initialLoadRefreshPropertiesStore();
-	}
-	
-	/**
-	 * 의존성 지정을 위해 선언
-	 * Properties Bean load 시 항상 CoreProperties가 우선 생성됨
-	 * @param coreProperties
-	 */
-	@Autowired
-	default void setCoreProperties(CoreProperties coreProperties) {
+		storeInitialLoadedProperties();
 	}
 
 }

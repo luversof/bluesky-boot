@@ -16,6 +16,15 @@ import lombok.Data;
  */
 @Data
 public class BlueskyBootContext {
+	
+	/**
+	 * refresh 목적으로 clear하려는 경우 사용
+	 */
+	public void clear() {
+		this.moduleNameSet.clear();
+		this.parentModuleInfo = null;
+		this.moduleInfoMap.clear();
+	}
 
 	/**
 	 * moduleName 전체 목록
@@ -48,7 +57,7 @@ public class BlueskyBootContext {
 	 * DevTools RestartClassLoader 오류로 인해 BlueskyResfreshProperties가 아닌 Serializable 로 정의
 	 * 이후 해결되면 BlueskyResfreshProperties로 변경 예정
 	 */
-	private final Map<String, Serializable> initialLoadBlueskyResfreshPropertiesMap = new HashMap<>();
+	private final Map<String, Serializable> initialLoadedBlueskyResfreshPropertiesMap = new HashMap<>();
 	
 
 }

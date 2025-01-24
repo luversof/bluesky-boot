@@ -26,9 +26,9 @@ public interface BlueskyRefreshProperties extends Serializable, InitializingBean
 	}
 
 	/**
-	 * Save the values ​​of the first properties
+	 * Store the values ​​of the first properties
 	 */
-	default void initialRefreshPropertiesStore() {
+	default void storeInitialProperties() {
 		
 		String beanName = getBeanName();
 		
@@ -46,9 +46,9 @@ public interface BlueskyRefreshProperties extends Serializable, InitializingBean
 	}
 	
 	/**
-	 * Save the initially loaded properties values
+	 * Store the initially loaded properties values
 	 */
-	default void initialLoadRefreshPropertiesStore() {
+	default void storeInitialLoadedProperties() {
 		
 		String beanName = getBeanName();
 		
@@ -60,7 +60,7 @@ public interface BlueskyRefreshProperties extends Serializable, InitializingBean
 			beanName = beanNames[0];
 		}
 		
-		BlueskyBootContextHolder.getContext().getInitialLoadBlueskyResfreshPropertiesMap()
+		BlueskyBootContextHolder.getContext().getInitialLoadedBlueskyResfreshPropertiesMap()
 			.computeIfAbsent(beanName, key -> SerializationUtils.clone(this));
 	}
 	

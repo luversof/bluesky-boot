@@ -17,6 +17,11 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	private static final long serialVersionUID = 1L;
 	
 	public static final String PREFIX = "bluesky-boot.core";
+	
+	/**
+	 * Bean 생성 시 지정할 이름
+	 */
+	public static final String BEAN_NAME = "blueskyCoreModuleProperties";
 
 	@Autowired
 	private CoreProperties parent;
@@ -25,7 +30,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	@Override
 	public void load() {
-		
+		this.parent = getParentByBeanName();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
 		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
@@ -33,8 +38,6 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 		// coreProperties의 경우 moduleNameSet과 modules의 key를 병합한다.
 		moduleNameSet.addAll(getModules().keySet());
 		
-		blueskyBootContext.setParentModuleInfo(getParent().getModuleInfo());
-				
 		moduleNameSet.forEach(moduleName -> {
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, getParent().getModuleInfo() == null ? CoreProperties.builder().build() : getParent().getModuleInfo().getCorePropertiesBuilder().build());
@@ -71,11 +74,6 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			getModules().put(moduleName, builder.build());
 		});
 
-	}
-	
-	@Override
-	public void setCoreModuleProperties(CoreModuleProperties coreModuleProperties) {
-		// DO NOTHING
 	}
 	
 	@Autowired

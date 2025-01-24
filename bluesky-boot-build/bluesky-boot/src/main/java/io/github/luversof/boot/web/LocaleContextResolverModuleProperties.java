@@ -24,6 +24,7 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 	
 	@Override
 	public void load() {
+		this.parent = getParentByBeanName();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
 		

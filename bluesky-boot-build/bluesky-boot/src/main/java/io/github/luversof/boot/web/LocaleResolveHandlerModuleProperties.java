@@ -19,12 +19,17 @@ public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProper
 
 	private String beanName;
 
-	private final LocaleResolveHandlerProperties parent;
+	private LocaleResolveHandlerProperties parent;
 	
 	private Map<String, LocaleResolveHandlerProperties> modules = new HashMap<>();
 	
+	public LocaleResolveHandlerModuleProperties(LocaleResolveHandlerProperties parent) {
+		this.parent = parent;
+	}
+	
 	@Override
 	public void load() {
+		this.parent = getParentByBeanName();
 		var brickBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = brickBootContext.getModuleNameSet();
 		
