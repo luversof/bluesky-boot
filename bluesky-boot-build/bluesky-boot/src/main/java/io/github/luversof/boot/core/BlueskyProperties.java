@@ -14,7 +14,6 @@ public interface BlueskyProperties extends InitializingBean, BlueskyRefreshPrope
 	default void afterPropertiesSet() throws Exception {
 		storeInitialProperties();
 		load();
-		storeInitialLoadedProperties();
 	}
 
 }

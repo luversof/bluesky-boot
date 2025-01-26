@@ -32,7 +32,6 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 
 	@Override
 	public void load() {
-		this.parent = getParentByBeanName();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
 		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();

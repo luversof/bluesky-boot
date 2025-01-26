@@ -50,14 +50,5 @@ public class BlueskyBootContext {
 	 * 이후 해결되면 BlueskyResfreshProperties로 변경 예정
 	 */
 	private final Map<String, Serializable> initialBlueskyResfreshPropertiesMap = new HashMap<>();
-	
-	/**
-	 * 최초 properties load 된 값 저장
-	 * reset 기능을 제공하기 위한 목적
-	 * DevTools RestartClassLoader 오류로 인해 BlueskyResfreshProperties가 아닌 Serializable 로 정의
-	 * 이후 해결되면 BlueskyResfreshProperties로 변경 예정
-	 */
-	private final Map<String, Serializable> initialLoadedBlueskyResfreshPropertiesMap = new HashMap<>();
-	
 
 }

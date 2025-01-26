@@ -27,7 +27,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 	/**
 	 * Bean 생성 시 지정할 이름
 	 */
-	public static final String BEAN_NAME = "blueskyCoreBaseProperties";
+	public static final String BEAN_NAME = "bluesky-boot.core-io.github.luversof.boot.core.CoreBaseProperties";
 
 	/**
 	 * Define module invocation criteria

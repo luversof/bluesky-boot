@@ -29,7 +29,6 @@ public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProper
 	
 	@Override
 	public void load() {
-		this.parent = getParentByBeanName();
 		var brickBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = brickBootContext.getModuleNameSet();
 		

@@ -30,7 +30,8 @@ public class CoreProperties implements BlueskyProperties {
 	/**
 	 * Bean 생성 시 지정할 이름
 	 */
-	public static final String BEAN_NAME = "blueskyCoreProperties";
+//	public static final String BEAN_NAME = "blueskyCoreProperties";
+	public static final String BEAN_NAME = "bluesky-boot.core-io.github.luversof.boot.core.CoreProperties";
 	
 	private ModuleInfo moduleInfo;
 	
@@ -58,12 +59,6 @@ public class CoreProperties implements BlueskyProperties {
 		BlueskyBootContextHolder.getContext().setParentModuleInfo(getModuleInfo());
 	}
 
-	/**
-	 * Handling coreModuleInfo specification set by a spel expression
-	 * 
-	 * @param moduleInfo Location of the generated coreModuleInfo, written as a SpEL
-	 *                   expression
-	 */
 	public static CorePropertiesBuilder builder() {
 		return new CorePropertiesBuilder();
 	}

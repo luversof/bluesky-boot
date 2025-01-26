@@ -45,23 +45,4 @@ public interface BlueskyRefreshProperties extends Serializable, InitializingBean
 		
 	}
 	
-	/**
-	 * Store the initially loaded properties values
-	 */
-	default void storeInitialLoadedProperties() {
-		
-		String beanName = getBeanName();
-		
-		if (beanName == null) {
-			String[] beanNames = ApplicationContextUtil.getApplicationContext().getBeanNamesForType(this.getClass());
-			if (beanNames.length > 1) {
-				throw new BlueskyException("properties beanName must be set");
-			}
-			beanName = beanNames[0];
-		}
-		
-		BlueskyBootContextHolder.getContext().getInitialLoadedBlueskyResfreshPropertiesMap()
-			.computeIfAbsent(beanName, key -> SerializationUtils.clone(this));
-	}
-	
 }

@@ -4,10 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.github.luversof.boot.context.ApplicationContextUtil;
-
 /**
  * Top-level class provided for handling module branching
  * 
@@ -20,22 +16,6 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	
 	T getParent();
 	
-	/**
-	 * parent의 beanName을 기준으로 parent 조회
-	 * actuator refresh 한 경우 참조된 parent가 갱신되지 않으므로 제공 
-	 * @return
-	 */
-	@JsonIgnore
-	@SuppressWarnings("unchecked")
-	default T getParentByBeanName() {
-		var applicationContext =  ApplicationContextUtil.getApplicationContext();
-		var parentBeanName = getParent().getBeanName();
-		if (parentBeanName == null) {
-			parentBeanName = applicationContext.getBeanNamesForType(this.getParent().getClass())[0];
-		}
-		return (T) applicationContext.getBean(parentBeanName);
-	}
-	
 	Map<String, T> getModules();
 	
 	default void load() {}
@@ -44,7 +24,6 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 	default void afterPropertiesSet() throws Exception {
 		storeInitialProperties();
 		load();
-		storeInitialLoadedProperties();
 	}
 
 }
