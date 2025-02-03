@@ -12,12 +12,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import io.github.luversof.cloud.context.refresh.BlueskyPropertiesRefresher;
-import io.github.luversof.cloud.endpoint.RefreshEndpoint;
+import io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint;
 
 @AutoConfiguration("blueskyCloudRefreshEndpointAutoConfiguration")
 @ConditionalOnClass({RefreshScope.class, EndpointAutoConfiguration.class, Health.class})
-@ConditionalOnProperty(name = "bluesky-boot.cloud.refresh.enabled", matchIfMissing = true)
-public class RefreshEndpointAutoConfiguration {
+@ConditionalOnProperty(prefix = "bluesky-boot.cloud.refresh", name = "enabled", havingValue="true", matchIfMissing = true)
+public class BlueskyRefreshEndpointAutoConfiguration {
 
 	@Bean
 	BlueskyPropertiesRefresher blueskyPropertiesRefresher(ConfigurableApplicationContext context, RefreshScope scope, RefreshProperties properties) {
@@ -26,8 +26,8 @@ public class RefreshEndpointAutoConfiguration {
 
 	@Bean
 	@ConditionalOnAvailableEndpoint
-	RefreshEndpoint blueskyRefreshEndpoint(BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
-		return new RefreshEndpoint(blueskyPropertiesRefresher);
+	BlueskyRefreshEndpoint blueskyRefreshEndpoint(BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
+		return new BlueskyRefreshEndpoint(blueskyPropertiesRefresher);
 	}
 	
 }

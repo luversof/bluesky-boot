@@ -11,11 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Endpoint(id = "blueskyRefresh")
-public class RefreshEndpoint {
+public class BlueskyRefreshEndpoint {
 
 	private final BlueskyPropertiesRefresher blueskyPropertiesRefresher;
 	
-	public RefreshEndpoint(BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
+	public BlueskyRefreshEndpoint(BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
 		this.blueskyPropertiesRefresher = blueskyPropertiesRefresher;
 	}
 	
