@@ -36,6 +36,7 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 
 	@Override
 	public void load() {
+		parentReload();
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
@@ -47,9 +48,10 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 			
 			var localeProperties = getModules().get(moduleName);
 			
+			propertyMapper.from(getParent()::getBuilderSupplier).to(builder::builderSupplier);
+			propertyMapper.from(localeProperties::getBuilderSupplier).to(builder::builderSupplier);
 			propertyMapper.from(getParent()::getBeanName).to(builder::beanName);
 			propertyMapper.from(localeProperties::getBeanName).to(builder::beanName);
-			
 			propertyMapper.from(getParent()::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
 			propertyMapper.from(localeProperties::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
 			

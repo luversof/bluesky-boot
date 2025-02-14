@@ -26,8 +26,16 @@ public interface ModuleInfo extends Serializable {
 		return LocaleProperties.builder();
 	}
 	
+	default LocaleProperties.LocalePropertiesBuilder getExternalLocalePropertiesBuilder() {
+		return getLocalePropertiesBuilder();
+	}
+	
 	default CookieProperties.CookiePropertiesBuilder getCookiePropertiesBuilder() {
 		return CookieProperties.builder();
+	}
+	
+	default CookieProperties.CookiePropertiesBuilder getExternalCookiePropertiesBuilder() {
+		return getCookiePropertiesBuilder();
 	}
 	
 	default DomainProperties.DomainPropertiesBuilder getDomainPropertiesBuilder() {

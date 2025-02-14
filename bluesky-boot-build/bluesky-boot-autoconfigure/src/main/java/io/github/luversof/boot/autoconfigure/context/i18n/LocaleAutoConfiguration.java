@@ -23,7 +23,10 @@ public class LocaleAutoConfiguration {
 	@Primary
 	@ConfigurationProperties(prefix = "bluesky-boot.locale")
 	LocaleProperties localeProperties() {
-		return new LocaleProperties();
+		return new LocaleProperties(() -> {
+			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+			return parentModuleInfo == null ? LocaleProperties.builder() : parentModuleInfo.getLocalePropertiesBuilder();
+		});
 	}
 	
 	@Bean(LocaleModuleProperties.DEFAULT_BEAN_NAME)
@@ -42,7 +45,10 @@ public class LocaleAutoConfiguration {
 	@Bean(LocaleProperties.EXTERNAL_LOCALE_BEAN_NAME)
 	@ConfigurationProperties(prefix = "bluesky-boot.external-locale")
 	LocaleProperties externalLocaleProperties() {
-		return new LocaleProperties();
+		return new LocaleProperties(() -> {
+			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+			return parentModuleInfo == null ? LocaleProperties.builder() : parentModuleInfo.getExternalLocalePropertiesBuilder();
+		});
 	}
 	
 	/**
@@ -58,7 +64,7 @@ public class LocaleAutoConfiguration {
 				localeProperties,
 				moduleName -> {
 					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocalePropertiesBuilder() : LocaleProperties.builder();
+					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getExternalLocalePropertiesBuilder() : LocaleProperties.builder();
 				}
 		);
 	}

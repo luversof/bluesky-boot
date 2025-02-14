@@ -31,6 +31,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	
 	@Override
 	public void load() {
+		parentReload();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
 		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();

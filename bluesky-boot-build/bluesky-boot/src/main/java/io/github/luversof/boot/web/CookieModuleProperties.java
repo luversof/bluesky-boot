@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 
 @Data
@@ -20,26 +21,28 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 	public static final String DEFAULT_BEAN_NAME = "cookieModuleProperties";
 	public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieModuleProperties";
 	
+	private final SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> builderFunction;
+	
 	private String beanName;
 
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();
 	
-	public CookieModuleProperties(CookieProperties parent) {
+	public CookieModuleProperties(CookieProperties parent, SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> builderFunction) {
 		this.parent = parent;
+		this.builderFunction = builderFunction;
 	}
 
 	@Override
 	public void load() {
+		parentReload();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
-		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		moduleNameSet.forEach(moduleName -> {
-			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getCookiePropertiesBuilder() : CookieProperties.builder();
+			var builder = builderFunction.apply(moduleName);
 			
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, builder.build());
@@ -47,6 +50,8 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 			
 			var cookieProperties = getModules().get(moduleName);
 			
+			propertyMapper.from(getParent()::getBuilderSupplier).to(builder::builderSupplier);
+			propertyMapper.from(cookieProperties::getBuilderSupplier).to(builder::builderSupplier);
 			propertyMapper.from(getParent()::getBeanName).to(builder::beanName);
 			propertyMapper.from(cookieProperties::getBeanName).to(builder::beanName);
 			propertyMapper.from(getParent()::getName).to(builder::name);

@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.PropertyMapper;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -106,6 +109,27 @@ public class DomainProperties implements BlueskyProperties {
 	public URI getMobileWeb() {
 		// 만약 현재 DeviceType에 대한 도메인을 획득하는 로직이 필요한 경우 여기에 추가 개발 해야함
 		return mobileWebList.isEmpty() ? getWeb() : mobileWebList.get(0);
+	}
+	
+	@Override
+	public void load() {
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
+		
+		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		
+		var builder = parentModuleInfo == null ? DomainProperties.builder() : parentModuleInfo.getDomainPropertiesBuilder();
+		
+		propertyMapper.from(this::getAddPathPatternList).to(builder::addPathPatternList);
+		propertyMapper.from(this::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
+		propertyMapper.from(this::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);
+		propertyMapper.from(this::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(builder::devDomainList);
+		propertyMapper.from(this::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(builder::staticPathList);
+		propertyMapper.from(this::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(builder::excludePathList);
+		propertyMapper.from(this::getRequestPath).to(builder::requestPath);
+		propertyMapper.from(this::getForwardPath).to(builder::forwardPath);
+		
+		BeanUtils.copyProperties(builder.build(), this);
 	}
 	
 	public static DomainPropertiesBuilder builder() {

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
@@ -104,14 +105,22 @@ public class WebMvcAutoConfiguration {
     	@Primary
     	@ConfigurationProperties("bluesky-boot.web.cookie")
     	CookieProperties cookieProperties() {
-    		return new CookieProperties();
+    		return new CookieProperties(() -> {
+    			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+    			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getCookiePropertiesBuilder();
+    		});
     	}
     	
     	@Bean(CookieModuleProperties.DEFAULT_BEAN_NAME)
     	@Primary
     	@ConfigurationProperties("bluesky-boot.web.cookie")
     	CookieModuleProperties cookieModuleProperties(@Qualifier(CookieProperties.DEFAULT_BEAN_NAME) CookieProperties cookieProperties) {
-    		return new CookieModuleProperties(cookieProperties);
+    		return new CookieModuleProperties(
+    				cookieProperties,
+    				moduleName -> {
+    					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+    					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getCookiePropertiesBuilder() : CookieProperties.builder();
+    				});
     	}
     	
     	@Bean(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME)
@@ -145,13 +154,21 @@ public class WebMvcAutoConfiguration {
     	@Bean(CookieProperties.EXTERNAL_COOKIE_BEAN_NAME)
     	@ConfigurationProperties("bluesky-boot.web.external-cookie")
     	CookieProperties externalCookieProperties() {
-    		return new CookieProperties();
+    		return new CookieProperties(() -> {
+    			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+    			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getExternalCookiePropertiesBuilder();
+    		});
     	}
     	
     	@Bean(CookieModuleProperties.EXTERNAL_COOKIE_BEAN_NAME)
     	@ConfigurationProperties("bluesky-boot.web.external-cookie")
 		CookieModuleProperties externalCookieModuleProperties(@Qualifier(CookieProperties.EXTERNAL_COOKIE_BEAN_NAME) CookieProperties cookieProperties) {
-    		return new CookieModuleProperties(cookieProperties);
+    		return new CookieModuleProperties(
+    				cookieProperties,
+    				moduleName -> {
+    					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+    					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getExternalCookiePropertiesBuilder() : CookieProperties.builder();
+    				});
     	}
     	
     	@Bean(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME)
