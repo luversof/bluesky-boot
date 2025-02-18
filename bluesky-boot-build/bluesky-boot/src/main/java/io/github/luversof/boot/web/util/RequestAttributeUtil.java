@@ -59,7 +59,7 @@ public abstract class RequestAttributeUtil {
 		}
 		
 		T object = supplier.get();
-		setRequestAttribute(attributeName, object == null ? NullValue.INSTANCE : Optional.of(object));
+		setRequestAttribute(attributeName, Optional.of(object == null ? NullValue.INSTANCE : object));
 		
 		return object;		
 	}
