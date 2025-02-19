@@ -21,8 +21,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	/**
 	 * Bean 생성 시 지정할 이름
 	 */
-//	public static final String BEAN_NAME = "blueskyCoreModuleProperties";
-	public static final String BEAN_NAME = "bluesky-boot.core-io.github.luversof.boot.core.CoreModuleProperties";
+	public static final String BEAN_NAME = "blueskyCoreModuleProperties";
 
 	@Autowired
 	private CoreProperties parent;
