@@ -1,9 +1,11 @@
 package io.github.luversof.boot.core;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties
 public class CoreConfiguration {
 	
 	@Bean(CoreBaseProperties.BEAN_NAME)
