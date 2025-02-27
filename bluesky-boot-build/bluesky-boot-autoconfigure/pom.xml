@@ -33,6 +33,11 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.github.luversof</groupId>
+			<artifactId>bluesky-boot-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- (e) test -->
 
 		<!-- (s) batch -->
