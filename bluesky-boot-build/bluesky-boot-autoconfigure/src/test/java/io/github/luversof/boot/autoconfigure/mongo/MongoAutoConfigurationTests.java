@@ -8,17 +8,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import com.mongodb.client.MongoClient;
 
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
+
 
 @Disabled
 class MongoAutoConfigurationTests {
 
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withConfiguration(AutoConfigurations.of(MONGO_CONFIGURATION))
 			.withUserConfiguration(MONGO_USER_CONFIGURATION)

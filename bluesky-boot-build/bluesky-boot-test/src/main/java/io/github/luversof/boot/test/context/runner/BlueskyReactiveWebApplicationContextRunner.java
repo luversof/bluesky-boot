@@ -11,26 +11,26 @@ import io.github.luversof.boot.context.BlueskyApplicationContextInitializer;
 import io.github.luversof.boot.env.ProfileEnvironmentPostProcessor;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
 
-public class BrickReactiveWebApplicationContextRunner extends
-AbstractApplicationContextRunner<BrickReactiveWebApplicationContextRunner, ConfigurableReactiveWebApplicationContext, AssertableReactiveWebApplicationContext> {
+public class BlueskyReactiveWebApplicationContextRunner extends
+AbstractApplicationContextRunner<BlueskyReactiveWebApplicationContextRunner, ConfigurableReactiveWebApplicationContext, AssertableReactiveWebApplicationContext> {
 
-	public BrickReactiveWebApplicationContextRunner() {
+	public BlueskyReactiveWebApplicationContextRunner() {
 		this(AnnotationConfigReactiveWebApplicationContext::new);
 		init();
 	}
 
-	public BrickReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory) {
-		super(BrickReactiveWebApplicationContextRunner::new, contextFactory);
+	public BlueskyReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory) {
+		super(BlueskyReactiveWebApplicationContextRunner::new, contextFactory);
 	}
 
-	public BrickReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory,
+	public BlueskyReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory,
 			Class<?>... additionalContextInterfaces) {
-		super(BrickReactiveWebApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
+		super(BlueskyReactiveWebApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
 	}
 
-	private BrickReactiveWebApplicationContextRunner(
+	private BlueskyReactiveWebApplicationContextRunner(
 			RunnerConfiguration<ConfigurableReactiveWebApplicationContext> configuration) {
-		super(configuration, BrickReactiveWebApplicationContextRunner::new);
+		super(configuration, BlueskyReactiveWebApplicationContextRunner::new);
 	}
 	
 	void init() {

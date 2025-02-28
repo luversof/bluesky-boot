@@ -1,27 +1,27 @@
 package io.github.luversof.boot.autoconfigure.data.mongo;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
-import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration;
-import org.springframework.boot.test.context.assertj.AssertableApplicationContext;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.springframework.data.mongodb.ReactiveMongoDatabaseFactory;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.data.mongodb.gridfs.ReactiveGridFsTemplate;
-import org.springframework.test.util.ReflectionTestUtils;
-
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.BASE_PROPERTY;
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MONGO_REACTIVE_CONFIGURATION;
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.DATA_MONGO_REACTIVE_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration;
+import org.springframework.boot.test.context.assertj.AssertableApplicationContext;
+import org.springframework.data.mongodb.ReactiveMongoDatabaseFactory;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.gridfs.ReactiveGridFsTemplate;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
+
 @Disabled
 class MongoReactiveDataAutoConfigurationTests {
 
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(DATA_MONGO_REACTIVE_CONFIGURATION))
@@ -54,7 +54,7 @@ class MongoReactiveDataAutoConfigurationTests {
 
 	@Test
 	void backsOffIfMongoClientBeanIsNotPresent() {
-		ApplicationContextRunner runner = new ApplicationContextRunner().withConfiguration(AutoConfigurations
+		BlueskyApplicationContextRunner runner = new BlueskyApplicationContextRunner().withConfiguration(AutoConfigurations
 				.of(PropertyPlaceholderAutoConfiguration.class, MongoReactiveDataAutoConfiguration.class));
 		runner.run(context -> assertThat(context).doesNotHaveBean(MongoReactiveDataAutoConfiguration.class));
 	}

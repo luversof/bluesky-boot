@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -17,7 +16,7 @@ import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties.LoaderInfo;
 import io.github.luversof.boot.connectioninfo.datasource.MariaDbDataSourceConnectionInfoLoader;
-import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,8 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Disabled
 class ConnectionInfoTests {
 	
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer(applicationContext -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues(
 				"bluesky-boot.connection-info.loaders.mariadb-datasource.enabled=true",

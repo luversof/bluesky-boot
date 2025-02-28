@@ -13,16 +13,16 @@ import io.github.luversof.boot.env.ProfileEnvironmentPostProcessor;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
 
 
-public class BrickApplicationContextRunner extends AbstractApplicationContextRunner<BrickApplicationContextRunner, ConfigurableApplicationContext, AssertableApplicationContext> {
+public class BlueskyApplicationContextRunner extends AbstractApplicationContextRunner<BlueskyApplicationContextRunner, ConfigurableApplicationContext, AssertableApplicationContext> {
 
 
-	public BrickApplicationContextRunner() {
+	public BlueskyApplicationContextRunner() {
 		this(AnnotationConfigApplicationContext::new);
 		init();
 	}
 
-	public BrickApplicationContextRunner(Supplier<ConfigurableApplicationContext> contextFactory) {
-		super(BrickApplicationContextRunner::new, contextFactory);
+	public BlueskyApplicationContextRunner(Supplier<ConfigurableApplicationContext> contextFactory) {
+		super(BlueskyApplicationContextRunner::new, contextFactory);
 	}
 
 	/**
@@ -33,12 +33,12 @@ public class BrickApplicationContextRunner extends AbstractApplicationContextRun
 	 * be added to the application context proxy
 	 * @since 3.4.0
 	 */
-	public BrickApplicationContextRunner(Supplier<ConfigurableApplicationContext> contextFactory, Class<?>... additionalContextInterfaces) {
-		super(BrickApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
+	public BlueskyApplicationContextRunner(Supplier<ConfigurableApplicationContext> contextFactory, Class<?>... additionalContextInterfaces) {
+		super(BlueskyApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
 	}
 
-	private BrickApplicationContextRunner(RunnerConfiguration<ConfigurableApplicationContext> runnerConfiguration) {
-		super(runnerConfiguration, BrickApplicationContextRunner::new);
+	private BlueskyApplicationContextRunner(RunnerConfiguration<ConfigurableApplicationContext> runnerConfiguration) {
+		super(runnerConfiguration, BlueskyApplicationContextRunner::new);
 	}
 
 	void init() {

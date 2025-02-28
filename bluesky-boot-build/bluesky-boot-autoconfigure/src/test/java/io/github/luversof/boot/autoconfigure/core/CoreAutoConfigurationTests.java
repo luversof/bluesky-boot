@@ -6,18 +6,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo;
-import io.github.luversof.boot.context.BlueskyApplicationContextInitializer;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
 class CoreAutoConfigurationTests {
 
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer(new BlueskyApplicationContextInitializer())
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.core.modules.test.domain.web=http://localhost")
 			.withPropertyValues("bluesky-boot.core.modules.test.module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST")

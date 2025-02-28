@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
@@ -24,11 +23,12 @@ import io.github.luversof.boot.autoconfigure.data.alt.mongo.ReactiveCityMongoDbR
 import io.github.luversof.boot.autoconfigure.data.empty.EmptyDataPackage;
 import io.github.luversof.boot.autoconfigure.data.mongo.city.City;
 import io.github.luversof.boot.autoconfigure.data.mongo.city.ReactiveCityRepository;
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
 @Disabled
 class MongoReactiveRepositoriesAutoConfigurationTests {
 	
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new)))

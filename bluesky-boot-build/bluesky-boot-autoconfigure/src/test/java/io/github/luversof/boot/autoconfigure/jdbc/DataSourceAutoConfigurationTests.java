@@ -14,21 +14,19 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 
 import com.zaxxer.hikari.HikariDataSource;
 
 import io.github.luversof.boot.autoconfigure.connectioninfo.ConnectionInfoAutoConfiguration;
-import io.github.luversof.boot.env.ProfileEnvironmentPostProcessor;
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
 @Disabled
 class DataSourceAutoConfigurationTests {
 	
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer(applicationContext -> new ProfileEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(JDBC_CONFIGURATION))
 			.withUserConfiguration(JDBC_USER_CONFIGURATION)
 			.withPropertyValues("spring.datasource.initialization-mode=never",

@@ -8,16 +8,14 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import io.github.luversof.boot.context.BlueskyApplicationContextInitializer;
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
 class MessageSourceAutoConfigurationTests {
 	
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withInitializer(new BlueskyApplicationContextInitializer())
+	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
 			.withPropertyValues(BASE_PROPERTY)
 			.withConfiguration(
 					AutoConfigurations.of(CORE_MESSAGESOURCE_CONFIGURATION))

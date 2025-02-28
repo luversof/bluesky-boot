@@ -12,23 +12,23 @@ import io.github.luversof.boot.context.BlueskyApplicationContextInitializer;
 import io.github.luversof.boot.env.ProfileEnvironmentPostProcessor;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
 
-public class BrickWebApplicationContextRunner extends AbstractApplicationContextRunner<BrickWebApplicationContextRunner, ConfigurableWebApplicationContext, AssertableWebApplicationContext> {
+public class BlueskyWebApplicationContextRunner extends AbstractApplicationContextRunner<BlueskyWebApplicationContextRunner, ConfigurableWebApplicationContext, AssertableWebApplicationContext> {
 	
-	public BrickWebApplicationContextRunner() {
+	public BlueskyWebApplicationContextRunner() {
 		this(withMockServletContext(AnnotationConfigServletWebApplicationContext::new));
 	}
 	
-	public BrickWebApplicationContextRunner(Supplier<ConfigurableWebApplicationContext> contextFactory) {
-		super(BrickWebApplicationContextRunner::new, contextFactory);
+	public BlueskyWebApplicationContextRunner(Supplier<ConfigurableWebApplicationContext> contextFactory) {
+		super(BlueskyWebApplicationContextRunner::new, contextFactory);
 	}
 	
-	public BrickWebApplicationContextRunner(Supplier<ConfigurableWebApplicationContext> contextFactory,
+	public BlueskyWebApplicationContextRunner(Supplier<ConfigurableWebApplicationContext> contextFactory,
 			Class<?>... additionalContextInterfaces) {
-		super(BrickWebApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
+		super(BlueskyWebApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
 	}
 
-	private BrickWebApplicationContextRunner(RunnerConfiguration<ConfigurableWebApplicationContext> configuration) {
-		super(configuration, BrickWebApplicationContextRunner::new);
+	private BlueskyWebApplicationContextRunner(RunnerConfiguration<ConfigurableWebApplicationContext> configuration) {
+		super(configuration, BlueskyWebApplicationContextRunner::new);
 	}
 
 	public static Supplier<ConfigurableWebApplicationContext> withMockServletContext(
