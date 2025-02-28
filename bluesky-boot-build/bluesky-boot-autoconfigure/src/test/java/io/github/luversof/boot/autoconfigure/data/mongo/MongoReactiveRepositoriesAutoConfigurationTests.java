@@ -28,7 +28,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 @Disabled
 class MongoReactiveRepositoriesAutoConfigurationTests {
 	
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(Stream.of(AutoConfigurationTestInfo.addClassAll(DATA_MONGO_REACTIVE_CONFIGURATION, org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration.class)).toArray(Class[]::new)))

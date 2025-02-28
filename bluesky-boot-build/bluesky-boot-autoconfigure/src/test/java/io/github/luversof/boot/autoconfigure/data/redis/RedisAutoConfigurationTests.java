@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Disabled
 class RedisAutoConfigurationTests {
 
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withConfiguration(AutoConfigurations.of(RedisAutoConfiguration.class));
 
 	@Test

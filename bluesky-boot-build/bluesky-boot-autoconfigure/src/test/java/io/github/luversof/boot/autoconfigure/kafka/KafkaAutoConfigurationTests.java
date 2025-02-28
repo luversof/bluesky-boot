@@ -12,7 +12,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 
 class KafkaAutoConfigurationTests {
 
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withConfiguration(AutoConfigurations.of(KafkaAutoConfiguration.class));
 	
 	@Test

@@ -26,7 +26,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 @Disabled
 class DataSourceAutoConfigurationTests {
 	
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withConfiguration(AutoConfigurations.of(JDBC_CONFIGURATION))
 			.withUserConfiguration(JDBC_USER_CONFIGURATION)
 			.withPropertyValues("spring.datasource.initialization-mode=never",

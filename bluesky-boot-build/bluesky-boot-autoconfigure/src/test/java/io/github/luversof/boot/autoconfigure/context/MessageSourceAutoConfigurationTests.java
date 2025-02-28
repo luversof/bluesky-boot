@@ -15,7 +15,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 
 class MessageSourceAutoConfigurationTests {
 	
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withConfiguration(
 					AutoConfigurations.of(CORE_MESSAGESOURCE_CONFIGURATION))

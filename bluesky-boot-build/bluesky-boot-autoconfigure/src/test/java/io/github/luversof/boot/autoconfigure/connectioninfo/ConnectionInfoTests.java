@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Disabled
 class ConnectionInfoTests {
 	
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues(
 				"bluesky-boot.connection-info.loaders.mariadb-datasource.enabled=true",

@@ -13,19 +13,20 @@ import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcess
 
 public class BlueskyReactiveWebApplicationContextRunner extends
 AbstractApplicationContextRunner<BlueskyReactiveWebApplicationContextRunner, ConfigurableReactiveWebApplicationContext, AssertableReactiveWebApplicationContext> {
+	
+	public static BlueskyReactiveWebApplicationContextRunner get() {
+		return new BlueskyReactiveWebApplicationContextRunner()
+				.withInitializer(new BlueskyApplicationContextInitializer())
+				.withInitializer(applicationContext -> new ProfileEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
+				.withInitializer(applicationContext -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null));
+	}
 
-	public BlueskyReactiveWebApplicationContextRunner() {
+	private BlueskyReactiveWebApplicationContextRunner() {
 		this(AnnotationConfigReactiveWebApplicationContext::new);
-		init();
 	}
 
-	public BlueskyReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory) {
+	private BlueskyReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory) {
 		super(BlueskyReactiveWebApplicationContextRunner::new, contextFactory);
-	}
-
-	public BlueskyReactiveWebApplicationContextRunner(Supplier<ConfigurableReactiveWebApplicationContext> contextFactory,
-			Class<?>... additionalContextInterfaces) {
-		super(BlueskyReactiveWebApplicationContextRunner::new, contextFactory, additionalContextInterfaces);
 	}
 
 	private BlueskyReactiveWebApplicationContextRunner(
@@ -33,10 +34,4 @@ AbstractApplicationContextRunner<BlueskyReactiveWebApplicationContextRunner, Con
 		super(configuration, BlueskyReactiveWebApplicationContextRunner::new);
 	}
 	
-	void init() {
-		this
-			.withInitializer(new BlueskyApplicationContextInitializer())
-			.withInitializer(applicationContext -> new ProfileEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
-			.withInitializer(applicationContext -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null));
-	}
 }

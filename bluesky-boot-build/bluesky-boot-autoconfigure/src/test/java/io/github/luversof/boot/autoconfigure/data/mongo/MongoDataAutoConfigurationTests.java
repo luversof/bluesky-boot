@@ -37,7 +37,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 @Disabled
 class MongoDataAutoConfigurationTests {
 	
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(DATA_MONGO_CONFIGURATION))

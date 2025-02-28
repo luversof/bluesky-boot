@@ -19,7 +19,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 @Disabled
 class MongoAutoConfigurationTests {
 
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withConfiguration(AutoConfigurations.of(MONGO_CONFIGURATION))
 			.withUserConfiguration(MONGO_USER_CONFIGURATION)

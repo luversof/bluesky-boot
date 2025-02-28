@@ -21,7 +21,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 @Disabled
 class MongoReactiveDataAutoConfigurationTests {
 
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.mongodb.default-mongo-properties.host=mongo-service", "bluesky-boot.mongodb.default-mongo-properties.port=27017")
 			.withConfiguration(AutoConfigurations.of(DATA_MONGO_REACTIVE_CONFIGURATION))
@@ -54,8 +54,8 @@ class MongoReactiveDataAutoConfigurationTests {
 
 	@Test
 	void backsOffIfMongoClientBeanIsNotPresent() {
-		BlueskyApplicationContextRunner runner = new BlueskyApplicationContextRunner().withConfiguration(AutoConfigurations
-				.of(PropertyPlaceholderAutoConfiguration.class, MongoReactiveDataAutoConfiguration.class));
+		BlueskyApplicationContextRunner runner = BlueskyApplicationContextRunner.get()
+				.withConfiguration(AutoConfigurations.of(PropertyPlaceholderAutoConfiguration.class, MongoReactiveDataAutoConfiguration.class));
 		runner.run(context -> assertThat(context).doesNotHaveBean(MongoReactiveDataAutoConfiguration.class));
 	}
 

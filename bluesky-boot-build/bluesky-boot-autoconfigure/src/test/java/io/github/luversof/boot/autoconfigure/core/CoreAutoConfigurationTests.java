@@ -15,7 +15,7 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 
 class CoreAutoConfigurationTests {
 
-	private final BlueskyApplicationContextRunner contextRunner = new BlueskyApplicationContextRunner()
+	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withPropertyValues(BASE_PROPERTY)
 			.withPropertyValues("bluesky-boot.core.modules.test.domain.web=http://localhost")
 			.withPropertyValues("bluesky-boot.core.modules.test.module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST")
