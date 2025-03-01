@@ -10,7 +10,7 @@ import io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 public class AutoConfigurationTestInfo {
 
-	public static final String[] BASE_PROPERTY = new String[] { "bluesky-boot-profile=opdev" };
+	public static final String[] BASE_PROPERTY = new String[] { "spring.profiles.active=localdev" };
 	
 	public static final Class<?>[] CORE_USER_CONFIGURATION = new Class<?>[] { CoreAutoConfiguration.class , LocaleAutoConfiguration.class};
 	
