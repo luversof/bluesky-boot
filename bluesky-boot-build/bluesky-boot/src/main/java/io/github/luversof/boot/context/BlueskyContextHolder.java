@@ -13,39 +13,22 @@ import io.github.luversof.boot.exception.BlueskyException;
 
 /**
  * Holder of BlueskyContext
+ * A holder created by referencing Spring Security's SecurityContextHolder
  */
 public final class BlueskyContextHolder {
 	
-	/**
-	 * Handling utility class constructors
-	 */
 	private BlueskyContextHolder() {}
 	
-	/**
-	 * mode value when used with threadLocal
-	 */
 	public static final String MODE_THREADLOCAL = "MODE_THREADLOCAL";
 	
-	/**
-	 * mode value when used with inheritableThreadLocal
-	 */
 	public static final String MODE_INHERITABLETHREADLOCAL = "MODE_INHERITABLETHREADLOCAL";
 	
-	/**
-	 * mode value when used with global
-	 */
 	public static final String MODE_GLOBAL = "MODE_GLOBAL";
 	
-	/**
-	 * mode value when used as pre-initialized
-	 */
 	private static final String MODE_PRE_INITIALIZED = "MODE_PRE_INITIALIZED";
 	
 	public static final String SYSTEM_PROPERTY = "bluesky.context.strategy";
 	
-	/**
-	 * mode property key
-	 */
 	private static String strategyName = System.getProperty(SYSTEM_PROPERTY);
 	
 	private static BlueskyContextHolderStrategy strategy;
@@ -134,29 +117,16 @@ public final class BlueskyContextHolder {
 		setContext(() -> moduleName);
 	}
 	
-	public static void setStrategyName(String strategyName) {
-		BlueskyContextHolder.strategyName = strategyName;
-		initialize();
-	}
-	
-	public static void setContextHolderStrategy(BlueskyContextHolderStrategy strategy) {
-		Assert.notNull(strategy, "securityContextHolderStrategy cannot be null");
-		BlueskyContextHolder.strategyName = MODE_PRE_INITIALIZED;
-		BlueskyContextHolder.strategy = strategy;
-		initialize();
-	}
-	
-	public static BlueskyContextHolderStrategy getContextHolderStrategy() {
-		return strategy;
-	}
-
+	/**
+	 * Delegates the creation of a new, empty context to the configured strategy.
+	 */
 	public static BlueskyContext createEmptyContext() {
 		return strategy.createEmptyContext();
 	}
 	
 	@Override
 	public String toString() {
-		return "SecurityContextHolder[strategy='" + strategy.getClass().getSimpleName() + "'; initializeCount="
+		return "BlueskyContextHolder[strategy='" + strategy.getClass().getSimpleName() + "'; initializeCount="
 				+ initializeCount + "]";
 	}
 	
@@ -219,7 +189,7 @@ public final class BlueskyContextHolder {
 	
 	/**
 	 * coreProperties의 경우 가장 자주 쓰이기 때문에 기본 제공
-	 * @return
+	 * @return CoreProperties
 	 */
 	public static CoreProperties getCoreProperties() {
 		return getProperties(CoreProperties.class);	

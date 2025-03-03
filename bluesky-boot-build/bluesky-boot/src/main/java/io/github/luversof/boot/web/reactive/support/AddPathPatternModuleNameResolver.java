@@ -18,7 +18,7 @@ public class AddPathPatternModuleNameResolver extends AbstractModuleNameResolver
 	
 	private final PathMatcher pathMatcher = new AntPathMatcher();
 	private final Comparator<Entry<String, DomainProperties>> comparator = (o1, o2) -> Integer.compare(o1.getValue().getAddPathPatternList().get(0).length(), o2.getValue().getAddPathPatternList().get(0).length());
-
+	
 	@Override
 	protected Entry<String, DomainProperties> getModulePropertiesEntry(ServerWebExchange exchange, DomainModuleProperties domainModuleProperties) {
 		var applicationContext = exchange.getApplicationContext();

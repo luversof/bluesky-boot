@@ -21,8 +21,8 @@ public class AcceptHeaderLocaleResolveHandler extends AbstractLocaleResolveHandl
 	/**
 	 * When creating an AcceptHeaderLocaleResolveHandler, localePropertiesBeanName and localeResolveHandlerPropertiesBeanName are required.
 	 * 
-	 * @param localePropertiesBeanName
-	 * @param localeResolveHandlerPropertiesBeanName
+	 * @param localePropertiesBeanName Target localePropertiesBeanName
+	 * @param localeResolveHandlerPropertiesBeanName Target localeResolveHandlerPropertiesBeanName
 	 */
 	public AcceptHeaderLocaleResolveHandler(String localePropertiesBeanName, String localeResolveHandlerPropertiesBeanName) {
 		super(localePropertiesBeanName, localeResolveHandlerPropertiesBeanName);

@@ -17,7 +17,7 @@ public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
 	 * ApplicationContext null error message
 	 */
 	protected static final String ERROR_MESSAGE_NOT_NULL_APPLICATION_CONTEXT = "ApplicationContext must exist";
-
+	
 	@Override
 	public String resolve(ServerWebExchange exchange) {
 		var modulePropertiesEntry = getModulePropertiesEntry(exchange);
@@ -49,5 +49,11 @@ public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
 		return module;
 	}
 	
+	/**
+	 * Method that returns a DomainProperties Entry corresponding to the request.
+	 * @param exchange ServerWebExchange
+	 * @param domainModuleProperties DomainProperties
+	 * @return
+	 */
 	protected abstract Entry<String, DomainProperties> getModulePropertiesEntry(ServerWebExchange exchange, DomainModuleProperties domainModuleProperties);
 }
