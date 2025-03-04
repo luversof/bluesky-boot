@@ -2,6 +2,8 @@ package io.github.luversof.boot.test.context.runner;
 
 import java.util.function.Supplier;
 
+import org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.boot.test.context.assertj.AssertableWebApplicationContext;
 import org.springframework.boot.test.context.runner.AbstractApplicationContextRunner;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebApplicationContext;
@@ -16,6 +18,7 @@ public class BlueskyWebApplicationContextRunner extends AbstractApplicationConte
 	
 	public static BlueskyWebApplicationContextRunner get() {
 		return new BlueskyWebApplicationContextRunner()
+				.withInitializer(ConditionEvaluationReportLoggingListener.forLogLevel(LogLevel.INFO))
 				.withInitializer(new BlueskyApplicationContextInitializer())
 				.withInitializer(applicationContext -> new ProfileEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null))
 				.withInitializer(applicationContext -> new DecryptEnvironmentPostProcessor().postProcessEnvironment(applicationContext.getEnvironment(), null));
