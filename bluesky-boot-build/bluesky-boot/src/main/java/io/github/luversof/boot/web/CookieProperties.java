@@ -52,6 +52,7 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 		var builder = builderSupplier.get();
 		
 		propertyMapper.from(this::getBuilderSupplier).to(builder::builderSupplier);
+		propertyMapper.from(this::getBeanName).to(builder::beanName);
 		propertyMapper.from(this::getName).to(builder::name);
 		propertyMapper.from(this::getMaxAge).to(builder::maxAge);
 		propertyMapper.from(this::getDomain).to(builder::domain);

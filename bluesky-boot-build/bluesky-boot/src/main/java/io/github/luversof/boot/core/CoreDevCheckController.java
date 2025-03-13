@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyBootContext;
@@ -26,91 +28,90 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @DevCheckController
+@RequestMapping(value = "/blueskyBoot/core", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CoreDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/core";	// NOSONAR java:S1075
-	
 	@DevCheckDescription("Spring activeProfiles 조회")
-	@GetMapping(PATH_PREFIX + "/activeProfiles")
+	@GetMapping("/activeProfiles")
 	String[] activeProfiles() {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
 	}
 	
 	@DevCheckDescription("Spring activeProfiles 조회")
-	@GetMapping(PATH_PREFIX + "/property")
+	@GetMapping("/property")
 	String property(String key) {
 		return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
 	}
 	
 	@DevCheckDescription("blueskyPropertiesMap 조회")
-	@GetMapping(PATH_PREFIX + "/blueskyPropertiesMap")
+	@GetMapping("/blueskyPropertiesMap")
 	Map<String, BlueskyProperties> blueskyPropertiesMap() {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@DevCheckDescription("blueskyModulePropertiesMap 조회")
-	@GetMapping(PATH_PREFIX + "/blueskyModulePropertiesMap")
+	@GetMapping("/blueskyModulePropertiesMap")
 	Map<String, BlueskyModuleProperties> blueskyModulePropertiesMap() {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyModuleProperties.class);
 	}
 	
 	@DevCheckDescription("coreProperties 조회")
-	@GetMapping(PATH_PREFIX + "/coreProperties")
+	@GetMapping("/coreProperties")
 	CoreProperties coreProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
 	}
 	
 	@DevCheckDescription("coreBaseProperties 조회")
-	@GetMapping(PATH_PREFIX + "/coreBaseProperties")
+	@GetMapping("/coreBaseProperties")
 	CoreBaseProperties coreBaseProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
 	}
 	
 	@DevCheckDescription("coreModuleProperties 조회")
-	@GetMapping(PATH_PREFIX + "/coreModuleProperties")
+	@GetMapping("/coreModuleProperties")
 	CoreModuleProperties coreModuleProperties() {
 		return ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
 	}
 	
 	@DevCheckDescription("initialBlueskyResfreshPropertiesMapKeySet 조회")
-	@GetMapping(PATH_PREFIX + "/initialBlueskyResfreshPropertiesMapKeySet")
+	@GetMapping("/initialBlueskyResfreshPropertiesMapKeySet")
 	Set<String> initialBlueskyResfreshPropertiesMapKeySet() {
 		return BlueskyBootContextHolder.getContext().getInitialBlueskyResfreshPropertiesMap().keySet();
 	}
 	
 	@DevCheckDescription("currentLocale 값 확인.")
-	@GetMapping(PATH_PREFIX + "/currentLocale")
+	@GetMapping("/currentLocale")
 	Locale currentLocale() {
 		return LocaleContextHolder.getLocale();
 	}
 	
 	@DevCheckDescription("systemDefaultZone 값 확인.")
-	@GetMapping(PATH_PREFIX + "/systemDefaultZone")
+	@GetMapping("/systemDefaultZone")
 	Clock systemDefaultZone() {
 		return Clock.systemDefaultZone();
 	}
 	
 	@DevCheckDescription("localeDateTime now 값 확인.")
-	@GetMapping(PATH_PREFIX + "/localDateTimeNow")
+	@GetMapping("/localDateTimeNow")
 	LocalDateTime localDateTimeNow() {
 		return LocalDateTime.now();
 	}
 	
 	@DevCheckDescription("zonedDateTime now 값 확인.")
-	@GetMapping(PATH_PREFIX + "/zonedDateTimeNow")
+	@GetMapping("/zonedDateTimeNow")
 	ZonedDateTime zonedDateTimeNow() {
 		return ZonedDateTime.now();
 	}
 	
 	@DevCheckDescription("blueskyContext 확인")
-	@GetMapping(PATH_PREFIX + "/blueskyContext")
+	@GetMapping("/blueskyContext")
 	BlueskyContext blueskyContext() {
 		return BlueskyContextHolder.getContext();
 	}
 	
 	@DevCheckDescription("blueskyBootContext 확인")
-	@GetMapping(PATH_PREFIX + "/blueskyBootContext")
+	@GetMapping("/blueskyBootContext")
 	BlueskyBootContext blueskyBootContext() {
 		return BlueskyBootContextHolder.getContext();
 	}

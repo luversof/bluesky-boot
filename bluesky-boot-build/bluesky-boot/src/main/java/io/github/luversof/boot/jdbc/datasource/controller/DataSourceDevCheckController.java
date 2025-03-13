@@ -5,8 +5,10 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.DelegatingDataSource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;
 import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
@@ -20,14 +22,13 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @DevCheckController
+@RequestMapping(value = "/blueskyBoot/jdbc", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataSourceDevCheckController {
 	
-	private static final String PATH_PREFIX = "/blueskyBoot/jdbc";	// NOSONAR java:S1075
-
 	private DataSource blueskyRoutingDataSource;
 	
 	@DevCheckDescription("blueskyRoutingDataSourceKeySet 조회")
-	@GetMapping(PATH_PREFIX + "/blueskyRoutingDataSourceKeySet")
+	@GetMapping("/blueskyRoutingDataSourceKeySet")
 	Set<Object> blueskyRoutingDataSourceKeySet() {
 		if (blueskyRoutingDataSource instanceof RoutingDataSource routingDataSource) {
 			return routingDataSource.getResolvedDataSources().keySet();

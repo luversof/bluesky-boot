@@ -3,7 +3,9 @@ package io.github.luversof.boot.connectioninfo;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.github.luversof.boot.devcheck.annotation.DevCheckController;
 import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
@@ -16,9 +18,8 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @DevCheckController
+@RequestMapping(value = "/blueskyBoot/connectionInfo", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ConnectionInfoDevCheckController {
-	
-	private static final String PATH_PREFIX = "/blueskyBoot/connectionInfo";	// NOSONAR java:S1075
 	
 	private ConnectionInfoLoaderProperties connectionInfoLoaderProperties;
 
@@ -29,7 +30,7 @@ public class ConnectionInfoDevCheckController {
 	 * @return ConnectionInfoLoaderProperties
 	 */
 	@DevCheckDescription("connectionInfoLoaderProperties 조회")
-	@GetMapping(PATH_PREFIX + "/connectionInfoLoaderProperties")
+	@GetMapping("/connectionInfoLoaderProperties")
 	ConnectionInfoLoaderProperties connectionInfoLoaderProperties() {
 		return connectionInfoLoaderProperties;
 	}
@@ -39,7 +40,7 @@ public class ConnectionInfoDevCheckController {
 	 * @return connectionInfoCollectorKeySet
 	 */
 	@DevCheckDescription("connectionInfoCollectorKeySet 조회")
-	@GetMapping(PATH_PREFIX + "/connectionInfoCollectorKeySet")
+	@GetMapping("/connectionInfoCollectorKeySet")
 	Set<String> connectionInfoCollectorKeySet() {
 		return connectionInfoCollectorMap.keySet();
 	}
@@ -50,7 +51,7 @@ public class ConnectionInfoDevCheckController {
 	 * @return connectionInfoMapKeySet
 	 */
 	@DevCheckDescription("connectionInfoCollectorConnectionInfoMap 전체 목록 조회")
-	@GetMapping(PATH_PREFIX + "/connectionInfoCollectorConnectionInfoMap")
+	@GetMapping("/connectionInfoCollectorConnectionInfoMap")
 	Set<String> connectionInfoCollectorConnectionInfoMap(String beanName) {
 		return connectionInfoCollectorMap.get(beanName).getConnectionInfoMap().keySet();
 	}
