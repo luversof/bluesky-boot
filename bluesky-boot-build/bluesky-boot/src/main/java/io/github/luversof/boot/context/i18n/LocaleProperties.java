@@ -9,6 +9,7 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.util.function.SerializableSupplier;
 import lombok.AccessLevel;
@@ -28,10 +29,8 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String DEFAULT_BEAN_NAME = "localeProperties";
-	public static final String EXTERNAL_LOCALE_BEAN_NAME = "externalLocaleProperties";
-	
-	private final SerializableSupplier<LocaleProperties.LocalePropertiesBuilder> builderSupplier;
+	public static final String DEFAULT_BEAN_NAME = "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties";
+	public static final String EXTERNAL_LOCALE_BEAN_NAME = "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties";
 	
 	private String beanName;
 
@@ -48,13 +47,19 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 		return enableLocaleList.get(0);
 	}
 	
+	protected SerializableSupplier<LocaleProperties.LocalePropertiesBuilder> getBuilderSupplier() {
+		return () -> {
+			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+			return parentModuleInfo == null ? LocaleProperties.builder() : parentModuleInfo.getLocalePropertiesBuilder();
+		};
+	}
+	
 	@Override
 	public void load() {
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
-		var builder = builderSupplier.get();
+		var builder = getBuilderSupplier().get();
 		
-		propertyMapper.from(this::getBuilderSupplier).to(builder::builderSupplier);
 		propertyMapper.from(this::getBeanName).to(builder::beanName);
 		propertyMapper.from(this::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
 		
@@ -69,16 +74,9 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 	@NoArgsConstructor(access = AccessLevel.NONE)
 	public static class LocalePropertiesBuilder {
 		
-		private SerializableSupplier<LocaleProperties.LocalePropertiesBuilder> builderSupplier;
-		
 		private String beanName;
 		
 		private List<Locale> enableLocaleList = new ArrayList<>();
-		
-		public LocalePropertiesBuilder builderSupplier(SerializableSupplier<LocaleProperties.LocalePropertiesBuilder> builderSupplier) {
-			this.builderSupplier = builderSupplier;
-			return this;
-		}
 		
 		public LocalePropertiesBuilder beanName(String beanName) {
 			this.beanName = beanName;
@@ -92,7 +90,6 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 		
 		public LocaleProperties build() {
 			return new LocaleProperties(
-				this.builderSupplier,
 				this.beanName,
 				this.enableLocaleList == null ? new ArrayList<>() : this.enableLocaleList
 			);

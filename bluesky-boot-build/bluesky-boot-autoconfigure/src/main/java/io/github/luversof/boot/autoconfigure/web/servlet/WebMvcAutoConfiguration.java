@@ -17,14 +17,15 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
-import io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties;
-import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
+import io.github.luversof.boot.web.ExternalCookieModuleProperties;
+import io.github.luversof.boot.web.ExternalCookieProperties;
 import io.github.luversof.boot.web.LocaleContextResolverModuleProperties;
 import io.github.luversof.boot.web.LocaleContextResolverProperties;
+import io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties;
+import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
 import io.github.luversof.boot.web.servlet.filter.BlueskyContextHolderFilter;
 import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
@@ -41,45 +42,45 @@ import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
  */
 @AutoConfiguration(value = "blueskyBootWebMvcAutoConfiguration", before = org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class)
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@EnableConfigurationProperties({ 
+@EnableConfigurationProperties({
 	LocaleContextResolverProperties.class,
 	LocaleContextResolverModuleProperties.class
 })
 public class WebMvcAutoConfiguration {
 	
-    @Bean
-    BlueskyContextHolderFilter blueskyContextHolderFilter() {
-        return new BlueskyContextHolderFilter();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "domain", matchIfMissing = true)
-    ModuleNameResolver domainModuleNameResolver() {
-    	return new DomainModuleNameResolver();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "add-path-pattern")
-    ModuleNameResolver addPathPatternModuleNameResolver() {
-    	return new AddPathPatternModuleNameResolver();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "domain-add-path-pattern")
-    ModuleNameResolver domainAddPathPatternModuleNameResolver() {
-    	return new DomainAddPathPatternModuleNameResolver();
-    }
+	@Bean
+	BlueskyContextHolderFilter blueskyContextHolderFilter() {
+		return new BlueskyContextHolderFilter();
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "domain", matchIfMissing = true)
+	ModuleNameResolver domainModuleNameResolver() {
+		return new DomainModuleNameResolver();
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "add-path-pattern")
+	ModuleNameResolver addPathPatternModuleNameResolver() {
+		return new AddPathPatternModuleNameResolver();
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(prefix = "bluesky-boot.core", name ="resolve-type", havingValue = "domain-add-path-pattern")
+	ModuleNameResolver domainAddPathPatternModuleNameResolver() {
+		return new DomainAddPathPatternModuleNameResolver();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    CoreMvcExceptionHandler coreMvcExceptionHandler() {
-        return new CoreMvcExceptionHandler();
-    }
-    
-    @Bean(LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME)
+	@Bean
+	@ConditionalOnMissingBean
+	CoreMvcExceptionHandler coreMvcExceptionHandler() {
+		return new CoreMvcExceptionHandler();
+	}
+	
+	@Bean(LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME)
 	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.accept-header")
 	LocaleResolveHandlerProperties acceptHeaderLocaleResolveHandlerProperties() {
 		return new LocaleResolveHandlerProperties();
@@ -90,117 +91,84 @@ public class WebMvcAutoConfiguration {
 	LocaleResolveHandlerModuleProperties acceptHeaderLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
 		return new LocaleResolveHandlerModuleProperties(localeResolveHandlerProperties);
 	}
-    
-    
-    @Bean(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)
-    AcceptHeaderLocaleResolveHandler acceptHeaderLocaleResolverHandler() {
-    	return new AcceptHeaderLocaleResolveHandler(LocaleProperties.DEFAULT_BEAN_NAME, null);
-    }
+	
+	
+	@Bean(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)
+	AcceptHeaderLocaleResolveHandler acceptHeaderLocaleResolverHandler() {
+		return new AcceptHeaderLocaleResolveHandler(LocaleProperties.DEFAULT_BEAN_NAME, null);
+	}
 
-    @Configuration(proxyBeanMethods = false)
-//    @ConditionalOnProperty(prefix = "bluesky-boot.web.cookie", name = "enabled", havingValue = "true")
-    public static class WebMvcCookieConfiguration {
-    	
-    	@Bean(CookieProperties.DEFAULT_BEAN_NAME)
-    	@Primary
-    	@ConfigurationProperties("bluesky-boot.web.cookie")
-    	CookieProperties cookieProperties() {
-    		return new CookieProperties(() -> {
-    			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-    			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getCookiePropertiesBuilder();
-    		});
-    	}
-    	
-    	@Bean(CookieModuleProperties.DEFAULT_BEAN_NAME)
-    	@Primary
-    	@ConfigurationProperties("bluesky-boot.web.cookie")
-    	CookieModuleProperties cookieModuleProperties(@Qualifier(CookieProperties.DEFAULT_BEAN_NAME) CookieProperties cookieProperties) {
-    		return new CookieModuleProperties(
-    				cookieProperties,
-    				moduleName -> {
-    					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-    					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getCookiePropertiesBuilder() : CookieProperties.builder();
-    				});
-    	}
-    	
-    	@Bean(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME)
-    	@Primary
-    	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.cookie")
-    	LocaleResolveHandlerProperties cookieLocaleResolveHandlerProperties() {
-    		return new LocaleResolveHandlerProperties();
-    	}
-    	
-    	@Bean
-    	@Primary
-    	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.cookie")
-    	LocaleResolveHandlerModuleProperties localeResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeContextResolveHandlerProperties) {
-    		return new LocaleResolveHandlerModuleProperties(localeContextResolveHandlerProperties);
-    	}
-    	
-    	@Bean(CookieLocaleResolveHandler.DEFAULT_BEAN_NAME)
-    	CookieLocaleResolveHandler cookieLocaleResolveHandler() {
-    		return new CookieLocaleResolveHandler(
-    				LocaleProperties.DEFAULT_BEAN_NAME,
-    				CookieProperties.DEFAULT_BEAN_NAME,
-    				"cookieLocaleContextResolveHandlerProperties"
-    				);
-    	}
-    }
-    
-    @Configuration(proxyBeanMethods = false)
-//    @ConditionalOnProperty(prefix = "bluesky-boot.web.other-cookie", name = "enabled", havingValue = "true")
-    public static class WebMvcExternalCookieConfiguration {
-    	
-    	@Bean(CookieProperties.EXTERNAL_COOKIE_BEAN_NAME)
-    	@ConfigurationProperties("bluesky-boot.web.external-cookie")
-    	CookieProperties externalCookieProperties() {
-    		return new CookieProperties(() -> {
-    			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-    			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getExternalCookiePropertiesBuilder();
-    		});
-    	}
-    	
-    	@Bean(CookieModuleProperties.EXTERNAL_COOKIE_BEAN_NAME)
-    	@ConfigurationProperties("bluesky-boot.web.external-cookie")
-		CookieModuleProperties externalCookieModuleProperties(@Qualifier(CookieProperties.EXTERNAL_COOKIE_BEAN_NAME) CookieProperties cookieProperties) {
-    		return new CookieModuleProperties(
-    				cookieProperties,
-    				moduleName -> {
-    					var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-    					return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getExternalCookiePropertiesBuilder() : CookieProperties.builder();
-    				});
-    	}
-    	
-    	@Bean(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME)
-    	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.external-cookie")
-    	LocaleResolveHandlerProperties externalCookieLocaleResolveHandlerProperties() {
-    		return new LocaleResolveHandlerProperties();
-    	}
-    	
-    	@Bean
-    	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.external-cookie")
-    	LocaleResolveHandlerModuleProperties externalLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
-    		return new LocaleResolveHandlerModuleProperties(localeResolveHandlerProperties);
-    	}
-    	
-    	@Bean
-    	CookieLocaleResolveHandler externalCookieLocaleResolveHandler() {
-    		return new CookieLocaleResolveHandler(
-    				LocaleProperties.EXTERNAL_LOCALE_BEAN_NAME, 
-    				CookieProperties.EXTERNAL_COOKIE_BEAN_NAME, 
-    				LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME
-    				);
-    	}
+	@EnableConfigurationProperties({
+		CookieProperties.class,
+		CookieModuleProperties.class
+	})
+	@Configuration(proxyBeanMethods = false)
+//	@ConditionalOnProperty(prefix = "bluesky-boot.web.cookie", name = "enabled", havingValue = "true")
+	public static class WebMvcCookieConfiguration {
+		
+		
+		@Bean(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME)
+		@Primary
+		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.cookie")
+		LocaleResolveHandlerProperties cookieLocaleResolveHandlerProperties() {
+			return new LocaleResolveHandlerProperties();
+		}
+		
+		@Bean
+		@Primary
+		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.cookie")
+		LocaleResolveHandlerModuleProperties localeResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeContextResolveHandlerProperties) {
+			return new LocaleResolveHandlerModuleProperties(localeContextResolveHandlerProperties);
+		}
+		
+		@Bean(CookieLocaleResolveHandler.DEFAULT_BEAN_NAME)
+		CookieLocaleResolveHandler cookieLocaleResolveHandler() {
+			return new CookieLocaleResolveHandler(
+					LocaleProperties.DEFAULT_BEAN_NAME,
+					CookieProperties.DEFAULT_BEAN_NAME,
+					"cookieLocaleContextResolveHandlerProperties"
+					);
+		}
+	}
+	
+	@EnableConfigurationProperties({
+		ExternalCookieProperties.class,
+		ExternalCookieModuleProperties.class
+	})
+	@Configuration(proxyBeanMethods = false)
+//	@ConditionalOnProperty(prefix = "bluesky-boot.web.other-cookie", name = "enabled", havingValue = "true")
+	public static class WebMvcExternalCookieConfiguration {
+		
+		@Bean(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME)
+		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.external-cookie")
+		LocaleResolveHandlerProperties externalCookieLocaleResolveHandlerProperties() {
+			return new LocaleResolveHandlerProperties();
+		}
+		
+		@Bean
+		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.external-cookie")
+		LocaleResolveHandlerModuleProperties externalLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
+			return new LocaleResolveHandlerModuleProperties(localeResolveHandlerProperties);
+		}
+		
+		@Bean
+		CookieLocaleResolveHandler externalCookieLocaleResolveHandler() {
+			return new CookieLocaleResolveHandler(
+					LocaleProperties.EXTERNAL_LOCALE_BEAN_NAME, 
+					CookieProperties.EXTERNAL_COOKIE_BEAN_NAME, 
+					LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME
+					);
+		}
 
-    }
+	}
 
-    
+	
 	@Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
 	@ConditionalOnMissingBean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
-    LocaleResolver localeResolver() {
-    	return new BlueskyLocaleContextResolver();
-    }
-    
+	LocaleResolver localeResolver() {
+		return new BlueskyLocaleContextResolver();
+	}
+	
 	@Bean
 	@ConditionalOnClass(name = { "org.apache.catalina.startup.Tomcat", "ch.qos.logback.access.tomcat.LogbackValve" })
 	LogbackTomcatServletWebServerFactoryCustomizer logbackTomcatServletWebServerFactoryCustomizer() {

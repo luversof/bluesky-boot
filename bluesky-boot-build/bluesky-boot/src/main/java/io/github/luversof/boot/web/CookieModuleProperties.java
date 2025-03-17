@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -11,6 +13,7 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "brick-boot.web.cookie")
@@ -18,20 +21,22 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String DEFAULT_BEAN_NAME = "cookieModuleProperties";
-	public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieModuleProperties";
-	
-	private final SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> builderFunction;
+	public static final String DEFAULT_BEAN_NAME = "brick-boot.web.cookie-io.github.luversof.boot.web.CookieModuleProperties";
+	public static final String EXTERNAL_COOKIE_BEAN_NAME = "brick-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieModuleProperties";
 	
 	private String beanName;
 
+	@Setter(onMethod__ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) }) // NOSONAR
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();
 	
-	public CookieModuleProperties(CookieProperties parent, SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> builderFunction) {
-		this.parent = parent;
-		this.builderFunction = builderFunction;
+	
+	protected SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> getBuilderFunction() {
+		return moduleName -> {
+			var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+			return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getCookiePropertiesBuilder() : CookieProperties.builder();
+		};
 	}
 
 	@Override
@@ -42,7 +47,7 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		moduleNameSet.forEach(moduleName -> {
-			var builder = builderFunction.apply(moduleName);
+			var builder = getBuilderFunction().apply(moduleName);
 			
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, builder.build());
@@ -50,8 +55,6 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 			
 			var cookieProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getBuilderSupplier).to(builder::builderSupplier);
-			propertyMapper.from(cookieProperties::getBuilderSupplier).to(builder::builderSupplier);
 			propertyMapper.from(getParent()::getBeanName).to(builder::beanName);
 			propertyMapper.from(cookieProperties::getBeanName).to(builder::beanName);
 			propertyMapper.from(getParent()::getName).to(builder::name);

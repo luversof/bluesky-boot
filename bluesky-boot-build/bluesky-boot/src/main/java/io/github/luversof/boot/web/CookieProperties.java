@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.boot.convert.DurationUnit;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.util.function.SerializableSupplier;
 import lombok.AllArgsConstructor;
@@ -23,10 +24,8 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String DEFAULT_BEAN_NAME = "cookieProperties";
-	public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieProperties";
-	
-	private final SerializableSupplier<CookieProperties.CookiePropertiesBuilder> builderSupplier;
+	public static final String DEFAULT_BEAN_NAME = "brick-boot.web.cookie-io.github.luversof.boot.web.CookieProperties";
+	public static final String EXTERNAL_COOKIE_BEAN_NAME = "brick-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties";
 	
 	private String beanName;
 	
@@ -45,13 +44,19 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	
 	private String sameSite;
 	
+	protected SerializableSupplier<CookieProperties.CookiePropertiesBuilder> getBuilderSupplier() {
+		return () -> {
+			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getCookiePropertiesBuilder();
+		};
+	}
+	
 	@Override
 	public void load() {
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
-		var builder = builderSupplier.get();
+		var builder = getBuilderSupplier().get();
 		
-		propertyMapper.from(this::getBuilderSupplier).to(builder::builderSupplier);
 		propertyMapper.from(this::getBeanName).to(builder::beanName);
 		propertyMapper.from(this::getName).to(builder::name);
 		propertyMapper.from(this::getMaxAge).to(builder::maxAge);
@@ -70,8 +75,6 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	
 	public static class CookiePropertiesBuilder {
 		
-		private SerializableSupplier<CookieProperties.CookiePropertiesBuilder> builderSupplier;
-	
 		private String beanName;
 		
 		private String name;
@@ -88,11 +91,6 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 		private Boolean httpOnly;
 		
 		private String sameSite;
-		
-		public CookiePropertiesBuilder builderSupplier(SerializableSupplier<CookieProperties.CookiePropertiesBuilder> builderSupplier) {
-			this.builderSupplier = builderSupplier;
-			return this;
-		}
 		
 		public CookiePropertiesBuilder beanName(String beanName) {
 			this.beanName = beanName;
@@ -136,7 +134,7 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 		
 		public CookieProperties build() {
 			return new CookieProperties(
-				builderSupplier, beanName, name, maxAge, domain, path, secure, httpOnly, sameSite
+				beanName, name, maxAge, domain, path, secure, httpOnly, sameSite
 			);
 		}
 	}
