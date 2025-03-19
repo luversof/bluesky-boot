@@ -14,11 +14,11 @@
 	</parent>
 	<properties>
 		<java.version>21</java.version>
-		<spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
+		<spring-cloud-dependencies.version>2024.0.1</spring-cloud-dependencies.version>
 		<bluesky-boot.version>3.4.0-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-crypto.version>3.4.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>3.4.0-SNAPSHOT</bluesky-boot-devcheck.version>
-		<spring-boot-admin-starter.version>3.4.4</spring-boot-admin-starter.version>
+		<spring-boot-admin-starter.version>3.4.5</spring-boot-admin-starter.version>
 		<mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>2.8.5</springdoc-openapi.version>
 		
