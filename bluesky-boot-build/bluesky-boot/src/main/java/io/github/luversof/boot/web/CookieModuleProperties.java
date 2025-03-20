@@ -26,7 +26,7 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 	
 	private String beanName;
 
-	@Setter(onMethod__ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) }) // NOSONAR
+	@Setter(onMethod_ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) }) // NOSONAR
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();

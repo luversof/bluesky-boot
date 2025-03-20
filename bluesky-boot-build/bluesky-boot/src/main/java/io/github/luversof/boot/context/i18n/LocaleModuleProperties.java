@@ -26,7 +26,7 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	
 	private String beanName;
 
-	@Setter(onMethod__ = { @Autowired, @Qualifier(LocaleProperties.DEFAULT_BEAN_NAME) })  // NOSONAR
+	@Setter(onMethod_ = { @Autowired, @Qualifier(LocaleProperties.DEFAULT_BEAN_NAME) })  // NOSONAR
 	private LocaleProperties parent;
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();
