@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.4</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -39,7 +39,7 @@
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.4.4</jib-maven-plugin.version>
+		<jib-maven-plugin.version>3.4.5</jib-maven-plugin.version>
 		<properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		
