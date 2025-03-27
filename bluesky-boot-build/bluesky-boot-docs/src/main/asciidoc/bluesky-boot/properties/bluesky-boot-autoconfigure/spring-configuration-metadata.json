@@ -1,0 +1,429 @@
+{
+  "groups": [
+    {
+      "name": "bluesky-boot",
+      "type": "io.github.luversof.boot.autoconfigure.context.MessageSourceExtensionProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.context.MessageSourceExtensionProperties"
+    },
+    {
+      "name": "bluesky-boot.datasource",
+      "type": "io.github.luversof.boot.autoconfigure.jdbc.DataSourceProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.jdbc.DataSourceProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb",
+      "type": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings",
+      "type": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties",
+      "sourceMethod": "public io.github.luversof.boot.autoconfigure.mongo.MongoProperties.BlueskyConnectionPoolSettings getDefaultConnectionPoolSettings() "
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties",
+      "type": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties",
+      "sourceMethod": "public io.github.luversof.boot.autoconfigure.mongo.MongoProperties.BlueskyMongoProperties getDefaultMongoProperties() "
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.gridfs",
+      "type": "org.springframework.boot.autoconfigure.mongo.MongoProperties$Gridfs",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties",
+      "sourceMethod": "public org.springframework.boot.autoconfigure.mongo.MongoProperties.Gridfs getGridfs() "
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.ssl",
+      "type": "org.springframework.boot.autoconfigure.mongo.MongoProperties$Ssl",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties",
+      "sourceMethod": "public org.springframework.boot.autoconfigure.mongo.MongoProperties.Ssl getSsl() "
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-write-concern",
+      "type": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyWriteConcern",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties",
+      "sourceMethod": "public io.github.luversof.boot.autoconfigure.mongo.MongoProperties.BlueskyWriteConcern getDefaultWriteConcern() "
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration",
+      "sourceMethod": "io.github.luversof.boot.web.LocaleResolveHandlerProperties acceptHeaderLocaleResolveHandlerProperties() "
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration",
+      "sourceMethod": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties acceptHeaderLocaleResolveHandlerModuleProperties(io.github.luversof.boot.web.LocaleResolveHandlerProperties) "
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcCookieConfiguration",
+      "sourceMethod": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties localeResolveHandlerModuleProperties(io.github.luversof.boot.web.LocaleResolveHandlerProperties) "
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcCookieConfiguration",
+      "sourceMethod": "io.github.luversof.boot.web.LocaleResolveHandlerProperties cookieLocaleResolveHandlerProperties() "
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcExternalCookieConfiguration",
+      "sourceMethod": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties externalLocaleResolveHandlerModuleProperties(io.github.luversof.boot.web.LocaleResolveHandlerProperties) "
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcExternalCookieConfiguration",
+      "sourceMethod": "io.github.luversof.boot.web.LocaleResolveHandlerProperties externalCookieLocaleResolveHandlerProperties() "
+    },
+    {
+      "name": "management.endpoint.bluesky-refresh",
+      "type": "io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint",
+      "sourceType": "io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint"
+    },
+    {
+      "name": "spring.messages",
+      "type": "org.springframework.boot.autoconfigure.context.MessageSourceProperties",
+      "sourceType": "io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration",
+      "sourceMethod": "org.springframework.boot.autoconfigure.context.MessageSourceProperties messageSourceProperties() "
+    }
+  ],
+  "properties": [
+    {
+      "name": "bluesky-boot.datasource.default-datasource",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.jdbc.DataSourceProperties"
+    },
+    {
+      "name": "bluesky-boot.datasource.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.autoconfigure.jdbc.DataSourceProperties"
+    },
+    {
+      "name": "bluesky-boot.datasource.use-lazy-load-routing-data-source",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.autoconfigure.jdbc.DataSourceProperties"
+    },
+    {
+      "name": "bluesky-boot.message-source",
+      "type": "java.util.Map<java.lang.String,java.util.List<java.lang.String>>",
+      "sourceType": "io.github.luversof.boot.autoconfigure.context.MessageSourceExtensionProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.connection-map",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties>",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.maintenance-frequency-m-s",
+      "type": "java.lang.Long",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.maintenance-initial-delay-m-s",
+      "type": "java.lang.Long",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.max-connection-idle-time-m-s",
+      "type": "java.lang.Long",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.max-connection-life-time-m-s",
+      "type": "java.lang.Long",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.max-size",
+      "type": "java.lang.Integer",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.max-wait-time-m-s",
+      "type": "java.lang.Long",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-connection-pool-settings.min-size",
+      "type": "java.lang.Integer",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyConnectionPoolSettings"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.additional-hosts",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.authentication-database",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.auto-index-creation",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.database",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.field-naming-strategy",
+      "type": "java.lang.Class<?>",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.gridfs.bucket",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.boot.autoconfigure.mongo.MongoProperties$Gridfs"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.gridfs.database",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.boot.autoconfigure.mongo.MongoProperties$Gridfs"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.host",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.hosts",
+      "type": "java.lang.String[]",
+      "description": "여러 서버로 구성된 경우 hosts를 설정하면 해당 설정으로 처리",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.password",
+      "type": "java.lang.Character[]",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.port",
+      "type": "java.lang.Integer",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.replica-set-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.ssl.bundle",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.boot.autoconfigure.mongo.MongoProperties$Ssl"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.ssl.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.boot.autoconfigure.mongo.MongoProperties$Ssl"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.uri",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.username",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-mongo-properties.uuid-representation",
+      "type": "org.bson.UuidRepresentation",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyMongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-read-concern-level",
+      "type": "com.mongodb.ReadConcernLevel",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-read-preference",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-write-concern.journal",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyWriteConcern"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-write-concern.w",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyWriteConcern"
+    },
+    {
+      "name": "bluesky-boot.mongodb.default-write-concern.w-timeout-m-s",
+      "type": "java.lang.Integer",
+      "sourceType": "io.github.luversof.boot.autoconfigure.mongo.MongoProperties$BlueskyWriteConcern"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$LocaleResolveInfoCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.LocaleResolveHandlerProperties>",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.parent",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.pre-locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$PreLocaleResolveInfoCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.accept-header.set-representative-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$SetRepresentativeCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$LocaleResolveInfoCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.LocaleResolveHandlerProperties>",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.parent",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.pre-locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$PreLocaleResolveInfoCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.cookie.set-representative-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$SetRepresentativeCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$LocaleResolveInfoCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.LocaleResolveHandlerProperties>",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.parent",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.pre-locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$PreLocaleResolveInfoCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.external-cookie.set-representative-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$SetRepresentativeCondition",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "management.endpoint.bluesky-refresh.access",
+      "type": "org.springframework.boot.actuate.endpoint.Access",
+      "description": "Permitted level of access for the blueskyRefresh endpoint.",
+      "sourceType": "io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint",
+      "defaultValue": "unrestricted"
+    },
+    {
+      "name": "spring.messages.always-use-message-format",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "spring.messages.basename",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "spring.messages.cache-duration",
+      "type": "java.time.Duration",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "spring.messages.common-messages",
+      "type": "java.util.List<org.springframework.core.io.Resource>",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "spring.messages.encoding",
+      "type": "java.nio.charset.Charset",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "spring.messages.fallback-to-system-locale",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "spring.messages.use-code-as-default-message",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.boot.autoconfigure.context.MessageSourceProperties"
+    },
+    {
+      "name": "management.endpoint.bluesky-refresh.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether to enable the blueskyRefresh endpoint.",
+      "sourceType": "io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint",
+      "defaultValue": true,
+      "deprecated": true,
+      "deprecation": {
+        "replacement": "management.endpoint.bluesky-refresh.access",
+        "since": "3.4.0"
+      }
+    }
+  ],
+  "hints": []
+}

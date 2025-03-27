@@ -3,60 +3,43 @@ include::{docdir}/_attributes.adoc[]
 
 == bluesky-boot properties
 
-[%header,format=csv,id=bluesky-boot-properties,cols="50%,50%,0%,0%"]
-|===
-include::{docdir}/bluesky-boot/bluesky-boot-properties.csv[]
-|===
-
 
 ++++
-<style>
-.hide {
-    display: none;
-}
-.strike-through {
-  text-decoration: line-through;
-}
-</style>
-<script>
+<div id="springConfigurationMetadataContainer">
+    
+</div>
+<script src="js/handlebars.min.js"></script>
+<script src="js/spring-configuration-metadata.js"></script>
 
-function decorateConfigurationMetaDataTable(id, hideColumnTextContents = ["type","sourceType", "deprecated", "deprecation/level", "deprecation/replacement"]) {
-	const table = document.querySelector(id.startsWith("table") ? id : "table" + id);
-	
-	let hideColumnIndexes = [];
-	
-	let deprecatedColumnIndex;
-	
-	let thList = table.rows[0].querySelectorAll("th");
-	for (let i = 0; i < thList.length; i++) {
-		if (hideColumnTextContents.includes(thList[i].textContent)) {
-			hideColumnIndexes.push(i);
-		}
-		
-		if (thList[i].textContent == "deprecated") {
-			deprecatedColumnIndex = i;
-		}
-	}
-	
-	for (let row of table.rows) {
-		for (let colIndex of hideColumnIndexes) {
-			if (row.cells[colIndex]) {
-				row.cells[colIndex].classList.add('hide');
-			}
-		}
-	}
-	
-	if (deprecatedColumnIndex > 0) {
-		for (let row of table.rows) {
-			if (row.cells[deprecatedColumnIndex].textContent == "true") {
-				row.classList.add('strike-through');
-			}
-		}
-	}
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-	decorateConfigurationMetaDataTable("#bluesky-boot-properties");
-});
+<script id="spring-configuration-metadata-template" type="text/x-handlebars-template">
+	<h2>{{title}}</h2>
+	{{#if description}}
+		<p>{{description}}</p>
+	{{/if}}
+	<table class="tableblock">
+		<thead>
+			<tr>
+				<th class="halign-left">name</th>
+				<th class="halign-left">description</th>
+				<th class="halign-left">defaultValue</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#if properties.length}}
+				{{#each properties}}
+					<tr class="{{#if deprecated}}line-through{{/if}}">
+						<td>{{name}}</td>
+						<td>{{description}}</td>
+						<td>{{defaultValue}}</td>
+					</tr>
+				{{/each}}
+			{{else}}
+				<tr>
+					<td colspan=3">No data available</td>
+				</tr>
+			{{/if}}
+		</tbody>
+	</table>
 </script>
+
 ++++

@@ -1,0 +1,470 @@
+{
+  "groups": [
+    {
+      "name": "bluesky-boot.connection-info",
+      "type": "io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties",
+      "sourceType": "io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties"
+    },
+    {
+      "name": "bluesky-boot.core",
+      "type": "io.github.luversof.boot.core.CoreBaseProperties",
+      "sourceType": "io.github.luversof.boot.core.CoreBaseProperties"
+    },
+    {
+      "name": "bluesky-boot.core",
+      "type": "io.github.luversof.boot.core.CoreModuleProperties",
+      "sourceType": "io.github.luversof.boot.core.CoreModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.core",
+      "type": "io.github.luversof.boot.core.CoreProperties",
+      "sourceType": "io.github.luversof.boot.core.CoreProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale",
+      "type": "io.github.luversof.boot.context.i18n.ExternalLocaleModuleProperties",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale",
+      "type": "io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale",
+      "type": "io.github.luversof.boot.context.i18n.LocaleModuleProperties",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale",
+      "type": "io.github.luversof.boot.context.i18n.LocaleProperties",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleProperties"
+    },
+    {
+      "name": "bluesky-boot.web",
+      "type": "io.github.luversof.boot.web.WebModuleProperties",
+      "sourceType": "io.github.luversof.boot.web.WebModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web",
+      "type": "io.github.luversof.boot.web.WebProperties",
+      "sourceType": "io.github.luversof.boot.web.WebProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain",
+      "type": "io.github.luversof.boot.web.DomainModuleProperties",
+      "sourceType": "io.github.luversof.boot.web.DomainModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain",
+      "type": "io.github.luversof.boot.web.DomainProperties",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver",
+      "type": "io.github.luversof.boot.web.LocaleContextResolverModuleProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver",
+      "type": "io.github.luversof.boot.web.LocaleContextResolverProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie",
+      "type": "io.github.luversof.boot.web.CookieModuleProperties",
+      "sourceType": "io.github.luversof.boot.web.CookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie",
+      "type": "io.github.luversof.boot.web.CookieProperties",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie",
+      "type": "io.github.luversof.boot.web.ExternalCookieModuleProperties",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie",
+      "type": "io.github.luversof.boot.web.ExternalCookieProperties",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "bluesky-boot.connection-info.loaders",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties$LoaderInfo>",
+      "description": "Manage loader information for each loader and a list of connection targets to be called through the loader.",
+      "sourceType": "io.github.luversof.boot.connectioninfo.ConnectionInfoLoaderProperties"
+    },
+    {
+      "name": "bluesky-boot.core.log-except-exception-additional-list",
+      "type": "java.lang.String[]",
+      "sourceType": "io.github.luversof.boot.core.CoreBaseProperties"
+    },
+    {
+      "name": "bluesky-boot.core.log-except-exception-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Exception log 제외 대상 목록 로그 확인이 불필요한 에러 항목에 대해 exception log 제외 처리 목록을 추가하고자 하는 경우 bluesky-boot.core.log-except-exception-additional-list로 설정하면 합산처리 됨.",
+      "sourceType": "io.github.luversof.boot.core.CoreBaseProperties"
+    },
+    {
+      "name": "bluesky-boot.core.module-info",
+      "type": "io.github.luversof.boot.core.ModuleInfo",
+      "sourceType": "io.github.luversof.boot.core.CoreProperties"
+    },
+    {
+      "name": "bluesky-boot.core.module-name-set",
+      "type": "java.util.Set<java.lang.String>",
+      "description": "별다른 설정 없이 moduleName만 지정하고자 하는 경우 사용",
+      "sourceType": "io.github.luversof.boot.core.CoreBaseProperties"
+    },
+    {
+      "name": "bluesky-boot.core.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.core.CoreProperties>",
+      "sourceType": "io.github.luversof.boot.core.CoreModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.core.parent",
+      "type": "io.github.luversof.boot.core.CoreProperties",
+      "sourceType": "io.github.luversof.boot.core.CoreModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.core.properties",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "description": "개별적으로 선언해서 사용하고자 하는 변수가 있는 경우 저장하는 map <br \/> parent의 값을 module이 상속받아 사용함",
+      "sourceType": "io.github.luversof.boot.core.CoreProperties"
+    },
+    {
+      "name": "bluesky-boot.core.resolve-type",
+      "type": "io.github.luversof.boot.core.CoreResolveType",
+      "description": "Define module invocation criteria [domain (default), addPathPattern, moduleNameResolver]",
+      "sourceType": "io.github.luversof.boot.core.CoreBaseProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale.enable-locale-list",
+      "type": "java.util.List<java.util.Locale>",
+      "description": "사용 가능 로케일 목록, 배열의 첫번째 로케일이 defaultLocale로 처리되며 만약 설정하지 않은 경우 Locale.default()를 사용",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.context.i18n.LocaleProperties>",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.external-locale.parent",
+      "type": "io.github.luversof.boot.context.i18n.LocaleProperties",
+      "sourceType": "io.github.luversof.boot.context.i18n.ExternalLocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale.enable-locale-list",
+      "type": "java.util.List<java.util.Locale>",
+      "description": "사용 가능 로케일 목록, 배열의 첫번째 로케일이 defaultLocale로 처리되며 만약 설정하지 않은 경우 Locale.default()를 사용",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.context.i18n.LocaleProperties>",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.locale.parent",
+      "type": "io.github.luversof.boot.context.i18n.LocaleProperties",
+      "sourceType": "io.github.luversof.boot.context.i18n.LocaleModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.check-not-supported-browser",
+      "type": "java.lang.Boolean",
+      "description": "Whether to check unsupported browsers",
+      "sourceType": "io.github.luversof.boot.web.WebProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.add-path-pattern-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module. Registering the AntPathMatcher Pattern",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.dev-domain-list",
+      "type": "java.util.List<java.net.URI>",
+      "description": "When declared and used by domain in a multi-module project, the domain is a variable for local development that is set aside for development purposes. You can use development domains in the form of a list by declaring them in succession with \",\". ex) devDomainList=http:\/\/local.a.com,http:\/\/local.b.com",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.exclude-path-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "List of exception paths (list that are not redirect targets)",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.forward-path",
+      "type": "java.lang.String",
+      "description": "Set the forward root path",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.mobile-web",
+      "type": "java.net.URI",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.mobile-web-list",
+      "type": "java.util.List<java.net.URI>",
+      "description": "Use the mobile web address for your site if it is multi-use Mobile web address must be declared if there is a PC web\/mobile web distinction Used separately in unified notification processing",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.DomainProperties>",
+      "sourceType": "io.github.luversof.boot.web.DomainModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.parent",
+      "type": "io.github.luversof.boot.web.DomainProperties",
+      "sourceType": "io.github.luversof.boot.web.DomainModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.request-path",
+      "type": "java.lang.String",
+      "description": "Set the request root path Default is \"\/\" (full)",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.static-path-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "List of static paths (not redirect targets)",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.web",
+      "type": "java.net.URI",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.domain.web-list",
+      "type": "java.util.List<java.net.URI>",
+      "description": "If the site address is multi, use. If your site doesn't have a PC web\/mobile web distinction, declare only WEB and use it.",
+      "sourceType": "io.github.luversof.boot.web.DomainProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver.locale-resolve-handler-bean-name-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "사용할 localeResolverHandler beanName 목록, 순서대로 수행됨",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver.locale-resolve-handler-list",
+      "type": "java.util.List<io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler>",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.LocaleContextResolverProperties>",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver.parent",
+      "type": "io.github.luversof.boot.web.LocaleContextResolverProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-context-resolver.preset",
+      "type": "io.github.luversof.boot.web.LocaleContextResolverProperties$LocaleContextResolveHandlerPreset",
+      "description": "목록에 대한 preset 제공",
+      "sourceType": "io.github.luversof.boot.web.LocaleContextResolverProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$LocaleResolveInfoCondition",
+      "description": "localeResolve 처리 조건 COOKIE : 내부 쿠키 용 설정 EXTERNAL_COOKIE : 외부 쿠키 용 설정, 유저가 의도한 변경에 대해서만 쿠키를 생성 ACCEPT_HEADER : accept header 의 경우 language를 기준으로 사용",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.parent",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.pre-locale-resolve-info-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$PreLocaleResolveInfoCondition",
+      "description": "앞서 계산된 handler의 resolveLocaleContext 참조 조건 NONE : 참조하지 않음 USE_FIRST : 선행 handler의 resovleContext 값을 우선 참조 USE_WHEN_NOT_RESOLVED : resolveLocale이 없는 경우 선행 handler의 resolveContext값을 참조 USE_LANGUAGE_FIRST : 선행 handler의 resolveContext 값의 언어를 기준으로 우선 참조 USE_LANGUAGE_WHEN_NOT_RESOLVED : resolveLocale이 없는 경우 선행 handler의 resolveContext값의 언어를 참조",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.locale-resolve-handler.set-representative-condition",
+      "type": "io.github.luversof.boot.web.LocaleResolveHandlerProperties$SetRepresentativeCondition",
+      "description": "대표 로케일 지정 조건 NONE : 대표 로케일로 지정하지 않음 OVERWRITE : 무조건 지정, OVERWRITE_WHEN_NOT_EXISTS : 이미 존재하는 대표 로케일의 resolveLocale이 없으면 지정 SKIP_IF_EXISTS : 이미 존재하는 대표 로케일이 있으면 넘어감 (이렇게 쓸일은 없을 듯)",
+      "sourceType": "io.github.luversof.boot.web.LocaleResolveHandlerProperties"
+    },
+    {
+      "name": "bluesky-boot.web.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.WebProperties>",
+      "sourceType": "io.github.luversof.boot.web.WebModuleProperties"
+    },
+    {
+      "name": "bluesky-boot.web.not-supported-browser-exclude-path-pattern-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Registering an exception list address pattern when checking for unsupported browser",
+      "sourceType": "io.github.luversof.boot.web.WebProperties"
+    },
+    {
+      "name": "bluesky-boot.web.not-supported-browser-reg-pattern-list",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Unsupported browser check pattern list",
+      "sourceType": "io.github.luversof.boot.web.WebProperties"
+    },
+    {
+      "name": "bluesky-boot.web.parent",
+      "type": "io.github.luversof.boot.web.WebProperties",
+      "sourceType": "io.github.luversof.boot.web.WebModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.CookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.domain",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.http-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.max-age",
+      "type": "java.time.Duration",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.CookieProperties>",
+      "sourceType": "io.github.luversof.boot.web.CookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.parent",
+      "type": "io.github.luversof.boot.web.CookieProperties",
+      "sourceType": "io.github.luversof.boot.web.CookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.path",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.same-site",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.cookie.secure",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.web.CookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.bean-name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.domain",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.http-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.max-age",
+      "type": "java.time.Duration",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.modules",
+      "type": "java.util.Map<java.lang.String,io.github.luversof.boot.web.CookieProperties>",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.name",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.parent",
+      "type": "io.github.luversof.boot.web.CookieProperties",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieModuleProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.path",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.same-site",
+      "type": "java.lang.String",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    },
+    {
+      "name": "brick-boot.web.external-cookie.secure",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.luversof.boot.web.ExternalCookieProperties"
+    }
+  ],
+  "hints": []
+}
