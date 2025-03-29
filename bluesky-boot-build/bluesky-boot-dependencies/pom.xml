@@ -20,13 +20,13 @@
 		<bluesky-boot-devcheck.version>3.4.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<spring-boot-admin-starter.version>3.4.5</spring-boot-admin-starter.version>
 		<mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
-		<springdoc-openapi.version>2.8.5</springdoc-openapi.version>
+		<springdoc-openapi.version>2.8.6</springdoc-openapi.version>
 		
 		<jsqlparser.version>5.1</jsqlparser.version>
 		<logback-access-tomcat.version>2.0.6</logback-access-tomcat.version>
 		
 		<!-- tag:asciidoctor-properties[] -->
-		<asciidoctor-maven-plugin.version>3.1.1</asciidoctor-maven-plugin.version>
+		<asciidoctor-maven-plugin.version>3.2.0</asciidoctor-maven-plugin.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
 		<asciidoctor.backend>spring-html</asciidoctor.backend>
 		<asciidoctor.sourceDirectory>${refdocs.build.directory}</asciidoctor.sourceDirectory>
@@ -40,7 +40,6 @@
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.4.5</jib-maven-plugin.version>
-		<properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		
 		<!-- (s) build properties -->
@@ -345,16 +344,6 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>properties-maven-plugin</artifactId>
-					<version>${properties-maven-plugin.version}</version>
-					<configuration>
-						<outputFile>
-                			build.properties
-						</outputFile>
-					</configuration>
-				</plugin>
-				<plugin>
 					<groupId>io.github.luversof</groupId>
 					<artifactId>filecopy-maven-plugin</artifactId>
 					<version>${filecopy-maven-plugin.version}</version>
@@ -506,24 +495,11 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
-							<!--<annotationProcessors>
-								<annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor</annotationProcessor>
-							</annotationProcessors>-->
 							<annotationProcessorPaths>
-								<path>
-									<groupId>org.mapstruct</groupId>
-									<artifactId>mapstruct-processor</artifactId>
-									<version>1.6.3</version>
-								</path>
 								<path>
 									<groupId>org.projectlombok</groupId>
         							<artifactId>lombok</artifactId>
         							<version>${lombok.version}</version>
-								</path>
-								<path>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok-mapstruct-binding</artifactId>
-									<version>0.2.0</version>
 								</path>
 							</annotationProcessorPaths>
 						</configuration>

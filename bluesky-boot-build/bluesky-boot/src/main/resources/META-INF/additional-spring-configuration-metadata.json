@@ -1,13 +1,13 @@
 {
-  "groups": [],
-  "properties": [
-    {
-      "name": "bluesky-boot.oldproperty.core.resolve-type",
-      "description": "asdfasdfsdf.",
-      "deprecation": {
-        "replacement": "bluesky-boot.core.resolve-type",
-        "level": "error"
-      }
-    }
-  ]
+	"groups": [],
+	"properties": [
+		{
+			"name": "bluesky-boot.oldproperty.core.resolve-type",
+			"description": "asdfasdfsdf.",
+			"deprecation": {
+				"replacement": "bluesky-boot.core.resolve-type",
+				"level": "error"
+			}
+		}
+	]
 }
