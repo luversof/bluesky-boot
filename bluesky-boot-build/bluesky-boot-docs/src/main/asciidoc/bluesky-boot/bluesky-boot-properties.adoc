@@ -1,18 +1,23 @@
 = Bluesky Boot Properties
 include::{docdir}/_attributes.adoc[]
 
-== bluesky-boot properties
-
+## bluesky-boot properties
 
 ++++
-<div id="springConfigurationMetadataContainer">
-    
-</div>
+<div id="bluesky-boot-container"></div>
+++++
+
+## bluesky-boot-autoconfigure properties
+
+++++
+<div id="bluesky-boot-autoconfigure-container"></div>
+++++
+
+++++
 <script src="js/handlebars.min.js"></script>
 <script src="js/spring-configuration-metadata.js"></script>
 
 <script id="spring-configuration-metadata-template" type="text/x-handlebars-template">
-	<h2>{{title}}</h2>
 	{{#if description}}
 		<p>{{description}}</p>
 	{{/if}}
