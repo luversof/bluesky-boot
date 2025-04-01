@@ -1,12 +1,6 @@
 = Bluesky Boot Properties
 include::{docdir}/_attributes.adoc[]
 
-+++
-<script src="js/handlebars.js/4.7.8/handlebars.min.js"></script>
-<script src="js/htmx/2.0.4/htmx.min.js"></script>
-<script src="js/htmx/2.0.4/ext/client-side-templates.min.js"></script>
-+++
-
 ## bluesky-boot properties
 
 ++++
@@ -30,6 +24,10 @@ include::{docdir}/_attributes.adoc[]
 ++++
 
 ++++
+<script src="js/handlebars.js/4.7.8/handlebars.min.js"></script>
+<script src="js/htmx/2.0.4/htmx.min.js"></script>
+<script src="js/htmx/2.0.4/ext/client-side-templates.min.js"></script>
+
 <script id="spring-configuration-metadata-template" type="text/x-handlebars-template">
 	{{#if description}}
 		<p>{{description}}</p>
