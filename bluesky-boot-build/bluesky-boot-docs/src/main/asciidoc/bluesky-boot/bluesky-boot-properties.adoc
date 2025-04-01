@@ -1,28 +1,41 @@
 = Bluesky Boot Properties
 include::{docdir}/_attributes.adoc[]
 
++++
+<script src="js/handlebars.js/4.7.8/handlebars.min.js"></script>
+<script src="js/htmx/2.0.4/htmx.min.js"></script>
+<script src="js/htmx/2.0.4/ext/client-side-templates.min.js"></script>
++++
+
 ## bluesky-boot properties
 
 ++++
-<div id="bluesky-boot-container"></div>
+<div
+	hx-get="properties/bluesky-boot/spring-configuration-metadata.json"
+	hx-trigger="load"
+	hx-ext="client-side-templates"
+	handlebars-template="spring-configuration-metadata-template"
+></div>
 ++++
 
 ## bluesky-boot-autoconfigure properties
 
 ++++
-<div id="bluesky-boot-autoconfigure-container"></div>
+<div
+	hx-get="properties/bluesky-boot-autoconfigure/spring-configuration-metadata.json"
+	hx-trigger="load"
+	hx-ext="client-side-templates"
+	handlebars-template="spring-configuration-metadata-template"
+></div>
 ++++
 
 ++++
-<script src="js/handlebars.min.js"></script>
-<script src="js/spring-configuration-metadata.js"></script>
-
 <script id="spring-configuration-metadata-template" type="text/x-handlebars-template">
 	{{#if description}}
 		<p>{{description}}</p>
 	{{/if}}
 	<table class="tableblock">
-<colgroup>
+		<colgroup>
 			<col style="width: 20%"></col>
 			<col style="width: 40%"></col>
 			<col style="width: 30%"></col>
@@ -43,7 +56,7 @@ include::{docdir}/_attributes.adoc[]
 						<td>{{className sourceType}}</td>
 						<td><code>{{name}}</code></td>
 						<td>{{description}}</td>
-						<td>{{defaultValue}}</td>
+						<td><code>{{defaultValue}}</code></td>
 					</tr>
 				{{/each}}
 			{{else}}
@@ -53,6 +66,14 @@ include::{docdir}/_attributes.adoc[]
 			{{/if}}
 		</tbody>
 	</table>
+</script>
+
+<script>
+	Handlebars.registerHelper("className", function (str) {
+		if (typeof str !== "string") return "";
+		const parts = str.split(".");
+		return parts[parts.length - 1];
+	});
 </script>
 
 ++++

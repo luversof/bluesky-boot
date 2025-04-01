@@ -37,26 +37,51 @@
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>
+<script src="js/handlebars.js/4.7.8/handlebars.min.js"></script>
+<script src="js/htmx/2.0.4/htmx.min.js"></script>
+<script src="js/htmx/2.0.4/ext/client-side-templates.min.js"></script>
+</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="bluesky-boot-properties"><a class="anchor" href="#bluesky-boot-properties"></a>1. bluesky-boot properties</h2>
 <div class="sectionbody">
-<div id="bluesky-boot-container"></div>
+<div
+	hx-get="properties/bluesky-boot/spring-configuration-metadata.json"
+	hx-trigger="load"
+	hx-ext="client-side-templates"
+	handlebars-template="spring-configuration-metadata-template"
+></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="bluesky-boot-autoconfigure-properties"><a class="anchor" href="#bluesky-boot-autoconfigure-properties"></a>2. bluesky-boot-autoconfigure properties</h2>
 <div class="sectionbody">
-<div id="bluesky-boot-autoconfigure-container"></div>
-<script src="js/handlebars.min.js"></script>
-<script src="js/spring-configuration-metadata.js"></script>
-
+<div
+	hx-get="properties/bluesky-boot-autoconfigure/spring-configuration-metadata.json"
+	hx-trigger="load"
+	hx-ext="client-side-templates"
+	handlebars-template="spring-configuration-metadata-template"
+></div>
 <script id="spring-configuration-metadata-template" type="text/x-handlebars-template">
 	{{#if description}}
 		<p>{{description}}</p>
 	{{/if}}
 	<table class="tableblock">
+		<colgroup>
+			<col style="width: 20%"></col>
+			<col style="width: 40%"></col>
+			<col style="width: 30%"></col>
+			<col style="width: 10%"></col>
+		</colgroup>
 		<thead>
 			<tr>
+				<th class="halign-left">properties</th>
 				<th class="halign-left">name</th>
 				<th class="halign-left">description</th>
 				<th class="halign-left">defaultValue</th>
@@ -66,9 +91,10 @@
 			{{#if properties.length}}
 				{{#each properties}}
 					<tr class="{{#if deprecated}}line-through{{/if}}">
-						<td>{{name}}</td>
+						<td>{{className sourceType}}</td>
+						<td><code>{{name}}</code></td>
 						<td>{{description}}</td>
-						<td>{{defaultValue}}</td>
+						<td><code>{{defaultValue}}</code></td>
 					</tr>
 				{{/each}}
 			{{else}}
@@ -79,12 +105,20 @@
 		</tbody>
 	</table>
 </script>
+
+<script>
+	Handlebars.registerHelper("className", function (str) {
+		if (typeof str !== "string") return "";
+		const parts = str.split(".");
+		return parts[parts.length - 1];
+	});
+</script>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-29 23:05:37 +0900
+Last updated 2025-04-02 03:47:56 +0900
 </div>
 </div>
 </div>
