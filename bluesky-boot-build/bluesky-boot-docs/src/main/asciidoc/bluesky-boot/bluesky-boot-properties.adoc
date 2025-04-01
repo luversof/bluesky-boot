@@ -22,8 +22,15 @@ include::{docdir}/_attributes.adoc[]
 		<p>{{description}}</p>
 	{{/if}}
 	<table class="tableblock">
+<colgroup>
+			<col style="width: 20%"></col>
+			<col style="width: 40%"></col>
+			<col style="width: 30%"></col>
+			<col style="width: 10%"></col>
+		</colgroup>
 		<thead>
 			<tr>
+				<th class="halign-left">properties</th>
 				<th class="halign-left">name</th>
 				<th class="halign-left">description</th>
 				<th class="halign-left">defaultValue</th>
@@ -33,7 +40,8 @@ include::{docdir}/_attributes.adoc[]
 			{{#if properties.length}}
 				{{#each properties}}
 					<tr class="{{#if deprecated}}line-through{{/if}}">
-						<td>{{name}}</td>
+						<td>{{className sourceType}}</td>
+						<td><code>{{name}}</code></td>
 						<td>{{description}}</td>
 						<td>{{defaultValue}}</td>
 					</tr>
