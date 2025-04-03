@@ -53,7 +53,7 @@ include::{docdir}/_attributes.adoc[]
 					<tr class="{{#if deprecated}}line-through{{/if}}">
 						<td>{{className sourceType}}</td>
 						<td><code>{{name}}</code></td>
-						<td>{{description}}</td>
+						<td>{{{description}}}</td>
 						<td><code>{{defaultValue}}</code></td>
 					</tr>
 				{{/each}}

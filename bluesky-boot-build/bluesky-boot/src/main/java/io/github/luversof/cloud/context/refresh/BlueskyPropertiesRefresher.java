@@ -1,6 +1,7 @@
 package io.github.luversof.cloud.context.refresh;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
@@ -34,6 +35,16 @@ public class BlueskyPropertiesRefresher implements ApplicationListener<ContextRe
 	private ContextRefreshedWithApplicationEvent event;
 	
 	private ConfigDataContextRefresher configDataContextRefresher;
+	
+	/**
+	 * refresh는 dependency 참조를 기준으로 수행하지 않아 참조된 bean이 먼저 생성되는 보장이 없음 
+	 * 우선 호출해야 할 대상 목록을 지정하여 먼저 refresh 처리
+	 */
+	private List<String> beanNameList = List.of(
+		CoreBaseProperties.BEAN_NAME,
+		CoreProperties.BEAN_NAME,
+		CoreModuleProperties.BEAN_NAME
+		);
 	
 	public BlueskyPropertiesRefresher(ConfigurableApplicationContext context, RefreshScope scope, RefreshAutoConfiguration.RefreshProperties properties) {
 		
@@ -73,7 +84,7 @@ public class BlueskyPropertiesRefresher implements ApplicationListener<ContextRe
 			BeanUtils.copyProperties(SerializationUtils.clone(value), context.getBean(key, BlueskyRefreshProperties.class))
 		);
 		var keys = this.configDataContextRefresher.refresh();
-		reloadPropertiesAll(keys);
+		reloadPropertiesAll();
 		return keys;
 	}
 
@@ -83,33 +94,29 @@ public class BlueskyPropertiesRefresher implements ApplicationListener<ContextRe
 	 * 만약 더 잘 구성하고 싶다면 bean의 dependency를 참조해서 순서를 구성해야 하지만 참조 빈이 갱신되지 않으므로 이는 추후 개선이 필요하다.
 	 * @param keys
 	 */
-	private void reloadPropertiesAll(Set<String> keys) {
-		reloadProperties(CoreBaseProperties.BEAN_NAME, keys);
-    	reloadProperties(CoreProperties.BEAN_NAME, keys);
-    	reloadProperties(CoreModuleProperties.BEAN_NAME, keys);
-    	
-    	reloadProperties(BlueskyProperties.class, keys);
-    	reloadProperties(BlueskyModuleProperties.class, keys);
+	private void reloadPropertiesAll() {
+		beanNameList.forEach(this::reloadProperties);
+
+		reloadProperties(BlueskyProperties.class);
+		reloadProperties(BlueskyModuleProperties.class);
 	}
 	
-	private <T extends BlueskyRefreshProperties> void reloadProperties(Class<T> type, Set<String> keys) {
+	private <T extends BlueskyRefreshProperties> void reloadProperties(Class<T> type) {
 		String[] blueskyPropertiesBeanNames = context.getBeanNamesForType(type);
 		for(var beanName : blueskyPropertiesBeanNames) {
-			if (beanName.equals(CoreBaseProperties.BEAN_NAME)
-				|| beanName.equals(CoreProperties.BEAN_NAME) 
-				|| beanName.equals(CoreModuleProperties.BEAN_NAME)) {
+			if (beanNameList.contains(beanName)) {
 				continue;
 			}
-			reloadProperties(beanName, keys);
+			reloadProperties(beanName);
 		}
 	}
 	
 	@SneakyThrows
-    private void reloadProperties(String beanName, Set<String> keys) {
-    	var targetPropertiesBean = context.getBean(beanName, BlueskyRefreshProperties.class);
-    	var beanFactory = context.getAutowireCapableBeanFactory();
-//    	beanFactory.destroyBean(targetPropertiesBean);
-    	beanFactory.autowireBean(targetPropertiesBean);
-    	beanFactory.initializeBean(targetPropertiesBean, beanName);
-    }
+	private void reloadProperties(String beanName) {
+		var targetPropertiesBean = context.getBean(beanName, BlueskyRefreshProperties.class);
+		var beanFactory = context.getAutowireCapableBeanFactory();
+//		beanFactory.destroyBean(targetPropertiesBean);
+		beanFactory.autowireBean(targetPropertiesBean);
+		beanFactory.initializeBean(targetPropertiesBean, beanName);
+	}
 }
