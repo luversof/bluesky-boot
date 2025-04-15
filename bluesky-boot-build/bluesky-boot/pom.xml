@@ -160,10 +160,17 @@
 		<dependency>
 			<groupId>io.github.luversof</groupId>
 			<artifactId>bluesky-boot-devcheck</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>io.github.luversof</groupId>
 			<artifactId>bluesky-boot-crypto</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>io.github.luversof</groupId>
+			<artifactId>bluesky-boot-connectioninfo-jdbc</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>

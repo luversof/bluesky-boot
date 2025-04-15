@@ -18,6 +18,7 @@
 		<bluesky-boot.version>3.4.0-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-crypto.version>3.4.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>3.4.0-SNAPSHOT</bluesky-boot-devcheck.version>
+		<bluesky-boot-connectioninfo.version>3.4.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
 		<spring-boot-admin-starter.version>3.4.5</spring-boot-admin-starter.version>
 		<mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>2.8.6</springdoc-openapi.version>
@@ -87,11 +88,17 @@
 				<artifactId>bluesky-boot-test-autoconfigure</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
+			<!-- (e) bluesky boot -->
+			
+			<!-- (s) bluesky boot crypto -->
 			<dependency>
 				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-crypto</artifactId>
 				<version>${bluesky-boot-crypto.version}</version>
 			</dependency>
+			<!-- (e) bluesky boot crypto -->
+			
+			<!-- (s) bluesky boot devcheck -->
 			<dependency>
 				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-devcheck</artifactId>
@@ -102,7 +109,31 @@
 				<artifactId>bluesky-boot-autoconfigure-devcheck</artifactId>
 				<version>${bluesky-boot-devcheck.version}</version>
 			</dependency>
-			<!-- (e) bluesky boot -->
+			<!-- (e) bluesky boot devcheck-->
+			
+			<!-- (s) bluesky boot connectioninfo -->
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-connectioninfo</artifactId>
+				<version>${bluesky-boot-connectioninfo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-autoconfigure-connectioninfo</artifactId>
+				<version>${bluesky-boot-connectioninfo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-connectioninfo-jdbc</artifactId>
+				<version>${bluesky-boot-connectioninfo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-autoconfigure-connectioninfo-jdbc</artifactId>
+				<version>${bluesky-boot-connectioninfo.version}</version>
+			</dependency>
+			<!-- (e) bluesky boot connectioninfo -->
+			
 			<!-- (s) spring cloud -->
 			<!-- 버전관리를 편하게 하려고 cloud 의존성을 여기서 관리하고 있으나 분리하는 것이 좋다. -->
 			<dependency>

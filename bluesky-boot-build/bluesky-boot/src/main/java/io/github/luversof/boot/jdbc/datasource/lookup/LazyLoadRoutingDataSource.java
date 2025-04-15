@@ -42,18 +42,20 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 			boolean isLoaded = false;
 			
 			for (var connectionInfoLoader : connectionInfoLoaderMap.values()) {
-				var connectionInfoCollector = connectionInfoLoader.load(List.of(lookupKey));
-				Map<String, ? extends DataSource> connectionInfoMap = connectionInfoCollector.getConnectionInfoMap();
-				if (connectionInfoMap.containsKey(lookupKey)) {
-					var targetDataSource = connectionInfoMap.get(lookupKey);
-					
-					var dataSourceMap = new HashMap<Object, Object>();
-					dataSourceMap.putAll(getResolvedDataSources());
-					dataSourceMap.put(lookupKey, targetDataSource);
-					setTargetDataSources(dataSourceMap);
-					initialize();
-					
-					isLoaded = true;
+				var connectionInfoList = connectionInfoLoader.load(List.of(lookupKey));
+				for (var connectionInfo : connectionInfoList) {
+					if (connectionInfo.getKey().connectionKey().equals(lookupKey)) {
+						var targetDataSource = connectionInfo.getConnection();
+						
+						var dataSourceMap = new HashMap<Object, Object>();
+						dataSourceMap.putAll(getResolvedDataSources());
+						dataSourceMap.put(lookupKey, targetDataSource);
+						setTargetDataSources(dataSourceMap);
+						initialize();
+						
+						isLoaded = true;
+						
+					}
 				}
 			}
 			

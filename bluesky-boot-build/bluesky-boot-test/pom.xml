@@ -29,5 +29,11 @@
 			<artifactId>bluesky-boot</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.github.luversof</groupId>
+			<artifactId>bluesky-boot-crypto</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 </project>

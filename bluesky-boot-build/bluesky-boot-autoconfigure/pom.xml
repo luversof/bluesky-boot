@@ -17,10 +17,22 @@
 			<groupId>io.github.luversof</groupId>
 			<artifactId>bluesky-boot</artifactId>
 		</dependency>
+		
+		<!-- (s) bluesky boot devcheck -->
 		<dependency>
 			<groupId>io.github.luversof</groupId>
 			<artifactId>bluesky-boot-autoconfigure-devcheck</artifactId>
+			<optional>true</optional>
 		</dependency>
+		<!-- (e) bluesky boot devcheck -->
+		
+		<!-- (s) bluesky boot connectioninfo -->
+		<dependency>
+			<groupId>io.github.luversof</groupId>
+			<artifactId>bluesky-boot-autoconfigure-connectioninfo-jdbc</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) bluesky boot connectioninfo -->
 
 		<!-- (s) test -->
 		<dependency>

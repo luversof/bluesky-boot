@@ -19,8 +19,8 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
-import io.github.luversof.boot.connectioninfo.ConnectionInfoCollector;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
@@ -41,45 +41,47 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration {
 
-    @Bean
-    @Primary
-    <T extends DataSource> DataSource routingDataSource(
-    		DataSourceProperties dataSourceProperties, 
-    		@Nullable Map<String, T> dataSourceMap, 
-    		@Nullable Map<String, ConnectionInfoCollector<T>> connectionInfoCollectorMap,
-    		@Nullable Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
-    	Map<Object, Object> targetDataSourceMap = new HashMap<>();
-    	if (dataSourceMap != null) {
-    		targetDataSourceMap.putAll(dataSourceMap);
-    	}
-    	if (connectionInfoCollectorMap != null) {
-    		connectionInfoCollectorMap.forEach((name, connectionInfoCollector) -> {
-    			log.debug("The connectionInfoCollector {} is added to the into the blueskyRoutingDataSource", name);
-    			targetDataSourceMap.putAll(connectionInfoCollector.getConnectionInfoMap());
-    		});
-    	}
-    	
-    	var routingDataSource = dataSourceProperties.isUseLazyLoadRoutingDataSource() ? new LazyLoadRoutingDataSource<>(connectionInfoLoaderMap) : new RoutingDataSource(); 
+	@Bean
+	@Primary
+	<T extends DataSource> DataSource routingDataSource(
+			DataSourceProperties dataSourceProperties,
+			@Nullable Map<String, T> dataSourceMap,
+			@Nullable ConnectionInfoRegistry<T> connectionInfoRegistry,
+			@Nullable Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
+		Map<Object, Object> targetDataSourceMap = new HashMap<>();
+		if (dataSourceMap != null) {
+			targetDataSourceMap.putAll(dataSourceMap);
+		}
+		if (connectionInfoRegistry != null) {
+			connectionInfoRegistry.getConnectionInfoList().forEach(connectionInfo -> {
+				log.debug("The connectionInfoRegistry {} is added to the into the blueskyRoutingDataSource", connectionInfo.getKey().connectionKey());
+				targetDataSourceMap.put(connectionInfo.getKey().connectionKey(), connectionInfo.getConnection());
+			});
+		}
 
-    	routingDataSource.setTargetDataSources(targetDataSourceMap);
-    	// defaultDataSource를 지정하지 않은 경우 첫번째 값 설정
-    	if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
-    		routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().toArray()[0]);
-    	} else {
-    		routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
-    	}
-    	routingDataSource.afterPropertiesSet();
-    	return new LazyConnectionDataSourceProxy(routingDataSource);
-    }
-    
-    @Bean
-    RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
-    	return new RoutingDataSourceAspect(applicationContext);
-    }
-    
-    @Bean
-    DataSourceDevCheckController dataSourceDevCheckController(@Qualifier("routingDataSource") DataSource blueskyRoutingDataSource) {
-    	return new DataSourceDevCheckController(blueskyRoutingDataSource);
-    }
+		var routingDataSource = dataSourceProperties.isUseLazyLoadRoutingDataSource()
+				? new LazyLoadRoutingDataSource<>(connectionInfoLoaderMap)
+				: new RoutingDataSource();
+
+		routingDataSource.setTargetDataSources(targetDataSourceMap);
+		// defaultDataSource를 지정하지 않은 경우 첫번째 값 설정
+		if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
+			routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().toArray()[0]);
+		} else {
+			routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
+		}
+		routingDataSource.afterPropertiesSet();
+		return new LazyConnectionDataSourceProxy(routingDataSource);
+	}
+
+	@Bean
+	RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
+		return new RoutingDataSourceAspect(applicationContext);
+	}
+
+	@Bean
+	DataSourceDevCheckController dataSourceDevCheckController(@Qualifier("routingDataSource") DataSource blueskyRoutingDataSource) {
+		return new DataSourceDevCheckController(blueskyRoutingDataSource);
+	}
 
 }
