@@ -48,7 +48,7 @@ public class ConnectionInfoAutoConfiguration {
 //		}
 		
 		@Bean
-		ConnectionInfoRegistry<MongoClient> mongoClientConnectionInfoRegistry(List<ConnectionInfoLoader> connectionInfoLoaderList) {
+		ConnectionInfoRegistry<MongoClient> mongoClientConnectionInfoRegistry(List<ConnectionInfoLoader<MongoClient>> connectionInfoLoaderList) {
 			var connectionInfoList = new ArrayList<ConnectionInfo<MongoClient>>();
 			connectionInfoLoaderList.forEach(connectionInfoLoader -> connectionInfoList.addAll(connectionInfoLoader.load()));
 			return () -> connectionInfoList;
