@@ -24,7 +24,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * actuator endpoint refresh를 약간 수정하여 Environment 변경 적용 후 BrickProperties 갱신 처리
+ * actuator endpoint refresh를 약간 수정하여 Environment 변경 적용 후 BlueskyProperties 갱신 처리
  * refresh endpoint의 ContextRefresher 빈과 중복 선언되면 안되기 때문에 내부 변수로 새로 생성하여 사용
  */
 @Slf4j

@@ -68,7 +68,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 	}
 
 	/**
-	 * BrickProperties 중 제일 먼저 호출되기 때문에 refresh 초기화 관련 처리를 여기에서 담당함
+	 * BlueskyProperties 중 제일 먼저 호출되기 때문에 refresh 초기화 관련 처리를 여기에서 담당함
 	 */
 	@Override
 	public void load() {

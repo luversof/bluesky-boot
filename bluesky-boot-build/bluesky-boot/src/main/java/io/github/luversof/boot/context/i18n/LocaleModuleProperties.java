@@ -13,7 +13,6 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
@@ -26,8 +25,12 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	
 	private String beanName;
 
-	@Setter(onMethod_ = { @Autowired, @Qualifier(LocaleProperties.DEFAULT_BEAN_NAME) })  // NOSONAR
 	private LocaleProperties parent;
+	
+	@Autowired
+	public void setParent(@Qualifier(LocaleProperties.DEFAULT_BEAN_NAME) LocaleProperties localeProperties) {
+		this.parent = localeProperties;
+	}
 	
 	private Map<String, LocaleProperties> modules = new HashMap<>();
 	

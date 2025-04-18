@@ -13,21 +13,24 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "brick-boot.web.cookie")
+@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String DEFAULT_BEAN_NAME = "brick-boot.web.cookie-io.github.luversof.boot.web.CookieModuleProperties";
-	public static final String EXTERNAL_COOKIE_BEAN_NAME = "brick-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieModuleProperties";
+	public static final String DEFAULT_BEAN_NAME = "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieModuleProperties";
+	public static final String EXTERNAL_COOKIE_BEAN_NAME = "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieModuleProperties";
 	
 	private String beanName;
 
-	@Setter(onMethod_ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) }) // NOSONAR
 	private CookieProperties parent;
+	
+	@Autowired
+	public void setParent(@Qualifier(CookieProperties.DEFAULT_BEAN_NAME) CookieProperties cookieProperties) {
+		this.parent = cookieProperties;
+	}
 	
 	private Map<String, CookieProperties> modules = new HashMap<>();
 	
