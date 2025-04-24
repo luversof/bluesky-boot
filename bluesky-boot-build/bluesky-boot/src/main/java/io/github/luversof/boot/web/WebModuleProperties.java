@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
@@ -28,8 +27,6 @@ public class WebModuleProperties implements BlueskyModuleProperties<WebPropertie
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
 		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
-	
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		moduleNameSet.forEach(moduleName -> {
 			
@@ -41,12 +38,9 @@ public class WebModuleProperties implements BlueskyModuleProperties<WebPropertie
 			
 			var webProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(webProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(getParent()::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
-			propertyMapper.from(webProperties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
-			propertyMapper.from(getParent()::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);
-			propertyMapper.from(webProperties::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(webProperties, builder);
 			
 			getModules().put(moduleName, builder.build());
 		});

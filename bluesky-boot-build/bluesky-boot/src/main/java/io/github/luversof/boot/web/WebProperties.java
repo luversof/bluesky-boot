@@ -1,10 +1,13 @@
 package io.github.luversof.boot.web;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
@@ -34,19 +37,25 @@ public class WebProperties implements BlueskyProperties {
 	 * Registering an exception list address pattern when checking for unsupported browser
 	 */
 	private List<String> notSupportedBrowserExcludePathPatternList = List.of("/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**");
+
+	@JsonIgnore
+	public BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
+		return (t, u) -> {
+			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			propertyMapper.from(t::getCheckNotSupportedBrowser).to(u::checkNotSupportedBrowser);
+			propertyMapper.from(t::getNotSupportedBrowserRegPatternList).to(u::notSupportedBrowserRegPatternList);
+			propertyMapper.from(t::getNotSupportedBrowserExcludePathPatternList).to(u::notSupportedBrowserExcludePathPatternList);			
+		};
+	}
 	
 	@Override
 	public void load() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
 		
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-		
 		var builder = parentModuleInfo == null ? WebProperties.builder() : parentModuleInfo.getWebPropertiesBuilder();
 		
-		propertyMapper.from(this::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-		propertyMapper.from(this::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
-		propertyMapper.from(this::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);
+		getPropertyMapperConsumer().accept(this, builder);
 		
 		BeanUtils.copyProperties(builder.build(), this);
 	}
@@ -54,6 +63,8 @@ public class WebProperties implements BlueskyProperties {
 	public static WebPropertiesBuilder builder() {
 		return new WebPropertiesBuilder();
 	}
+
+
 
 	public static class WebPropertiesBuilder {
 		

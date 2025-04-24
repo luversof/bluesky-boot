@@ -15,5 +15,5 @@ public interface BlueskyProperties extends InitializingBean, BlueskyRefreshPrope
 		storeInitialProperties();
 		load();
 	}
-
+	
 }
