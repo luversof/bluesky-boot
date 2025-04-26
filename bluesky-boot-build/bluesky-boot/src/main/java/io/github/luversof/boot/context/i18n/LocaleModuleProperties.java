@@ -7,7 +7,6 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
@@ -44,7 +43,6 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	@Override
 	public void load() {
 		parentReload();
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		
 		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
 			var builder = getBuilderFunction().apply(moduleName);
@@ -54,11 +52,9 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 			}
 			
 			var localeProperties = getModules().get(moduleName);
-			
-			propertyMapper.from(getParent()::getBeanName).to(builder::beanName);
-			propertyMapper.from(localeProperties::getBeanName).to(builder::beanName);
-			propertyMapper.from(getParent()::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
-			propertyMapper.from(localeProperties::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(localeProperties, builder);
 			
 			getModules().put(moduleName, builder.build());
 			

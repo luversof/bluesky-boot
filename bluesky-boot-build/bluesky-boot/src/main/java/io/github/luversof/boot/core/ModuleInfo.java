@@ -5,6 +5,10 @@ import java.io.Serializable;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.DomainProperties;
+import io.github.luversof.boot.web.LocaleContextResolverProperties;
+import io.github.luversof.boot.web.LocaleContextResolverProperties.LocaleContextResolverPropertiesBuilder;
+import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
+import io.github.luversof.boot.web.LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder;
 import io.github.luversof.boot.web.WebProperties;
 
 /**
@@ -45,4 +49,13 @@ public interface ModuleInfo extends Serializable {
 	default WebProperties.WebPropertiesBuilder getWebPropertiesBuilder() {
 		return WebProperties.builder();
 	}
+
+	default LocaleResolveHandlerPropertiesBuilder getLocaleResolveHandlerPropertiesBuilder() {
+		return LocaleResolveHandlerProperties.builder();
+	}
+	
+	default LocaleContextResolverPropertiesBuilder getLocaleContextResolverPropertiesBuilder() {
+		return LocaleContextResolverProperties.builder();
+	}
+	
 }

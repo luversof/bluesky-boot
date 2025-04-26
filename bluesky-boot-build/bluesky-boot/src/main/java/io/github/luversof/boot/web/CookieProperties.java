@@ -2,6 +2,7 @@ package io.github.luversof.boot.web;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.function.BiConsumer;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanNameAware;
@@ -51,20 +52,26 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 		};
 	}
 	
+	protected BiConsumer<CookieProperties, CookiePropertiesBuilder> getPropertyMapperConsumer() {
+		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+		return (cookieProperties, builder) -> {
+			propertyMapper.from(cookieProperties::getBeanName).to(builder::beanName);
+			propertyMapper.from(cookieProperties::getName).to(builder::name);
+			propertyMapper.from(cookieProperties::getMaxAge).to(builder::maxAge);
+			propertyMapper.from(cookieProperties::getDomain).to(builder::domain);
+			propertyMapper.from(cookieProperties::getPath).to(builder::path);
+			propertyMapper.from(cookieProperties::getSecure).to(builder::secure);
+			propertyMapper.from(cookieProperties::getHttpOnly).to(builder::httpOnly);
+			propertyMapper.from(cookieProperties::getSameSite).to(builder::sameSite);
+		};
+	}
+	
 	@Override
 	public void load() {
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-		
 		var builder = getBuilderSupplier().get();
 		
-		propertyMapper.from(this::getBeanName).to(builder::beanName);
-		propertyMapper.from(this::getName).to(builder::name);
-		propertyMapper.from(this::getMaxAge).to(builder::maxAge);
-		propertyMapper.from(this::getDomain).to(builder::domain);
-		propertyMapper.from(this::getPath).to(builder::path);
-		propertyMapper.from(this::getSecure).to(builder::secure);
-		propertyMapper.from(this::getHttpOnly).to(builder::httpOnly);
-		propertyMapper.from(this::getSameSite).to(builder::sameSite);
+		getPropertyMapperConsumer().accept(this, builder);
 		
 		BeanUtils.copyProperties(builder.build(), this);
 	}

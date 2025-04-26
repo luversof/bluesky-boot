@@ -1,11 +1,15 @@
 package io.github.luversof.boot.web;
 
+import java.util.function.BiConsumer;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.PropertyMapper;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +19,6 @@ import lombok.NoArgsConstructor;
  * Cookie / AcceptHeader 별 설정 분리가 필요할까? 
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "bluesky-boot.web.locale-resolve-handler")
@@ -94,5 +97,65 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 		 * language 일치 체크의 경우
 		 */
 		private boolean checkLanguageMatchOnly;
+	}
+	
+	protected BiConsumer<LocaleResolveHandlerProperties, LocaleResolveHandlerPropertiesBuilder> getPropertyMapperConsumer() {
+		return (localeResolveHandlerProperties, builder) -> {
+			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			propertyMapper.from(localeResolveHandlerProperties::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
+			propertyMapper.from(localeResolveHandlerProperties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
+			propertyMapper.from(localeResolveHandlerProperties::getPreLocaleResolveInfoCondition).to(builder::preLocaleResolveInfoCondition);
+		};
+	}
+	
+	@Override
+	public void load() {
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
+
+		var builder = parentModuleInfo == null ? LocaleResolveHandlerProperties.builder() : parentModuleInfo.getLocaleResolveHandlerPropertiesBuilder();
+
+		getPropertyMapperConsumer().accept(this, builder);
+
+		BeanUtils.copyProperties(builder.build(), this);
+	}
+	
+	public static LocaleResolveHandlerPropertiesBuilder builder() {
+		return new LocaleResolveHandlerPropertiesBuilder();
+	}
+	
+	public static class LocaleResolveHandlerPropertiesBuilder {
+
+		private String beanName;
+
+		private LocaleResolveInfoCondition localeResolveInfoCondition;
+
+		private SetRepresentativeCondition setRepresentativeCondition;
+
+		private PreLocaleResolveInfoCondition preLocaleResolveInfoCondition;
+
+		public LocaleResolveHandlerPropertiesBuilder beanName(String beanName) {
+			this.beanName = beanName;
+			return this;
+		}
+		
+		public LocaleResolveHandlerPropertiesBuilder localeResolveInfoCondition(LocaleResolveInfoCondition localeResolveInfoCondition) {
+			this.localeResolveInfoCondition = localeResolveInfoCondition;
+			return this;
+		}
+		
+		public LocaleResolveHandlerPropertiesBuilder setRepresentativeCondition(SetRepresentativeCondition setRepresentativeCondition) {
+			this.setRepresentativeCondition = setRepresentativeCondition;
+			return this;
+		}
+		
+		public LocaleResolveHandlerPropertiesBuilder preLocaleResolveInfoCondition(PreLocaleResolveInfoCondition preLocaleResolveInfoCondition) {
+			this.preLocaleResolveInfoCondition = preLocaleResolveInfoCondition;
+			return this;
+		}
+
+		public LocaleResolveHandlerProperties build() {
+			return new LocaleResolveHandlerProperties(this.beanName, this.localeResolveInfoCondition, this.setRepresentativeCondition, this.preLocaleResolveInfoCondition);
+		}
 	}
 }

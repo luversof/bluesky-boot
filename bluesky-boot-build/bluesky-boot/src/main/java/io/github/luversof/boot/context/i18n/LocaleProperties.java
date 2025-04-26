@@ -3,6 +3,7 @@ package io.github.luversof.boot.context.i18n;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.BiConsumer;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanNameAware;
@@ -54,14 +55,19 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 		};
 	}
 	
+	protected BiConsumer<LocaleProperties, LocalePropertiesBuilder> getPropertyMapperConsumer() {
+		return (localeProperties, builder) -> {
+			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			propertyMapper.from(localeProperties::getBeanName).to(builder::beanName);
+			propertyMapper.from(localeProperties::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
+		};
+	}
+	
 	@Override
 	public void load() {
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-		
 		var builder = getBuilderSupplier().get();
 		
-		propertyMapper.from(this::getBeanName).to(builder::beanName);
-		propertyMapper.from(this::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
+		getPropertyMapperConsumer().accept(this, builder);
 		
 		BeanUtils.copyProperties(builder.build(), this);
 	}

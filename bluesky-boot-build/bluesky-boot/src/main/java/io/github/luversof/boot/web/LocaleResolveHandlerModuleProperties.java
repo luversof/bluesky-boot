@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
@@ -29,13 +28,13 @@ public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProper
 	
 	@Override
 	public void load() {
+		parentReload();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
 		
 		moduleNameSet.forEach(moduleName -> {
-			var builder = LocaleResolveHandlerProperties.builder();
+			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder() : LocaleResolveHandlerProperties.builder();
 			
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, builder.build());
@@ -43,12 +42,10 @@ public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProper
 			
 			var localeResolveHandlerProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
-			propertyMapper.from(localeResolveHandlerProperties::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
-			propertyMapper.from(getParent()::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
-			propertyMapper.from(localeResolveHandlerProperties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
-			propertyMapper.from(getParent()::getPreLocaleResolveInfoCondition).to(builder::preLocaleResolveInfoCondition);
-			propertyMapper.from(localeResolveHandlerProperties::getPreLocaleResolveInfoCondition).to(builder::preLocaleResolveInfoCondition);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(localeResolveHandlerProperties, builder);
 			
 			getModules().put(moduleName, builder.build());
 		});

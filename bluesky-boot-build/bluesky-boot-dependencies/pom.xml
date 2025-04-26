@@ -54,7 +54,18 @@
 		<nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.1.1</maven-release-plugin.version>
 		<!-- (e) ossrh -->
+		
+		<!-- (s) temp -->
+		<lombok.version>1.18.38</lombok.version>
+		<!-- (e) temp -->
 	</properties>
+	<dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<!-- (s) bluesky boot -->

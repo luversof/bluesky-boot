@@ -7,8 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
 import lombok.AllArgsConstructor;
@@ -38,13 +36,12 @@ public class WebProperties implements BlueskyProperties {
 	 */
 	private List<String> notSupportedBrowserExcludePathPatternList = List.of("/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**");
 
-	@JsonIgnore
-	public BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
-		return (t, u) -> {
+	protected BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
+		return (webProperties, builder) -> {
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-			propertyMapper.from(t::getCheckNotSupportedBrowser).to(u::checkNotSupportedBrowser);
-			propertyMapper.from(t::getNotSupportedBrowserRegPatternList).to(u::notSupportedBrowserRegPatternList);
-			propertyMapper.from(t::getNotSupportedBrowserExcludePathPatternList).to(u::notSupportedBrowserExcludePathPatternList);			
+			propertyMapper.from(webProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
+			propertyMapper.from(webProperties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
+			propertyMapper.from(webProperties::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);			
 		};
 	}
 	
@@ -63,8 +60,6 @@ public class WebProperties implements BlueskyProperties {
 	public static WebPropertiesBuilder builder() {
 		return new WebPropertiesBuilder();
 	}
-
-
 
 	public static class WebPropertiesBuilder {
 		

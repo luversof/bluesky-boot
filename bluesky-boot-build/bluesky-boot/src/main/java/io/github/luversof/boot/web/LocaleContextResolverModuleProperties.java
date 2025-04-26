@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
@@ -27,11 +26,10 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 		parentReload();
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
 		
 		moduleNameSet.forEach(moduleName -> {
-			var builder = LocaleContextResolverProperties.builder();
+			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleContextResolverPropertiesBuilder() : LocaleContextResolverProperties.builder();
 			
 			if (!getModules().containsKey(moduleName)) {
 				getModules().put(moduleName, builder.build());
@@ -39,10 +37,9 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 			
 			var localeContextResolverProperties = getModules().get(moduleName);
 			
-			propertyMapper.from(getParent()::getPreset).to(builder::preset);
-			propertyMapper.from(localeContextResolverProperties::getPreset).to(builder::preset);
-			propertyMapper.from(getParent()::getLocaleResolveHandlerBeanNameList).when(x -> !x.isEmpty()).to(builder::localeResolveHandlerBeanNameList);
-			propertyMapper.from(localeContextResolverProperties::getLocaleResolveHandlerBeanNameList).when(x -> !x.isEmpty()).to(builder::localeResolveHandlerBeanNameList);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(localeContextResolverProperties, builder);
 			
 			getModules().put(moduleName, builder.build());
 			

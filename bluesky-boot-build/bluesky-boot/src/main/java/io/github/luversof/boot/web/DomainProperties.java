@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -111,23 +112,28 @@ public class DomainProperties implements BlueskyProperties {
 		return mobileWebList.isEmpty() ? getWeb() : mobileWebList.get(0);
 	}
 	
+	protected BiConsumer<DomainProperties, DomainPropertiesBuilder> getPropertyMapperConsumer() {
+		return (t, u) -> {
+			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			propertyMapper.from(t::getAddPathPatternList).to(u::addPathPatternList);
+			propertyMapper.from(t::getWebList).whenNot(x -> x == null || x.isEmpty()).to(u::webList);
+			propertyMapper.from(t::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(u::mobileWebList);
+			propertyMapper.from(t::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(u::devDomainList);
+			propertyMapper.from(t::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(u::staticPathList);
+			propertyMapper.from(t::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(u::excludePathList);
+			propertyMapper.from(t::getRequestPath).to(u::requestPath);
+			propertyMapper.from(t::getForwardPath).to(u::forwardPath);
+		};
+	}
+	
 	@Override
 	public void load() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
 		
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-		
 		var builder = parentModuleInfo == null ? DomainProperties.builder() : parentModuleInfo.getDomainPropertiesBuilder();
 		
-		propertyMapper.from(this::getAddPathPatternList).to(builder::addPathPatternList);
-		propertyMapper.from(this::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
-		propertyMapper.from(this::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);
-		propertyMapper.from(this::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(builder::devDomainList);
-		propertyMapper.from(this::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(builder::staticPathList);
-		propertyMapper.from(this::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(builder::excludePathList);
-		propertyMapper.from(this::getRequestPath).to(builder::requestPath);
-		propertyMapper.from(this::getForwardPath).to(builder::forwardPath);
+		getPropertyMapperConsumer().accept(this, builder);
 		
 		BeanUtils.copyProperties(builder.build(), this);
 	}
