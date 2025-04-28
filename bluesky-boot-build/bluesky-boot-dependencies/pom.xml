@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.4.5</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -35,11 +35,11 @@
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
 		<spring-asciidoctor-backends.version>0.0.7</spring-asciidoctor-backends.version>
-		<asciidoctorj-diagram.version>2.3.1</asciidoctorj-diagram.version>
+		<asciidoctorj-diagram.version>2.3.2</asciidoctorj-diagram.version>
 		<restdocs-api-spec.version>0.19.4</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
-		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.4.5</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		
@@ -54,18 +54,7 @@
 		<nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.1.1</maven-release-plugin.version>
 		<!-- (e) ossrh -->
-		
-		<!-- (s) temp -->
-		<lombok.version>1.18.38</lombok.version>
-		<!-- (e) temp -->
 	</properties>
-	<dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<!-- (s) bluesky boot -->
