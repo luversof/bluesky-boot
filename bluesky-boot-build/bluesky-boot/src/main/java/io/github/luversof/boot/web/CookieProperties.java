@@ -55,15 +55,15 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	protected BiConsumer<CookieProperties, CookiePropertiesBuilder> getPropertyMapperConsumer() {
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-		return (cookieProperties, builder) -> {
-			propertyMapper.from(cookieProperties::getBeanName).to(builder::beanName);
-			propertyMapper.from(cookieProperties::getName).to(builder::name);
-			propertyMapper.from(cookieProperties::getMaxAge).to(builder::maxAge);
-			propertyMapper.from(cookieProperties::getDomain).to(builder::domain);
-			propertyMapper.from(cookieProperties::getPath).to(builder::path);
-			propertyMapper.from(cookieProperties::getSecure).to(builder::secure);
-			propertyMapper.from(cookieProperties::getHttpOnly).to(builder::httpOnly);
-			propertyMapper.from(cookieProperties::getSameSite).to(builder::sameSite);
+		return (properties, builder) -> {
+			propertyMapper.from(properties::getBeanName).to(builder::beanName);
+			propertyMapper.from(properties::getName).to(builder::name);
+			propertyMapper.from(properties::getMaxAge).to(builder::maxAge);
+			propertyMapper.from(properties::getDomain).to(builder::domain);
+			propertyMapper.from(properties::getPath).to(builder::path);
+			propertyMapper.from(properties::getSecure).to(builder::secure);
+			propertyMapper.from(properties::getHttpOnly).to(builder::httpOnly);
+			propertyMapper.from(properties::getSameSite).to(builder::sameSite);
 		};
 	}
 	

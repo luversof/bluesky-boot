@@ -113,16 +113,16 @@ public class DomainProperties implements BlueskyProperties {
 	}
 	
 	protected BiConsumer<DomainProperties, DomainPropertiesBuilder> getPropertyMapperConsumer() {
-		return (t, u) -> {
+		return (properties, builder) -> {
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-			propertyMapper.from(t::getAddPathPatternList).to(u::addPathPatternList);
-			propertyMapper.from(t::getWebList).whenNot(x -> x == null || x.isEmpty()).to(u::webList);
-			propertyMapper.from(t::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(u::mobileWebList);
-			propertyMapper.from(t::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(u::devDomainList);
-			propertyMapper.from(t::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(u::staticPathList);
-			propertyMapper.from(t::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(u::excludePathList);
-			propertyMapper.from(t::getRequestPath).to(u::requestPath);
-			propertyMapper.from(t::getForwardPath).to(u::forwardPath);
+			propertyMapper.from(properties::getAddPathPatternList).to(builder::addPathPatternList);
+			propertyMapper.from(properties::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
+			propertyMapper.from(properties::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);
+			propertyMapper.from(properties::getDevDomainList).whenNot(x -> x == null || x.isEmpty()).to(builder::devDomainList);
+			propertyMapper.from(properties::getStaticPathList).whenNot(x -> x == null || x.isEmpty()).to(builder::staticPathList);
+			propertyMapper.from(properties::getExcludePathList).whenNot(x -> x == null || x.isEmpty()).to(builder::excludePathList);
+			propertyMapper.from(properties::getRequestPath).to(builder::requestPath);
+			propertyMapper.from(properties::getForwardPath).to(builder::forwardPath);
 		};
 	}
 	

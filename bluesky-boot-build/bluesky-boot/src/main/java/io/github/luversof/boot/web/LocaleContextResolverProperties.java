@@ -75,13 +75,13 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 	}
 
 	protected BiConsumer<LocaleContextResolverProperties, LocaleContextResolverPropertiesBuilder> getPropertyMapperConsumer() {
-		return (localeContextResolverProperties, builder) -> {
+		return (properties, builder) -> {
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-			propertyMapper.from(localeContextResolverProperties::getPreset).to(builder::preset);
-			if (localeContextResolverProperties.getLocaleResolveHandlerBeanNameList() != null && !localeResolveHandlerBeanNameList.isEmpty()) {
-				propertyMapper.from(localeContextResolverProperties::getLocaleResolveHandlerBeanNameList).to(builder::localeResolveHandlerBeanNameList);
-			} else if (localeContextResolverProperties.preset != null) {
-				propertyMapper.from(localeContextResolverProperties.getPreset().getLocaleContextResolveHandlerBeanNameList()).when(x -> x == null || x.isEmpty()).to(builder::localeResolveHandlerBeanNameList);
+			propertyMapper.from(properties::getPreset).to(builder::preset);
+			if (properties.getLocaleResolveHandlerBeanNameList() != null && !localeResolveHandlerBeanNameList.isEmpty()) {
+				propertyMapper.from(properties::getLocaleResolveHandlerBeanNameList).to(builder::localeResolveHandlerBeanNameList);
+			} else if (properties.preset != null) {
+				propertyMapper.from(properties.getPreset().getLocaleContextResolveHandlerBeanNameList()).when(x -> x == null || x.isEmpty()).to(builder::localeResolveHandlerBeanNameList);
 			}
 		};
 	}

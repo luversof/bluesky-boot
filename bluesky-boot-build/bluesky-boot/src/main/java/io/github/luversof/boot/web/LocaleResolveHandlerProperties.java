@@ -100,11 +100,11 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 	}
 	
 	protected BiConsumer<LocaleResolveHandlerProperties, LocaleResolveHandlerPropertiesBuilder> getPropertyMapperConsumer() {
-		return (localeResolveHandlerProperties, builder) -> {
+		return (properties, builder) -> {
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-			propertyMapper.from(localeResolveHandlerProperties::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
-			propertyMapper.from(localeResolveHandlerProperties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
-			propertyMapper.from(localeResolveHandlerProperties::getPreLocaleResolveInfoCondition).to(builder::preLocaleResolveInfoCondition);
+			propertyMapper.from(properties::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
+			propertyMapper.from(properties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
+			propertyMapper.from(properties::getPreLocaleResolveInfoCondition).to(builder::preLocaleResolveInfoCondition);
 		};
 	}
 	

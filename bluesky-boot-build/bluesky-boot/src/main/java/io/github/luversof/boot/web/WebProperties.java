@@ -37,11 +37,11 @@ public class WebProperties implements BlueskyProperties {
 	private List<String> notSupportedBrowserExcludePathPatternList = List.of("/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**");
 
 	protected BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
-		return (webProperties, builder) -> {
+		return (properties, builder) -> {
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-			propertyMapper.from(webProperties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
-			propertyMapper.from(webProperties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
-			propertyMapper.from(webProperties::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);			
+			propertyMapper.from(properties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
+			propertyMapper.from(properties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
+			propertyMapper.from(properties::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);			
 		};
 	}
 	
