@@ -49,11 +49,9 @@
 		<build.version>${project.version}</build.version>
 		<!-- (e) build properties -->
 		
-		<!-- (s) ossrh -->
-		<maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
-		<nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
-		<maven-release-plugin.version>3.1.1</maven-release-plugin.version>
-		<!-- (e) ossrh -->
+		<!-- (s) central -->
+		<central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+		<!-- (e) central -->
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -188,7 +186,7 @@
 			<dependency> 
 				<groupId>ch.qos.logback.access</groupId>
 				<artifactId>logback-access-tomcat</artifactId>
-				<version>${logback-access-tomcat.version}</version>      
+				<version>${logback-access-tomcat.version}</version>	  
 			</dependency>
 			<!-- (e) logback access-->
 			
@@ -285,15 +283,15 @@
 							</configuration>
 						</execution>
 					</executions>
-		            <configuration>
-		                <nonFilteredFileExtensions>
-		                    <nonFilteredFileExtension>eot</nonFilteredFileExtension>
-		                    <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
-		                    <nonFilteredFileExtension>woff</nonFilteredFileExtension>
-		                    <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
-		                    <nonFilteredFileExtension>otf</nonFilteredFileExtension>
-		                </nonFilteredFileExtensions>
-		            </configuration>
+					<configuration>
+						<nonFilteredFileExtensions>
+							<nonFilteredFileExtension>eot</nonFilteredFileExtension>
+							<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+							<nonFilteredFileExtension>woff</nonFilteredFileExtension>
+							<nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+							<nonFilteredFileExtension>otf</nonFilteredFileExtension>
+						</nonFilteredFileExtensions>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.asciidoctor</groupId>
@@ -519,109 +517,34 @@
 			</distributionManagement>
 		</profile>
 		<profile>
-			<id>ossrh</id>
+			<id>central</id>
 			<build>
 				<plugins>
-			        <plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<annotationProcessorPaths>
-								<path>
-									<groupId>org.projectlombok</groupId>
-        							<artifactId>lombok</artifactId>
-        							<version>${lombok.version}</version>
-								</path>
-							</annotationProcessorPaths>
-						</configuration>
-					</plugin>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-								<configuration>
-									<additionalJOptions>
-										<arg>-Xdoclint:missing</arg>
-									</additionalJOptions>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus-staging-maven-plugin.version}</version>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>${central-publishing-maven-plugin.version}</version>
 						<extensions>true</extensions>
 						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-release-plugin</artifactId>
-						<version>${maven-release-plugin.version}</version>
-						<configuration>
-							<autoVersionSubmodules>true</autoVersionSubmodules>
-							<useReleaseProfile>false</useReleaseProfile>
-							<releaseProfiles>release</releaseProfiles>
-							<goals>deploy</goals>
+							<publishingServerId>central</publishingServerId>
+							<autoPublish>true</autoPublish>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>ossrh</id>
-					<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-				</snapshotRepository>
-				<repository>
-					<id>ossrh</id>
-					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-				</repository>
-			</distributionManagement>
 		</profile>
 	</profiles>
 	<repositories>
 		<repository>
-			<id>maven-snapshots</id>
-			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots />
+			<name>Central Portal Snapshots</name>
+			<id>central-portal-snapshots</id>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>spring-snapshots</id>
