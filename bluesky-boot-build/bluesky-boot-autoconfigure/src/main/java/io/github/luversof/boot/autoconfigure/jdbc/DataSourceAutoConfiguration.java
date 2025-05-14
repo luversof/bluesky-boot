@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.aspectj.weaver.Advice;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
@@ -42,8 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration {
 	
+	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnMissingClass("io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry")
-	class BasicDataSourceAutoConfiguration {
+	static class BasicDataSourceAutoConfiguration {
 		
 		@Bean
 		@Primary
@@ -69,8 +72,9 @@ public class DataSourceAutoConfiguration {
 	
 	}
 	
-	@ConditionalOnClass(name = "io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry")
-	class ConnectionInfoDataSourceAutoConfiguration {
+	@Configuration(proxyBeanMethods = false)
+	@ConditionalOnClass(ConnectionInfoRegistry.class)
+	static class ConnectionInfoDataSourceAutoConfiguration {
 		
 		@Bean
 		@Primary
@@ -106,12 +110,16 @@ public class DataSourceAutoConfiguration {
 		}
 		
 	}
-
 	
+	@Configuration(proxyBeanMethods = false)
+	@ConditionalOnClass(Advice.class)
+	static class AspectJDataSourceAutoConfiguration {
 
-	@Bean
-	RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
-		return new RoutingDataSourceAspect(applicationContext);
+		@Bean
+		RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
+			return new RoutingDataSourceAspect(applicationContext);
+		}
+
 	}
 
 	@Bean
