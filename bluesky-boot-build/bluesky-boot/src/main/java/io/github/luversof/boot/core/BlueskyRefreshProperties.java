@@ -2,7 +2,6 @@ package io.github.luversof.boot.core;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.SerializationUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,7 +13,7 @@ import io.github.luversof.boot.exception.BlueskyException;
 /**
  * Provides refresh/reset functions for refreshScope target properties
  */
-public interface BlueskyRefreshProperties extends Serializable, InitializingBean {
+public interface BlueskyRefreshProperties extends Serializable {
 	
 	/**
 	 * If you use multiple beans in the same class, you need to specify the beanName through beanNameAware implementation.

@@ -56,6 +56,13 @@ public class CoreDevCheckController {
 		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyModuleProperties.class);
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@DevCheckDescription("blueskyGroupPropertiesMap 조회")
+	@GetMapping("/blueskyGroupPropertiesMap")
+	Map<String, BlueskyGroupProperties> blueskyGroupPropertiesMap() {
+		return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyGroupProperties.class);
+	}
+	
 	@DevCheckDescription("coreProperties 조회")
 	@GetMapping("/coreProperties")
 	CoreProperties coreProperties() {

@@ -8,20 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 
-/**
- * Top-level class provided for handling module branching
- * 
- * Used to implement per-feature module branch handling
- * @author bluesky
- *
- * @param <T> ModuleProperties가 module에 담을 대상 BlueskyProperties 타입
- */
-public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
-	
+public interface BlueskyGroupProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
+
 	T getParent();
 	void setParent(T parent);
 	
-	Map<String, T> getModules();
+	Map<String, T> getGroups();
 	
 	default void load() {
 		parentReload();
@@ -47,4 +39,5 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 		}
 		setParent((T) applicationContext.getBean(parentBeanName));
 	}
+	
 }

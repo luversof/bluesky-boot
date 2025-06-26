@@ -11,12 +11,10 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = CoreModuleProperties.PREFIX)
+@ConfigurationProperties(prefix = CoreProperties.PREFIX)
 public class CoreModuleProperties implements BlueskyModuleProperties<CoreProperties> {
 	
 	private static final long serialVersionUID = 1L;
-	
-	public static final String PREFIX = "bluesky-boot.core";
 	
 	/**
 	 * Bean 생성 시 지정할 이름
@@ -46,6 +44,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 		
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		moduleNameSet.forEach(moduleName -> {
+			// blueskyBootContext에 moduleInfo 정보 추가
 			if (getModules().get(moduleName).getModuleInfo() != null) {
 				moduleInfoMap.put(moduleName, getModules().get(moduleName).getModuleInfo());
 			}
@@ -59,6 +58,8 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			var coreProperties = getModules().get(moduleName);
 			
 			propertyMapper.from(getParent()::getModuleInfo).to(builder::moduleInfo);
+			// groupProperties가 설정되어 있다면 group 설정을 우선 적용
+			
 			propertyMapper.from(coreProperties::getModuleInfo).to(builder::moduleInfo);
 			
 			var propertiesMap = new HashMap<String, String>();
@@ -74,11 +75,6 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 			getModules().put(moduleName, builder.build());
 		});
 
-	}
-	
-	@Autowired
-	void setCoreBaseProperties(CoreBaseProperties coreBaseProperties) {
-		// DO NOTHING
 	}
 
 }

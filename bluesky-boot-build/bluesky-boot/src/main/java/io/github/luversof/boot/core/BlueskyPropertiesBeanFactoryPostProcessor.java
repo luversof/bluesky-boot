@@ -14,15 +14,16 @@ public class BlueskyPropertiesBeanFactoryPostProcessor implements BeanFactoryPos
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		String[] beanNames = beanFactory.getBeanNamesForType(BlueskyProperties.class);
-		for (String beanName : beanNames) {
+		
+		beanFactory.getBeanDefinition(CoreProperties.BEAN_NAME).setDependsOn(CoreBaseProperties.BEAN_NAME);
+		
+		for (String beanName : beanFactory.getBeanNamesForType(BlueskyProperties.class)) {
 			if (beanName.equals(CoreBaseProperties.BEAN_NAME) || beanName.equals(CoreProperties.BEAN_NAME)) {
 				continue;
 			}
 			beanFactory.getBeanDefinition(beanName).setDependsOn(CoreProperties.BEAN_NAME);
 		}
 		
-		beanFactory.getBeanDefinition(CoreProperties.BEAN_NAME).setDependsOn(CoreBaseProperties.BEAN_NAME);
 	}
 	
 }

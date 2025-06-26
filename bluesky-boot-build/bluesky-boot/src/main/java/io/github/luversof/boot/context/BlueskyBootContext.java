@@ -3,6 +3,7 @@ package io.github.luversof.boot.context;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +29,8 @@ public class BlueskyBootContext {
 
 	/**
 	 * moduleName 전체 목록
-	 * 해당 목록을 기준으로 각 properties의 module을 생성함 
+	 * CoreBaseProperties에 설정된 moduleNameSet 과 coreProperties로 설정한 moduleName 을 합하여 이 moduleNameSet이 설정됨.
+	 * 설정된 moduleNameSet을 기준으로 BlueskyProperties를 구현한 여러 properties의 module을 생성함
 	 */
 	private final Set<String> moduleNameSet = new HashSet<>();
 	
@@ -50,5 +52,19 @@ public class BlueskyBootContext {
 	 * 이후 해결되면 BlueskyResfreshProperties로 변경 예정
 	 */
 	private final Map<String, Serializable> initialBlueskyResfreshPropertiesMap = new HashMap<>();
+	
+	/**
+	 * groupName 전체 목록
+	 * CoreBaseProperties에 설정된 group 설정을 기준으로 이 groupNameSet이 설정됨
+	 * @since 3.5.0
+	 */
+	private final Map<String, List<String>> groupModules = new HashMap<>();
+
+	/**
+	 * group에 설정된 ModuleInfo 정보
+	 * 해당 값을 기준으로 group에서 builder를 통한 preset을 사용
+	 * @since 3.5.0
+	 */
+	private final Map<String, ModuleInfo> groupModuleInfoMap = new HashMap<>();
 
 }
