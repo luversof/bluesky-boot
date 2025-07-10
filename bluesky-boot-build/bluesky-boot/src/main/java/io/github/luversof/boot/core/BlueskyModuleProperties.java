@@ -1,12 +1,18 @@
 package io.github.luversof.boot.core;
 
+import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.ResolvableType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.context.BlueskyContextHolder;
 
 /**
  * Top-level class provided for handling module branching
@@ -18,10 +24,40 @@ import io.github.luversof.boot.context.ApplicationContextUtil;
  */
 public interface BlueskyModuleProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
 	
+	Logger LOGGER = LoggerFactory.getLogger(BlueskyModuleProperties.class);
+	
 	T getParent();
 	void setParent(T parent);
 	
 	Map<String, T> getModules();
+	
+	default String getGroupPropertiesBeanName() {
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	default T getGroup(String moduleName) {
+		ResolvableType resolvableType = ResolvableType.forClass(this.getClass()).as(BlueskyModuleProperties.class);
+		var blueskyGroupProperties = BlueskyContextHolder.getGroupProperties((Class<T>) resolvableType.getGeneric(0).resolve(), getGroupPropertiesBeanName());
+		if (blueskyGroupProperties == null) {
+			return null;
+		}
+		
+		List<String> groupNameList = BlueskyBootContextHolder.getContext().getGroupModules().entrySet().stream()
+			.filter(entry -> entry.getValue().contains(moduleName))
+			.map(Map.Entry::getKey)
+			.toList();
+		
+		if (groupNameList.isEmpty()) {
+			return null;
+		}
+		
+		if (groupNameList.size() > 1) {
+			LOGGER.debug("Module names are declared multiple times in multiple groups. moduleName : {}", moduleName);
+		}
+		
+		return blueskyGroupProperties.getGroups().get(groupNameList.get(0));
+	}
 	
 	default void load() {
 		parentReload();

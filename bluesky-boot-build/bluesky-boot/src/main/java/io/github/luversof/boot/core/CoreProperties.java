@@ -2,8 +2,10 @@ package io.github.luversof.boot.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -51,6 +53,17 @@ public class CoreProperties implements BlueskyProperties {
 	 */
 	public void setModuleInfo(String moduleInfo) {
 		this.moduleInfo = (new SpelExpressionParser()).parseExpression(moduleInfo).getValue(ModuleInfo.class);
+	}
+	
+	protected BiConsumer<CoreProperties, CorePropertiesBuilder> getPropertyMapperConsumer() {
+		return (prop, builder) -> {
+			if (prop == null) {
+				return;
+			}
+			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			propertyMapper.from(prop::getModuleInfo).to(builder::moduleInfo);
+			propertyMapper.from(prop::getProperties).to(map -> builder.properties.putAll(map));
+		};
 	}
 	
 	@Override

@@ -5,14 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
-public class CoreGroupProperties implements BlueskyGroupProperties<CoreProperties>{
+public class CoreGroupProperties implements BlueskyGroupProperties<CoreProperties> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -40,7 +39,6 @@ public class CoreGroupProperties implements BlueskyGroupProperties<CorePropertie
 			}
 		});
 		
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull(); 
 		groupModules.keySet().forEach(groupName -> {
 			// blueskyBootContext에 groupModuleInfo 정보 추가
 			if (getGroups().get(groupName).getModuleInfo() != null) {
@@ -53,20 +51,9 @@ public class CoreGroupProperties implements BlueskyGroupProperties<CorePropertie
 				getGroups().put(groupName, builder.build());
 			}
 			
-			var coreProperties = getGroups().get(groupName);
-			
-			propertyMapper.from(getParent()::getModuleInfo).to(builder::moduleInfo);
-			propertyMapper.from(coreProperties::getModuleInfo).to(builder::moduleInfo);
-			
-			var propertiesMap = new HashMap<String, String>();
-			if (getParent().getProperties() != null) {
-				propertiesMap.putAll(getParent().getProperties());
-			}
-			if (coreProperties.getProperties() != null) {
-				propertiesMap.putAll(coreProperties.getProperties());
-			}
-			
-			propertyMapper.from(propertiesMap).to(builder::properties);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(getGroups().get(groupName), builder);
 			
 			getGroups().put(groupName, builder.build());
 		});
