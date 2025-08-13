@@ -57,6 +57,9 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 	
 	protected BiConsumer<LocaleProperties, LocalePropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(properties::getBeanName).to(builder::beanName);
 			propertyMapper.from(properties::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);

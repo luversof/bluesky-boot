@@ -25,6 +25,7 @@ public class BlueskyBootContext {
 		this.moduleNameSet.clear();
 		this.parentModuleInfo = null;
 		this.moduleInfoMap.clear();
+		this.groupModules.clear();
 	}
 
 	/**

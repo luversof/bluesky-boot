@@ -3,7 +3,9 @@ package io.github.luversof.boot.context.i18n;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -13,14 +15,14 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "bluesky-boot.locale")
-public class LocaleGroupProperties implements BlueskyGroupProperties<LocaleProperties> {
+public class LocaleGroupProperties implements BlueskyGroupProperties<LocaleProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String DEFAULT_BEAN_NAME = "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleGroupProperties";
-	public static final String EXTERNAL_LOCALE_BEAN_NAME = "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleGroupProperties";
+	private String beanName;
 
 	@Autowired
+	@Qualifier(LocaleProperties.DEFAULT_BEAN_NAME)
 	private LocaleProperties parent;
 	
 	private Map<String, LocaleProperties> groups = new HashMap<>();

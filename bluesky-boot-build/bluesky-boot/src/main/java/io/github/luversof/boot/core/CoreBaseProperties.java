@@ -83,6 +83,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		blueskyBootContext.clear();
 		blueskyBootContext.getModuleNameSet().addAll(getModuleNameSet());
+		blueskyBootContext.getGroupModules().putAll(getGroupModules());
 	}
 	
 	public static CoreBasePropertiesBuilder builder() {
