@@ -51,10 +51,10 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 				getModules().put(moduleName, builder.build());
 			}
 			
-			var localeProperties = getModules().get(moduleName);
 			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
 			propertyMapperConsumer.accept(getParent(), builder);
-			propertyMapperConsumer.accept(localeProperties, builder);
+			propertyMapperConsumer.accept(getGroup(moduleName), builder);
+			propertyMapperConsumer.accept(getModules().get(moduleName), builder);
 			
 			getModules().put(moduleName, builder.build());
 			

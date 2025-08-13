@@ -11,7 +11,7 @@ import io.github.luversof.boot.web.DomainProperties;
 import io.github.luversof.boot.web.WebModuleProperties;
 import io.github.luversof.boot.web.WebProperties;
 
-@AutoConfiguration("brickModulesWebAutoConfiguration")
+@AutoConfiguration("blueskyBootWebAutoConfiguration")
 @ConditionalOnWebApplication
 @EnableConfigurationProperties({ 
 	DomainProperties.class,

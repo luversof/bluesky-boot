@@ -18,8 +18,10 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
+import io.github.luversof.boot.web.CookieGroupProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
+import io.github.luversof.boot.web.ExternalCookieGroupProperties;
 import io.github.luversof.boot.web.ExternalCookieModuleProperties;
 import io.github.luversof.boot.web.ExternalCookieProperties;
 import io.github.luversof.boot.web.LocaleContextResolverModuleProperties;
@@ -100,7 +102,8 @@ public class WebMvcAutoConfiguration {
 
 	@EnableConfigurationProperties({
 		CookieProperties.class,
-		CookieModuleProperties.class
+		CookieModuleProperties.class,
+		CookieGroupProperties.class
 	})
 	@Configuration(proxyBeanMethods = false)
 //	@ConditionalOnProperty(prefix = "bluesky-boot.web.cookie", name = "enabled", havingValue = "true")
@@ -133,7 +136,8 @@ public class WebMvcAutoConfiguration {
 	
 	@EnableConfigurationProperties({
 		ExternalCookieProperties.class,
-		ExternalCookieModuleProperties.class
+		ExternalCookieModuleProperties.class,
+		ExternalCookieGroupProperties.class
 	})
 	@Configuration(proxyBeanMethods = false)
 //	@ConditionalOnProperty(prefix = "bluesky-boot.web.other-cookie", name = "enabled", havingValue = "true")
