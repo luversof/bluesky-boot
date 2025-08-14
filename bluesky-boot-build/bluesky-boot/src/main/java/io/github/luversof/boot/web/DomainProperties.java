@@ -19,10 +19,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.domain")
+@ConfigurationProperties(prefix = DomainProperties.PREFIX)
 public class DomainProperties implements BlueskyProperties {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.web.domain";
 
 	/**
 	 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.

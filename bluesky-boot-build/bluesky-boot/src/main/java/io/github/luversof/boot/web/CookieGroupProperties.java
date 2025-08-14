@@ -14,7 +14,7 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
+@ConfigurationProperties(prefix = CookieProperties.PREFIX)
 public class CookieGroupProperties implements BlueskyGroupProperties<CookieProperties>, BeanNameAware  {
 
 	private static final long serialVersionUID = 1L;
@@ -34,4 +34,25 @@ public class CookieGroupProperties implements BlueskyGroupProperties<CookiePrope
 		};
 	}
 
+	@Override
+	public void load() {
+		parentReload();
+		
+		BlueskyBootContextHolder.getContext().getGroupModules().keySet().forEach(groupName -> {
+			var builder = getBuilderFunction().apply(groupName);
+			
+			// group이 없는 경우 기본 설정 추가
+			if (!getGroups().containsKey(groupName)) {
+				getGroups().put(groupName, builder.build());
+			}
+			
+			var cookieProperties = getGroups().get(groupName);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(cookieProperties, builder);
+			
+			getGroups().put(groupName, builder.build());
+			
+		});
+	}
 }

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.util.function.SerializableFunction;
 
-@ConfigurationProperties(prefix = "bluesky-boot.external-locale")
+@ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleGroupProperties extends LocaleGroupProperties {
 	
 	private static final long serialVersionUID = 1L;

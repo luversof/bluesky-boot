@@ -25,10 +25,12 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.locale")
+@ConfigurationProperties(prefix = LocaleProperties.PREFIX)
 public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.locale";
 	
 	public static final String DEFAULT_BEAN_NAME = "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties";
 	public static final String EXTERNAL_LOCALE_BEAN_NAME = "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties";

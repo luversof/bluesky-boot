@@ -14,7 +14,7 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
+@ConfigurationProperties(prefix = CookieProperties.PREFIX)
 public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;

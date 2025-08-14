@@ -20,10 +20,12 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
+@ConfigurationProperties(prefix = CookieProperties.PREFIX)
 public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.web.cookie";
 	
 	public static final String DEFAULT_BEAN_NAME = "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties";
 	public static final String EXTERNAL_COOKIE_BEAN_NAME = "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties";

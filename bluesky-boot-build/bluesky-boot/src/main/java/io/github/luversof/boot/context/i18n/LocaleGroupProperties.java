@@ -14,7 +14,7 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.locale")
+@ConfigurationProperties(prefix = LocaleProperties.PREFIX)
 public class LocaleGroupProperties implements BlueskyGroupProperties<LocaleProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
@@ -38,10 +38,10 @@ public class LocaleGroupProperties implements BlueskyGroupProperties<LocalePrope
 	public void load() {
 		parentReload();
 		
-		// group이 없는 경우 기본 설정 추가
 		BlueskyBootContextHolder.getContext().getGroupModules().keySet().forEach(groupName -> {
 			var builder = getBuilderFunction().apply(groupName);
 			
+			// group이 없는 경우 기본 설정 추가
 			if (!getGroups().containsKey(groupName)) {
 				getGroups().put(groupName, builder.build());
 			}

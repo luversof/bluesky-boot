@@ -14,7 +14,7 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.locale")
+@ConfigurationProperties(prefix = LocaleProperties.PREFIX)
 public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.util.function.SerializableFunction;
 
-@ConfigurationProperties(prefix = "bluesky-boot.web.external-cookie")
+@ConfigurationProperties(prefix = ExternalCookieProperties.PREFIX)
 public class ExternalCookieGroupProperties extends CookieGroupProperties {
 
 	private static final long serialVersionUID = 1L;
