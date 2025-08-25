@@ -22,6 +22,8 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
+import io.github.luversof.boot.connectioninfo.ConnectionConfig;
+import io.github.luversof.boot.connectioninfo.ConnectionConfigReader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
@@ -78,11 +80,11 @@ public class DataSourceAutoConfiguration {
 		
 		@Bean
 		@Primary
-		<T extends DataSource> DataSource routingDataSource(
+		<T extends DataSource, C extends ConnectionConfig, R extends ConnectionConfigReader<C>> DataSource routingDataSource(
 				DataSourceProperties dataSourceProperties,
 				@Nullable Map<String, T> dataSourceMap,
 				@Nullable ConnectionInfoRegistry<T> connectionInfoRegistry,
-				@Nullable Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
+				@Nullable Map<String, ConnectionInfoLoader<T, C, R>> connectionInfoLoaderMap) {
 			Map<Object, Object> targetDataSourceMap = new HashMap<>();
 			if (dataSourceMap != null) {
 				targetDataSourceMap.putAll(dataSourceMap);

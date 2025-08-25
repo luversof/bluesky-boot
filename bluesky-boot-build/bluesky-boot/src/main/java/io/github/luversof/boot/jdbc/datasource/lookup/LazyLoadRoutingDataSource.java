@@ -7,22 +7,25 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import io.github.luversof.boot.connectioninfo.ConnectionConfig;
+import io.github.luversof.boot.connectioninfo.ConnectionConfigReader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextHolder;
 
 /**
+ * connectionInfoLoader를 사용하여 DataSource를 lazy load 지원
  * lookupKey에 대한 DataSource 후처리 생성을 지원
  * 
  * @param <T> 대상 DataSource 타입
  */
-public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingDataSource {
+public class LazyLoadRoutingDataSource<T extends DataSource, C extends ConnectionConfig, R extends ConnectionConfigReader<C>> extends RoutingDataSource {
 	
-	private Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap;
+	private Map<String, ConnectionInfoLoader<T, C, R>> connectionInfoLoaderMap;
 	
 	private Map<String, ZonedDateTime> nonExistLookupKeyMap = new HashMap<>();
 
-	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
+	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T, C, R>> connectionInfoLoaderMap) {
 		this.connectionInfoLoaderMap = connectionInfoLoaderMap;
 	}
 

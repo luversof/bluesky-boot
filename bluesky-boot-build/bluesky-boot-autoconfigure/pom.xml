@@ -32,6 +32,11 @@
 			<artifactId>bluesky-boot-autoconfigure-connectioninfo-jdbc</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>io.github.luversof</groupId>
+			<artifactId>bluesky-boot-autoconfigure-connectioninfo-mongodb</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<!-- (e) bluesky boot connectioninfo -->
 
 		<!-- (s) test -->
