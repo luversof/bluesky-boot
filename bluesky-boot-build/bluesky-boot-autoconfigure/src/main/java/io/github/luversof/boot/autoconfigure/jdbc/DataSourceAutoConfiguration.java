@@ -22,10 +22,11 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
-import io.github.luversof.boot.connectioninfo.ConnectionConfig;
-import io.github.luversof.boot.connectioninfo.ConnectionConfigReader;
+import com.zaxxer.hikari.HikariDataSource;
+
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
+import io.github.luversof.boot.connectioninfo.jdbc.DataSourceConnectionConfig;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
@@ -80,11 +81,11 @@ public class DataSourceAutoConfiguration {
 		
 		@Bean
 		@Primary
-		<T extends DataSource, C extends ConnectionConfig, R extends ConnectionConfigReader<C>> DataSource routingDataSource(
+		<T extends HikariDataSource, C extends DataSourceConnectionConfig> DataSource routingDataSource(
 				DataSourceProperties dataSourceProperties,
 				@Nullable Map<String, T> dataSourceMap,
 				@Nullable ConnectionInfoRegistry<T> connectionInfoRegistry,
-				@Nullable Map<String, ConnectionInfoLoader<T, C, R>> connectionInfoLoaderMap) {
+				@Nullable Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
 			Map<Object, Object> targetDataSourceMap = new HashMap<>();
 			if (dataSourceMap != null) {
 				targetDataSourceMap.putAll(dataSourceMap);

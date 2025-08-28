@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import io.github.luversof.boot.connectioninfo.ConnectionConfig;
-import io.github.luversof.boot.connectioninfo.ConnectionConfigReader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextHolder;
@@ -19,13 +18,13 @@ import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextH
  * 
  * @param <T> 대상 DataSource 타입
  */
-public class LazyLoadRoutingDataSource<T extends DataSource, C extends ConnectionConfig, R extends ConnectionConfigReader<C>> extends RoutingDataSource {
+public class LazyLoadRoutingDataSource<T extends DataSource, C extends ConnectionConfig> extends RoutingDataSource {
 	
-	private Map<String, ConnectionInfoLoader<T, C, R>> connectionInfoLoaderMap;
+	private Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap;
 	
 	private Map<String, ZonedDateTime> nonExistLookupKeyMap = new HashMap<>();
 
-	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T, C, R>> connectionInfoLoaderMap) {
+	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
 		this.connectionInfoLoaderMap = connectionInfoLoaderMap;
 	}
 
