@@ -26,7 +26,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
-import io.github.luversof.boot.connectioninfo.jdbc.DataSourceConnectionConfig;
+import io.github.luversof.boot.connectioninfo.DataSourceConnectionConfig;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
