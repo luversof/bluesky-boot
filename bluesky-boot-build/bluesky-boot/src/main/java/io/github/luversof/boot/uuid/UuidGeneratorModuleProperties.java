@@ -3,6 +3,7 @@ package io.github.luversof.boot.uuid;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -15,6 +16,7 @@ public class UuidGeneratorModuleProperties implements BlueskyModuleProperties<Uu
 
 	private static final long serialVersionUID = 1L;
 	
+	@Autowired
 	private UuidGeneratorProperties parent;
 	
 	private Map<String, UuidGeneratorProperties> modules = new HashMap<>();
