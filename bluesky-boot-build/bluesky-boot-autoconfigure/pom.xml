@@ -8,6 +8,13 @@
 	</parent>
 	<artifactId>bluesky-boot-autoconfigure</artifactId>
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.github.f4b6a3</groupId>
+			<artifactId>uuid-creator</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
@@ -65,6 +72,22 @@
 		</dependency>
 		<!-- (e) batch -->
 
+		<!-- (s) jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) jdbc -->
+
+		<!-- (s) mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- (e) mybatis -->
+		
 		<!-- (s) data-jdbc -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -129,22 +152,6 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) data-rest -->
-
-		<!-- (s) jdbc -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) jdbc -->
-
-		<!-- (s) mybatis -->
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) mybatis -->
 
 		<!-- (s) boot admin -->
 		<dependency>

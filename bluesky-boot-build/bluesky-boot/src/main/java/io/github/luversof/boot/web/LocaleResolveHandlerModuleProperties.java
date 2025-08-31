@@ -11,7 +11,7 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.locale-resolve-handler")
+@ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
 public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProperties<LocaleResolveHandlerProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;

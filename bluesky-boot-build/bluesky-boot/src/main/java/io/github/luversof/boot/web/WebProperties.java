@@ -16,10 +16,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web")
+@ConfigurationProperties(prefix = WebProperties.PREFIX)
 public class WebProperties implements BlueskyProperties {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.web";
 
 	/**
 	 * Whether to check unsupported browsers

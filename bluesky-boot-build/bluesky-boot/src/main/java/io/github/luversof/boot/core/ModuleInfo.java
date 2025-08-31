@@ -3,6 +3,8 @@ package io.github.luversof.boot.core;
 import java.io.Serializable;
 
 import io.github.luversof.boot.context.i18n.LocaleProperties;
+import io.github.luversof.boot.uuid.UuidGeneratorProperties;
+import io.github.luversof.boot.uuid.UuidGeneratorProperties.UuidGeneratorPropertiesBuilder;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.DomainProperties;
 import io.github.luversof.boot.web.LocaleContextResolverProperties;
@@ -56,6 +58,10 @@ public interface ModuleInfo extends Serializable {
 	
 	default LocaleContextResolverPropertiesBuilder getLocaleContextResolverPropertiesBuilder() {
 		return LocaleContextResolverProperties.builder();
+	}
+	
+	default UuidGeneratorPropertiesBuilder getUuidGeneratorPropertiesBuilder() {
+		return UuidGeneratorProperties.builder();
 	}
 	
 }
