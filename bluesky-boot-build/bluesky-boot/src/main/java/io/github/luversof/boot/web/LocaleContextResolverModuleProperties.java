@@ -39,6 +39,7 @@ public class LocaleContextResolverModuleProperties implements BlueskyModulePrope
 			
 			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
 			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(getGroup(moduleName), builder);
 			propertyMapperConsumer.accept(localeContextResolverProperties, builder);
 			
 			getModules().put(moduleName, builder.build());

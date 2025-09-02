@@ -40,6 +40,7 @@ public class UuidGeneratorModuleProperties implements BlueskyModuleProperties<Uu
 			
 			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
 			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(getGroup(moduleName), builder);
 			propertyMapperConsumer.accept(uuidGeneratorProperties, builder);
 			
 			getModules().put(moduleName, builder.build());

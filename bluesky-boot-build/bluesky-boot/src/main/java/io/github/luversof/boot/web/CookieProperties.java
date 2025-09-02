@@ -12,6 +12,7 @@ import org.springframework.boot.convert.DurationUnit;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.util.function.SerializableSupplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -82,7 +83,7 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 		return new CookiePropertiesBuilder();
 	}
 	
-	public static class CookiePropertiesBuilder {
+	public static class CookiePropertiesBuilder implements BlueskyPropertiesBuilder<CookieProperties> {
 		
 		private String beanName;
 		
@@ -141,6 +142,7 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 			return this;
 		}
 		
+		@Override
 		public CookieProperties build() {
 			return new CookieProperties(
 				beanName, name, maxAge, domain, path, secure, httpOnly, sameSite

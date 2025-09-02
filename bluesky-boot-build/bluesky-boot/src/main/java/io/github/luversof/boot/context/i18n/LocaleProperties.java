@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.util.function.SerializableSupplier;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -83,7 +84,7 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 	}
 	
 	@NoArgsConstructor(access = AccessLevel.NONE)
-	public static class LocalePropertiesBuilder {
+	public static class LocalePropertiesBuilder implements BlueskyPropertiesBuilder<LocaleProperties> {
 		
 		private String beanName;
 		
@@ -99,6 +100,7 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 			return this;
 		}
 		
+		@Override
 		public LocaleProperties build() {
 			return new LocaleProperties(
 				this.beanName,

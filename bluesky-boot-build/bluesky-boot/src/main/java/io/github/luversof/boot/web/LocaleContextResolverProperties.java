@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import lombok.AllArgsConstructor;
@@ -108,7 +109,7 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 		return new LocaleContextResolverPropertiesBuilder();
 	}
 	
-	public static class LocaleContextResolverPropertiesBuilder {
+	public static class LocaleContextResolverPropertiesBuilder implements BlueskyPropertiesBuilder<LocaleContextResolverProperties> {
 		
 		private LocaleContextResolveHandlerPreset preset;
 		
@@ -127,6 +128,7 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 			return this;
 		}
 
+		@Override
 		public LocaleContextResolverProperties build() {
 			return new LocaleContextResolverProperties(preset, localeResolveHandlerBeanNameList);
 		}

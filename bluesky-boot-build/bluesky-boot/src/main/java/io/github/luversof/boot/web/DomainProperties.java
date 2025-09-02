@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -144,7 +145,7 @@ public class DomainProperties implements BlueskyProperties {
 		return new DomainPropertiesBuilder();
 	}
 	
-	public static class DomainPropertiesBuilder {
+	public static class DomainPropertiesBuilder implements BlueskyPropertiesBuilder<DomainProperties> {
 		
 		private List<String> addPathPatternList = new ArrayList<>();
 
@@ -202,6 +203,7 @@ public class DomainProperties implements BlueskyProperties {
 			return this;
 		}
 		
+		@Override
 		public DomainProperties build() {
 			return new DomainProperties(
 				addPathPatternList,

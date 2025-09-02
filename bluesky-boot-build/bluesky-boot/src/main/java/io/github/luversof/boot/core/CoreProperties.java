@@ -76,7 +76,7 @@ public class CoreProperties implements BlueskyProperties {
 	}
 	
 	@NoArgsConstructor(access = AccessLevel.NONE)
-	public static class CorePropertiesBuilder {
+	public static class CorePropertiesBuilder implements BlueskyPropertiesBuilder<CoreProperties> {
 		
 		private ModuleInfo moduleInfo;
 		
@@ -92,6 +92,7 @@ public class CoreProperties implements BlueskyProperties {
 			return this;
 		}
 		
+		@Override
 		public CoreProperties build() {
 			return new CoreProperties(
 				this.moduleInfo,

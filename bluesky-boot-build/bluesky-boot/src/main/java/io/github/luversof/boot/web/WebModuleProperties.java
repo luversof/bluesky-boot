@@ -40,6 +40,7 @@ public class WebModuleProperties implements BlueskyModuleProperties<WebPropertie
 			
 			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
 			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(getGroup(moduleName), builder);
 			propertyMapperConsumer.accept(webProperties, builder);
 			
 			getModules().put(moduleName, builder.build());

@@ -56,6 +56,7 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 
 			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
 			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(getGroup(moduleName), builder);
 			propertyMapperConsumer.accept(cookieProperties, builder);
 			
 			getModules().put(moduleName, builder.build());

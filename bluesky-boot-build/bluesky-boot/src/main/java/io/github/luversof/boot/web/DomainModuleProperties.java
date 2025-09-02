@@ -37,8 +37,10 @@ public class DomainModuleProperties implements BlueskyModuleProperties<DomainPro
 			
 			var domainProperties = getModules().get(moduleName);
 			
-			getParent().getPropertyMapperConsumer().accept(getParent(), builder);
-			getParent().getPropertyMapperConsumer().accept(domainProperties, builder);
+			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+			propertyMapperConsumer.accept(getParent(), builder);
+			propertyMapperConsumer.accept(getGroup(moduleName), builder);
+			propertyMapperConsumer.accept(domainProperties, builder);
 			
 			getModules().put(moduleName, builder.build());
 		});

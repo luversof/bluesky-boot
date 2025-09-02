@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -130,7 +131,7 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 		return new LocaleResolveHandlerPropertiesBuilder();
 	}
 	
-	public static class LocaleResolveHandlerPropertiesBuilder {
+	public static class LocaleResolveHandlerPropertiesBuilder implements BlueskyPropertiesBuilder<LocaleResolveHandlerProperties> {
 
 		private String beanName;
 
@@ -160,6 +161,7 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 			return this;
 		}
 
+		@Override
 		public LocaleResolveHandlerProperties build() {
 			return new LocaleResolveHandlerProperties(this.beanName, this.localeResolveInfoCondition, this.setRepresentativeCondition, this.preLocaleResolveInfoCondition);
 		}

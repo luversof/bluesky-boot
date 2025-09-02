@@ -3,21 +3,23 @@ package io.github.luversof.boot.web;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = WebProperties.PREFIX)
-public class WebProperties implements BlueskyProperties {
+@EqualsAndHashCode(callSuper = true)
+public class WebProperties extends AbstractBlueskyProperties<WebProperties, WebProperties.WebPropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -38,6 +40,7 @@ public class WebProperties implements BlueskyProperties {
 	 */
 	private List<String> notSupportedBrowserExcludePathPatternList = List.of("/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**");
 
+	@Override
 	protected BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
@@ -48,22 +51,17 @@ public class WebProperties implements BlueskyProperties {
 	}
 	
 	@Override
-	public void load() {
+	protected WebPropertiesBuilder getBuilder() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-		
-		var builder = parentModuleInfo == null ? WebProperties.builder() : parentModuleInfo.getWebPropertiesBuilder();
-		
-		getPropertyMapperConsumer().accept(this, builder);
-		
-		BeanUtils.copyProperties(builder.build(), this);
+		return parentModuleInfo == null ? WebProperties.builder() : parentModuleInfo.getWebPropertiesBuilder();
 	}
 
 	public static WebPropertiesBuilder builder() {
 		return new WebPropertiesBuilder();
 	}
 
-	public static class WebPropertiesBuilder {
+	public static class WebPropertiesBuilder implements BlueskyPropertiesBuilder<WebProperties> {
 		
 		private Boolean checkNotSupportedBrowser = true;
 		
@@ -86,6 +84,7 @@ public class WebProperties implements BlueskyProperties {
 			return this;
 		}
 		
+		@Override
 		public WebProperties build() {
 			return new WebProperties(
 				checkNotSupportedBrowser,

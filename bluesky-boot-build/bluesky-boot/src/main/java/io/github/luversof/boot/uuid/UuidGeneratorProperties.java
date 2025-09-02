@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,7 +44,6 @@ public class UuidGeneratorProperties implements BlueskyProperties {
 		BeanUtils.copyProperties(builder.build(), this);
 	}
 	
-	
 	public enum UuidVersion {
 		V1, V4, V6, V7
 	}
@@ -52,7 +52,7 @@ public class UuidGeneratorProperties implements BlueskyProperties {
 		return new UuidGeneratorPropertiesBuilder();
 	}
 	
-	public static class UuidGeneratorPropertiesBuilder {
+	public static class UuidGeneratorPropertiesBuilder implements BlueskyPropertiesBuilder<UuidGeneratorProperties> {
 		
 		private UuidVersion version = UuidVersion.V7;
 		
@@ -61,6 +61,7 @@ public class UuidGeneratorProperties implements BlueskyProperties {
 			return this;
 		}
 		
+		@Override
 		public UuidGeneratorProperties build() {
 			return new UuidGeneratorProperties(this.version);
 		}

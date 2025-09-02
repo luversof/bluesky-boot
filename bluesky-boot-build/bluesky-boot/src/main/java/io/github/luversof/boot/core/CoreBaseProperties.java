@@ -91,7 +91,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 	}
 	
 	@NoArgsConstructor(access = AccessLevel.NONE)
-	public static class CoreBasePropertiesBuilder {
+	public static class CoreBasePropertiesBuilder implements BlueskyPropertiesBuilder<CoreBaseProperties> {
 		
 		private CoreResolveType resolveType = CoreResolveType.DOMAIN;
 		

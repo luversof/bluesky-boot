@@ -7,12 +7,12 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.BlueskyGroupProperties;
 import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
-public class LocaleResolveHandlerGroupProperties implements BlueskyModuleProperties<LocaleResolveHandlerProperties>, BeanNameAware {
+public class LocaleResolveHandlerGroupProperties implements BlueskyGroupProperties<LocaleResolveHandlerProperties>, BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class LocaleResolveHandlerGroupProperties implements BlueskyModulePropert
 
 	private LocaleResolveHandlerProperties parent;
 	
-	private Map<String, LocaleResolveHandlerProperties> modules = new HashMap<>();
+	private Map<String, LocaleResolveHandlerProperties> groups = new HashMap<>();
 	
 	public LocaleResolveHandlerGroupProperties(LocaleResolveHandlerProperties parent) {
 		this.parent = parent;
@@ -36,18 +36,17 @@ public class LocaleResolveHandlerGroupProperties implements BlueskyModulePropert
 		moduleNameSet.forEach(moduleName -> {
 			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder() : LocaleResolveHandlerProperties.builder();
 			
-			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, builder.build());
+			if (!getGroups().containsKey(moduleName)) {
+				getGroups().put(moduleName, builder.build());
 			}
 			
-			var localeResolveHandlerProperties = getModules().get(moduleName);
+			var localeResolveHandlerProperties = getGroups().get(moduleName);
 			
 			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-			
 			propertyMapperConsumer.accept(getParent(), builder);
 			propertyMapperConsumer.accept(localeResolveHandlerProperties, builder);
 			
-			getModules().put(moduleName, builder.build());
+			getGroups().put(moduleName, builder.build());
 		});
 		
 	}
