@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = WebProperties.PREFIX)
 @EqualsAndHashCode(callSuper = true)
+@ConfigurationProperties(prefix = WebProperties.PREFIX)
 public class WebProperties extends AbstractBlueskyProperties<WebProperties, WebProperties.WebPropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
@@ -43,6 +43,9 @@ public class WebProperties extends AbstractBlueskyProperties<WebProperties, WebP
 	@Override
 	protected BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(properties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
 			propertyMapper.from(properties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);

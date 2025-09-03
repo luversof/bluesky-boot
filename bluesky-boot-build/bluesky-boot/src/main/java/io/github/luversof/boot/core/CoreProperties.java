@@ -12,6 +12,7 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -22,8 +23,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
-public class CoreProperties implements BlueskyProperties {
+public class CoreProperties extends AbstractBlueskyProperties<CoreProperties, CoreProperties.CorePropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -69,6 +71,14 @@ public class CoreProperties implements BlueskyProperties {
 	@Override
 	public void load() {
 		BlueskyBootContextHolder.getContext().setParentModuleInfo(getModuleInfo());
+		super.load();
+	}
+	
+	@Override
+	protected CorePropertiesBuilder getBuilder() {
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
+		return parentModuleInfo == null ? CoreProperties.builder() : parentModuleInfo.getCorePropertiesBuilder();
 	}
 
 	public static CorePropertiesBuilder builder() {

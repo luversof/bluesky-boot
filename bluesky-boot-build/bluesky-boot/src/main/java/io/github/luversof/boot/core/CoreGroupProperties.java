@@ -32,18 +32,22 @@ public class CoreGroupProperties implements BlueskyGroupProperties<CorePropertie
 		var groupModules = blueskyBootContext.getGroupModules();
 		var groupModuleInfoMap = blueskyBootContext.getGroupModuleInfoMap();
 		
-		// group이 없는 경우 기본 설정 추가
+		// 설정된 group의 module을 기준으로 groupModuleInfoMap 생성
+		// group에 moduleInfo 정보가 없으면 상위 moduleInfo(CoreProperties) 정보로 설정
+		// Core의 moduleInfo를 blueskyBootContext에 담아 여러 GroupProperties 생성 시 참고하기 위함 
 		groupModules.keySet().forEach(groupName -> {
+			// group이 없는 경우 기본 설정 추가
 			if (!getGroups().containsKey(groupName)) {
 				getGroups().put(groupName, getParent().getModuleInfo() == null ? CoreProperties.builder().build() : getParent().getModuleInfo().getCorePropertiesBuilder().build());
 			}
-		});
-		
-		groupModules.keySet().forEach(groupName -> {
+			
 			// blueskyBootContext에 groupModuleInfo 정보 추가
 			if (getGroups().get(groupName).getModuleInfo() != null) {
 				groupModuleInfoMap.put(groupName, getGroups().get(groupName).getModuleInfo());
 			}
+		});
+		
+		groupModules.keySet().forEach(groupName -> {
 			
 			var builder = groupModuleInfoMap.containsKey(groupName) ? groupModuleInfoMap.get(groupName).getCorePropertiesBuilder() : CoreProperties.builder();
 			

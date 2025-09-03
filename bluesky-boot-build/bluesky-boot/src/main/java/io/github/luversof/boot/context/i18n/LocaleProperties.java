@@ -5,18 +5,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
 import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.util.function.SerializableSupplier;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +26,9 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = LocaleProperties.PREFIX)
-public class LocaleProperties implements BlueskyProperties, BeanNameAware {
+public class LocaleProperties extends AbstractBlueskyProperties<LocaleProperties, LocaleProperties.LocalePropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -70,14 +71,9 @@ public class LocaleProperties implements BlueskyProperties, BeanNameAware {
 	}
 	
 	@Override
-	public void load() {
-		var builder = getBuilderSupplier().get();
-		
-		getPropertyMapperConsumer().accept(this, builder);
-		
-		BeanUtils.copyProperties(builder.build(), this);
+	protected LocalePropertiesBuilder getBuilder() {
+		return getBuilderSupplier().get();
 	}
-	
 
 	public static LocalePropertiesBuilder builder() {
 		return new LocalePropertiesBuilder();

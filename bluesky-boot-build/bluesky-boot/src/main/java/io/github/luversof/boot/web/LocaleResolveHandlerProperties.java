@@ -2,16 +2,16 @@ package io.github.luversof.boot.web;
 
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
 import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,8 +22,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
-public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNameAware {
+public class LocaleResolveHandlerProperties extends AbstractBlueskyProperties<LocaleResolveHandlerProperties, LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -106,8 +107,12 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 		private boolean checkLanguageMatchOnly;
 	}
 	
+	@Override
 	protected BiConsumer<LocaleResolveHandlerProperties, LocaleResolveHandlerPropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(properties::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
 			propertyMapper.from(properties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
@@ -116,15 +121,10 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 	}
 	
 	@Override
-	public void load() {
+	protected LocaleResolveHandlerPropertiesBuilder getBuilder() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-
-		var builder = parentModuleInfo == null ? LocaleResolveHandlerProperties.builder() : parentModuleInfo.getLocaleResolveHandlerPropertiesBuilder();
-
-		getPropertyMapperConsumer().accept(this, builder);
-
-		BeanUtils.copyProperties(builder.build(), this);
+		return parentModuleInfo == null ? LocaleResolveHandlerProperties.builder() : parentModuleInfo.getLocaleResolveHandlerPropertiesBuilder();
 	}
 	
 	public static LocaleResolveHandlerPropertiesBuilder builder() {
@@ -132,7 +132,7 @@ public class LocaleResolveHandlerProperties implements BlueskyProperties, BeanNa
 	}
 	
 	public static class LocaleResolveHandlerPropertiesBuilder implements BlueskyPropertiesBuilder<LocaleResolveHandlerProperties> {
-
+		
 		private String beanName;
 
 		private LocaleResolveInfoCondition localeResolveInfoCondition;

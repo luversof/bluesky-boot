@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = LocaleProperties.PREFIX)
-public class LocaleModuleProperties implements BlueskyModuleProperties<LocaleProperties>, BeanNameAware {
+public class LocaleModuleProperties extends AbstractBlueskyModuleProperties<LocaleProperties, LocaleProperties.LocalePropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -41,25 +43,8 @@ public class LocaleModuleProperties implements BlueskyModuleProperties<LocalePro
 	}
 
 	@Override
-	public void load() {
-		parentReload();
-		
-		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
-			var builder = getBuilderFunction().apply(moduleName);
-			
-			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, builder.build());
-			}
-			
-			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-			propertyMapperConsumer.accept(getParent(), builder);
-			propertyMapperConsumer.accept(getGroup(moduleName), builder);
-			propertyMapperConsumer.accept(getModules().get(moduleName), builder);
-			
-			getModules().put(moduleName, builder.build());
-			
-		});
-		
+	protected LocaleProperties.LocalePropertiesBuilder getBuilder(String moduleName) {
+		return getBuilderFunction().apply(moduleName);
 	}
-
+	
 }

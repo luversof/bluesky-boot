@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 
-public interface BlueskyGroupProperties<T extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
+public interface BlueskyGroupProperties<P extends BlueskyProperties> extends InitializingBean, BlueskyRefreshProperties {
 
-	T getParent();
-	void setParent(T parent);
+	P getParent();
+	void setParent(P parent);
 	
-	Map<String, T> getGroups();
+	Map<String, P> getGroups();
 	
 	default void load() {
 		parentReload();
@@ -37,7 +37,7 @@ public interface BlueskyGroupProperties<T extends BlueskyProperties> extends Ini
 		if (parentBeanName == null) {
 			parentBeanName = applicationContext.getBeanNamesForType(this.getParent().getClass())[0];
 		}
-		setParent((T) applicationContext.getBean(parentBeanName));
+		setParent((P) applicationContext.getBean(parentBeanName));
 	}
 	
 }

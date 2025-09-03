@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -14,12 +13,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
 import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = LocaleContextResolverProperties.PREFIX)
-public class LocaleContextResolverProperties implements BlueskyProperties {
+public class LocaleContextResolverProperties extends AbstractBlueskyProperties<LocaleContextResolverProperties, LocaleContextResolverProperties.LocaleContextResolverPropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -77,8 +78,15 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 		private List<String> localeContextResolveHandlerBeanNameList;
 	}
 
+	/**
+	 * preset이 지정되어 있는 경우 별도 설정이 없으면 preset을 localeResolverHandlerBeanNameList에 설정
+	 * 모듈별 properties는 그럼 어떻게 동작하나?
+	 */
 	protected BiConsumer<LocaleContextResolverProperties, LocaleContextResolverPropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(properties::getPreset).to(builder::preset);
 			if (properties.getLocaleResolveHandlerBeanNameList() != null && !localeResolveHandlerBeanNameList.isEmpty()) {
@@ -89,21 +97,13 @@ public class LocaleContextResolverProperties implements BlueskyProperties {
 		};
 	}
 	
-	/**
-	 * preset이 지정되어 있는 경우 별도 설정이 없으면 preset을 localeResolverHandlerBeanNameList에 설정
-	 * 모듈별 properties는 그럼 어떻게 동작하나?
-	 */
 	@Override
-	public void load() {
+	protected LocaleContextResolverPropertiesBuilder getBuilder() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-		
-		var builder = parentModuleInfo == null ? LocaleContextResolverProperties.builder() : parentModuleInfo.getLocaleContextResolverPropertiesBuilder();
-		
-		getPropertyMapperConsumer().accept(this, builder);
-		
-		BeanUtils.copyProperties(builder.build(), this);
+		return parentModuleInfo == null ? LocaleContextResolverProperties.builder() : parentModuleInfo.getLocaleContextResolverPropertiesBuilder();
 	}
+	
 	
 	public static LocaleContextResolverPropertiesBuilder builder() {
 		return new LocaleContextResolverPropertiesBuilder();

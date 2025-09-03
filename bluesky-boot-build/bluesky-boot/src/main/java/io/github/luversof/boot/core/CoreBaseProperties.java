@@ -16,6 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * BlueskyProperties를 구현한 ConfigurationProperties 중 모듈을 구현하지 않고 모듈에 대한 공통 설정을 관리하는 용도의 properties
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

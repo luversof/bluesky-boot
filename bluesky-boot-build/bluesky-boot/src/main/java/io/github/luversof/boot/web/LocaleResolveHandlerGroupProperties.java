@@ -7,12 +7,14 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyGroupProperties;
+import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
-public class LocaleResolveHandlerGroupProperties implements BlueskyGroupProperties<LocaleResolveHandlerProperties>, BeanNameAware {
+public class LocaleResolveHandlerGroupProperties extends AbstractBlueskyGroupProperties<LocaleResolveHandlerProperties, LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -27,27 +29,8 @@ public class LocaleResolveHandlerGroupProperties implements BlueskyGroupProperti
 	}
 	
 	@Override
-	public void load() {
-		parentReload();
-		var blueskyBootContext = BlueskyBootContextHolder.getContext();
-		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
-		
-		moduleNameSet.forEach(moduleName -> {
-			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder() : LocaleResolveHandlerProperties.builder();
-			
-			if (!getGroups().containsKey(moduleName)) {
-				getGroups().put(moduleName, builder.build());
-			}
-			
-			var localeResolveHandlerProperties = getGroups().get(moduleName);
-			
-			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-			propertyMapperConsumer.accept(getParent(), builder);
-			propertyMapperConsumer.accept(localeResolveHandlerProperties, builder);
-			
-			getGroups().put(moduleName, builder.build());
-		});
-		
+	protected LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder getBuilder(String groupName) {
+		var groupModuleInfoMap = BlueskyBootContextHolder.getContext().getGroupModuleInfoMap();
+		return groupModuleInfoMap.containsKey(groupName) ? groupModuleInfoMap.get(groupName).getLocaleResolveHandlerPropertiesBuilder() : LocaleResolveHandlerProperties.builder();
 	}
 }

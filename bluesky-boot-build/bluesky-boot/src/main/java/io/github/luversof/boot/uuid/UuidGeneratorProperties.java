@@ -2,22 +2,23 @@ package io.github.luversof.boot.uuid;
 
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
 import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = UuidGeneratorProperties.PREFIX)
-public class UuidGeneratorProperties implements BlueskyProperties {
+public class UuidGeneratorProperties extends AbstractBlueskyProperties<UuidGeneratorProperties, UuidGeneratorProperties.UuidGeneratorPropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -27,21 +28,19 @@ public class UuidGeneratorProperties implements BlueskyProperties {
 	
 	protected BiConsumer<UuidGeneratorProperties, UuidGeneratorPropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(properties::getVersion).to(builder::version);
 		};
 	}
 	
 	@Override
-	public void load() {
+	protected UuidGeneratorPropertiesBuilder getBuilder() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-		
-		var builder = parentModuleInfo == null ? UuidGeneratorProperties.builder() : parentModuleInfo.getUuidGeneratorPropertiesBuilder();
-		
-		getPropertyMapperConsumer().accept(this, builder);
-		
-		BeanUtils.copyProperties(builder.build(), this);
+		return parentModuleInfo == null ? UuidGeneratorProperties.builder() : parentModuleInfo.getUuidGeneratorPropertiesBuilder();
 	}
 	
 	public enum UuidVersion {
