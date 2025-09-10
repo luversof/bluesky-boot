@@ -64,7 +64,7 @@ public class CoreProperties extends AbstractBlueskyProperties<CoreProperties, Co
 			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(prop::getModuleInfo).to(builder::moduleInfo);
-			propertyMapper.from(prop::getProperties).to(map -> builder.properties.putAll(map));
+			propertyMapper.from(prop::getProperties).to(builder::properties);
 		};
 	}
 	
@@ -98,7 +98,7 @@ public class CoreProperties extends AbstractBlueskyProperties<CoreProperties, Co
 		}
 		
 		public CorePropertiesBuilder properties(Map<String, String> properties) {
-			this.properties = properties;
+			this.properties.putAll(properties);
 			return this;
 		}
 		
