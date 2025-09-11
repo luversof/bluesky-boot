@@ -92,7 +92,7 @@ public class LocaleContextResolverProperties extends AbstractBlueskyProperties<L
 			if (properties.getLocaleResolveHandlerBeanNameList() != null && !localeResolveHandlerBeanNameList.isEmpty()) {
 				propertyMapper.from(properties::getLocaleResolveHandlerBeanNameList).to(builder::localeResolveHandlerBeanNameList);
 			} else if (properties.preset != null) {
-				propertyMapper.from(properties.getPreset().getLocaleContextResolveHandlerBeanNameList()).when(x -> x == null || x.isEmpty()).to(builder::localeResolveHandlerBeanNameList);
+				propertyMapper.from(properties.getPreset().getLocaleContextResolveHandlerBeanNameList()).to(builder::localeResolveHandlerBeanNameList);
 			}
 		};
 	}

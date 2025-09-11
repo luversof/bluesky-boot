@@ -57,6 +57,7 @@ public class CoreProperties extends AbstractBlueskyProperties<CoreProperties, Co
 		this.moduleInfo = (new SpelExpressionParser()).parseExpression(moduleInfo).getValue(ModuleInfo.class);
 	}
 	
+	@Override
 	protected BiConsumer<CoreProperties, CorePropertiesBuilder> getPropertyMapperConsumer() {
 		return (prop, builder) -> {
 			if (prop == null) {
