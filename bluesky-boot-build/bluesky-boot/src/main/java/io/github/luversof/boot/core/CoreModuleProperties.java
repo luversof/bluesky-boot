@@ -42,7 +42,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 		});
 		
 		moduleNameSet.forEach(moduleName -> {
-			// blueskyBootContext에 moduleInfo 정보 추가
+			// blueskyBootContext moduleInfoMap에 추가
 			if (getModules().get(moduleName).getModuleInfo() != null) {
 				moduleInfoMap.put(moduleName, getModules().get(moduleName).getModuleInfo());
 			}
