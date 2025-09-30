@@ -50,7 +50,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 	/**
 	 * 여러 모듈이 반복된 설정을 사용하는 경우 BlueskyGroupProperties를 설정하고 이 groupModules 로 각 module이 속한 group을 지정하여 group properties를 module properties로 전파 처리함
 	 */
-	private Map<String, List<String>> groupModules = new HashMap<>();
+	private Map<String, List<String>> moduleGroups = new HashMap<>();
 	
 	/**
 	 * Exception log 제외 대상 목록
@@ -86,7 +86,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		blueskyBootContext.clear();
 		blueskyBootContext.getModuleNameSet().addAll(getModuleNameSet());
-		blueskyBootContext.getGroupModules().putAll(getGroupModules());
+		blueskyBootContext.getModuleGroups().putAll(getModuleGroups());
 	}
 	
 	public static CoreBasePropertiesBuilder builder() {

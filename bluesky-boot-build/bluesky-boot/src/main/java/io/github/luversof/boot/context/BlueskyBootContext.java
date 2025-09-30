@@ -25,7 +25,8 @@ public class BlueskyBootContext {
 		this.moduleNameSet.clear();
 		this.parentModuleInfo = null;
 		this.moduleInfoMap.clear();
-		this.groupModules.clear();
+		this.moduleGroups.clear();
+		this.groupModuleInfoMap.clear();
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class BlueskyBootContext {
 	 * CoreBaseProperties에 설정된 group 설정을 기준으로 이 groupNameSet이 설정됨
 	 * @since 3.5.0
 	 */
-	private final Map<String, List<String>> groupModules = new HashMap<>();
+	private final Map<String, List<String>> moduleGroups = new HashMap<>();
 
 	/**
 	 * group에 설정된 ModuleInfo 정보

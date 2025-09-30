@@ -43,7 +43,7 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties> extends In
 			return null;
 		}
 		
-		List<String> groupNameList = BlueskyBootContextHolder.getContext().getGroupModules().entrySet().stream()
+		List<String> groupNameList = BlueskyBootContextHolder.getContext().getModuleGroups().entrySet().stream()
 			.filter(entry -> entry.getValue().contains(moduleName))
 			.map(Map.Entry::getKey)
 			.toList();

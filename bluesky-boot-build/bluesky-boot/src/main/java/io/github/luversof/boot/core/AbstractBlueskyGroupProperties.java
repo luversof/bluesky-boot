@@ -12,7 +12,7 @@ public abstract class AbstractBlueskyGroupProperties<P extends AbstractBlueskyPr
 	public void load() {
 		parentReload();
 		
-		BlueskyBootContextHolder.getContext().getGroupModules().keySet().forEach(groupName -> {
+		BlueskyBootContextHolder.getContext().getModuleGroups().keySet().forEach(groupName -> {
 			var builder = getBuilder(groupName);
 			
 			// group이 없는 경우 기본 설정 추가
