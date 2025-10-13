@@ -1,5 +1,8 @@
 package io.github.luversof.boot.exception;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import lombok.Data;
 
 /**
@@ -16,13 +19,19 @@ public class BlueskyErrorMessage implements ErrorMessage {
 	 * @param errorMessageArgs errorMessage arguments
 	 * @return BlueskyErrorMessage
 	 */
-	public BlueskyErrorMessage setErrorMessageArgs(String... errorMessageArgs) {
-		this.errorMessageArgs = errorMessageArgs;
+	public BlueskyErrorMessage setErrorMessageArgs(Object[] errorMessageArgs) {
+		if (errorMessageArgs != null && errorMessageArgs.length > 0) {
+			this.errorMessageArgs = Arrays.stream(errorMessageArgs)
+				.filter(Objects::nonNull) // null 값 제거
+				.map(Object::toString)
+				.toArray(String[]::new);
+		}
+		
 		return this;
 	}
 
 	private String errorCode;
-	private String[] errorMessageArgs;
+	private String[] errorMessageArgs;	// arg가 String으로 현재 강제인데 Object로 변경이 가능할까?
 	private String exceptionClassName;
 	private boolean isDisplayableMessage = false;	//에러 메세지 화면 표시 가능여부
 	private String message;
