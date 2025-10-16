@@ -36,7 +36,12 @@ public class RoutingDataSourceAspect {
 		} else if (StringUtils.hasText(routingDataSource.value())) {
 			RoutingDataSourceContextHolder.setContext(routingDataSource::value);
 		}
-		return proceedingJoinPoint.proceed();
+		
+		try {
+			return proceedingJoinPoint.proceed();
+		} finally {
+			RoutingDataSourceContextHolder.clearContext();
+		}
 	}
 
 }
