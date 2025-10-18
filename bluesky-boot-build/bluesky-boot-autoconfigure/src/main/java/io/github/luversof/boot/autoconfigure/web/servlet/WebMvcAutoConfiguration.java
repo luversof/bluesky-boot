@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
@@ -51,6 +52,11 @@ import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 	LocaleContextResolverGroupProperties.class
 })
 public class WebMvcAutoConfiguration {
+	
+	@Bean
+	MappingJackson2JsonView jsonView() {
+		return new MappingJackson2JsonView();
+	}
 	
 	@Bean
 	BlueskyContextHolderFilter blueskyContextHolderFilter() {
