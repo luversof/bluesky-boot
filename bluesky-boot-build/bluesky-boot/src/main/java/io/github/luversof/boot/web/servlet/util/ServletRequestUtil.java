@@ -30,14 +30,14 @@ public final class ServletRequestUtil {
 
 	public static String getRemoteAddr() {
 		var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        log.debug("ServletRequestUtil.getRemoteAddr() : remoteAddr : {},x-forwarded-for : {}", request.getRemoteAddr(), request.getHeader("X-Forwarded-For"));
+		log.debug("ServletRequestUtil.getRemoteAddr() : remoteAddr : {},x-forwarded-for : {}", request.getRemoteAddr(), request.getHeader("X-Forwarded-For"));
 		var xForwardedForHeaders = request.getHeader("X-Forwarded-For");
 		String remoteAddr = null;
-        if (xForwardedForHeaders == null || xForwardedForHeaders.length() == 0) {
-            remoteAddr = request.getRemoteAddr();
-        } else {
-        	remoteAddr = xForwardedForHeaders.split(",")[0];
-        }
+		if (xForwardedForHeaders == null || xForwardedForHeaders.length() == 0) {
+			remoteAddr = request.getRemoteAddr();
+		} else {
+			remoteAddr = xForwardedForHeaders.split(",")[0];
+		}
 		return remoteAddr;
 	}
 	
