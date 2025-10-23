@@ -13,6 +13,7 @@ import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,15 +27,10 @@ public class CookieModuleProperties extends AbstractBlueskyModuleProperties<Cook
 	
 	private String beanName;
 
+	@Setter(onMethod_ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) }) // NOSONAR 
 	private CookieProperties parent;
 	
-	@Autowired
-	public void setParent(@Qualifier(CookieProperties.DEFAULT_BEAN_NAME) CookieProperties cookieProperties) {
-		this.parent = cookieProperties;
-	}
-	
 	private Map<String, CookieProperties> modules = new HashMap<>();
-	
 	
 	protected SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> getBuilderFunction() {
 		return moduleName -> {

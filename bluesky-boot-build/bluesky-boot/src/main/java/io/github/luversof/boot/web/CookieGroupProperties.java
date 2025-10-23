@@ -13,6 +13,7 @@ import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,8 +24,7 @@ public class CookieGroupProperties extends AbstractBlueskyGroupProperties<Cookie
 	
 	private String beanName;
 	
-	@Autowired
-	@Qualifier(CookieProperties.DEFAULT_BEAN_NAME)
+	@Setter(onMethod_ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) })
 	private CookieProperties parent;
 	
 	private Map<String, CookieProperties> groups = new HashMap<>();

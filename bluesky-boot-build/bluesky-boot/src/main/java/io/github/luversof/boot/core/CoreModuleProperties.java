@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
@@ -20,7 +21,7 @@ public class CoreModuleProperties implements BlueskyModuleProperties<CorePropert
 	 */
 	public static final String BEAN_NAME = "blueskyCoreModuleProperties";
 
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private CoreProperties parent;
 	
 	private Map<String, CoreProperties> modules = new HashMap<>();

@@ -7,10 +7,12 @@ import org.springframework.util.ReflectionUtils;
 
 import io.github.luversof.boot.uuid.UuidGeneratorUtil;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * UUID 타입의 id 필드에 대해 생성 설정을 제공하기 위해 만든 유틸 
  */
+@Slf4j
 @UtilityClass
 public class DataJdbcConverterUtil {
 	
@@ -31,7 +33,7 @@ public class DataJdbcConverterUtil {
 					);
 				}
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				log.error("failed entity id field access", e);
 				return true;
 			}
 		}

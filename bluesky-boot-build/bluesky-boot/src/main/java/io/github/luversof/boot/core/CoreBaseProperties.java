@@ -48,7 +48,8 @@ public class CoreBaseProperties implements BlueskyProperties {
 	private Set<String> moduleNameSet = new HashSet<>();
 	
 	/**
-	 * 여러 모듈이 반복된 설정을 사용하는 경우 BlueskyGroupProperties를 설정하고 이 groupModules 로 각 module이 속한 group을 지정하여 group properties를 module properties로 전파 처리함
+	 * 여러 모듈이 반복된 설정을 사용하는 경우 BlueskyGroupProperties를 설정하고
+	 * 이 groupModules 로 각 module이 속한 group을 지정하여 group properties를 module properties로 전파 처리함
 	 */
 	private Map<String, List<String>> moduleGroups = new HashMap<>();
 	
@@ -100,7 +101,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 		
 		private Set<String> moduleNameSet = new HashSet<>();
 		
-		private Map<String, List<String>> groupModules = new HashMap<>();
+		private Map<String, List<String>> moduleGroups = new HashMap<>();
 		
 		private List<String> logExceptExceptionList = new ArrayList<>();
 		
@@ -114,8 +115,8 @@ public class CoreBaseProperties implements BlueskyProperties {
 			return this;
 		}
 		
-		public CoreBasePropertiesBuilder groupModules(Map<String, List<String>> groupModules) {
-			this.groupModules = groupModules;
+		public CoreBasePropertiesBuilder moduleGroups(Map<String, List<String>> moduleGroups) {
+			this.moduleGroups = moduleGroups;
 			return this;
 		}
 		
@@ -128,7 +129,7 @@ public class CoreBaseProperties implements BlueskyProperties {
 			return new CoreBaseProperties(
 				this.resolveType == null ? CoreResolveType.DOMAIN : this.resolveType,
 				this.moduleNameSet == null ? new HashSet<>() : this.moduleNameSet,
-				this.groupModules == null ? new HashMap<>() : this.groupModules,
+				this.moduleGroups == null ? new HashMap<>() : this.moduleGroups,
 				this.logExceptExceptionList == null ? new ArrayList<>() : this.logExceptExceptionList
 			);
 		}

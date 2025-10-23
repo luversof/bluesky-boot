@@ -20,6 +20,7 @@ import io.github.luversof.boot.validation.ValidationUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 요청받은 request 의 parameter를 기반으로 modelAttribute object를 호출하는 유틸.
@@ -27,6 +28,7 @@ import lombok.NoArgsConstructor;
  * @author bluesky
  *
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ServletRequestDataBinderUtil {
 
@@ -81,7 +83,7 @@ public final class ServletRequestDataBinderUtil {
 			}
 			return target;
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("failed to read request body",  e);
 		}
 		
 		return null;

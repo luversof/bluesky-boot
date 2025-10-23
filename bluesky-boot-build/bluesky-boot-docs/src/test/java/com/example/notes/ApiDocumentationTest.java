@@ -30,7 +30,7 @@ class ApiDocumentationTest extends RestDocsTest {
 	private MockMvc mockMvc;
 
 	@BeforeEach
-	public void setUp(RestDocumentationContextProvider restDocumentation) {
+	void setUp(RestDocumentationContextProvider restDocumentation) {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
 				.apply(documentationConfiguration(restDocumentation)).build();
 	}

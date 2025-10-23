@@ -13,6 +13,7 @@ import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,8 +24,7 @@ public class LocaleGroupProperties extends AbstractBlueskyGroupProperties<Locale
 	
 	private String beanName;
 
-	@Autowired
-	@Qualifier(LocaleProperties.DEFAULT_BEAN_NAME)
+	@Setter(onMethod_ = { @Autowired, @Qualifier(LocaleProperties.DEFAULT_BEAN_NAME) })
 	private LocaleProperties parent;
 	
 	private Map<String, LocaleProperties> groups = new HashMap<>();

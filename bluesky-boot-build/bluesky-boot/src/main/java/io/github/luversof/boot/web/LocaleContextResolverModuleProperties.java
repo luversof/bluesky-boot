@@ -10,6 +10,7 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,7 +19,7 @@ public class LocaleContextResolverModuleProperties extends AbstractBlueskyModule
 	
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private LocaleContextResolverProperties parent;
 	
 	private Map<String, LocaleContextResolverProperties> modules = new HashMap<>();

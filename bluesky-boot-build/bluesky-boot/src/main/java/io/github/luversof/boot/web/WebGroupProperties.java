@@ -10,6 +10,7 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,7 +19,7 @@ public class WebGroupProperties extends AbstractBlueskyGroupProperties<WebProper
 
 	private static final long serialVersionUID = 1L;
 	
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private WebProperties parent;
 	
 	private Map<String, WebProperties> groups = new HashMap<>();
