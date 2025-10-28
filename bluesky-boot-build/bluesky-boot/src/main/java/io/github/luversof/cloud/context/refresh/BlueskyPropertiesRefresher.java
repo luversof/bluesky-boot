@@ -18,6 +18,7 @@ import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.core.BlueskyRefreshProperties;
 import io.github.luversof.boot.core.CoreBaseProperties;
+import io.github.luversof.boot.core.CoreGroupProperties;
 import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
 import lombok.SneakyThrows;
@@ -43,6 +44,7 @@ public class BlueskyPropertiesRefresher implements ApplicationListener<ContextRe
 	private List<String> beanNameList = List.of(
 		CoreBaseProperties.BEAN_NAME,
 		CoreProperties.BEAN_NAME,
+		CoreGroupProperties.BEAN_NAME,
 		CoreModuleProperties.BEAN_NAME
 		);
 	
