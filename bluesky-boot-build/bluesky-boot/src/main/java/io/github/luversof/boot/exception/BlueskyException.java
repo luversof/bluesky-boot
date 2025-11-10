@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BlueskyException extends RuntimeException {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private static final int DEFAULT_STATUS = 400;
@@ -97,6 +98,10 @@ public class BlueskyException extends RuntimeException {
 		this.errorMessageList = null;
 	}
 	
+	public BlueskyException(ErrorMessage errorMessage) {
+		this(errorMessage, (Object[]) null);
+	}
+	
 	public BlueskyException(List<ErrorMessage> errorMessageList, Object[] errorMessageArgs) {
 		this.errorCode = "API_EXCEPTION";
 		this.status = DEFAULT_STATUS;
@@ -105,4 +110,7 @@ public class BlueskyException extends RuntimeException {
 		this.errorMessageList = errorMessageList;
 	}
 	
+	public BlueskyException(List<ErrorMessage> errorMessageList) {
+		this(errorMessageList, (Object[]) null);
+	}
 }

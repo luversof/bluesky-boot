@@ -108,7 +108,7 @@ public class DataSourceAutoConfiguration {
 			} else {
 				routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
 			}
-			routingDataSource.afterPropertiesSet();
+			routingDataSource.initialize();
 			return new LazyConnectionDataSourceProxy(routingDataSource);
 		}
 		

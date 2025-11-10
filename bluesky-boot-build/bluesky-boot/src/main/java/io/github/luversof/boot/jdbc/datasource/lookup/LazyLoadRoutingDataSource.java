@@ -1,6 +1,6 @@
 package io.github.luversof.boot.jdbc.datasource.lookup;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
 	
 	private Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap;
 	
-	private Map<String, ZonedDateTime> nonExistLookupKeyMap = new HashMap<>();
+	private Map<String, Instant> nonExistLookupKeyMap = new HashMap<>();
 
 	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
 		this.connectionInfoLoaderMap = connectionInfoLoaderMap;
@@ -62,7 +62,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
 			}
 			
 			if (!isLoaded) {
-				nonExistLookupKeyMap.put(lookupKey, ZonedDateTime.now());
+				nonExistLookupKeyMap.put(lookupKey, Instant.now());
 				throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
 			}
 		}
@@ -80,7 +80,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
 			return;
 		}
 		
-		if (nonExistLookupKeyMap.get(lookupKey).isAfter(ZonedDateTime.now().minusHours(1))) {
+		if (nonExistLookupKeyMap.get(lookupKey).isAfter(Instant.now().minusSeconds(3600))) {
 			throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
 		}
 	}
