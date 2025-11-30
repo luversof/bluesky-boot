@@ -12,18 +12,22 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
+import io.github.luversof.boot.web.CookieGroupProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
+import io.github.luversof.boot.web.ExternalCookieGroupProperties;
 import io.github.luversof.boot.web.ExternalCookieModuleProperties;
 import io.github.luversof.boot.web.ExternalCookieProperties;
+import io.github.luversof.boot.web.LocaleContextResolverGroupProperties;
 import io.github.luversof.boot.web.LocaleContextResolverModuleProperties;
 import io.github.luversof.boot.web.LocaleContextResolverProperties;
+import io.github.luversof.boot.web.LocaleResolveHandlerGroupProperties;
 import io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties;
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
 import io.github.luversof.boot.web.servlet.filter.BlueskyContextHolderFilter;
@@ -44,9 +48,15 @@ import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @EnableConfigurationProperties({
 	LocaleContextResolverProperties.class,
-	LocaleContextResolverModuleProperties.class
+	LocaleContextResolverModuleProperties.class,
+	LocaleContextResolverGroupProperties.class
 })
 public class WebMvcAutoConfiguration {
+	
+	@Bean
+	MappingJackson2JsonView jsonView() {
+		return new MappingJackson2JsonView();
+	}
 	
 	@Bean
 	BlueskyContextHolderFilter blueskyContextHolderFilter() {
@@ -81,17 +91,22 @@ public class WebMvcAutoConfiguration {
 	}
 	
 	@Bean(LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME)
-	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.accept-header")
+	@ConfigurationProperties(LocaleResolveHandlerProperties.ACCEPT_HEADER_PREFIX)
 	LocaleResolveHandlerProperties acceptHeaderLocaleResolveHandlerProperties() {
 		return new LocaleResolveHandlerProperties();
 	}
 	
 	@Bean
-	@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.accept-header")
+	@ConfigurationProperties(LocaleResolveHandlerProperties.ACCEPT_HEADER_PREFIX)
 	LocaleResolveHandlerModuleProperties acceptHeaderLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
 		return new LocaleResolveHandlerModuleProperties(localeResolveHandlerProperties);
 	}
 	
+	@Bean
+	@ConfigurationProperties(LocaleResolveHandlerProperties.ACCEPT_HEADER_PREFIX)
+	LocaleResolveHandlerGroupProperties acceptHeaderLocaleResolveHandlerGroupProperties(@Qualifier(LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
+		return new LocaleResolveHandlerGroupProperties(localeResolveHandlerProperties);
+	}
 	
 	@Bean(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)
 	AcceptHeaderLocaleResolveHandler acceptHeaderLocaleResolverHandler() {
@@ -100,7 +115,8 @@ public class WebMvcAutoConfiguration {
 
 	@EnableConfigurationProperties({
 		CookieProperties.class,
-		CookieModuleProperties.class
+		CookieModuleProperties.class,
+		CookieGroupProperties.class
 	})
 	@Configuration(proxyBeanMethods = false)
 //	@ConditionalOnProperty(prefix = "bluesky-boot.web.cookie", name = "enabled", havingValue = "true")
@@ -108,17 +124,21 @@ public class WebMvcAutoConfiguration {
 		
 		
 		@Bean(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME)
-		@Primary
-		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.cookie")
+		@ConfigurationProperties(LocaleResolveHandlerProperties.COOKIE_PREFIX)
 		LocaleResolveHandlerProperties cookieLocaleResolveHandlerProperties() {
 			return new LocaleResolveHandlerProperties();
 		}
 		
 		@Bean
-		@Primary
-		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.cookie")
-		LocaleResolveHandlerModuleProperties localeResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeContextResolveHandlerProperties) {
+		@ConfigurationProperties(LocaleResolveHandlerProperties.COOKIE_PREFIX)
+		LocaleResolveHandlerModuleProperties cookieLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeContextResolveHandlerProperties) {
 			return new LocaleResolveHandlerModuleProperties(localeContextResolveHandlerProperties);
+		}
+		
+		@Bean
+		@ConfigurationProperties(LocaleResolveHandlerProperties.COOKIE_PREFIX)
+		LocaleResolveHandlerGroupProperties cookieLocaleResolveHandlerGroupProperties(@Qualifier(LocaleResolveHandlerProperties.COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeContextResolveHandlerProperties) {
+			return new LocaleResolveHandlerGroupProperties(localeContextResolveHandlerProperties);
 		}
 		
 		@Bean(CookieLocaleResolveHandler.DEFAULT_BEAN_NAME)
@@ -133,22 +153,29 @@ public class WebMvcAutoConfiguration {
 	
 	@EnableConfigurationProperties({
 		ExternalCookieProperties.class,
-		ExternalCookieModuleProperties.class
+		ExternalCookieModuleProperties.class,
+		ExternalCookieGroupProperties.class
 	})
 	@Configuration(proxyBeanMethods = false)
 //	@ConditionalOnProperty(prefix = "bluesky-boot.web.other-cookie", name = "enabled", havingValue = "true")
 	public static class WebMvcExternalCookieConfiguration {
 		
 		@Bean(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME)
-		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.external-cookie")
+		@ConfigurationProperties(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_PREFIX)
 		LocaleResolveHandlerProperties externalCookieLocaleResolveHandlerProperties() {
 			return new LocaleResolveHandlerProperties();
 		}
 		
 		@Bean
-		@ConfigurationProperties("bluesky-boot.web.locale-resolve-handler.external-cookie")
-		LocaleResolveHandlerModuleProperties externalLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
+		@ConfigurationProperties(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_PREFIX)
+		LocaleResolveHandlerModuleProperties externalCookieLocaleResolveHandlerModuleProperties(@Qualifier(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
 			return new LocaleResolveHandlerModuleProperties(localeResolveHandlerProperties);
+		}
+		
+		@Bean
+		@ConfigurationProperties(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_PREFIX)
+		LocaleResolveHandlerGroupProperties externalCookieLocaleResolveHandlerGroupProperties(@Qualifier(LocaleResolveHandlerProperties.EXTERNAL_COOKIE_BEAN_NAME) LocaleResolveHandlerProperties localeResolveHandlerProperties) {
+			return new LocaleResolveHandlerGroupProperties(localeResolveHandlerProperties);
 		}
 		
 		@Bean

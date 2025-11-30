@@ -12,12 +12,13 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BlueskyException extends RuntimeException {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private static final int DEFAULT_STATUS = 400;
 
 	private final String errorCode;
-	private final String[] errorMessageArgs;
+	private final transient Object[] errorMessageArgs;
 	
 	/**
 	 * exception의 처리 httpStatus
@@ -41,7 +42,7 @@ public class BlueskyException extends RuntimeException {
 	 * @param status http status
 	 * @param errorMessageArgs errorMessage arguments
 	 */
-	public BlueskyException(String errorCode, int status, String... errorMessageArgs) {
+	public BlueskyException(String errorCode, int status, Object... errorMessageArgs) {
 		this.errorCode = errorCode;
 		this.status = status;
 		this.errorMessageArgs = errorMessageArgs;
@@ -58,13 +59,17 @@ public class BlueskyException extends RuntimeException {
 		this(errorCode, DEFAULT_STATUS);
 	}
 	
+	public BlueskyException(String errorCode, int status) {
+		this(errorCode, status, (Object[]) null);
+	}
+	
 	/**
 	 * Constructor using errorCode, errorMessageArgument
 	 * 
 	 * @param errorCode errorCode
 	 * @param errorMessageArgs errorMessage arguments
 	 */
-	public BlueskyException(String errorCode, String... errorMessageArgs) {
+	public BlueskyException(String errorCode, Object... errorMessageArgs) {
 		this(errorCode, DEFAULT_STATUS, errorMessageArgs);
 	}
 	
@@ -77,7 +82,7 @@ public class BlueskyException extends RuntimeException {
 		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS);
 	}
 	
-	public BlueskyException(Enum<?> errorCode, String... errorMessageArgs) {
+	public BlueskyException(Enum<?> errorCode, Object... errorMessageArgs) {
 		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS, errorMessageArgs);
 	}
 	
@@ -85,7 +90,7 @@ public class BlueskyException extends RuntimeException {
 		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), status);
 	}
 	
-	public BlueskyException(ErrorMessage errorMessage, String... errorMessageArgs) {
+	public BlueskyException(ErrorMessage errorMessage, Object[] errorMessageArgs) {
 		this.errorCode = "API_EXCEPTION";
 		this.status = DEFAULT_STATUS;
 		this.errorMessageArgs = errorMessageArgs;
@@ -93,7 +98,11 @@ public class BlueskyException extends RuntimeException {
 		this.errorMessageList = null;
 	}
 	
-	public BlueskyException(List<ErrorMessage> errorMessageList, String... errorMessageArgs) {
+	public BlueskyException(ErrorMessage errorMessage) {
+		this(errorMessage, (Object[]) null);
+	}
+	
+	public BlueskyException(List<ErrorMessage> errorMessageList, Object[] errorMessageArgs) {
 		this.errorCode = "API_EXCEPTION";
 		this.status = DEFAULT_STATUS;
 		this.errorMessageArgs = errorMessageArgs;
@@ -101,4 +110,7 @@ public class BlueskyException extends RuntimeException {
 		this.errorMessageList = errorMessageList;
 	}
 	
+	public BlueskyException(List<ErrorMessage> errorMessageList) {
+		this(errorMessageList, (Object[]) null);
+	}
 }

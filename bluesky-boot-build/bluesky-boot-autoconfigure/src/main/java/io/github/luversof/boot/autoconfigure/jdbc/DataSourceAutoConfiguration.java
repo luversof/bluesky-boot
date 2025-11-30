@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.aspectj.weaver.Advice;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,14 +15,18 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
+import io.github.luversof.boot.connectioninfo.DataSourceConnectionConfig;
 import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
@@ -42,8 +47,9 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration {
 	
+	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnMissingClass("io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry")
-	class BasicDataSourceAutoConfiguration {
+	static class BasicDataSourceAutoConfiguration {
 		
 		@Bean
 		@Primary
@@ -69,16 +75,17 @@ public class DataSourceAutoConfiguration {
 	
 	}
 	
-	@ConditionalOnClass(name = "io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry")
-	class ConnectionInfoDataSourceAutoConfiguration {
+	@Configuration(proxyBeanMethods = false)
+	@ConditionalOnClass(ConnectionInfoRegistry.class)
+	static class ConnectionInfoDataSourceAutoConfiguration {
 		
 		@Bean
 		@Primary
-		<T extends DataSource> DataSource routingDataSource(
+		<T extends HikariDataSource, C extends DataSourceConnectionConfig> DataSource routingDataSource(
 				DataSourceProperties dataSourceProperties,
 				@Nullable Map<String, T> dataSourceMap,
 				@Nullable ConnectionInfoRegistry<T> connectionInfoRegistry,
-				@Nullable Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
+				@Nullable Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
 			Map<Object, Object> targetDataSourceMap = new HashMap<>();
 			if (dataSourceMap != null) {
 				targetDataSourceMap.putAll(dataSourceMap);
@@ -101,17 +108,21 @@ public class DataSourceAutoConfiguration {
 			} else {
 				routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
 			}
-			routingDataSource.afterPropertiesSet();
+			routingDataSource.initialize();
 			return new LazyConnectionDataSourceProxy(routingDataSource);
 		}
 		
 	}
-
 	
+	@Configuration(proxyBeanMethods = false)
+	@ConditionalOnClass(Advice.class)
+	static class AspectJDataSourceAutoConfiguration {
 
-	@Bean
-	RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
-		return new RoutingDataSourceAspect(applicationContext);
+		@Bean
+		RoutingDataSourceAspect routingDataSourceAspect(ApplicationContext applicationContext) {
+			return new RoutingDataSourceAspect(applicationContext);
+		}
+
 	}
 
 	@Bean

@@ -23,6 +23,11 @@ public class CoreConfiguration {
 		return new CoreModuleProperties();
 	}
 	
+	@Bean(CoreGroupProperties.BEAN_NAME)
+	CoreGroupProperties coreGroupProperties() {
+		return new CoreGroupProperties();
+	}
+	
 	@Bean
 	BlueskyPropertiesBeanFactoryPostProcessor blueskyPropertiesBeanFactoryPostProcessor() {
 		return new BlueskyPropertiesBeanFactoryPostProcessor();
@@ -31,5 +36,10 @@ public class CoreConfiguration {
 	@Bean
 	BlueskyModulePropertiesBeanFactoryPostProcessor blueskyModulePropertiesBeanFactoryPostProcessor() {
 		return new BlueskyModulePropertiesBeanFactoryPostProcessor();
+	}
+	
+	@Bean
+	BlueskyGroupPropertiesBeanFactoryPostProcessor blueskyGroupPropertiesBeanFactoryPostProcessor() {
+		return new BlueskyGroupPropertiesBeanFactoryPostProcessor();
 	}
 }

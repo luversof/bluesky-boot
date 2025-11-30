@@ -2,14 +2,17 @@ package io.github.luversof.boot.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -20,8 +23,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
-public class CoreProperties implements BlueskyProperties {
+public class CoreProperties extends AbstractBlueskyProperties<CoreProperties, CoreProperties.CorePropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -54,8 +58,28 @@ public class CoreProperties implements BlueskyProperties {
 	}
 	
 	@Override
+	protected BiConsumer<CoreProperties, CorePropertiesBuilder> getPropertyMapperConsumer() {
+		return (prop, builder) -> {
+			if (prop == null) {
+				return;
+			}
+			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			propertyMapper.from(prop::getModuleInfo).to(builder::moduleInfo);
+			propertyMapper.from(prop::getProperties).to(builder::properties);
+		};
+	}
+	
+	@Override
 	public void load() {
 		BlueskyBootContextHolder.getContext().setParentModuleInfo(getModuleInfo());
+		super.load();
+	}
+	
+	@Override
+	protected CorePropertiesBuilder getBuilder() {
+		var blueskyBootContext = BlueskyBootContextHolder.getContext();
+		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
+		return parentModuleInfo == null ? CoreProperties.builder() : parentModuleInfo.getCorePropertiesBuilder();
 	}
 
 	public static CorePropertiesBuilder builder() {
@@ -63,7 +87,7 @@ public class CoreProperties implements BlueskyProperties {
 	}
 	
 	@NoArgsConstructor(access = AccessLevel.NONE)
-	public static class CorePropertiesBuilder {
+	public static class CorePropertiesBuilder implements BlueskyPropertiesBuilder<CoreProperties> {
 		
 		private ModuleInfo moduleInfo;
 		
@@ -75,10 +99,11 @@ public class CoreProperties implements BlueskyProperties {
 		}
 		
 		public CorePropertiesBuilder properties(Map<String, String> properties) {
-			this.properties = properties;
+			this.properties.putAll(properties);
 			return this;
 		}
 		
+		@Override
 		public CoreProperties build() {
 			return new CoreProperties(
 				this.moduleInfo,

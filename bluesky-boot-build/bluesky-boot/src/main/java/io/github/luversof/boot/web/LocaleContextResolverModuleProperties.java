@@ -7,45 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.locale-context-resolver")
-public class LocaleContextResolverModuleProperties implements BlueskyModuleProperties<LocaleContextResolverProperties> {
+@EqualsAndHashCode(callSuper = true)
+@ConfigurationProperties(prefix = LocaleContextResolverProperties.PREFIX)
+public class LocaleContextResolverModuleProperties extends AbstractBlueskyModuleProperties<LocaleContextResolverProperties, LocaleContextResolverProperties.LocaleContextResolverPropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
+	@Setter(onMethod_ = { @Autowired })
 	private LocaleContextResolverProperties parent;
 	
 	private Map<String, LocaleContextResolverProperties> modules = new HashMap<>();
-	
+
 	@Override
-	public void load() {
-		parentReload();
-		var blueskyBootContext = BlueskyBootContextHolder.getContext();
-		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
-		
-		moduleNameSet.forEach(moduleName -> {
-			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleContextResolverPropertiesBuilder() : LocaleContextResolverProperties.builder();
-			
-			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, builder.build());
-			}
-			
-			var localeContextResolverProperties = getModules().get(moduleName);
-			
-			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-			propertyMapperConsumer.accept(getParent(), builder);
-			propertyMapperConsumer.accept(localeContextResolverProperties, builder);
-			
-			getModules().put(moduleName, builder.build());
-			
-		});
-
-		getModules().forEach((key, value) -> value.load());
+	protected LocaleContextResolverProperties.LocaleContextResolverPropertiesBuilder getBuilder(String moduleName) {
+		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+		return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleContextResolverPropertiesBuilder() : LocaleContextResolverProperties.builder();
 	}
-
+	
 }

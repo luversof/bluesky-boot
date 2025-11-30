@@ -7,12 +7,14 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.locale-resolve-handler")
-public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProperties<LocaleResolveHandlerProperties>, BeanNameAware {
+@EqualsAndHashCode(callSuper = true)
+@ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
+public class LocaleResolveHandlerModuleProperties extends AbstractBlueskyModuleProperties<LocaleResolveHandlerProperties, LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -27,28 +29,8 @@ public class LocaleResolveHandlerModuleProperties implements BlueskyModuleProper
 	}
 	
 	@Override
-	public void load() {
-		parentReload();
-		var blueskyBootContext = BlueskyBootContextHolder.getContext();
-		var moduleNameSet = blueskyBootContext.getModuleNameSet();
-		var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
-		
-		moduleNameSet.forEach(moduleName -> {
-			var builder = moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder() : LocaleResolveHandlerProperties.builder();
-			
-			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, builder.build());
-			}
-			
-			var localeResolveHandlerProperties = getModules().get(moduleName);
-			
-			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-			
-			propertyMapperConsumer.accept(getParent(), builder);
-			propertyMapperConsumer.accept(localeResolveHandlerProperties, builder);
-			
-			getModules().put(moduleName, builder.build());
-		});
-		
+	protected LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder getBuilder(String moduleName) {
+		var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+		return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder() : LocaleResolveHandlerProperties.builder();
 	}
 }

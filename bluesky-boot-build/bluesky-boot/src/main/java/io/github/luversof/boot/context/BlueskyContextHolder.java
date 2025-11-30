@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
+import io.github.luversof.boot.core.BlueskyGroupProperties;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.core.CoreProperties;
@@ -150,33 +151,42 @@ public final class BlueskyContextHolder {
 	 * @return BlueskyProperties extension object
 	 */
 	public static <T extends BlueskyProperties> T getProperties(Class<T> blueskyPropertiesClass, String blueskyPropertiesBeanName) {
+		var blueskyModuleProperties = getModuleProperties(blueskyPropertiesClass, blueskyPropertiesBeanName);
+		
+		// moduleBeanNamesForType가 없으면 BlueskyProperties를 직접 조회
+		if (blueskyModuleProperties == null) {
+			var applicationContext = ApplicationContextUtil.getApplicationContext();
+			if (blueskyPropertiesBeanName != null) {	// 지정된 BlueskyPropertiesBeanName이 없으면 첫번째 beanName을 사용
+				return applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
+			}
+			
+			String[] beanNamesForType = applicationContext.getBeanNamesForType(blueskyPropertiesClass);
+			if (beanNamesForType.length == 0) {
+				throw new BlueskyException("NOT EXIST TARGET BLUESKY PROPERTIES");
+			} 
+			return applicationContext.getBean(beanNamesForType[0], blueskyPropertiesClass);
+		}
+				
+		return getProperties(blueskyModuleProperties);
+	}
+	
+	
+	private static <T extends BlueskyProperties, U extends BlueskyModuleProperties<T>> U getModuleProperties(Class<T> blueskyPropertiesClass, String blueskyPropertiesBeanName) {
 		var moduleResolvableType = ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, blueskyPropertiesClass);
 		var applicationContext = ApplicationContextUtil.getApplicationContext();
 		
 		String[] moduleBeanNamesForType = applicationContext.getBeanNamesForType(moduleResolvableType);
-		
-		// moduleProperties가 없는 경우 처리
 		if (moduleBeanNamesForType.length == 0) {
-			if (blueskyPropertiesBeanName == null) {	// 지정된 BlueskyPropertiesBeanName이 없으면 첫번째 beanName을 사용
-				String[] beanNamesForType = applicationContext.getBeanNamesForType(blueskyPropertiesClass);
-				if (beanNamesForType.length == 0) {
-					throw new BlueskyException("NOT EXIST TARGET BLUESKY PROPERTIES");
-				} 
-				return applicationContext.getBean(beanNamesForType[0], blueskyPropertiesClass);
-			} else {
-				return applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
-			}
-		}
-		ObjectProvider<BlueskyModuleProperties<T>> moduleBeanProvider = applicationContext.getBeanProvider(moduleResolvableType);
-		BlueskyModuleProperties<T> blueskyModuleProperties = null;
-		if (blueskyPropertiesBeanName == null) {
-			blueskyModuleProperties =  moduleBeanProvider.orderedStream().toList().get(0);
-		} else {
-			var parent = applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
-			blueskyModuleProperties = moduleBeanProvider.stream().filter(x-> x.getParent() == parent).findFirst().orElseThrow(() -> new BlueskyException("NOT EXIST TARGET BLUESKY MODULE PROPERTIES"));
+			return null;
 		}
 		
-		return getProperties(blueskyModuleProperties);
+		
+		ObjectProvider<U> moduleBeanProvider = applicationContext.getBeanProvider(moduleResolvableType);
+		if (blueskyPropertiesBeanName == null) {
+			return moduleBeanProvider.orderedStream().toList().get(0);
+		}
+		var parent = applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
+		return moduleBeanProvider.stream().filter(x-> x.getParent() == parent).findFirst().orElseThrow(() -> new BlueskyException("NOT EXIST TARGET BLUESKY MODULE PROPERTIES"));
 	}
 	
 	private static <T extends BlueskyProperties, U extends BlueskyModuleProperties<T>> T getProperties(U blueskyModuleProperties) {
@@ -185,6 +195,24 @@ public final class BlueskyContextHolder {
 			return blueskyModuleProperties.getParent();
 		}
 		return blueskyModuleProperties.getModules().get(moduleName);
+	}
+	
+	public static <T extends BlueskyProperties> BlueskyGroupProperties<T> getGroupProperties(Class<T> blueskyPropertiesClass, String blueskyPropertiesBeanName) {
+		var groupResolvableType = ResolvableType.forClassWithGenerics(BlueskyGroupProperties.class, blueskyPropertiesClass);
+		var applicationContext = ApplicationContextUtil.getApplicationContext();
+		
+		String[] groupBeanNamesForType = applicationContext.getBeanNamesForType(groupResolvableType);
+		if (groupBeanNamesForType.length == 0) {
+			return null;
+		}
+		
+		ObjectProvider<BlueskyGroupProperties<T>> groupBeanProvider = applicationContext.getBeanProvider(groupResolvableType);
+		
+		if (blueskyPropertiesBeanName == null) {
+			return groupBeanProvider.orderedStream().toList().get(0);
+		}
+		var parent = applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
+		return groupBeanProvider.stream().filter(x -> x.getParent() == parent).findFirst().orElseGet(() -> null);
 	}
 	
 	/**

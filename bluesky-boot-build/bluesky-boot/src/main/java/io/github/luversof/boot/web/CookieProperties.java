@@ -4,26 +4,30 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.boot.convert.DurationUnit;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.util.function.SerializableSupplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
-public class CookieProperties implements BlueskyProperties, BeanNameAware {
+@EqualsAndHashCode(callSuper = true)
+@ConfigurationProperties(prefix = CookieProperties.PREFIX)
+public class CookieProperties extends AbstractBlueskyProperties<CookieProperties, CookieProperties.CookiePropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.web.cookie";
 	
 	public static final String DEFAULT_BEAN_NAME = "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties";
 	public static final String EXTERNAL_COOKIE_BEAN_NAME = "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties";
@@ -45,17 +49,13 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	
 	private String sameSite;
 	
-	protected SerializableSupplier<CookieProperties.CookiePropertiesBuilder> getBuilderSupplier() {
-		return () -> {
-			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getCookiePropertiesBuilder();
-		};
-	}
-	
 	protected BiConsumer<CookieProperties, CookiePropertiesBuilder> getPropertyMapperConsumer() {
 		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			propertyMapper.from(properties::getBeanName).to(builder::beanName);
 			propertyMapper.from(properties::getName).to(builder::name);
 			propertyMapper.from(properties::getMaxAge).to(builder::maxAge);
@@ -68,19 +68,22 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 	}
 	
 	@Override
-	public void load() {
-		var builder = getBuilderSupplier().get();
-		
-		getPropertyMapperConsumer().accept(this, builder);
-		
-		BeanUtils.copyProperties(builder.build(), this);
+	protected CookiePropertiesBuilder getBuilder() {
+		return getBuilderSupplier().get();
+	}
+	
+	protected SerializableSupplier<CookieProperties.CookiePropertiesBuilder> getBuilderSupplier() {
+		return () -> {
+			var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+			return parentModuleInfo == null ? CookieProperties.builder() : parentModuleInfo.getCookiePropertiesBuilder();
+		};
 	}
 	
 	public static CookiePropertiesBuilder builder() {
 		return new CookiePropertiesBuilder();
 	}
 	
-	public static class CookiePropertiesBuilder {
+	public static class CookiePropertiesBuilder implements BlueskyPropertiesBuilder<CookieProperties> {
 		
 		private String beanName;
 		
@@ -139,6 +142,7 @@ public class CookieProperties implements BlueskyProperties, BeanNameAware {
 			return this;
 		}
 		
+		@Override
 		public CookieProperties build() {
 			return new CookieProperties(
 				beanName, name, maxAge, domain, path, secure, httpOnly, sameSite

@@ -1,28 +1,30 @@
 package io.github.luversof.boot.jdbc.datasource.lookup;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import io.github.luversof.boot.connectioninfo.ConnectionConfig;
 import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
 import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextHolder;
 
 /**
+ * connectionInfoLoader를 사용하여 DataSource를 lazy load 지원
  * lookupKey에 대한 DataSource 후처리 생성을 지원
  * 
  * @param <T> 대상 DataSource 타입
  */
-public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingDataSource {
+public class LazyLoadRoutingDataSource<T extends DataSource, C extends ConnectionConfig> extends RoutingDataSource {
 	
-	private Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap;
+	private Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap;
 	
-	private Map<String, ZonedDateTime> nonExistLookupKeyMap = new HashMap<>();
+	private Map<String, Instant> nonExistLookupKeyMap = new HashMap<>();
 
-	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T>> connectionInfoLoaderMap) {
+	public LazyLoadRoutingDataSource(Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
 		this.connectionInfoLoaderMap = connectionInfoLoaderMap;
 	}
 
@@ -60,7 +62,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 			}
 			
 			if (!isLoaded) {
-				nonExistLookupKeyMap.put(lookupKey, ZonedDateTime.now());
+				nonExistLookupKeyMap.put(lookupKey, Instant.now());
 				throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
 			}
 		}
@@ -78,7 +80,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource> extends RoutingData
 			return;
 		}
 		
-		if (nonExistLookupKeyMap.get(lookupKey).isAfter(ZonedDateTime.now().minusHours(1))) {
+		if (nonExistLookupKeyMap.get(lookupKey).isAfter(Instant.now().minusSeconds(3600))) {
 			throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
 		}
 	}

@@ -6,23 +6,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "bluesky-boot.web.domain")
-public class DomainProperties implements BlueskyProperties {
+@EqualsAndHashCode(callSuper = true)
+@ConfigurationProperties(prefix = DomainProperties.PREFIX)
+public class DomainProperties extends AbstractBlueskyProperties<DomainProperties, DomainProperties.DomainPropertiesBuilder> {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PREFIX = "bluesky-boot.web.domain";
 
 	/**
 	 * When using multi-modules, if you make an add-path-pattern declaration, you need an addPathPatterns declaration for each module.
@@ -114,6 +118,9 @@ public class DomainProperties implements BlueskyProperties {
 	
 	protected BiConsumer<DomainProperties, DomainPropertiesBuilder> getPropertyMapperConsumer() {
 		return (properties, builder) -> {
+			if (properties == null) {
+				return;
+			}
 			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			propertyMapper.from(properties::getAddPathPatternList).to(builder::addPathPatternList);
 			propertyMapper.from(properties::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
@@ -127,22 +134,17 @@ public class DomainProperties implements BlueskyProperties {
 	}
 	
 	@Override
-	public void load() {
+	protected DomainPropertiesBuilder getBuilder() {
 		var blueskyBootContext = BlueskyBootContextHolder.getContext();
 		var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-		
-		var builder = parentModuleInfo == null ? DomainProperties.builder() : parentModuleInfo.getDomainPropertiesBuilder();
-		
-		getPropertyMapperConsumer().accept(this, builder);
-		
-		BeanUtils.copyProperties(builder.build(), this);
+		return parentModuleInfo == null ? DomainProperties.builder() : parentModuleInfo.getDomainPropertiesBuilder();
 	}
 	
 	public static DomainPropertiesBuilder builder() {
 		return new DomainPropertiesBuilder();
 	}
 	
-	public static class DomainPropertiesBuilder {
+	public static class DomainPropertiesBuilder implements BlueskyPropertiesBuilder<DomainProperties> {
 		
 		private List<String> addPathPatternList = new ArrayList<>();
 
@@ -200,6 +202,7 @@ public class DomainProperties implements BlueskyProperties {
 			return this;
 		}
 		
+		@Override
 		public DomainProperties build() {
 			return new DomainProperties(
 				addPathPatternList,

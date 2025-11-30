@@ -77,7 +77,7 @@ public final class ExceptionUtil {
 			return true;
 		}
 		
-		if (handler == null || handler instanceof HandlerMethod) {
+		if (!(handler instanceof HandlerMethod)) {
 			return false;
 		}
 		var handlerMethod = (HandlerMethod) handler;

@@ -7,7 +7,7 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import io.github.luversof.boot.web.CookieProperties.CookiePropertiesBuilder;
 
-@ConfigurationProperties(prefix = "bluesky-boot.web.external-cookie")
+@ConfigurationProperties(prefix = ExternalCookieProperties.PREFIX)
 public class ExternalCookieModuleProperties extends CookieModuleProperties {
 
 	private static final long serialVersionUID = 1L;

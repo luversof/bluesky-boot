@@ -242,4 +242,21 @@ class SimpleTest {
 		}
 		
 	}
+	
+	@Test
+	void propertyMapperTest() {
+		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		
+		
+		A a = new A();
+		a.setIntA(2);
+		propertyMapper.from(-1).when(x -> x > 0).to(a::setIntA);
+		
+		log.debug("A : {}", a);
+	}
+	
+	@Data
+	static class A {
+		int intA;
+	}
 }

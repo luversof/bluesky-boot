@@ -18,12 +18,14 @@ import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.web.util.ProblemDetailUtil;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * servlet common error handling handlers
  * @author bluesky
  *
  */
+@Slf4j
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class CoreMvcExceptionHandler {
@@ -77,7 +79,7 @@ public class CoreMvcExceptionHandler {
 			try {
 				handlerExecutionChain = x.getHandler(httpServletRequest);
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("handleException", e);
 			}
 			if (handlerExecutionChain != null) {
 				handlerList.add(handlerExecutionChain.getHandler());

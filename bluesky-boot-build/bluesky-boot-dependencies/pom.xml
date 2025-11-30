@@ -4,27 +4,28 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.luversof</groupId>
 	<artifactId>bluesky-boot-dependencies</artifactId>
-	<version>3.4.0</version>
+	<version>3.5.0</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version>
+		<version>3.5.7</version>
 		<relativePath/>
 	</parent>
 	<properties>
 		<java.version>21</java.version>
-		<spring-cloud-dependencies.version>2024.0.1</spring-cloud-dependencies.version>
-		<bluesky-boot.version>3.4.0</bluesky-boot.version>
-		<bluesky-boot-crypto.version>3.4.0</bluesky-boot-crypto.version>
-		<bluesky-boot-devcheck.version>3.4.0</bluesky-boot-devcheck.version>
-		<bluesky-boot-connectioninfo.version>3.4.0</bluesky-boot-connectioninfo.version>
-		<spring-boot-admin-starter.version>3.4.5</spring-boot-admin-starter.version>
-		<mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
-		<springdoc-openapi.version>2.8.6</springdoc-openapi.version>
+		<spring-cloud-dependencies.version>2025.0.0</spring-cloud-dependencies.version>
+		<bluesky-boot.version>3.5.0</bluesky-boot.version>
+		<bluesky-boot-crypto.version>3.5.0</bluesky-boot-crypto.version>
+		<bluesky-boot-devcheck.version>3.5.0</bluesky-boot-devcheck.version>
+		<bluesky-boot-connectioninfo.version>3.5.0</bluesky-boot-connectioninfo.version>
+		<spring-boot-admin-starter.version>3.5.5</spring-boot-admin-starter.version>
+		<mybatis-spring-boot-starter.version>3.0.5</mybatis-spring-boot-starter.version>
+		<springdoc-openapi.version>2.8.13</springdoc-openapi.version>
 		
-		<jsqlparser.version>5.1</jsqlparser.version>
+		<jsqlparser.version>5.3</jsqlparser.version>
 		<logback-access-tomcat.version>2.0.6</logback-access-tomcat.version>
+		<uuid-creator.version>6.1.1</uuid-creator.version>
 		
 		<!-- tag:asciidoctor-properties[] -->
 		<asciidoctor-maven-plugin.version>3.2.0</asciidoctor-maven-plugin.version>
@@ -35,12 +36,12 @@
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
 		<spring-asciidoctor-backends.version>0.0.7</spring-asciidoctor-backends.version>
-		<asciidoctorj-diagram.version>2.3.2</asciidoctorj-diagram.version>
+		<asciidoctorj-diagram.version>3.0.1</asciidoctorj-diagram.version>
 		<restdocs-api-spec.version>0.19.4</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.4.5</jib-maven-plugin.version>
+		<jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		
 		<!-- (s) build properties -->
@@ -50,8 +51,8 @@
 		<!-- (e) build properties -->
 		
 		<!-- (s) central -->
-		<central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
-		<maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 		<!-- (e) central -->
 	</properties>
 	<dependencyManagement>
@@ -108,6 +109,16 @@
 			<dependency>
 				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot-autoconfigure-connectioninfo-jdbc</artifactId>
+				<version>${bluesky-boot-connectioninfo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-connectioninfo-mongodb</artifactId>
+				<version>${bluesky-boot-connectioninfo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.luversof</groupId>
+				<artifactId>bluesky-boot-autoconfigure-connectioninfo-mongodb</artifactId>
 				<version>${bluesky-boot-connectioninfo.version}</version>
 			</dependency>
 			<!-- (e) bluesky boot connectioninfo -->
@@ -187,7 +198,7 @@
 			<dependency> 
 				<groupId>ch.qos.logback.access</groupId>
 				<artifactId>logback-access-tomcat</artifactId>
-				<version>${logback-access-tomcat.version}</version>	  
+				<version>${logback-access-tomcat.version}</version>
 			</dependency>
 			<!-- (e) logback access-->
 			
@@ -195,6 +206,12 @@
 				<groupId>com.github.jsqlparser</groupId>
 				<artifactId>jsqlparser</artifactId>
 				<version>${jsqlparser.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.github.f4b6a3</groupId>
+				<artifactId>uuid-creator</artifactId>
+				<version>${uuid-creator.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -213,6 +230,23 @@
 		</resources>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<annotationProcessorPaths>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+								<version>${lombok.version}</version>
+							</path>
+							<path>
+								<groupId>org.springframework.boot</groupId>
+								<artifactId>spring-boot-configuration-processor</artifactId>
+							</path>
+						</annotationProcessorPaths>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
@@ -524,15 +558,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<annotationProcessorPaths>
-								<path>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok</artifactId>
-									<version>${lombok.version}</version>
-								</path>
-							</annotationProcessorPaths>
-						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>

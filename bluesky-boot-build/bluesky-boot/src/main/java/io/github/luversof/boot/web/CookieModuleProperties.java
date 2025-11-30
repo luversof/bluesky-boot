@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @Data
-@ConfigurationProperties(prefix = "bluesky-boot.web.cookie")
-public class CookieModuleProperties implements BlueskyModuleProperties<CookieProperties>, BeanNameAware {
+@EqualsAndHashCode(callSuper = true)
+@ConfigurationProperties(prefix = CookieProperties.PREFIX)
+public class CookieModuleProperties extends AbstractBlueskyModuleProperties<CookieProperties, CookieProperties.CookiePropertiesBuilder> implements BeanNameAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -24,15 +27,10 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 	
 	private String beanName;
 
+	@Setter(onMethod_ = { @Autowired, @Qualifier(CookieProperties.DEFAULT_BEAN_NAME) }) // NOSONAR 
 	private CookieProperties parent;
 	
-	@Autowired
-	public void setParent(@Qualifier(CookieProperties.DEFAULT_BEAN_NAME) CookieProperties cookieProperties) {
-		this.parent = cookieProperties;
-	}
-	
 	private Map<String, CookieProperties> modules = new HashMap<>();
-	
 	
 	protected SerializableFunction<String, CookieProperties.CookiePropertiesBuilder> getBuilderFunction() {
 		return moduleName -> {
@@ -40,26 +38,9 @@ public class CookieModuleProperties implements BlueskyModuleProperties<CookiePro
 			return moduleInfoMap.containsKey(moduleName) ? moduleInfoMap.get(moduleName).getCookiePropertiesBuilder() : CookieProperties.builder();
 		};
 	}
-
+	
 	@Override
-	public void load() {
-		parentReload();
-		
-		BlueskyBootContextHolder.getContext().getModuleNameSet().forEach(moduleName -> {
-			var builder = getBuilderFunction().apply(moduleName);
-			
-			if (!getModules().containsKey(moduleName)) {
-				getModules().put(moduleName, builder.build());
-			}
-			
-			var cookieProperties = getModules().get(moduleName);
-
-			var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-			propertyMapperConsumer.accept(getParent(), builder);
-			propertyMapperConsumer.accept(cookieProperties, builder);
-			
-			getModules().put(moduleName, builder.build());
-			
-		});
+	protected CookieProperties.CookiePropertiesBuilder getBuilder(String moduleName) {
+		return getBuilderFunction().apply(moduleName);
 	}
 }
