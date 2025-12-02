@@ -7,8 +7,8 @@ import org.postgresql.util.PGobject;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.WritingConverter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * PostgreSQL JSONB 컬럼 처리를 위한 Map to PGobject Converter
@@ -16,16 +16,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WritingConverter
 public class MapToPGobjectConverter implements Converter<Map<String, Object>, PGobject> {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final JsonMapper jsonMapper = new JsonMapper();
 
 	@Override
 	public PGobject convert(Map<String, Object> source) {
 		try {
 			PGobject jsonObject = new PGobject();
 			jsonObject.setType("jsonb");
-			jsonObject.setValue(objectMapper.writeValueAsString(source));
+			jsonObject.setValue(jsonMapper.writeValueAsString(source));
 			return jsonObject;
-		} catch (JsonProcessingException | SQLException e) {
+		} catch (JacksonException | SQLException e) {
 			throw new IllegalArgumentException("Error converting Map to JSONB", e);
 		}
 	}

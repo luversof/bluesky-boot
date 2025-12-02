@@ -3,7 +3,7 @@ package io.github.luversof.boot.autoconfigure.web.util;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
+import org.springframework.boot.webmvc.autoconfigure.error.ErrorViewResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;

@@ -46,7 +46,7 @@ public class WebProperties extends AbstractBlueskyProperties<WebProperties, WebP
 			if (properties == null) {
 				return;
 			}
-			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			var propertyMapper = PropertyMapper.get();
 			propertyMapper.from(properties::getCheckNotSupportedBrowser).to(builder::checkNotSupportedBrowser);
 			propertyMapper.from(properties::getNotSupportedBrowserRegPatternList).to(builder::notSupportedBrowserRegPatternList);
 			propertyMapper.from(properties::getNotSupportedBrowserExcludePathPatternList).to(builder::notSupportedBrowserExcludePathPatternList);			

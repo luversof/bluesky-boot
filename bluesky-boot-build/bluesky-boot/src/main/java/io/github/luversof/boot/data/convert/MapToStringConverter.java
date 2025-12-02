@@ -5,8 +5,8 @@ import java.util.Map;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.WritingConverter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * MariaDB JSON 컬럼 처리를 위한 Map to String Converter
@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WritingConverter
 public class MapToStringConverter implements Converter<Map<String, Object>, String> {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final JsonMapper jsonMapper = new JsonMapper();
 
 	@Override
 	public String convert(Map<String, Object> source) {
 		try {
-			return objectMapper.writeValueAsString(source);
-		} catch (JsonProcessingException e) {
+			return jsonMapper.writeValueAsString(source);
+		} catch (JacksonException e) {
 			throw new IllegalArgumentException("Error converting Map to JSON", e);
 		}
 	}

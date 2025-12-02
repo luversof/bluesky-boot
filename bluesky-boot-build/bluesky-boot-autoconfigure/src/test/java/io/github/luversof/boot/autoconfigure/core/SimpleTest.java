@@ -155,7 +155,7 @@ class SimpleTest {
 	@Test
 	void builderTest() {
 		
-		PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		PropertyMapper propertyMapper = PropertyMapper.get();
 
 		// 기본 호출
 		var testPropeties = new TestProperties();
@@ -245,7 +245,7 @@ class SimpleTest {
 	
 	@Test
 	void propertyMapperTest() {
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		var propertyMapper = PropertyMapper.get();
 		
 		
 		A a = new A();

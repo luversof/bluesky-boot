@@ -44,7 +44,7 @@ import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
  * @author bluesky
  *
  */
-@AutoConfiguration(value = "blueskyBootWebMvcAutoConfiguration", before = org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class)
+@AutoConfiguration(value = "blueskyBootWebMvcAutoConfiguration", before = org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration.class)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @EnableConfigurationProperties({
 	LocaleContextResolverProperties.class,

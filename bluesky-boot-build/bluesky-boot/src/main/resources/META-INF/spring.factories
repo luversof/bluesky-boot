@@ -1,6 +1,7 @@
-# ApplicationContext Initializers
+# Application Context Initializers
 org.springframework.context.ApplicationContextInitializer=\
 io.github.luversof.boot.context.BlueskyApplicationContextInitializer
 
-org.springframework.boot.env.EnvironmentPostProcessor=\
+# Environment Post Processors
+org.springframework.boot.EnvironmentPostProcessor=\
 io.github.luversof.boot.env.ProfileEnvironmentPostProcessor

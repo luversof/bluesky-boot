@@ -113,7 +113,7 @@ public class LocaleResolveHandlerProperties extends AbstractBlueskyProperties<Lo
 			if (properties == null) {
 				return;
 			}
-			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			var propertyMapper = PropertyMapper.get();
 			propertyMapper.from(properties::getLocaleResolveInfoCondition).to(builder::localeResolveInfoCondition);
 			propertyMapper.from(properties::getSetRepresentativeCondition).to(builder::setRepresentativeCondition);
 			propertyMapper.from(properties::getPreLocaleResolveInfoCondition).to(builder::preLocaleResolveInfoCondition);

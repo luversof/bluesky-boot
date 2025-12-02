@@ -3,8 +3,8 @@ package io.github.luversof.boot.env;
 import java.util.Arrays;
 import java.util.Properties;
 
+import org.springframework.boot.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.util.Assert;

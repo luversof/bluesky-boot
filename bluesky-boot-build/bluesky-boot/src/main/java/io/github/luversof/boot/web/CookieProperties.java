@@ -50,7 +50,7 @@ public class CookieProperties extends AbstractBlueskyProperties<CookieProperties
 	private String sameSite;
 	
 	protected BiConsumer<CookieProperties, CookiePropertiesBuilder> getPropertyMapperConsumer() {
-		var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		var propertyMapper = PropertyMapper.get();
 
 		return (properties, builder) -> {
 			if (properties == null) {

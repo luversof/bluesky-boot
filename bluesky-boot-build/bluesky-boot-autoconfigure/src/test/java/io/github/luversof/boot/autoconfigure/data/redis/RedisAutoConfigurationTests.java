@@ -14,8 +14,8 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration;
+import org.springframework.boot.data.redis.autoconfigure.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.test.context.assertj.AssertableApplicationContext;
 import org.springframework.boot.test.context.runner.ContextConsumer;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 class RedisAutoConfigurationTests {
 
 	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
-			.withConfiguration(AutoConfigurations.of(RedisAutoConfiguration.class));
+			.withConfiguration(AutoConfigurations.of(DataRedisAutoConfiguration.class));
 
 	@Test
 	void testDefaultRedisConfiguration() {

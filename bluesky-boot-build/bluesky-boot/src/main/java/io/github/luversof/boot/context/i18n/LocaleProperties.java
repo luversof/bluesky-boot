@@ -64,7 +64,7 @@ public class LocaleProperties extends AbstractBlueskyProperties<LocaleProperties
 			if (properties == null) {
 				return;
 			}
-			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			var propertyMapper = PropertyMapper.get();
 			propertyMapper.from(properties::getBeanName).to(builder::beanName);
 			propertyMapper.from(properties::getEnableLocaleList).whenNot(x -> x == null || x.isEmpty()).to(builder::enableLocaleList);
 		};

@@ -4,27 +4,27 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.luversof</groupId>
 	<artifactId>bluesky-boot-dependencies</artifactId>
-	<version>3.5.0</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
+		<version>4.0.0</version>
 		<relativePath/>
 	</parent>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>25</java.version>
 		<spring-cloud-dependencies.version>2025.0.0</spring-cloud-dependencies.version>
-		<bluesky-boot.version>3.5.0</bluesky-boot.version>
-		<bluesky-boot-crypto.version>3.5.0</bluesky-boot-crypto.version>
-		<bluesky-boot-devcheck.version>3.5.0</bluesky-boot-devcheck.version>
-		<bluesky-boot-connectioninfo.version>3.5.0</bluesky-boot-connectioninfo.version>
+		<bluesky-boot.version>4.0.0-SNAPSHOT</bluesky-boot.version>
+		<bluesky-boot-crypto.version>4.0.0-SNAPSHOT</bluesky-boot-crypto.version>
+		<bluesky-boot-devcheck.version>4.0.0-SNAPSHOT</bluesky-boot-devcheck.version>
+		<bluesky-boot-connectioninfo.version>4.0.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
 		<spring-boot-admin-starter.version>3.5.5</spring-boot-admin-starter.version>
 		<mybatis-spring-boot-starter.version>3.0.5</mybatis-spring-boot-starter.version>
-		<springdoc-openapi.version>2.8.13</springdoc-openapi.version>
+		<springdoc-openapi.version>3.0.0</springdoc-openapi.version>
 		
 		<jsqlparser.version>5.3</jsqlparser.version>
-		<logback-access-tomcat.version>2.0.6</logback-access-tomcat.version>
+		<logback-access-tomcat.version>2.0.7</logback-access-tomcat.version>
 		<uuid-creator.version>6.1.1</uuid-creator.version>
 		
 		<!-- tag:asciidoctor-properties[] -->
@@ -36,12 +36,12 @@
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
 		<spring-asciidoctor-backends.version>0.0.7</spring-asciidoctor-backends.version>
-		<asciidoctorj-diagram.version>3.0.1</asciidoctorj-diagram.version>
+		<asciidoctorj-diagram.version>3.1.0</asciidoctorj-diagram.version>
 		<restdocs-api-spec.version>0.19.4</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
-		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+		<jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		
 		<!-- (s) build properties -->

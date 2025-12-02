@@ -121,7 +121,7 @@ public class DomainProperties extends AbstractBlueskyProperties<DomainProperties
 			if (properties == null) {
 				return;
 			}
-			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			var propertyMapper = PropertyMapper.get();
 			propertyMapper.from(properties::getAddPathPatternList).to(builder::addPathPatternList);
 			propertyMapper.from(properties::getWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::webList);
 			propertyMapper.from(properties::getMobileWebList).whenNot(x -> x == null || x.isEmpty()).to(builder::mobileWebList);

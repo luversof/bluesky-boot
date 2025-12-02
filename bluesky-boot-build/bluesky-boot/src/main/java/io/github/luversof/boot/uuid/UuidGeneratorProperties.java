@@ -31,7 +31,7 @@ public class UuidGeneratorProperties extends AbstractBlueskyProperties<UuidGener
 			if (properties == null) {
 				return;
 			}
-			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			var propertyMapper = PropertyMapper.get();
 			propertyMapper.from(properties::getVersion).to(builder::version);
 		};
 	}

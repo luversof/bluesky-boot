@@ -63,7 +63,7 @@ public class CoreProperties extends AbstractBlueskyProperties<CoreProperties, Co
 			if (prop == null) {
 				return;
 			}
-			var propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			var propertyMapper = PropertyMapper.get();
 			propertyMapper.from(prop::getModuleInfo).to(builder::moduleInfo);
 			propertyMapper.from(prop::getProperties).to(builder::properties);
 		};

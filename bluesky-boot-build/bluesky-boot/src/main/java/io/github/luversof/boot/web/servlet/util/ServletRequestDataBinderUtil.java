@@ -13,14 +13,13 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.validation.ValidationUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * 요청받은 request 의 parameter를 기반으로 modelAttribute object를 호출하는 유틸.
@@ -65,18 +64,18 @@ public final class ServletRequestDataBinderUtil {
 		return getObject(null, clazz, validationHints);
 	}
 	
-	public static <T> T getRequestBodyObject(ObjectMapper objectMapper, Class<T> clazz, Object... validationHints) {
+	public static <T> T getRequestBodyObject(JsonMapper jsonMapper, Class<T> clazz, Object... validationHints) {
 		try {
 			var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 			var inputMessage = new ServletServerHttpRequest(request);
 			var inputStream = StreamUtils.nonClosing(inputMessage.getBody());
 			
 			
-			if (objectMapper == null) {
-				objectMapper = ApplicationContextUtil.getApplicationContext().getBean(ObjectMapper.class);
+			if (jsonMapper == null) {
+				jsonMapper = ApplicationContextUtil.getApplicationContext().getBean(JsonMapper.class);
 			}
 			
-			T target = objectMapper.readValue(inputStream, clazz);
+			T target = jsonMapper.readValue(inputStream, clazz);
 			
 			if (validationHints != null) {
 				ValidationUtil.validate(target, validationHints);
@@ -93,8 +92,8 @@ public final class ServletRequestDataBinderUtil {
 		return getRequestBodyObject(null, clazz, validationHints);
 	}
 	
-	public static <T> T getRequestBodyObject(ObjectMapper objectMapper, Class<T> clazz) {
-		return getRequestBodyObject(objectMapper, clazz, (Object[]) null);
+	public static <T> T getRequestBodyObject(JsonMapper jsonMapper, Class<T> clazz) {
+		return getRequestBodyObject(jsonMapper, clazz, (Object[]) null);
 	}
 	
 	public static <T> T getRequestBodyObject(Class<T> clazz) {
