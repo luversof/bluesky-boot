@@ -6,10 +6,7 @@ io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration
 io.github.luversof.boot.autoconfigure.htmx.HtmxAutoConfiguration
 io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 io.github.luversof.boot.autoconfigure.jdbc.servlet.DataSourceMvcAutoConfiguration
-io.github.luversof.boot.autoconfigure.mongo.MongoAutoConfiguration
 io.github.luversof.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
-io.github.luversof.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
-io.github.luversof.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
 io.github.luversof.boot.autoconfigure.uuid.UuidGeneratorAutoConfiguration
 io.github.luversof.boot.autoconfigure.validation.ValidationAutoConfiguration
 io.github.luversof.boot.autoconfigure.web.WebAutoConfiguration
