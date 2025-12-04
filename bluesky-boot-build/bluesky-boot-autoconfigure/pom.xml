@@ -208,12 +208,6 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.github.jsqlparser</groupId>
-			<artifactId>jsqlparser</artifactId>
-			<optional>true</optional>
-		</dependency>
-		
 		<!-- (s) spring cloud context -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

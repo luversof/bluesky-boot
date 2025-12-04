@@ -23,7 +23,6 @@
 		<mybatis-spring-boot-starter.version>4.0.0</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>3.0.0</springdoc-openapi.version>
 		
-		<jsqlparser.version>5.3</jsqlparser.version>
 		<logback-access-tomcat.version>2.0.7</logback-access-tomcat.version>
 		<uuid-creator.version>6.1.1</uuid-creator.version>
 		
@@ -201,12 +200,6 @@
 				<version>${logback-access-tomcat.version}</version>
 			</dependency>
 			<!-- (e) logback access-->
-			
-			<dependency>
-				<groupId>com.github.jsqlparser</groupId>
-				<artifactId>jsqlparser</artifactId>
-				<version>${jsqlparser.version}</version>
-			</dependency>
 			
 			<dependency>
 				<groupId>com.github.f4b6a3</groupId>
