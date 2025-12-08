@@ -1,7 +1,7 @@
 package io.github.luversof.boot.context.event;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.server.context.WebServerApplicationContext;
-import org.springframework.boot.web.server.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +13,10 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class ServerPortLogApplicationListener implements ApplicationListener<WebServerInitializedEvent> {
+public class ServerPortLogApplicationListener implements ApplicationListener<ApplicationReadyEvent> {
 
 	@Override
-	public void onApplicationEvent(WebServerInitializedEvent event) {
+	public void onApplicationEvent(ApplicationReadyEvent event) {
 		if (event.getApplicationContext() instanceof WebServerApplicationContext ctx) {
 			int port = ctx.getWebServer().getPort();
 			String appName = ctx.getApplicationName();
