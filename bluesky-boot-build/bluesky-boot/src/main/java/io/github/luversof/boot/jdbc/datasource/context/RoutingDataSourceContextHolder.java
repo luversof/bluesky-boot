@@ -2,13 +2,12 @@ package io.github.luversof.boot.jdbc.datasource.context;
 
 import org.springframework.util.Assert;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RoutingDataSourceContextHolder {
 
 	private static final ThreadLocal<RoutingDataSourceContext> contextHolder = new ThreadLocal<>();
+
+	private RoutingDataSourceContextHolder() {
+	}
 
 	public static void clearContext() {
 		contextHolder.remove();

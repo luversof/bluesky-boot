@@ -12,16 +12,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.github.luversof.boot.web.util.ProblemDetailUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE + 10)
 public class SecurityMvcExceptionHandler {
-	
+
+	private static final Logger log = LoggerFactory.getLogger(SecurityMvcExceptionHandler.class);
+
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-	public ModelAndView preAuthenticatedCredentialsNotFoundException(PreAuthenticatedCredentialsNotFoundException exception) {
+	public ModelAndView preAuthenticatedCredentialsNotFoundException(
+			PreAuthenticatedCredentialsNotFoundException exception) {
 		log.error("PreAuthenticatedCredentialsNotFoundException exception", exception);
 		return new ModelAndView("login");
 	}

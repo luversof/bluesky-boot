@@ -21,19 +21,16 @@ import org.springframework.expression.spel.SpelCompilerMode;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.validation.DefaultMessageCodesResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 class SimpleTest {
+
+	private static final Logger log = LoggerFactory.getLogger(SimpleTest.class);
 
 	@Test
 	void stringTest() {
-		
+
 		String a = "bluesky-boot.mongo.connection-map.test2.host";
 		String replace = a.replace("bluesky-boot.mongo.connection-map", "");
 		log.debug("result : {}", replace);
@@ -41,11 +38,11 @@ class SimpleTest {
 		log.debug("result : {}", split[1]);
 		assertThat(split).isNotNull();
 	}
-	
+
 	@ParameterizedTest
 	@ValueSource(strings = {
-		"T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST",
-		"new String('hello world').toUpperCase()"
+			"T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST",
+			"new String('hello world').toUpperCase()"
 	})
 	void spelTest(String expressionString) {
 		ExpressionParser parser = new SpelExpressionParser();
@@ -54,54 +51,55 @@ class SimpleTest {
 		log.debug("result : {}", value);
 		assertThat(value).isNotNull();
 	}
-	
+
 	@ParameterizedTest
 	@ValueSource(strings = {
-		"T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST",
-		"new String('hello world').toUpperCase()"
+			"T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST",
+			"new String('hello world').toUpperCase()"
 	})
 	void spelTest2(String expressionString) {
-		SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, this.getClass().getClassLoader());
+		SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE,
+				this.getClass().getClassLoader());
 		SpelExpressionParser parser = new SpelExpressionParser(config);
 		Expression exp = parser.parseExpression(expressionString);
 		var value = exp.getValue();
 		log.debug("result : {}", value);
 		assertThat(value).isNotNull();
 	}
-	
+
 	@Test
 	void messageCodeResolveTest() {
-		
+
 		var codeResolver = new DefaultMessageCodesResolver();
-		
+
 		String[] codes = codeResolver.resolveMessageCodes("NotBlank", "someObjectName", "someField", null);
 		log.debug("resulit : {}", Arrays.asList(codes));
 		assertThat(codes).isNotNull();
 	}
-	
+
 	@Test
 	void mapTest() {
 		var map = new HashMap<String, String>();
 		map.put("key1", "value1");
 		map.put("key2", null);
-		
+
 		var target = map.entrySet().iterator().next().getValue();
 		log.debug("target : {}", target);
 		assertThat(target).isEqualTo("value1");
 	}
-	
+
 	@ParameterizedTest
 	@ValueSource(ints = { 1, 3, 5, -3, 15, Integer.MAX_VALUE }) // six numbers
 	void isOdd_ShouldReturnTrueForOddNumbers(int number) {
 		assertThat(number).isOdd();
 	}
-	
+
 	@ParameterizedTest
 	@ValueSource(strings = { "", "  " })
 	void isBlank_ShouldReturnTrueForNullOrBlankStrings(String input) {
 		assertThat(input).isBlank();
 	}
-	
+
 	@ParameterizedTest
 	@NullAndEmptySource
 	void isBlank_ShouldReturnTrueForNullAndEmptyStrings(String input) {
@@ -110,31 +108,32 @@ class SimpleTest {
 
 	@ParameterizedTest
 	@MethodSource("provideStringsForIsBlank") // needs to match an existing method.
-//	  @MethodSource("com.baeldung.parameterized.StringParams#blankStrings") // 클래스 외부의 source method 	  
+	// @MethodSource("com.baeldung.parameterized.StringParams#blankStrings") // 클래스
+	// 외부의 source method
 	void isBlank_ShouldReturnTrueForNullOrBlankStrings(String input, boolean expected) {
 		assertThat(input.isBlank()).isEqualTo(expected);
 	}
-	  
+
 	// a static method that returns a Stream of Arguments
 	private static Stream<Arguments> provideStringsForIsBlank() { // argument source method
 		return Stream.of(
 				// Arguments.of(null, true),
-				Arguments.of("", true), 
-				Arguments.of("  ", true), 
+				Arguments.of("", true),
+				Arguments.of("  ", true),
 				Arguments.of("not blank", false));
 	}
-	
+
 	public static interface TestSupplier<T> extends Supplier<T> {
-		
+
 	}
-	
+
 	@Test
 	void supplierTest() {
 		Supplier<String> a = () -> "test";
-		
+
 		log.debug("result : {}", a.get());
 	}
-	
+
 	@Test
 	void classNameTest() {
 		log.debug("name : {}", Configuration.class.getName());
@@ -142,72 +141,159 @@ class SimpleTest {
 
 	@Test
 	void builderTest() {
-		
+
 		PropertyMapper propertyMapper = PropertyMapper.get();
 
 		// 기본 호출
 		var testPropeties = new TestProperties();
 		var builder = TestProperties.builder();
-		
+
 		propertyMapper.from(testPropeties::isEnabled).to(builder::enabled);
 		propertyMapper.from(testPropeties::isEnabled2).to(builder::enabled2);
 		propertyMapper.from(testPropeties::getEnabled3).to(builder::enabled3);
 		propertyMapper.from(testPropeties::getEnabled4).to(builder::enabled4);
-		
+
 		log.debug("result : {}", builder.build());
-		
-		//반대값을 설정한 경우
+
+		// 반대값을 설정한 경우
 		var testPropeties2 = new TestProperties();
 		testPropeties2.setEnabled(true);
 		testPropeties2.setEnabled2(false);
 		testPropeties2.setEnabled3(true);
 		testPropeties2.setEnabled4(false);
 		var builder2 = TestProperties.builder();
-		
+
 		propertyMapper.from(testPropeties2::isEnabled).to(builder2::enabled);
 		propertyMapper.from(testPropeties2::isEnabled2).to(builder2::enabled2);
 		propertyMapper.from(testPropeties2::getEnabled3).to(builder2::enabled3);
 		propertyMapper.from(testPropeties2::getEnabled4).to(builder2::enabled4);
-		
+
 		log.debug("result2 : {}", builder2.build());
-		
+
 	}
-	
-	
-	@Data
-	@Builder
-	@NoArgsConstructor
-	@AllArgsConstructor
+
 	static class TestProperties {
-		
-		@Builder.Default
+
 		boolean enabled = false;
-		
-		@Builder.Default
+
 		boolean enabled2 = true;
-		
-		@Builder.Default
+
 		Boolean enabled3 = false;
-		
-		@Builder.Default
+
 		Boolean enabled4 = true;
-		
+
+		public TestProperties() {
+		}
+
+		public TestProperties(boolean enabled, boolean enabled2, Boolean enabled3, Boolean enabled4) {
+			this.enabled = enabled;
+			this.enabled2 = enabled2;
+			this.enabled3 = enabled3;
+			this.enabled4 = enabled4;
+		}
+
+		public static TestPropertiesBuilder builder() {
+			return new TestPropertiesBuilder();
+		}
+
+		public boolean isEnabled() {
+			return enabled;
+		}
+
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		public boolean isEnabled2() {
+			return enabled2;
+		}
+
+		public void setEnabled2(boolean enabled2) {
+			this.enabled2 = enabled2;
+		}
+
+		public Boolean getEnabled3() {
+			return enabled3;
+		}
+
+		public void setEnabled3(Boolean enabled3) {
+			this.enabled3 = enabled3;
+		}
+
+		public Boolean getEnabled4() {
+			return enabled4;
+		}
+
+		public void setEnabled4(Boolean enabled4) {
+			this.enabled4 = enabled4;
+		}
+
+		@Override
+		public String toString() {
+			return "TestProperties(enabled=" + enabled + ", enabled2=" + enabled2 + ", enabled3=" + enabled3
+					+ ", enabled4=" + enabled4 + ")";
+		}
+
+		public static class TestPropertiesBuilder {
+			private boolean enabled = false;
+			private boolean enabled2 = true;
+			private Boolean enabled3 = false;
+			private Boolean enabled4 = true;
+
+			TestPropertiesBuilder() {
+			}
+
+			public TestPropertiesBuilder enabled(boolean enabled) {
+				this.enabled = enabled;
+				return this;
+			}
+
+			public TestPropertiesBuilder enabled2(boolean enabled2) {
+				this.enabled2 = enabled2;
+				return this;
+			}
+
+			public TestPropertiesBuilder enabled3(Boolean enabled3) {
+				this.enabled3 = enabled3;
+				return this;
+			}
+
+			public TestPropertiesBuilder enabled4(Boolean enabled4) {
+				this.enabled4 = enabled4;
+				return this;
+			}
+
+			public TestProperties build() {
+				return new TestProperties(enabled, enabled2, enabled3, enabled4);
+			}
+		}
 	}
-	
+
 	@Test
 	void propertyMapperTest() {
 		var propertyMapper = PropertyMapper.get();
-		
-		
+
 		A a = new A();
 		a.setIntA(2);
 		propertyMapper.from(-1).when(x -> x > 0).to(a::setIntA);
-		
+
 		log.debug("A : {}", a);
 	}
-	
-	@Data
+
 	static class A {
 		int intA;
+
+		public int getIntA() {
+			return intA;
+		}
+
+		public void setIntA(int intA) {
+			this.intA = intA;
+		}
+
+		@Override
+		public String toString() {
+			return "A(intA=" + intA + ")";
+		}
 	}
 }

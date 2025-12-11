@@ -42,11 +42,13 @@ import io.lettuce.core.ClientOptions;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions.RefreshTrigger;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 @Disabled
 class RedisAutoConfigurationTests {
+
+	private static final Logger log = LoggerFactory.getLogger(RedisAutoConfigurationTests.class);
 
 	private final BlueskyApplicationContextRunner contextRunner = BlueskyApplicationContextRunner.get()
 			.withConfiguration(AutoConfigurations.of(DataRedisAutoConfiguration.class));
@@ -86,7 +88,8 @@ class RedisAutoConfigurationTests {
 	@Test
 	void testRedisUrlConfiguration() {
 		this.contextRunner
-				.withPropertyValues("spring.redis.host:foo", "spring.redis.url:redis://user:password@example:33")	// NOSONAR secrets:S6739
+				.withPropertyValues("spring.redis.host:foo", "spring.redis.url:redis://user:password@example:33") // NOSONAR
+																													// secrets:S6739
 				.run(context -> {
 					LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 					assertThat(cf.getHostName()).isEqualTo("example");
@@ -101,7 +104,8 @@ class RedisAutoConfigurationTests {
 	void testOverrideUrlRedisConfiguration() {
 		this.contextRunner
 				.withPropertyValues("spring.redis.host:foo", "spring.redis.password:xyz", "spring.redis.port:1000",
-						"spring.redis.ssl:false", "spring.redis.url:rediss://user:password@example:33")	// NOSONAR secrets:S6739
+						"spring.redis.ssl:false", "spring.redis.url:rediss://user:password@example:33") // NOSONAR
+																										// secrets:S6739
 				.run(context -> {
 					LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 					assertThat(cf.getHostName()).isEqualTo("example");
@@ -114,7 +118,8 @@ class RedisAutoConfigurationTests {
 
 	@Test
 	void testPasswordInUrlWithColon() {
-		this.contextRunner.withPropertyValues("spring.redis.url:redis://user:password@example:33").run(context -> {	// NOSONAR secrets:S6739
+		this.contextRunner.withPropertyValues("spring.redis.url:redis://user:password@example:33").run(context -> { // NOSONAR
+																													// secrets:S6739
 			LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 			assertThat(cf.getHostName()).isEqualTo("example");
 			assertThat(cf.getPort()).isEqualTo(33);
@@ -125,7 +130,8 @@ class RedisAutoConfigurationTests {
 
 	@Test
 	void testPasswordInUrlStartsWithColon() {
-		this.contextRunner.withPropertyValues("spring.redis.url:redis://user::pass:word@example:33").run(context -> {	// NOSONAR secrets:S6739
+		this.contextRunner.withPropertyValues("spring.redis.url:redis://user::pass:word@example:33").run(context -> { // NOSONAR
+																														// secrets:S6739
 			LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 			assertThat(cf.getHostName()).isEqualTo("example");
 			assertThat(cf.getPort()).isEqualTo(33);
@@ -354,36 +360,38 @@ class RedisAutoConfigurationTests {
 						options -> assertThat(options.getTopologyRefreshOptions().useDynamicRefreshSources())
 								.isEqualTo(ClusterTopologyRefreshOptions.DEFAULT_DYNAMIC_REFRESH_SOURCES)));
 	}
-	
+
 	@Test
 	@Disabled("테스트 용으로 작성, 비활성화 처리함")
 	void testBlueskyRedisTemplate() {
 		this.contextRunner
-		.withUserConfiguration(BlueskyCustomConfiguration.class)
-		.run(context -> {
-			@SuppressWarnings("unchecked")
-			HashOperations<String, String, Object> redisOperations = context.getBean("redisTemplate", HashOperations.class);
-			var redisTemplate = context.getBean("redisTemplate", RedisTemplate.class);
-			assertThat(redisTemplate).isNotNull();
-			Long increment = redisOperations.increment("key1", "key2", 1);
-			log.debug("Test : {}", increment);
-			log.debug("Test2 : {}", redisOperations.increment("key1", "key2", 0));
-			
-		});
+				.withUserConfiguration(BlueskyCustomConfiguration.class)
+				.run(context -> {
+					@SuppressWarnings("unchecked")
+					HashOperations<String, String, Object> redisOperations = context.getBean("redisTemplate",
+							HashOperations.class);
+					var redisTemplate = context.getBean("redisTemplate", RedisTemplate.class);
+					assertThat(redisTemplate).isNotNull();
+					Long increment = redisOperations.increment("key1", "key2", 1);
+					log.debug("Test : {}", increment);
+					log.debug("Test2 : {}", redisOperations.increment("key1", "key2", 0));
+
+				});
 	}
-	
+
 	@Test
 	void testBlueskyStringRedisTemplate() {
 		this.contextRunner
-//		.withUserConfiguration(BlueskyCustomConfiguration.class)
-		.run(context -> {
-			@SuppressWarnings("unchecked")
-			HashOperations<String, String, Integer> redisOperations = context.getBean("stringRedisTemplate", HashOperations.class);
-			Long increment = redisOperations.increment("key1", String.valueOf(1), 1);
-			log.debug("Test : {}", increment);
-			log.debug("Test2 : {}", redisOperations.get("key1", String.valueOf(1)));
-			
-		});
+				// .withUserConfiguration(BlueskyCustomConfiguration.class)
+				.run(context -> {
+					@SuppressWarnings("unchecked")
+					HashOperations<String, String, Integer> redisOperations = context.getBean("stringRedisTemplate",
+							HashOperations.class);
+					Long increment = redisOperations.increment("key1", String.valueOf(1), 1);
+					log.debug("Test : {}", increment);
+					log.debug("Test2 : {}", redisOperations.get("key1", String.valueOf(1)));
+
+				});
 	}
 
 	private <T extends ClientOptions> ContextConsumer<AssertableApplicationContext> assertClientOptions(
@@ -415,26 +423,26 @@ class RedisAutoConfigurationTests {
 		}
 
 	}
-	
+
 	@Configuration(proxyBeanMethods = false)
 	static class BlueskyCustomConfiguration {
-        @Bean
-        RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-            RedisTemplate<Object, Object> template = new RedisTemplate<>();
-            template.setDefaultSerializer(RedisSerializer.json());
-            template.setKeySerializer(RedisSerializer.string());
-            template.setConnectionFactory(redisConnectionFactory);
-            return template;
-        }
+		@Bean
+		RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+			RedisTemplate<Object, Object> template = new RedisTemplate<>();
+			template.setDefaultSerializer(RedisSerializer.json());
+			template.setKeySerializer(RedisSerializer.string());
+			template.setConnectionFactory(redisConnectionFactory);
+			return template;
+		}
 
-        @Bean
-        StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-            StringRedisTemplate template = new StringRedisTemplate();
-            template.setDefaultSerializer(RedisSerializer.json());
-            template.setKeySerializer(RedisSerializer.string());
-            template.setHashKeySerializer(RedisSerializer.string());
-            template.setConnectionFactory(redisConnectionFactory);
-            return template;
-        }
+		@Bean
+		StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+			StringRedisTemplate template = new StringRedisTemplate();
+			template.setDefaultSerializer(RedisSerializer.json());
+			template.setKeySerializer(RedisSerializer.string());
+			template.setHashKeySerializer(RedisSerializer.string());
+			template.setConnectionFactory(redisConnectionFactory);
+			return template;
+		}
 	}
 }

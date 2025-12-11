@@ -18,61 +18,73 @@ import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.web.util.ProblemDetailUtil;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * servlet common error handling handlers
+ * 
  * @author bluesky
  *
  */
-@Slf4j
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class CoreMvcExceptionHandler {
-	
+
+	private static final Logger log = LoggerFactory.getLogger(CoreMvcExceptionHandler.class);
+
 	/**
 	 * BlueskyException handling
 	 * 
-	 * @param <T> BlueskyException extension type
-	 * @param exception exception
-	 * @param handlerMethod handlerMethod
+	 * @param <T>              BlueskyException extension type
+	 * @param exception        exception
+	 * @param handlerMethod    handlerMethod
 	 * @param nativeWebRequest nativeWebRequest
-	 * @return Returns a modelAndView or problemDetail object depending on the situation.
+	 * @return Returns a modelAndView or problemDetail object depending on the
+	 *         situation.
 	 */
 	@ExceptionHandler
-	public <T extends BlueskyException> Object handleException(T exception, HandlerMethod handlerMethod, NativeWebRequest nativeWebRequest) {
-		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerMethod, nativeWebRequest);
+	public <T extends BlueskyException> Object handleException(T exception, HandlerMethod handlerMethod,
+			NativeWebRequest nativeWebRequest) {
+		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerMethod,
+				nativeWebRequest);
 	}
-	
+
 	/**
 	 * BindException handling
 	 * 
-	 * @param <T> BindException extension type
-	 * @param exception exception
-	 * @param handlerMethod handlerMethod
+	 * @param <T>              BindException extension type
+	 * @param exception        exception
+	 * @param handlerMethod    handlerMethod
 	 * @param nativeWebRequest nativeWebRequest
-	 * @return Returns a modelAndView or problemDetail object depending on the situation.
+	 * @return Returns a modelAndView or problemDetail object depending on the
+	 *         situation.
 	 */
 	@ExceptionHandler
-	public <T extends BindException> Object handleException(T exception, HandlerMethod handlerMethod, NativeWebRequest nativeWebRequest) {
-		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerMethod, nativeWebRequest);
+	public <T extends BindException> Object handleException(T exception, HandlerMethod handlerMethod,
+			NativeWebRequest nativeWebRequest) {
+		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerMethod,
+				nativeWebRequest);
 	}
-	
+
 	/**
 	 * Exception handling
 	 * 
-	 * @param <T> Exception extension type
-	 * @param exception exception
+	 * @param <T>              Exception extension type
+	 * @param exception        exception
 	 * @param nativeWebRequest nativeWebRequest
-	 * @param servletRequest servletRequest
-	 * @return Returns a modelAndView or problemDetail object depending on the situation.
+	 * @param servletRequest   servletRequest
+	 * @return Returns a modelAndView or problemDetail object depending on the
+	 *         situation.
 	 */
 	@ExceptionHandler
-	public <T extends Exception> Object handleException(T exception, NativeWebRequest nativeWebRequest, ServletRequest servletRequest) {
-		
-		var requestMappingHandlerMappingMap = ApplicationContextUtil.getApplicationContext().getBeansOfType(RequestMappingHandlerMapping.class);
+	public <T extends Exception> Object handleException(T exception, NativeWebRequest nativeWebRequest,
+			ServletRequest servletRequest) {
+
+		var requestMappingHandlerMappingMap = ApplicationContextUtil.getApplicationContext()
+				.getBeansOfType(RequestMappingHandlerMapping.class);
 		var httpServletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-		
+
 		var handlerList = new ArrayList<>();
 		requestMappingHandlerMappingMap.values().stream().forEach(x -> {
 			HandlerExecutionChain handlerExecutionChain = null;
@@ -85,7 +97,8 @@ public class CoreMvcExceptionHandler {
 				handlerList.add(handlerExecutionChain.getHandler());
 			}
 		});
-		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception), handlerList.isEmpty() ? null : handlerList.get(0), nativeWebRequest);
+		return ExceptionUtil.handleException(ProblemDetailUtil.getProblemDetail(exception),
+				handlerList.isEmpty() ? null : handlerList.get(0), nativeWebRequest);
 	}
-	
+
 }

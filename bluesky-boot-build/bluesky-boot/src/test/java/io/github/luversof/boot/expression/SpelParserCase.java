@@ -1,11 +1,7 @@
 package io.github.luversof.boot.expression;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@AllArgsConstructor
 public enum SpelParserCase {
-//	ONLY_STRING("테스트해봄"),
+	// ONLY_STRING("테스트해봄"),
 	ONLY_STRING2("'테스트해봄'"),
 	ONLY_STRING3("'테스트' + '해봄'"),
 	METHOD("'abc'.substring(1, 3)"),
@@ -24,5 +20,14 @@ public enum SpelParserCase {
 	TYPE("#{T(org.springframework.util.StringUtils).hasText(#keyA)}"),
 	TYPE2("new String('hello world').toUpperCase()"),
 	;
-	@Getter String str;
+
+	String str;
+
+	SpelParserCase(String str) {
+		this.str = str;
+	}
+
+	public String getStr() {
+		return str;
+	}
 }

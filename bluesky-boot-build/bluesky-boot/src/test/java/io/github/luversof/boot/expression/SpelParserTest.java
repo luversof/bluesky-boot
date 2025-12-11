@@ -8,27 +8,25 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 class SpelParserTest {
 
+	private static final Logger log = LoggerFactory.getLogger(SpelParserTest.class);
+
 	@ParameterizedTest
-	@EnumSource(
-				value = SpelParserCase.class,
-				names = {
-//						"COMPOSITE_SPEL4"
-//						"CONCAT"
-				}
-	)
+	@EnumSource(value = SpelParserCase.class, names = {
+	// "COMPOSITE_SPEL4"
+	// "CONCAT"
+	})
 	void spelParserUtilTest(SpelParserCase spelParserCase) {
 		var map = new HashMap<String, String>();
 		map.put("keyA", "a값");
 		map.put("keyB", "b값");
 		map.put("keyC", "c값");
 		map.put("isEnable", "true");
-		
+
 		{
 			String result = SpelParserUtil.parse(spelParserCase.getStr(), map);
 			log.debug("""
@@ -39,11 +37,11 @@ class SpelParserTest {
 		}
 
 	}
-	
+
 	@Test
 	void spelParserTest() {
 		ExpressionParser parser = new SpelExpressionParser();
-		Expression exp = parser.parseExpression("'Hello World'.concat('!')"); 
+		Expression exp = parser.parseExpression("'Hello World'.concat('!')");
 		String message = (String) exp.getValue(); // Hello World!
 		log.debug("result : {}", message);
 	}

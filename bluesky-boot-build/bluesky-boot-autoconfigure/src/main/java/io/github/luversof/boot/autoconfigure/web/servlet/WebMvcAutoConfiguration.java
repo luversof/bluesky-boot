@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.servlet.view.json.JacksonJsonView;
 
 import io.github.luversof.boot.autoconfigure.web.servlet.error.CoreMvcExceptionHandler;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
@@ -54,8 +54,8 @@ import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 public class WebMvcAutoConfiguration {
 	
 	@Bean
-	MappingJackson2JsonView jsonView() {
-		return new MappingJackson2JsonView();
+	JacksonJsonView jsonView() {
+		return new JacksonJsonView();
 	}
 	
 	@Bean

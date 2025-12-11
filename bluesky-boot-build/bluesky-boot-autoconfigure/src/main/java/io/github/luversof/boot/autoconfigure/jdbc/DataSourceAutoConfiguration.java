@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.aspectj.weaver.Advice;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,7 +21,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.lang.Nullable;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -31,14 +31,15 @@ import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
 import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
 import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
 import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for DataSource support.
+ * 
  * @author bluesky
  *
  */
-@Slf4j
 @AutoConfiguration(value = "blueskyBootDataSourceAutoConfiguration", before = org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
@@ -46,11 +47,13 @@ import lombok.extern.slf4j.Slf4j;
 @PropertySource(value = "classpath:jdbc/jdbc-${bluesky-boot-profile}.properties", ignoreResourceNotFound = true)
 @ConditionalOnProperty(prefix = "bluesky-boot.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration {
-	
+
+	private static final Logger log = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
+
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnMissingClass("io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry")
 	static class BasicDataSourceAutoConfiguration {
-		
+
 		@Bean
 		@Primary
 		<T extends DataSource> DataSource routingDataSource(
@@ -67,18 +70,19 @@ public class DataSourceAutoConfiguration {
 			if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
 				routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().toArray()[0]);
 			} else {
-				routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
+				routingDataSource.setDefaultTargetDataSource(
+						targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
 			}
 			routingDataSource.afterPropertiesSet();
 			return new LazyConnectionDataSourceProxy(routingDataSource);
 		}
-	
+
 	}
-	
+
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass(ConnectionInfoRegistry.class)
 	static class ConnectionInfoDataSourceAutoConfiguration {
-		
+
 		@Bean
 		@Primary
 		<T extends HikariDataSource, C extends DataSourceConnectionConfig> DataSource routingDataSource(
@@ -92,7 +96,8 @@ public class DataSourceAutoConfiguration {
 			}
 			if (connectionInfoRegistry != null) {
 				connectionInfoRegistry.getConnectionInfoList().forEach(connectionInfo -> {
-					log.debug("The connectionInfoRegistry {} is added to the into the blueskyRoutingDataSource", connectionInfo.getKey().connectionKey());
+					log.debug("The connectionInfoRegistry {} is added to the into the blueskyRoutingDataSource",
+							connectionInfo.getKey().connectionKey());
 					targetDataSourceMap.put(connectionInfo.getKey().connectionKey(), connectionInfo.getConnection());
 				});
 			}
@@ -106,14 +111,15 @@ public class DataSourceAutoConfiguration {
 			if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
 				routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().toArray()[0]);
 			} else {
-				routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
+				routingDataSource.setDefaultTargetDataSource(
+						targetDataSourceMap.get(dataSourceProperties.getDefaultDatasource()));
 			}
 			routingDataSource.initialize();
 			return new LazyConnectionDataSourceProxy(routingDataSource);
 		}
-		
+
 	}
-	
+
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass(Advice.class)
 	static class AspectJDataSourceAutoConfiguration {
@@ -126,7 +132,8 @@ public class DataSourceAutoConfiguration {
 	}
 
 	@Bean
-	DataSourceDevCheckController dataSourceDevCheckController(@Qualifier("routingDataSource") DataSource blueskyRoutingDataSource) {
+	DataSourceDevCheckController dataSourceDevCheckController(
+			@Qualifier("routingDataSource") DataSource blueskyRoutingDataSource) {
 		return new DataSourceDevCheckController(blueskyRoutingDataSource);
 	}
 

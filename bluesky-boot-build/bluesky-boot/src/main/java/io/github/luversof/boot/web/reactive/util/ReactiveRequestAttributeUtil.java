@@ -2,8 +2,6 @@ package io.github.luversof.boot.web.reactive.util;
 
 import java.text.MessageFormat;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
 
 /**
@@ -12,9 +10,11 @@ import reactor.core.publisher.Mono;
  * @author bluesky
  *
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ReactiveRequestAttributeUtil {
-	
+
+	private ReactiveRequestAttributeUtil() {
+	}
+
 	public static <T> Mono<T> setRequestAttribute(String name, T value) {
 		return ServerWebExchangeUtil.getServerWebExchange().map(serverWebExchange -> {
 			serverWebExchange.getAttributes().put(name, value);

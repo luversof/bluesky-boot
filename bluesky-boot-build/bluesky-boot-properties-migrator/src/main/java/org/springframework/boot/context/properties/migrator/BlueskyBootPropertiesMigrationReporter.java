@@ -1,4 +1,5 @@
 package org.springframework.boot.context.properties.migrator;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -22,8 +23,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import lombok.EqualsAndHashCode;
-
 class BlueskyBootPropertiesMigrationReporter {
 
 	private final Map<String, ConfigurationMetadataProperty> allProperties;
@@ -39,10 +38,9 @@ class BlueskyBootPropertiesMigrationReporter {
 	PropertiesMigrationReport getReport() {
 		PropertiesMigrationReport report = new PropertiesMigrationReport();
 		Map<String, List<PropertyMigration>> properties = getMatchingProperties(
-				configurationMetadataProperty -> 
-					configurationMetadataProperty.isDeprecated() 
-					&& configurationMetadataProperty.getDeprecation().getReplacement() != null 
-					&& configurationMetadataProperty.getDeprecation().getReplacement().startsWith("bluesky-boot"));
+				configurationMetadataProperty -> configurationMetadataProperty.isDeprecated()
+						&& configurationMetadataProperty.getDeprecation().getReplacement() != null
+						&& configurationMetadataProperty.getDeprecation().getReplacement().startsWith("bluesky-boot"));
 		if (properties.isEmpty()) {
 			return report;
 		}
@@ -78,8 +76,7 @@ class BlueskyBootPropertiesMigrationReporter {
 				content.put(newPropertyName, originTrackedValue);
 			}
 			return new OriginTrackedMapPropertySource(target, content);
-		}
-		finally {
+		} finally {
 			this.environment.getPropertySources().remove(nameTrackingPropertySource.getName());
 		}
 	}
@@ -106,12 +103,13 @@ class BlueskyBootPropertiesMigrationReporter {
 			// Prefix match for maps
 			if (isMapType(metadata) && propertySource instanceof IterableConfigurationPropertySource iterableSource) {
 				iterableSource.stream()
-					.filter(metadataName::isAncestorOf)
-					.map(propertySource::getConfigurationProperty)
-					.forEach(property -> {
-						ConfigurationMetadataProperty replacement = determineReplacementMetadata(metadata);
-						result.add(propertySourceName, new PropertyMigration(property, metadata, replacement, true));
-					});
+						.filter(metadataName::isAncestorOf)
+						.map(propertySource::getConfigurationProperty)
+						.forEach(property -> {
+							ConfigurationMetadataProperty replacement = determineReplacementMetadata(metadata);
+							result.add(propertySourceName,
+									new PropertyMigration(property, metadata, replacement, true));
+						});
 			}
 		}));
 		return result;
@@ -160,7 +158,6 @@ class BlueskyBootPropertiesMigrationReporter {
 	 * {@link PropertySource} used to track accessed properties to protect against
 	 * circular references.
 	 */
-	@EqualsAndHashCode(callSuper = true)
 	private class NameTrackingPropertySource extends PropertySource<Object> {
 
 		private final Set<String> accessedNames = new HashSet<>();
@@ -182,6 +179,23 @@ class BlueskyBootPropertiesMigrationReporter {
 		public Object getProperty(String name) {
 			this.accessedNames.add(name);
 			return null;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
+			if (!super.equals(o))
+				return false;
+			NameTrackingPropertySource that = (NameTrackingPropertySource) o;
+			return java.util.Objects.equals(accessedNames, that.accessedNames);
+		}
+
+		@Override
+		public int hashCode() {
+			return java.util.Objects.hash(super.hashCode(), accessedNames);
 		}
 
 	}

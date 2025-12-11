@@ -11,7 +11,8 @@ import org.springframework.util.Assert;
 
 import io.github.luversof.boot.constant.ProfileInfo;
 import io.github.luversof.boot.exception.BlueskyException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * bluesky-boot에서 사용할 profile 목록 생성
@@ -20,8 +21,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author bluesky
  *
  */
-@Slf4j
 public class ProfileEnvironmentPostProcessor implements EnvironmentPostProcessor {
+
+	private static final Logger log = LoggerFactory.getLogger(ProfileEnvironmentPostProcessor.class);
 
 	private static final String BLUESKY_BOOT_PROFILE = "bluesky-boot-profile";
 

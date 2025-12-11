@@ -21,16 +21,17 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.Setter;
-import lombok.SneakyThrows;
-
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class RestDocsTest {
 
 	private static final String DEFAULT_MOCK_RESPONSE_PATH = "src/test/resources/mockResponse/";
 
-	@Setter(onMethod_ = { @Autowired })
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	public void setObjectMapper(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
 
 	protected MockMvc mockMvc;
 
@@ -48,25 +49,37 @@ public abstract class RestDocsTest {
 		this.mockMvc = mockBuilder.build();
 	}
 
-	@SneakyThrows
 	protected String getMockString(String path) {
-		return Files.readString(Paths.get(getMockResponsePath() + path));
+		try {
+			return Files.readString(Paths.get(getMockResponsePath() + path));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	@SneakyThrows
 	protected <T> T getMock(String path, Class<T> valueType) {
-		return objectMapper.readValue(getMockString(path), valueType);
+		try {
+			return objectMapper.readValue(getMockString(path), valueType);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	@SneakyThrows
 	protected <T> List<T> getMockList(String path, Class<T> valueType) {
-		return objectMapper.readValue(getMockString(path), List.class);
+		try {
+			return objectMapper.readValue(getMockString(path), List.class);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	@SneakyThrows
 	protected <T> Optional<T> getMockOptional(String path, Class<T> valueType) {
-		return Optional.of(objectMapper.readValue(getMockString(path), valueType));
+		try {
+			return Optional.of(objectMapper.readValue(getMockString(path), valueType));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
