@@ -153,14 +153,6 @@
 		</dependency>
 		<!-- (e) data-rest -->
 
-		<!-- (s) boot admin -->
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-client</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) boot admin -->
-
 		<!-- (s) reactive security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -201,14 +193,7 @@
 		</dependency>
 		<!-- (e) validation -->
 
-
-		<dependency>
-			<groupId>ch.qos.logback.access</groupId>
-			<artifactId>logback-access-tomcat</artifactId>
-			<optional>true</optional>
-		</dependency>
-		
-		<!-- (s) spring cloud context -->
+		<!-- (s) spring-cloud -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-context</artifactId>
@@ -216,9 +201,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-health</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- (e) spring cloud context -->
+		<!-- (e) spring-cloud -->
 	</dependencies>
 </project>

@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.0</version>
+		<version>4.0.1</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -19,7 +19,6 @@
 		<bluesky-boot-crypto.version>4.0.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>4.0.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<bluesky-boot-connectioninfo.version>4.0.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
-		<spring-boot-admin-starter.version>3.5.6</spring-boot-admin-starter.version>
 		<mybatis-spring-boot-starter.version>4.0.0</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>3.0.0</springdoc-openapi.version>
 		
@@ -153,6 +152,7 @@
 				<scope>import</scope>
 			</dependency>
 			<!-- (e) spring cloud -->
+			
 			<!-- (s) mybatis -->
 			<dependency>
 				<groupId>org.mybatis.spring.boot</groupId>
@@ -160,18 +160,7 @@
 				<version>${mybatis-spring-boot-starter.version}</version>
 			</dependency>
 			<!-- (e) mybatis -->
-			<!-- (s) boot-admin -->
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-server</artifactId>
-				<version>${spring-boot-admin-starter.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>${spring-boot-admin-starter.version}</version>
-			</dependency>
-			<!-- (e) boot-admin -->
+
 			<!-- (s) springdoc-openapi -->
 			<dependency>
 				<groupId>org.springdoc</groupId>

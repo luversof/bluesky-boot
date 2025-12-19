@@ -3,7 +3,6 @@ package io.github.luversof.boot.autoconfigure.web.servlet;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -196,10 +195,4 @@ public class WebMvcAutoConfiguration {
 		return new BlueskyLocaleContextResolver();
 	}
 	
-	@Bean
-	@ConditionalOnClass(name = { "org.apache.catalina.startup.Tomcat", "ch.qos.logback.access.tomcat.LogbackValve" })
-	LogbackTomcatServletWebServerFactoryCustomizer logbackTomcatServletWebServerFactoryCustomizer() {
-		return new LogbackTomcatServletWebServerFactoryCustomizer();
-	}
-
 }
