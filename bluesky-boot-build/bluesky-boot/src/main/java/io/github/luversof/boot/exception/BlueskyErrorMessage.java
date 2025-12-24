@@ -3,6 +3,8 @@ package io.github.luversof.boot.exception;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * An error message object for use in error response handling.
  */
@@ -16,6 +18,7 @@ public class BlueskyErrorMessage implements ErrorMessage {
 	 * @param errorMessageArgs errorMessage arguments
 	 * @return BlueskyErrorMessage
 	 */
+	@JsonIgnore
 	public BlueskyErrorMessage setErrorMessageArgs(Object[] errorMessageArgs) {
 		if (errorMessageArgs != null && errorMessageArgs.length > 0) {
 			this.errorMessageArgs = Arrays.stream(errorMessageArgs)
