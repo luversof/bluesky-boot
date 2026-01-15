@@ -109,7 +109,7 @@ public class WebMvcAutoConfiguration {
 	
 	@Bean(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)
 	AcceptHeaderLocaleResolveHandler acceptHeaderLocaleResolverHandler() {
-		return new AcceptHeaderLocaleResolveHandler(LocaleProperties.DEFAULT_BEAN_NAME, null);
+		return new AcceptHeaderLocaleResolveHandler(LocaleProperties.DEFAULT_BEAN_NAME, LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME);
 	}
 
 	@EnableConfigurationProperties({
