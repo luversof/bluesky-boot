@@ -14,7 +14,7 @@
 	</parent>
 	<properties>
 		<java.version>25</java.version>
-		<spring-cloud-dependencies.version>2025.1.0</spring-cloud-dependencies.version>
+		<spring-cloud-dependencies.version>2025.1.1</spring-cloud-dependencies.version>
 		<bluesky-boot.version>4.0.0-SNAPSHOT</bluesky-boot.version>
 		<bluesky-boot-crypto.version>4.0.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>4.0.0-SNAPSHOT</bluesky-boot-devcheck.version>
