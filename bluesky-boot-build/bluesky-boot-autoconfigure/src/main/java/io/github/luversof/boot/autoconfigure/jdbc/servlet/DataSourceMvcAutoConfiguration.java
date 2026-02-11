@@ -2,7 +2,6 @@ package io.github.luversof.boot.autoconfigure.jdbc.servlet;
 
 import javax.sql.DataSource;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -27,7 +26,7 @@ import io.github.luversof.boot.jdbc.datasource.support.CommonRoutingDataSourceLo
 public class DataSourceMvcAutoConfiguration {
 
 	@Bean
-	RoutingDataSourceContextHolderFilter routingDataSourceContextHolderFilter(@Nullable CommonRoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
+	RoutingDataSourceContextHolderFilter routingDataSourceContextHolderFilter(CommonRoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
 		return new RoutingDataSourceContextHolderFilter(routingDataSourceLookupKeyResolver);
 	}
 	

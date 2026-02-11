@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.aspectj.weaver.Advice;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -58,7 +57,7 @@ public class DataSourceAutoConfiguration {
 		@Primary
 		<T extends DataSource> DataSource routingDataSource(
 				DataSourceProperties dataSourceProperties,
-				@Nullable Map<String, T> dataSourceMap) {
+				Map<String, T> dataSourceMap) {
 			Map<Object, Object> targetDataSourceMap = new HashMap<>();
 			if (dataSourceMap != null) {
 				targetDataSourceMap.putAll(dataSourceMap);
@@ -87,9 +86,9 @@ public class DataSourceAutoConfiguration {
 		@Primary
 		<T extends HikariDataSource, C extends DataSourceConnectionConfig> DataSource routingDataSource(
 				DataSourceProperties dataSourceProperties,
-				@Nullable Map<String, T> dataSourceMap,
-				@Nullable ConnectionInfoRegistry<T> connectionInfoRegistry,
-				@Nullable Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
+				Map<String, T> dataSourceMap,
+				ConnectionInfoRegistry<T> connectionInfoRegistry,
+				Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
 			Map<Object, Object> targetDataSourceMap = new HashMap<>();
 			if (dataSourceMap != null) {
 				targetDataSourceMap.putAll(dataSourceMap);
