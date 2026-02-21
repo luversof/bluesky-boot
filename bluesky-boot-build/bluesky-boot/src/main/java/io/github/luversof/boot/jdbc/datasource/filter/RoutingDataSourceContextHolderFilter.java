@@ -2,6 +2,7 @@ package io.github.luversof.boot.jdbc.datasource.filter;
 
 import java.io.IOException;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,7 +18,7 @@ public class RoutingDataSourceContextHolderFilter extends OncePerRequestFilter {
 	
 	private RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver;
 	
-	public RoutingDataSourceContextHolderFilter(RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
+	public RoutingDataSourceContextHolderFilter(@Nullable RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
 		this.routingDataSourceLookupKeyResolver = routingDataSourceLookupKeyResolver;
 	}
 
