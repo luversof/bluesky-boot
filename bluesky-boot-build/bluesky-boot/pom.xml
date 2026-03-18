@@ -122,13 +122,13 @@
 
 		<!-- (s) reactive web -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webflux</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-webflux</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>io.projectreactor.netty</groupId>
-			<artifactId>reactor-netty</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-netty</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) reactive web -->

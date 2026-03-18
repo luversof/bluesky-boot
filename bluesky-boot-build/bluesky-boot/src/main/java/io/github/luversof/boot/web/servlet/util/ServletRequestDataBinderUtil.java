@@ -2,6 +2,8 @@ package io.github.luversof.boot.web.servlet.util;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -10,12 +12,11 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ExtendedServletRequestDataBinder;
 
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.validation.ValidationUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tools.jackson.databind.json.JsonMapper;
 
 /**
@@ -39,7 +40,9 @@ public final class ServletRequestDataBinderUtil {
 
 		T instantiateClass = BeanUtils.instantiateClass(clazz);
 
-		ServletRequestDataBinder servletRequestDataBinder = new ServletRequestDataBinder(instantiateClass, objectName);
+		ServletRequestDataBinder servletRequestDataBinder = objectName == null
+				? new ExtendedServletRequestDataBinder(instantiateClass)
+				: new ExtendedServletRequestDataBinder(instantiateClass, objectName);
 		servletRequestDataBinder.setConversionService(
 				ApplicationContextUtil.getApplicationContext().getBean(FormattingConversionService.class));
 		servletRequestDataBinder.bind(request);
