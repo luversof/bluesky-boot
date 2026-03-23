@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.3</version>
+		<version>4.0.4</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -19,10 +19,10 @@
 		<bluesky-boot-crypto.version>4.0.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>4.0.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<bluesky-boot-connectioninfo.version>4.0.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
-		<mybatis-spring-boot-starter.version>4.0.0</mybatis-spring-boot-starter.version>
-		<springdoc-openapi.version>3.0.0</springdoc-openapi.version>
+		<mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
+		<springdoc-openapi.version>3.0.2</springdoc-openapi.version>
 		
-		<logback-access-tomcat.version>2.0.7</logback-access-tomcat.version>
+		<logback-access-tomcat.version>2.0.12</logback-access-tomcat.version>
 		<uuid-creator.version>6.1.1</uuid-creator.version>
 		
 		<!-- tag:asciidoctor-properties[] -->
@@ -34,8 +34,8 @@
 		<asciidoctor.preserveDirectories>true</asciidoctor.preserveDirectories>
 		<asciidoctor.doctype>book</asciidoctor.doctype>
 		<spring-asciidoctor-backends.version>0.0.7</spring-asciidoctor-backends.version>
-		<asciidoctorj-diagram.version>3.1.0</asciidoctorj-diagram.version>
-		<restdocs-api-spec.version>0.19.4</restdocs-api-spec.version>
+		<asciidoctorj-diagram.version>3.2.1</asciidoctorj-diagram.version>
+		<restdocs-api-spec.version>0.20.0</restdocs-api-spec.version>
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
@@ -49,7 +49,7 @@
 		<!-- (e) build properties -->
 		
 		<!-- (s) central -->
-		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
 		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 		<!-- (e) central -->
 	</properties>

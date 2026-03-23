@@ -23,7 +23,7 @@ public class ReactiveBlueskyContextHolderFilter implements WebFilter {
 	}
 
 	private Mono<BlueskyContext> load(ServerWebExchange exchange) {
-		return exchange.getSession().flatMap(attrs -> Mono.justOrEmpty(() -> exchange.getApplicationContext().getBean(ModuleNameResolver.class).resolve(exchange)));
+		return exchange.getSession().flatMap(_ -> Mono.justOrEmpty(() -> exchange.getApplicationContext().getBean(ModuleNameResolver.class).resolve(exchange)));
 	}
 
 }
