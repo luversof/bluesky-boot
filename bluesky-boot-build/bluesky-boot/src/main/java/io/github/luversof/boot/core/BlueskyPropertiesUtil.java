@@ -1,5 +1,3 @@
 package io.github.luversof.boot.core;
 
-public class BlueskyPropertiesUtil {
-
-}
+public class BlueskyPropertiesUtil {}

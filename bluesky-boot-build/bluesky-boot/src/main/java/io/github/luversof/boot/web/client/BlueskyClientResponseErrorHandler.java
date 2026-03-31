@@ -1,5 +1,7 @@
 package io.github.luversof.boot.web.client;
 
+import io.github.luversof.boot.exception.BlueskyErrorMessage;
+import io.github.luversof.boot.exception.BlueskyException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,59 +11,56 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
-
-import io.github.luversof.boot.exception.BlueskyErrorMessage;
-import io.github.luversof.boot.exception.BlueskyException;
 import tools.jackson.databind.json.JsonMapper;
 
 public class BlueskyClientResponseErrorHandler implements ResponseErrorHandler {
 
-	private static final Logger log = LoggerFactory.getLogger(BlueskyClientResponseErrorHandler.class);
+    private static final Logger log =
+            LoggerFactory.getLogger(BlueskyClientResponseErrorHandler.class);
 
-	private JsonMapper jsonMapper;
-	
-	public BlueskyClientResponseErrorHandler(JsonMapper jsonMapper) {
-		this.jsonMapper = jsonMapper;
-	}
+    private JsonMapper jsonMapper;
 
-	@Override
-	public boolean hasError(ClientHttpResponse response) throws IOException {
-		return response.getStatusCode().isError();
-	}
+    public BlueskyClientResponseErrorHandler(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void handleError(URI url, HttpMethod method, ClientHttpResponse response) throws IOException {
+    @Override
+    public boolean hasError(ClientHttpResponse response) throws IOException {
+        return response.getStatusCode().isError();
+    }
 
-		var responseBody = readFully(response.getBody());
-		Map<String, Object> resultMap = jsonMapper.readValue(responseBody, Map.class);
+    @SuppressWarnings("unchecked")
+    @Override
+    public void handleError(URI url, HttpMethod method, ClientHttpResponse response)
+            throws IOException {
 
-		if (!resultMap.containsKey("result")) {
-			log.debug("api client request has not result");
-			throw new BlueskyException("NOT_EXIST_API_RESULT");
-		}
+        var responseBody = readFully(response.getBody());
+        Map<String, Object> resultMap = jsonMapper.readValue(responseBody, Map.class);
 
-		Object result = resultMap.get("result");
+        if (!resultMap.containsKey("result")) {
+            log.debug("api client request has not result");
+            throw new BlueskyException("NOT_EXIST_API_RESULT");
+        }
 
-		if (result instanceof List) {
-			var errorMessages = jsonMapper.convertValue(result, BlueskyErrorMessage[].class);
-			throw new BlueskyException(Arrays.asList(errorMessages));
-		} else {
-			var errorMessage = jsonMapper.convertValue(result, BlueskyErrorMessage.class);
-			throw new BlueskyException(errorMessage);
-		}
-	}
+        Object result = resultMap.get("result");
 
-	private String readFully(InputStream inputStream) throws IOException {
-		try (var buffer = new BufferedReader(new InputStreamReader(inputStream))) {
-			return buffer.lines().collect(Collectors.joining("\n"));
-		}
-	}
+        if (result instanceof List) {
+            var errorMessages = jsonMapper.convertValue(result, BlueskyErrorMessage[].class);
+            throw new BlueskyException(Arrays.asList(errorMessages));
+        } else {
+            var errorMessage = jsonMapper.convertValue(result, BlueskyErrorMessage.class);
+            throw new BlueskyException(errorMessage);
+        }
+    }
 
+    private String readFully(InputStream inputStream) throws IOException {
+        try (var buffer = new BufferedReader(new InputStreamReader(inputStream))) {
+            return buffer.lines().collect(Collectors.joining("\n"));
+        }
+    }
 }

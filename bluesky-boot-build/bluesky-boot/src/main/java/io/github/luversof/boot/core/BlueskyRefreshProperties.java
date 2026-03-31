@@ -1,47 +1,43 @@
 package io.github.luversof.boot.core;
 
-import java.io.Serializable;
-
-import org.springframework.util.SerializationUtils;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.exception.BlueskyException;
+import java.io.Serializable;
+import org.springframework.util.SerializationUtils;
 
-/**
- * Provides refresh/reset functions for refreshScope target properties
- */
+/** Provides refresh/reset functions for refreshScope target properties */
 public interface BlueskyRefreshProperties extends Serializable {
-	
-	/**
-	 * If you use multiple beans in the same class, you need to specify the beanName through beanNameAware implementation.
-	 * @return
-	 */
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	default String getBeanName() {
-		return null;
-	}
 
-	/**
-	 * Store the values ​​of the first properties
-	 */
-	default void storeInitialProperties() {
-		
-		String beanName = getBeanName();
-		
-		if (beanName == null) {
-			String[] beanNames = ApplicationContextUtil.getApplicationContext().getBeanNamesForType(this.getClass());
-			if (beanNames.length > 1) {
-				throw new BlueskyException("properties beanName must be set");
-			}
-			beanName = beanNames[0];
-		}
-		
-		BlueskyBootContextHolder.getContext().getInitialBlueskyResfreshPropertiesMap()
-			.computeIfAbsent(beanName, _ -> SerializationUtils.clone(this));
-		
-	}
-	
+    /**
+     * If you use multiple beans in the same class, you need to specify the beanName through
+     * beanNameAware implementation.
+     *
+     * @return
+     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    default String getBeanName() {
+        return null;
+    }
+
+    /** Store the values ​​of the first properties */
+    default void storeInitialProperties() {
+
+        String beanName = getBeanName();
+
+        if (beanName == null) {
+            String[] beanNames =
+                    ApplicationContextUtil.getApplicationContext()
+                            .getBeanNamesForType(this.getClass());
+            if (beanNames.length > 1) {
+                throw new BlueskyException("properties beanName must be set");
+            }
+            beanName = beanNames[0];
+        }
+
+        BlueskyBootContextHolder.getContext()
+                .getInitialBlueskyResfreshPropertiesMap()
+                .computeIfAbsent(beanName, _ -> SerializationUtils.clone(this));
+    }
 }

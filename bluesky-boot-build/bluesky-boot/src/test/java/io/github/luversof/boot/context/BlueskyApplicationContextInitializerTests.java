@@ -8,19 +8,18 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 class BlueskyApplicationContextInitializerTests {
 
-	@Test
-	void applicationContextUtilTest() {
-		load();
-		ApplicationContext applicationContext = ApplicationContextUtil.getApplicationContext();
-		assertThat(applicationContext).isNotNull();
-	}
-	
-	
-	private void load() {
-		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
-			new BlueskyApplicationContextInitializer().initialize(context);
-			context.refresh();
-		}
-	}
-	
+    @Test
+    void applicationContextUtilTest() {
+        load();
+        ApplicationContext applicationContext = ApplicationContextUtil.getApplicationContext();
+        assertThat(applicationContext).isNotNull();
+    }
+
+    private void load() {
+        try (AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext()) {
+            new BlueskyApplicationContextInitializer().initialize(context);
+            context.refresh();
+        }
+    }
 }

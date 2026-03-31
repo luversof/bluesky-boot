@@ -5,161 +5,164 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Exception declared for common use
- * You can implement individual Exceptions by extending the Exception, or you
- * can use this Exception.
+ * Exception declared for common use You can implement individual Exceptions by extending the
+ * Exception, or you can use this Exception.
  */
 public class BlueskyException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final int DEFAULT_STATUS = 400;
+    private static final int DEFAULT_STATUS = 400;
 
-	private final String errorCode;
-	private final transient Object[] errorMessageArgs;
+    private final String errorCode;
+    private final transient Object[] errorMessageArgs;
 
-	/**
-	 * exception의 처리 httpStatus
-	 * httpStatus 설정에 따른 에러 처리를 함
-	 * default 400
-	 */
-	private final int status;
+    /** exception의 처리 httpStatus httpStatus 설정에 따른 에러 처리를 함 default 400 */
+    private final int status;
 
-	/**
-	 * api 호출 시엔 errorMessage를 그대로 담아서 반환함
-	 * 단일 반환 케이스와 복수 반환 케이스에 대응하기 위해 아래와 같이 처리하였음.
-	 * 리스트에 단일 반환도 추가하는 식으로 변경 고려 필요
-	 */
-	private final ErrorMessage errorMessage;
-	private final List<ErrorMessage> errorMessageList;
+    /**
+     * api 호출 시엔 errorMessage를 그대로 담아서 반환함 단일 반환 케이스와 복수 반환 케이스에 대응하기 위해 아래와 같이 처리하였음. 리스트에 단일 반환도
+     * 추가하는 식으로 변경 고려 필요
+     */
+    private final ErrorMessage errorMessage;
 
-	public String getErrorCode() {
-		return errorCode;
-	}
+    private final List<ErrorMessage> errorMessageList;
 
-	public Object[] getErrorMessageArgs() {
-		return errorMessageArgs;
-	}
+    public String getErrorCode() {
+        return errorCode;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public Object[] getErrorMessageArgs() {
+        return errorMessageArgs;
+    }
 
-	public ErrorMessage getErrorMessage() {
-		return errorMessage;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public List<ErrorMessage> getErrorMessageList() {
-		return errorMessageList;
-	}
+    public ErrorMessage getErrorMessage() {
+        return errorMessage;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		BlueskyException that = (BlueskyException) o;
-		return status == that.status && Objects.equals(errorCode, that.errorCode)
-				&& Arrays.equals(errorMessageArgs, that.errorMessageArgs)
-				&& Objects.equals(errorMessage, that.errorMessage)
-				&& Objects.equals(errorMessageList, that.errorMessageList);
-	}
+    public List<ErrorMessage> getErrorMessageList() {
+        return errorMessageList;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = Objects.hash(errorCode, status, errorMessage, errorMessageList);
-		result = 31 * result + Arrays.hashCode(errorMessageArgs);
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BlueskyException that = (BlueskyException) o;
+        return status == that.status
+                && Objects.equals(errorCode, that.errorCode)
+                && Arrays.equals(errorMessageArgs, that.errorMessageArgs)
+                && Objects.equals(errorMessage, that.errorMessage)
+                && Objects.equals(errorMessageList, that.errorMessageList);
+    }
 
-	@Override
-	public String toString() {
-		return "BlueskyException{" +
-				"errorCode='" + errorCode + '\'' +
-				", errorMessageArgs=" + Arrays.toString(errorMessageArgs) +
-				", status=" + status +
-				", errorMessage=" + errorMessage +
-				", errorMessageList=" + errorMessageList +
-				'}';
-	}
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(errorCode, status, errorMessage, errorMessageList);
+        result = 31 * result + Arrays.hashCode(errorMessageArgs);
+        return result;
+    }
 
-	/**
-	 * Constructor using errorCode, status, errorMessageArgument
-	 * 
-	 * @param errorCode        errorCode
-	 * @param status           http status
-	 * @param errorMessageArgs errorMessage arguments
-	 */
-	public BlueskyException(String errorCode, int status, Object... errorMessageArgs) {
-		this.errorCode = errorCode;
-		this.status = status;
-		this.errorMessageArgs = errorMessageArgs;
-		this.errorMessage = null;
-		this.errorMessageList = null;
-	}
+    @Override
+    public String toString() {
+        return "BlueskyException{"
+                + "errorCode='"
+                + errorCode
+                + '\''
+                + ", errorMessageArgs="
+                + Arrays.toString(errorMessageArgs)
+                + ", status="
+                + status
+                + ", errorMessage="
+                + errorMessage
+                + ", errorMessageList="
+                + errorMessageList
+                + '}';
+    }
 
-	/**
-	 * Constructor using errorCode
-	 * 
-	 * @param errorCode errorCode
-	 */
-	public BlueskyException(String errorCode) {
-		this(errorCode, DEFAULT_STATUS);
-	}
+    /**
+     * Constructor using errorCode, status, errorMessageArgument
+     *
+     * @param errorCode errorCode
+     * @param status http status
+     * @param errorMessageArgs errorMessage arguments
+     */
+    public BlueskyException(String errorCode, int status, Object... errorMessageArgs) {
+        this.errorCode = errorCode;
+        this.status = status;
+        this.errorMessageArgs = errorMessageArgs;
+        this.errorMessage = null;
+        this.errorMessageList = null;
+    }
 
-	public BlueskyException(String errorCode, int status) {
-		this(errorCode, status, (Object[]) null);
-	}
+    /**
+     * Constructor using errorCode
+     *
+     * @param errorCode errorCode
+     */
+    public BlueskyException(String errorCode) {
+        this(errorCode, DEFAULT_STATUS);
+    }
 
-	/**
-	 * Constructor using errorCode, errorMessageArgument
-	 * 
-	 * @param errorCode        errorCode
-	 * @param errorMessageArgs errorMessage arguments
-	 */
-	public BlueskyException(String errorCode, Object... errorMessageArgs) {
-		this(errorCode, DEFAULT_STATUS, errorMessageArgs);
-	}
+    public BlueskyException(String errorCode, int status) {
+        this(errorCode, status, (Object[]) null);
+    }
 
-	/**
-	 * Constructor using enum errorCode
-	 * 
-	 * @param errorCode errorCode
-	 */
-	public BlueskyException(Enum<?> errorCode) {
-		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS);
-	}
+    /**
+     * Constructor using errorCode, errorMessageArgument
+     *
+     * @param errorCode errorCode
+     * @param errorMessageArgs errorMessage arguments
+     */
+    public BlueskyException(String errorCode, Object... errorMessageArgs) {
+        this(errorCode, DEFAULT_STATUS, errorMessageArgs);
+    }
 
-	public BlueskyException(Enum<?> errorCode, Object... errorMessageArgs) {
-		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS, errorMessageArgs);
-	}
+    /**
+     * Constructor using enum errorCode
+     *
+     * @param errorCode errorCode
+     */
+    public BlueskyException(Enum<?> errorCode) {
+        this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), DEFAULT_STATUS);
+    }
 
-	public BlueskyException(Enum<?> errorCode, int status) {
-		this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), status);
-	}
+    public BlueskyException(Enum<?> errorCode, Object... errorMessageArgs) {
+        this(
+                errorCode.getClass().getSimpleName() + "." + errorCode.name(),
+                DEFAULT_STATUS,
+                errorMessageArgs);
+    }
 
-	public BlueskyException(ErrorMessage errorMessage, Object[] errorMessageArgs) {
-		this.errorCode = "API_EXCEPTION";
-		this.status = DEFAULT_STATUS;
-		this.errorMessageArgs = errorMessageArgs;
-		this.errorMessage = errorMessage;
-		this.errorMessageList = null;
-	}
+    public BlueskyException(Enum<?> errorCode, int status) {
+        this(errorCode.getClass().getSimpleName() + "." + errorCode.name(), status);
+    }
 
-	public BlueskyException(ErrorMessage errorMessage) {
-		this(errorMessage, (Object[]) null);
-	}
+    public BlueskyException(ErrorMessage errorMessage, Object[] errorMessageArgs) {
+        this.errorCode = "API_EXCEPTION";
+        this.status = DEFAULT_STATUS;
+        this.errorMessageArgs = errorMessageArgs;
+        this.errorMessage = errorMessage;
+        this.errorMessageList = null;
+    }
 
-	public BlueskyException(List<ErrorMessage> errorMessageList, Object[] errorMessageArgs) {
-		this.errorCode = "API_EXCEPTION";
-		this.status = DEFAULT_STATUS;
-		this.errorMessageArgs = errorMessageArgs;
-		this.errorMessage = null;
-		this.errorMessageList = errorMessageList;
-	}
+    public BlueskyException(ErrorMessage errorMessage) {
+        this(errorMessage, (Object[]) null);
+    }
 
-	public BlueskyException(List<ErrorMessage> errorMessageList) {
-		this(errorMessageList, (Object[]) null);
-	}
+    public BlueskyException(List<ErrorMessage> errorMessageList, Object[] errorMessageArgs) {
+        this.errorCode = "API_EXCEPTION";
+        this.status = DEFAULT_STATUS;
+        this.errorMessageArgs = errorMessageArgs;
+        this.errorMessage = null;
+        this.errorMessageList = errorMessageList;
+    }
+
+    public BlueskyException(List<ErrorMessage> errorMessageList) {
+        this(errorMessageList, (Object[]) null);
+    }
 }

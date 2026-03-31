@@ -10,7 +10,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.5</version>
-		<relativePath/>
+		<relativePath />
 	</parent>
 	<properties>
 		<java.version>25</java.version>
@@ -21,10 +21,10 @@
 		<bluesky-boot-connectioninfo.version>4.0.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
 		<mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>3.0.2</springdoc-openapi.version>
-		
+
 		<logback-access-tomcat.version>2.0.12</logback-access-tomcat.version>
 		<uuid-creator.version>6.1.1</uuid-creator.version>
-		
+
 		<!-- tag:asciidoctor-properties[] -->
 		<asciidoctor-maven-plugin.version>3.2.0</asciidoctor-maven-plugin.version>
 		<refdocs.build.directory>${project.build.directory}/refdocs/</refdocs.build.directory>
@@ -41,13 +41,15 @@
 		<jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
-		
+		<spotless-maven-plugin.version>3.4.0</spotless-maven-plugin.version>
+		<google-java-format.version>1.35.0</google-java-format.version>
+
 		<!-- (s) build properties -->
 		<build.image>nexus-service:8083/luversof</build.image>
 		<build.number>LOCAL_BUILD</build.number>
 		<build.version>${project.version}</build.version>
 		<!-- (e) build properties -->
-		
+
 		<!-- (s) central -->
 		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
 		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
@@ -87,7 +89,7 @@
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<!-- (e) bluesky boot -->
-			
+
 			<!-- (s) bluesky boot connectioninfo -->
 			<dependency>
 				<groupId>io.github.luversof</groupId>
@@ -120,7 +122,7 @@
 				<version>${bluesky-boot-connectioninfo.version}</version>
 			</dependency>
 			<!-- (e) bluesky boot connectioninfo -->
-			
+
 			<!-- (s) bluesky boot crypto -->
 			<dependency>
 				<groupId>io.github.luversof</groupId>
@@ -128,7 +130,7 @@
 				<version>${bluesky-boot-crypto.version}</version>
 			</dependency>
 			<!-- (e) bluesky boot crypto -->
-			
+
 			<!-- (s) bluesky boot devcheck -->
 			<dependency>
 				<groupId>io.github.luversof</groupId>
@@ -141,7 +143,7 @@
 				<version>${bluesky-boot-devcheck.version}</version>
 			</dependency>
 			<!-- (e) bluesky boot devcheck-->
-			
+
 			<!-- (s) spring cloud -->
 			<!-- 버전관리를 편하게 하려고 cloud 의존성을 여기서 관리하고 있으나 분리하는 것이 좋다. -->
 			<dependency>
@@ -152,7 +154,7 @@
 				<scope>import</scope>
 			</dependency>
 			<!-- (e) spring cloud -->
-			
+
 			<!-- (s) mybatis -->
 			<dependency>
 				<groupId>org.mybatis.spring.boot</groupId>
@@ -181,15 +183,15 @@
 				<version>${restdocs-api-spec.version}</version>
 			</dependency>
 			<!-- (e) restdocs-api-spec -->
-			
+
 			<!-- (s) logback access-->
-			<dependency> 
+			<dependency>
 				<groupId>ch.qos.logback.access</groupId>
 				<artifactId>logback-access-tomcat</artifactId>
 				<version>${logback-access-tomcat.version}</version>
 			</dependency>
 			<!-- (e) logback access-->
-			
+
 			<dependency>
 				<groupId>com.github.f4b6a3</groupId>
 				<artifactId>uuid-creator</artifactId>
@@ -237,6 +239,29 @@
 									<buildNumber>${build.number}</buildNumber>
 								</additionalProperties>
 							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>com.diffplug.spotless</groupId>
+					<artifactId>spotless-maven-plugin</artifactId>
+					<version>${spotless-maven-plugin.version}</version>
+
+					<configuration>
+						<java>
+							<googleJavaFormat>
+								<version>${google-java-format.version}</version>
+								<style>AOSP</style>
+							</googleJavaFormat>
+						</java>
+					</configuration>
+
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+								<goal>apply</goal>
+							</goals>
 						</execution>
 					</executions>
 				</plugin>
@@ -398,7 +423,8 @@
 							<configuration>
 								<fileInfos>
 									<fileInfo>
-										<sourceRegex>^([a-zA-Z]*)(_zh-TW.properties)$</sourceRegex>
+										<sourceRegex>
+											^([a-zA-Z]*)(_zh-TW.properties)$</sourceRegex>
 										<targetRegex>$1_zh.properties</targetRegex>
 									</fileInfo>
 								</fileInfos>
@@ -412,12 +438,20 @@
 	<profiles>
 		<profile>
 			<id>local</id>
-		</profile>
-		<profile>
-			<id>sonarqube</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<build>
+				<plugins>
+					<plugin>
+	                    <groupId>com.diffplug.spotless</groupId>
+						<artifactId>spotless-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>sonarqube</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -631,7 +665,8 @@
 		<repository>
 			<id>netflix-candidates</id>
 			<name>Netflix Candidates</name>
-			<url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
+			<url>
+				https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>

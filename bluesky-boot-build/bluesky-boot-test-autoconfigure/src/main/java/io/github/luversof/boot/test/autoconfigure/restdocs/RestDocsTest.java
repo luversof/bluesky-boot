@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,65 +17,68 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
 import tools.jackson.databind.json.JsonMapper;
 
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class RestDocsTest {
 
-	private static final String DEFAULT_MOCK_RESPONSE_PATH = "src/test/resources/mockResponse/";
+    private static final String DEFAULT_MOCK_RESPONSE_PATH = "src/test/resources/mockResponse/";
 
-	@Autowired
-	private JsonMapper jsonMapper;
+    @Autowired private JsonMapper jsonMapper;
 
+    protected MockMvc mockMvc;
 
-	protected MockMvc mockMvc;
+    protected String getMockResponsePath() {
+        return DEFAULT_MOCK_RESPONSE_PATH;
+    }
 
-	protected String getMockResponsePath() {
-		return DEFAULT_MOCK_RESPONSE_PATH;
-	}
+    @BeforeEach
+    public void setUp(
+            WebApplicationContext webApplicationContext,
+            RestDocumentationContextProvider restDocumentation) {
+        var mockBuilder =
+                MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                        .apply(
+                                documentationConfiguration(restDocumentation)
+                                        .operationPreprocessors()
+                                        .withRequestDefaults(prettyPrint())
+                                        .withResponseDefaults(prettyPrint()))
+                        .alwaysDo(MockMvcResultHandlers.print())
+                        .addFilter(new CharacterEncodingFilter("UTF-8", true));
 
-	@BeforeEach
-	public void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-		var mockBuilder = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-				.apply(documentationConfiguration(restDocumentation).operationPreprocessors()
-						.withRequestDefaults(prettyPrint()).withResponseDefaults(prettyPrint()))
-				.alwaysDo(MockMvcResultHandlers.print()).addFilter(new CharacterEncodingFilter("UTF-8", true));
+        this.mockMvc = mockBuilder.build();
+    }
 
-		this.mockMvc = mockBuilder.build();
-	}
+    protected String getMockString(String path) {
+        try {
+            return Files.readString(Paths.get(getMockResponsePath() + path));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	protected String getMockString(String path) {
-		try {
-			return Files.readString(Paths.get(getMockResponsePath() + path));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    protected <T> T getMock(String path, Class<T> valueType) {
+        try {
+            return jsonMapper.readValue(getMockString(path), valueType);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	protected <T> T getMock(String path, Class<T> valueType) {
-		try {
-			return jsonMapper.readValue(getMockString(path), valueType);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    protected <T> List<T> getMockList(String path, Class<T> valueType) {
+        try {
+            return jsonMapper.readValue(getMockString(path), List.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	protected <T> List<T> getMockList(String path, Class<T> valueType) {
-		try {
-			return jsonMapper.readValue(getMockString(path), List.class);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected <T> Optional<T> getMockOptional(String path, Class<T> valueType) {
-		try {
-			return Optional.of(jsonMapper.readValue(getMockString(path), valueType));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
+    protected <T> Optional<T> getMockOptional(String path, Class<T> valueType) {
+        try {
+            return Optional.of(jsonMapper.readValue(getMockString(path), valueType));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

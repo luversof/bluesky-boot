@@ -5,6 +5,4 @@ package io.github.luversof.boot.autoconfigure.data.empty;
  *
  * @author Phillip Webb
  */
-public class EmptyDataPackage {
-
-}
+public class EmptyDataPackage {}

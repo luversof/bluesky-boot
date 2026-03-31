@@ -18,12 +18,11 @@ package io.github.luversof.boot.autoconfigure.data.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Lettuce;
 import org.springframework.data.redis.support.collections.RedisProperties;
-
-import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 
 /**
  * Tests for {@link RedisProperties}.
@@ -32,13 +31,12 @@ import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
  */
 class RedisPropertiesTests {
 
-	@Test
-	void lettuceDefaultsAreConsistent() {
-		Lettuce lettuce = new DataRedisProperties().getLettuce();
-		ClusterTopologyRefreshOptions defaultClusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
-				.build();
-		assertThat(lettuce.getCluster().getRefresh().isDynamicRefreshSources())
-				.isEqualTo(defaultClusterTopologyRefreshOptions.useDynamicRefreshSources());
-	}
-
+    @Test
+    void lettuceDefaultsAreConsistent() {
+        Lettuce lettuce = new DataRedisProperties().getLettuce();
+        ClusterTopologyRefreshOptions defaultClusterTopologyRefreshOptions =
+                ClusterTopologyRefreshOptions.builder().build();
+        assertThat(lettuce.getCluster().getRefresh().isDynamicRefreshSources())
+                .isEqualTo(defaultClusterTopologyRefreshOptions.useDynamicRefreshSources());
+    }
 }
