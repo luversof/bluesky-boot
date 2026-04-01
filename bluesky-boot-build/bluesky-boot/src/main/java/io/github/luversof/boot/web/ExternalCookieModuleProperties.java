@@ -1,10 +1,11 @@
 package io.github.luversof.boot.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.util.function.SerializableFunction;
 import io.github.luversof.boot.web.CookieProperties.CookiePropertiesBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = ExternalCookieProperties.PREFIX)
 public class ExternalCookieModuleProperties extends CookieModuleProperties {

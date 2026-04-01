@@ -1,6 +1,5 @@
 package io.github.luversof.boot.security.exception.servlet;
 
-import io.github.luversof.boot.web.util.ProblemDetailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+
+import io.github.luversof.boot.web.util.ProblemDetailUtil;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE + 10)

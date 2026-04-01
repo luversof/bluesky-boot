@@ -2,11 +2,6 @@ package io.github.luversof.boot.autoconfigure.data.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
-import io.lettuce.core.ClientOptions;
-import io.lettuce.core.cluster.ClusterClientOptions;
-import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
-import io.lettuce.core.cluster.ClusterTopologyRefreshOptions.RefreshTrigger;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -14,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -42,6 +38,12 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.StringUtils;
+
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.cluster.ClusterClientOptions;
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions.RefreshTrigger;
 
 @Disabled
 class RedisAutoConfigurationTests {

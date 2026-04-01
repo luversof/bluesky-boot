@@ -1,15 +1,17 @@
 package io.github.luversof.boot.web.servlet.support;
 
-import io.github.luversof.boot.web.DomainModuleProperties;
-import io.github.luversof.boot.web.DomainProperties;
-import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
+
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
+
+import io.github.luversof.boot.web.DomainModuleProperties;
+import io.github.luversof.boot.web.DomainProperties;
+import jakarta.servlet.http.HttpServletRequest;
 
 /** A resolver that resolves moduleName based on a combination of Domain and AddPathPattern. */
 public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameResolver {

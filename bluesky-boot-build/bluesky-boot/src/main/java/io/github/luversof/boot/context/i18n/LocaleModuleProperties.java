@@ -1,14 +1,16 @@
 package io.github.luversof.boot.context.i18n;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
-import io.github.luversof.boot.util.function.SerializableFunction;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
+import io.github.luversof.boot.util.function.SerializableFunction;
 
 @ConfigurationProperties(prefix = LocaleProperties.PREFIX)
 public class LocaleModuleProperties

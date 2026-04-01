@@ -1,6 +1,7 @@
 package io.github.luversof.boot.autoconfigure.mybatis;
 
 import java.io.IOException;
+
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;

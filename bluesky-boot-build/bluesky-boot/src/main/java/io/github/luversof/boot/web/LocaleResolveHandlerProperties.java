@@ -1,13 +1,15 @@
 package io.github.luversof.boot.web;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 
 /** localeContextResolveHandler 별 설정 관리 Cookie / AcceptHeader 별 설정 분리가 필요할까? */
 @ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)

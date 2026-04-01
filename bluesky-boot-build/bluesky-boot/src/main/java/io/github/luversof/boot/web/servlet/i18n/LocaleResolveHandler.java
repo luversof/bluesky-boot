@@ -1,9 +1,11 @@
 package io.github.luversof.boot.web.servlet.i18n;
 
+import java.util.Locale;
+
+import org.springframework.beans.factory.BeanNameAware;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Locale;
-import org.springframework.beans.factory.BeanNameAware;
 
 /** Provides multiple resolver types to use in LocaleContextResolver */
 public interface LocaleResolveHandler extends BeanNameAware {

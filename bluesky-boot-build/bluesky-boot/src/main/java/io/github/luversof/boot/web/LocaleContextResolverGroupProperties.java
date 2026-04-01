@@ -1,12 +1,14 @@
 package io.github.luversof.boot.web;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
 
 @ConfigurationProperties(prefix = LocaleContextResolverProperties.PREFIX)
 public class LocaleContextResolverGroupProperties

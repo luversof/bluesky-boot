@@ -1,11 +1,12 @@
 package io.github.luversof.boot.autoconfigure.htmx;
 
-import io.github.luversof.boot.htmx.aspect.HtmxResponseHeaderAspect;
 import org.aspectj.weaver.Advice;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+
+import io.github.luversof.boot.htmx.aspect.HtmxResponseHeaderAspect;
 
 @AutoConfiguration("blueskyBootHtmxAutoConfiguration")
 @ConditionalOnClass(Advice.class)

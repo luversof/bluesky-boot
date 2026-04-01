@@ -1,10 +1,12 @@
 package io.github.luversof.boot.web.reactive.support;
 
-import io.github.luversof.boot.web.DomainModuleProperties;
-import io.github.luversof.boot.web.DomainProperties;
 import java.util.Map.Entry;
+
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
+
+import io.github.luversof.boot.web.DomainModuleProperties;
+import io.github.luversof.boot.web.DomainProperties;
 
 /** Abstract classes of DomainModuleNameResolver and AddPathPatternModuleNameResolver */
 public abstract class AbstractModuleNameResolver implements ModuleNameResolver {

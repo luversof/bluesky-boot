@@ -1,13 +1,15 @@
 package io.github.luversof.boot.web.reactive.support;
 
-import io.github.luversof.boot.web.DomainModuleProperties;
-import io.github.luversof.boot.web.DomainProperties;
 import java.util.Comparator;
 import java.util.Map.Entry;
+
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
+
+import io.github.luversof.boot.web.DomainModuleProperties;
+import io.github.luversof.boot.web.DomainProperties;
 
 /** Resolver that resolves moduleName based on AddPathPattern */
 public class AddPathPatternModuleNameResolver extends AbstractModuleNameResolver {

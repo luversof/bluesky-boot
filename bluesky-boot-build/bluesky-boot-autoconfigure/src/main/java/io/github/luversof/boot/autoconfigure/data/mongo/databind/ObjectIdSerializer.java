@@ -1,6 +1,7 @@
 package io.github.luversof.boot.autoconfigure.data.mongo.databind;
 
 import org.bson.types.ObjectId;
+
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.ValueSerializer;

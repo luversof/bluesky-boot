@@ -1,16 +1,18 @@
 package io.github.luversof.boot.context.i18n;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
-import io.github.luversof.boot.util.function.SerializableSupplier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
+
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
+import io.github.luversof.boot.util.function.SerializableSupplier;
 
 /** 기본적인 Locale 관련 설정을 관리 */
 @ConfigurationProperties(prefix = LocaleProperties.PREFIX)

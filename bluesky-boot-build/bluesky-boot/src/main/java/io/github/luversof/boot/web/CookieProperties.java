@@ -1,17 +1,19 @@
 package io.github.luversof.boot.web;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
-import io.github.luversof.boot.util.function.SerializableSupplier;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.boot.convert.DurationUnit;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
+import io.github.luversof.boot.util.function.SerializableSupplier;
 
 @ConfigurationProperties(prefix = CookieProperties.PREFIX)
 public class CookieProperties

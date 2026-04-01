@@ -1,5 +1,7 @@
 package io.github.luversof.boot.core;
 
+import java.io.Serializable;
+
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.uuid.UuidGeneratorProperties;
 import io.github.luversof.boot.uuid.UuidGeneratorProperties.UuidGeneratorPropertiesBuilder;
@@ -10,7 +12,6 @@ import io.github.luversof.boot.web.LocaleContextResolverProperties.LocaleContext
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder;
 import io.github.luversof.boot.web.WebProperties;
-import java.io.Serializable;
 
 /**
  * enum to provide builders with a convenient way to provide coreProperties settings

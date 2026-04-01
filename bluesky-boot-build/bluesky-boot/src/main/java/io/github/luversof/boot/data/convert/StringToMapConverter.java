@@ -1,8 +1,10 @@
 package io.github.luversof.boot.data.convert;
 
 import java.util.Map;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
+
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 

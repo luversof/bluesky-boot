@@ -1,10 +1,12 @@
 package io.github.luversof.boot.core;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
 public class CoreGroupProperties implements BlueskyGroupProperties<CoreProperties> {

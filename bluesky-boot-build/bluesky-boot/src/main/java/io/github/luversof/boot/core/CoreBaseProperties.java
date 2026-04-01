@@ -1,6 +1,5 @@
 package io.github.luversof.boot.core;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,7 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 
 /**
  * BlueskyProperties를 구현한 ConfigurationProperties 중 모듈을 구현하지 않고 모듈에 대한 공통 설정을 관리하는 용도의 properties

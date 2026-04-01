@@ -1,11 +1,14 @@
 package io.github.luversof.boot.core;
 
+import java.io.Serializable;
+
+import org.springframework.util.SerializationUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.exception.BlueskyException;
-import java.io.Serializable;
-import org.springframework.util.SerializationUtils;
 
 /** Provides refresh/reset functions for refreshScope target properties */
 public interface BlueskyRefreshProperties extends Serializable {

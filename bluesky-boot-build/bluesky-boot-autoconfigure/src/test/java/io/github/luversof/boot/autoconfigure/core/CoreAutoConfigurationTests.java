@@ -4,13 +4,14 @@ import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.BA
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.CORE_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
 import io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.core.CoreModuleProperties;
 import io.github.luversof.boot.core.CoreProperties;
 import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 
 class CoreAutoConfigurationTests {
 

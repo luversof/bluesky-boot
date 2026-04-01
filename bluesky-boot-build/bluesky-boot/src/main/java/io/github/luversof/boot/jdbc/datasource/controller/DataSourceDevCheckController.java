@@ -1,15 +1,18 @@
 package io.github.luversof.boot.jdbc.datasource.controller;
 
-import io.github.luversof.boot.devcheck.annotation.DevCheckController;
-import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
-import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import java.util.Collections;
 import java.util.Set;
+
 import javax.sql.DataSource;
+
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.DelegatingDataSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import io.github.luversof.boot.devcheck.annotation.DevCheckController;
+import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
+import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 
 /**
  * {@link DevCheckController} for DataSource support.

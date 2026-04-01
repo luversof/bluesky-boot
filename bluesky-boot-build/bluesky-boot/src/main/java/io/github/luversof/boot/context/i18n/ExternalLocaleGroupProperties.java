@@ -1,9 +1,10 @@
 package io.github.luversof.boot.context.i18n;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.util.function.SerializableFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.util.function.SerializableFunction;
 
 @ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleGroupProperties extends LocaleGroupProperties {

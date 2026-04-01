@@ -1,8 +1,9 @@
 package io.github.luversof.boot.exception;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Arrays;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /** An error message object for use in error response handling. */
 public class BlueskyErrorMessage implements ErrorMessage {

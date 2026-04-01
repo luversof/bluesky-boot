@@ -2,9 +2,6 @@ package io.github.luversof.boot.context;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.github.luversof.boot.core.CoreBaseProperties;
-import io.github.luversof.boot.core.CoreModuleProperties;
-import io.github.luversof.boot.core.CoreProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -12,6 +9,10 @@ import org.springframework.boot.context.ConfigurationWarningsApplicationContextI
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
+
+import io.github.luversof.boot.core.CoreBaseProperties;
+import io.github.luversof.boot.core.CoreModuleProperties;
+import io.github.luversof.boot.core.CoreProperties;
 
 class BlueskyBootContextHolderTests {
 

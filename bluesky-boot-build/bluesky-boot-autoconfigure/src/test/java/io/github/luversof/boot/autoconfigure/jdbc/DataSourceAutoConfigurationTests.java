@@ -5,19 +5,23 @@ import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.JD
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.JDBC_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.zaxxer.hikari.HikariDataSource;
-import io.github.luversof.boot.autoconfigure.connectioninfo.ConnectionInfoAutoConfiguration;
-import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
-import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
-import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 import java.util.HashMap;
 import java.util.Random;
+
 import javax.sql.DataSource;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+import io.github.luversof.boot.autoconfigure.connectioninfo.ConnectionInfoAutoConfiguration;
+import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
+import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
 @Disabled
 class DataSourceAutoConfigurationTests {

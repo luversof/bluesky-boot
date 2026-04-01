@@ -1,12 +1,14 @@
 package io.github.luversof.boot.web.servlet.support;
 
+import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.DomainProperties;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Map.Entry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract classes of DomainModuleNameResolver, DomainAddPathPatternModuleNameResolver, and

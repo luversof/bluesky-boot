@@ -1,10 +1,11 @@
 package io.github.luversof.boot.autoconfigure;
 
+import java.util.HashSet;
+
 import io.github.luversof.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.context.i18n.LocaleAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import java.util.HashSet;
 
 public class AutoConfigurationTestInfo {
 

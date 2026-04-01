@@ -253,6 +253,20 @@
 								<version>${google-java-format.version}</version>
 								<style>AOSP</style>
 							</googleJavaFormat>
+							
+							<!-- import 자동 정리 -->
+							<removeUnusedImports />
+
+							<!-- import 순서 강제 -->
+							<importOrder>
+								<order>java,javax,org,com</order>
+							</importOrder>
+
+							<!-- 개행 통일 -->
+							<endWithNewline />
+
+							<!-- 불필요 공백 제거 -->
+							<trimTrailingWhitespace />
 						</java>
 					</configuration>
 

@@ -5,12 +5,14 @@ import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.CO
 import static io.github.luversof.boot.autoconfigure.AutoConfigurationTestInfo.CORE_MESSAGESOURCE_USER_CONFIGURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 import java.util.Locale;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+
+import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
 class MessageSourceAutoConfigurationTests {
 

@@ -1,6 +1,7 @@
 package io.github.luversof.boot.core;
 
 import java.util.function.BiConsumer;
+
 import org.springframework.beans.BeanUtils;
 
 /**

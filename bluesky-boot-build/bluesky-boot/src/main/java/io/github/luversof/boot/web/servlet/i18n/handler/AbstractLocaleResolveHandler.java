@@ -1,5 +1,9 @@
 package io.github.luversof.boot.web.servlet.i18n.handler;
 
+import java.util.Locale;
+
+import org.springframework.util.CollectionUtils;
+
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
@@ -8,8 +12,6 @@ import io.github.luversof.boot.web.LocaleResolveHandlerProperties.SetRepresentat
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfo;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfoContainer;
-import java.util.Locale;
-import org.springframework.util.CollectionUtils;
 
 /** Abstract classes of CookieLocaleResolveHandler and AcceptHeaderLocaleResolveHandler */
 public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandler {

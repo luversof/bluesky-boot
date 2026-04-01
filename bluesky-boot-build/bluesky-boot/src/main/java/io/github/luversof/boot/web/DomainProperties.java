@@ -1,16 +1,18 @@
 package io.github.luversof.boot.web;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyProperties;
+import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 
 @ConfigurationProperties(prefix = DomainProperties.PREFIX)
 public class DomainProperties

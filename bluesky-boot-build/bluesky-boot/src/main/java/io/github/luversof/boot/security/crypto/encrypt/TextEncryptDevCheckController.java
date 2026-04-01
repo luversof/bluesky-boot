@@ -1,13 +1,15 @@
 package io.github.luversof.boot.security.crypto.encrypt;
 
-import io.github.luversof.boot.devcheck.annotation.DevCheckController;
-import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
-import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 import java.util.Set;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import io.github.luversof.boot.devcheck.annotation.DevCheckController;
+import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
+import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 
 /**
  * {@link DevCheckController} for TextEncrypt support.

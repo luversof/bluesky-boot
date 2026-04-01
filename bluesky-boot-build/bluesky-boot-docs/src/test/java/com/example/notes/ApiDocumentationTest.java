@@ -4,8 +4,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
-import io.github.luversof.boot.test.autoconfigure.restdocs.RestDocsTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -17,6 +15,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+
+import io.github.luversof.boot.test.autoconfigure.restdocs.RestDocsTest;
 
 @SpringBootTest
 @SpringBootApplication

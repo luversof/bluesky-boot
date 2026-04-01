@@ -1,15 +1,18 @@
 package io.github.luversof.boot.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.luversof.boot.context.ApplicationContextUtil;
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.context.BlueskyContextHolder;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.ResolvableType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.github.luversof.boot.context.ApplicationContextUtil;
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.context.BlueskyContextHolder;
 
 /**
  * Top-level class provided for handling module branching

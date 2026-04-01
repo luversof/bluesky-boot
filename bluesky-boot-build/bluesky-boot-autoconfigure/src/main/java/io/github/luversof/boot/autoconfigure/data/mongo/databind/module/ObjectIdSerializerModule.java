@@ -1,7 +1,8 @@
 package io.github.luversof.boot.autoconfigure.data.mongo.databind.module;
 
-import io.github.luversof.boot.autoconfigure.data.mongo.databind.ObjectIdSerializer;
 import org.bson.types.ObjectId;
+
+import io.github.luversof.boot.autoconfigure.data.mongo.databind.ObjectIdSerializer;
 import tools.jackson.core.json.PackageVersion;
 import tools.jackson.databind.module.SimpleModule;
 

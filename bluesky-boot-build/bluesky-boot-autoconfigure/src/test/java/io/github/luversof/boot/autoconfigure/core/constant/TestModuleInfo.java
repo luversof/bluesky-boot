@@ -1,10 +1,11 @@
 package io.github.luversof.boot.autoconfigure.core.constant;
 
+import java.util.List;
+import java.util.Locale;
+
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.context.i18n.LocaleProperties.LocalePropertiesBuilder;
 import io.github.luversof.boot.core.ModuleInfo;
-import java.util.List;
-import java.util.Locale;
 
 public enum TestModuleInfo implements ModuleInfo {
     TEST {

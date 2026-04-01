@@ -1,9 +1,8 @@
 package io.github.luversof.boot.autoconfigure.web.util;
 
-import io.github.luversof.boot.context.ApplicationContextUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.boot.webmvc.autoconfigure.error.ErrorViewResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import io.github.luversof.boot.context.ApplicationContextUtil;
+import jakarta.servlet.http.HttpServletRequest;
 
 /** Utility for handling responses to exceptions */
 public final class ExceptionUtil {

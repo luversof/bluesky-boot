@@ -1,9 +1,12 @@
 package io.github.luversof.boot.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.luversof.boot.context.ApplicationContextUtil;
 import java.util.Map;
+
 import org.springframework.beans.factory.InitializingBean;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.github.luversof.boot.context.ApplicationContextUtil;
 
 public interface BlueskyGroupProperties<P extends BlueskyProperties>
         extends InitializingBean, BlueskyRefreshProperties {

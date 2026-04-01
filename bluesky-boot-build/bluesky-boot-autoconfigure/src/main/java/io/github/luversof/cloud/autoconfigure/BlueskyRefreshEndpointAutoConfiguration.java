@@ -1,7 +1,5 @@
 package io.github.luversof.cloud.autoconfigure;
 
-import io.github.luversof.cloud.context.refresh.BlueskyPropertiesRefresher;
-import io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint;
 import org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -12,6 +10,9 @@ import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration.RefreshP
 import org.springframework.cloud.context.scope.refresh.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import io.github.luversof.cloud.context.refresh.BlueskyPropertiesRefresher;
+import io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint;
 
 @AutoConfiguration("blueskyCloudRefreshEndpointAutoConfiguration")
 @ConditionalOnClass({RefreshScope.class, EndpointAutoConfiguration.class, Health.class})

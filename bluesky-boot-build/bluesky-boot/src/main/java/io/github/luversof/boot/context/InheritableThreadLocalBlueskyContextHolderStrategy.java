@@ -1,7 +1,8 @@
 package io.github.luversof.boot.context;
 
-import io.github.luversof.boot.core.CoreModuleProperties;
 import org.springframework.util.Assert;
+
+import io.github.luversof.boot.core.CoreModuleProperties;
 
 final class InheritableThreadLocalBlueskyContextHolderStrategy
         implements BlueskyContextHolderStrategy {

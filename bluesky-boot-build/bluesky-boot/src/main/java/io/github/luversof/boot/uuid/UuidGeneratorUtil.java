@@ -1,7 +1,8 @@
 package io.github.luversof.boot.uuid;
 
-import io.github.luversof.boot.context.ApplicationContextUtil;
 import java.util.UUID;
+
+import io.github.luversof.boot.context.ApplicationContextUtil;
 
 public final class UuidGeneratorUtil {
 

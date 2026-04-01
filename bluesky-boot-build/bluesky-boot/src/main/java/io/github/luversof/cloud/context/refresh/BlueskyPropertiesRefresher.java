@@ -1,16 +1,9 @@
 package io.github.luversof.cloud.context.refresh;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
-import io.github.luversof.boot.core.BlueskyProperties;
-import io.github.luversof.boot.core.BlueskyRefreshProperties;
-import io.github.luversof.boot.core.CoreBaseProperties;
-import io.github.luversof.boot.core.CoreGroupProperties;
-import io.github.luversof.boot.core.CoreModuleProperties;
-import io.github.luversof.boot.core.CoreProperties;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
 import org.springframework.cloud.context.config.ContextRefreshedWithApplicationEvent;
@@ -19,6 +12,15 @@ import org.springframework.cloud.context.scope.refresh.RefreshScope;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.SerializationUtils;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.BlueskyRefreshProperties;
+import io.github.luversof.boot.core.CoreBaseProperties;
+import io.github.luversof.boot.core.CoreGroupProperties;
+import io.github.luversof.boot.core.CoreModuleProperties;
+import io.github.luversof.boot.core.CoreProperties;
 
 /**
  * actuator endpoint refresh를 약간 수정하여 Environment 변경 적용 후 BlueskyProperties 갱신 처리 refresh endpoint의

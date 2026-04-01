@@ -1,15 +1,17 @@
 package io.github.luversof.boot.web;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
-import io.github.luversof.boot.util.function.SerializableFunction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.AbstractBlueskyGroupProperties;
+import io.github.luversof.boot.util.function.SerializableFunction;
 
 @ConfigurationProperties(prefix = CookieProperties.PREFIX)
 public class CookieGroupProperties

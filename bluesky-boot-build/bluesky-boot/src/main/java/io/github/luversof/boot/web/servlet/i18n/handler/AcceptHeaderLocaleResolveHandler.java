@@ -1,10 +1,12 @@
 package io.github.luversof.boot.web.servlet.i18n.handler;
 
+import java.util.Locale;
+
+import org.springframework.http.HttpHeaders;
+
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveInfoContainer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Locale;
-import org.springframework.http.HttpHeaders;
 
 /** Handler for resolving the locale requested by AcceptHeader */
 public class AcceptHeaderLocaleResolveHandler extends AbstractLocaleResolveHandler {

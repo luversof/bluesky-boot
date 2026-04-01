@@ -1,12 +1,14 @@
 package io.github.luversof.boot.uuid;
 
+import java.util.Objects;
+import java.util.function.BiConsumer;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.PropertyMapper;
+
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyProperties;
 import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 @ConfigurationProperties(prefix = UuidGeneratorProperties.PREFIX)
 public class UuidGeneratorProperties

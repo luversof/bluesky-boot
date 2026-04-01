@@ -2,6 +2,7 @@ package org.springframework.boot.context.properties.migrator;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.configurationmetadata.ConfigurationMetadataRepository;

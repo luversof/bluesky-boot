@@ -1,11 +1,13 @@
 package io.github.luversof.boot.data.convert.jdbc.util;
 
-import io.github.luversof.boot.uuid.UuidGeneratorUtil;
 import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
 import org.springframework.util.ReflectionUtils;
+
+import io.github.luversof.boot.uuid.UuidGeneratorUtil;
 
 /** UUID 타입의 id 필드에 대해 생성 설정을 제공하기 위해 만든 유틸 */
 public final class DataJdbcConverterUtil {

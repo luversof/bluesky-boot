@@ -1,16 +1,10 @@
 package io.github.luversof.boot.autoconfigure.jdbc;
 
-import com.zaxxer.hikari.HikariDataSource;
-import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
-import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
-import io.github.luversof.boot.connectioninfo.DataSourceConnectionConfig;
-import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
-import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
-import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
-import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.sql.DataSource;
+
 import org.aspectj.weaver.Advice;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -29,6 +23,16 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+import io.github.luversof.boot.connectioninfo.ConnectionInfoLoader;
+import io.github.luversof.boot.connectioninfo.ConnectionInfoRegistry;
+import io.github.luversof.boot.connectioninfo.DataSourceConnectionConfig;
+import io.github.luversof.boot.jdbc.datasource.aspect.RoutingDataSourceAspect;
+import io.github.luversof.boot.jdbc.datasource.controller.DataSourceDevCheckController;
+import io.github.luversof.boot.jdbc.datasource.lookup.LazyLoadRoutingDataSource;
+import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for DataSource support.

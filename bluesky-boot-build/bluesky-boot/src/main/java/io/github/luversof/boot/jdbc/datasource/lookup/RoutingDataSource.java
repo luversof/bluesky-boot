@@ -1,7 +1,8 @@
 package io.github.luversof.boot.jdbc.datasource.lookup;
 
-import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextHolder;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextHolder;
 
 public class RoutingDataSource extends AbstractRoutingDataSource {
 

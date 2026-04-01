@@ -1,12 +1,13 @@
 package io.github.luversof.boot.web.servlet.i18n;
 
-import io.github.luversof.boot.context.BlueskyContextHolder;
-import io.github.luversof.boot.context.i18n.LocaleProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Supplier;
+
+import io.github.luversof.boot.context.BlueskyContextHolder;
+import io.github.luversof.boot.context.i18n.LocaleProperties;
 
 /** Container containing locale information to use */
 public class LocaleResolveInfoContainer {

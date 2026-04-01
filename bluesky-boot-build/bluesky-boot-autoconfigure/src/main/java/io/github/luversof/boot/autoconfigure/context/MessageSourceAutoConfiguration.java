@@ -1,9 +1,7 @@
 package io.github.luversof.boot.autoconfigure.context;
 
-import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
-import io.github.luversof.boot.context.support.MessageSourceDevCheckController;
-import io.github.luversof.boot.context.support.MessageUtil;
 import java.util.ArrayList;
+
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,6 +12,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.util.CollectionUtils;
+
+import io.github.luversof.boot.context.support.BlueskyReloadableResourceBundleMessageSource;
+import io.github.luversof.boot.context.support.MessageSourceDevCheckController;
+import io.github.luversof.boot.context.support.MessageUtil;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for MessageSource support.

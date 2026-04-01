@@ -1,15 +1,16 @@
 package io.github.luversof.boot.context;
 
-import io.github.luversof.boot.core.BlueskyGroupProperties;
-import io.github.luversof.boot.core.BlueskyModuleProperties;
-import io.github.luversof.boot.core.BlueskyProperties;
-import io.github.luversof.boot.core.CoreProperties;
-import io.github.luversof.boot.exception.BlueskyException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
+
+import io.github.luversof.boot.core.BlueskyGroupProperties;
+import io.github.luversof.boot.core.BlueskyModuleProperties;
+import io.github.luversof.boot.core.BlueskyProperties;
+import io.github.luversof.boot.core.CoreProperties;
+import io.github.luversof.boot.exception.BlueskyException;
 
 /**
  * Holder of BlueskyContext A holder created by referencing Spring Security's SecurityContextHolder

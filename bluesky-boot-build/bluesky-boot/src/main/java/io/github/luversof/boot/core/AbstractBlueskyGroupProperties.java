@@ -1,7 +1,8 @@
 package io.github.luversof.boot.core;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import java.util.function.BiConsumer;
+
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
 
 public abstract class AbstractBlueskyGroupProperties<
                 P extends AbstractBlueskyProperties<P, B>, B extends BlueskyPropertiesBuilder<P>>

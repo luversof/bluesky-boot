@@ -1,12 +1,14 @@
 package io.github.luversof.cloud.endpoint;
 
-import io.github.luversof.cloud.context.refresh.BlueskyPropertiesRefresher;
 import java.util.Collection;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.WriteOperation;
+
+import io.github.luversof.cloud.context.refresh.BlueskyPropertiesRefresher;
 
 @Endpoint(id = "blueskyRefresh")
 public class BlueskyRefreshEndpoint {

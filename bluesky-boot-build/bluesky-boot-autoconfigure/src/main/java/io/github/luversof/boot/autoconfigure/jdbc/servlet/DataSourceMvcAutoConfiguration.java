@@ -1,8 +1,7 @@
 package io.github.luversof.boot.autoconfigure.jdbc.servlet;
 
-import io.github.luversof.boot.jdbc.datasource.filter.RoutingDataSourceContextHolderFilter;
-import io.github.luversof.boot.jdbc.datasource.support.CommonRoutingDataSourceLookupKeyResolver;
 import javax.sql.DataSource;
+
 import org.jspecify.annotations.Nullable;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,6 +11,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import io.github.luversof.boot.jdbc.datasource.filter.RoutingDataSourceContextHolderFilter;
+import io.github.luversof.boot.jdbc.datasource.support.CommonRoutingDataSourceLookupKeyResolver;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for DataSource Servlet support.

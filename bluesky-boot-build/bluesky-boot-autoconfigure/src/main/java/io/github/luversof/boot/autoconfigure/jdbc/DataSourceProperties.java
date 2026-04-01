@@ -1,6 +1,7 @@
 package io.github.luversof.boot.autoconfigure.jdbc;
 
 import java.util.Objects;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /** Configuration properties for DataSource. */
