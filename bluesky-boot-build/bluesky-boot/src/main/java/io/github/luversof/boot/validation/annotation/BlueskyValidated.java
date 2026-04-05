@@ -19,10 +19,10 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public @interface BlueskyValidated {
 
-    /**
-     * validation hint class
-     *
-     * @return
-     */
-    Class<?>[] value() default {};
+  /**
+   * validation hint class
+   *
+   * @return
+   */
+  Class<?>[] value() default {};
 }

@@ -8,11 +8,11 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public interface BlueskyProperties extends InitializingBean, BlueskyRefreshProperties {
 
-    default void load() {}
+  default void load() {}
 
-    @Override
-    default void afterPropertiesSet() throws Exception {
-        storeInitialProperties();
-        load();
-    }
+  @Override
+  default void afterPropertiesSet() throws Exception {
+    storeInitialProperties();
+    load();
+  }
 }

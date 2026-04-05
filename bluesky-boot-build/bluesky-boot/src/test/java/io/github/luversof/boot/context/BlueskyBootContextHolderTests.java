@@ -16,48 +16,48 @@ import io.github.luversof.boot.core.CoreProperties;
 
 class BlueskyBootContextHolderTests {
 
-    private AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+  private AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 
-    @AfterEach
-    void cleanUp() {
-        this.context.close();
-    }
+  @AfterEach
+  void cleanUp() {
+    this.context.close();
+  }
 
-    private void load() {
-        new ConfigurationWarningsApplicationContextInitializer().initialize(context);
-        new BlueskyApplicationContextInitializer().initialize(context);
-        context.register(TestConfiguration.class);
-        context.refresh();
-    }
+  private void load() {
+    new ConfigurationWarningsApplicationContextInitializer().initialize(context);
+    new BlueskyApplicationContextInitializer().initialize(context);
+    context.register(TestConfiguration.class);
+    context.refresh();
+  }
 
-    @Test
-    void getBlueskyContext() {
-        load();
-        var blueskyContext = BlueskyContextHolder.getContext();
-        assertThat(blueskyContext).isNotNull();
-    }
+  @Test
+  void getBlueskyContext() {
+    load();
+    var blueskyContext = BlueskyContextHolder.getContext();
+    assertThat(blueskyContext).isNotNull();
+  }
 
-    @Test
-    @Disabled("ContextHolder 테스트는 전체 테스트 수행 시 code coverage 처리가 되지 않음")
-    void getBlueskyContext2() {
-        System.setProperty(BlueskyContextHolder.SYSTEM_PROPERTY, BlueskyContextHolder.MODE_GLOBAL);
-        load();
-        var blueskyContext = BlueskyContextHolder.getContext();
-        assertThat(blueskyContext).isNotNull();
-    }
+  @Test
+  @Disabled("ContextHolder 테스트는 전체 테스트 수행 시 code coverage 처리가 되지 않음")
+  void getBlueskyContext2() {
+    System.setProperty(BlueskyContextHolder.SYSTEM_PROPERTY, BlueskyContextHolder.MODE_GLOBAL);
+    load();
+    var blueskyContext = BlueskyContextHolder.getContext();
+    assertThat(blueskyContext).isNotNull();
+  }
 
-    @Test
-    void getBlueskyBootContext() {
-        load();
-        var blueskyContext = BlueskyBootContextHolder.getContext();
-        assertThat(blueskyContext).isNotNull();
-    }
+  @Test
+  void getBlueskyBootContext() {
+    load();
+    var blueskyContext = BlueskyBootContextHolder.getContext();
+    assertThat(blueskyContext).isNotNull();
+  }
 
-    @Configuration(proxyBeanMethods = false)
-    @EnableConfigurationProperties({
-        CoreBaseProperties.class,
-        CoreProperties.class,
-        CoreModuleProperties.class
-    })
-    static class TestConfiguration {}
+  @Configuration(proxyBeanMethods = false)
+  @EnableConfigurationProperties({
+    CoreBaseProperties.class,
+    CoreProperties.class,
+    CoreModuleProperties.class
+  })
+  static class TestConfiguration {}
 }

@@ -15,39 +15,38 @@ import io.github.luversof.boot.htmx.annotation.HtmxResponseHeader;
 @Aspect
 public class HtmxResponseHeaderAspect {
 
-    @Around("@within(htmxResponseHeader)")
-    public Object classAround(
-            ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader)
-            throws Throwable {
-        return execute(proceedingJoinPoint, htmxResponseHeader);
+  @Around("@within(htmxResponseHeader)")
+  public Object classAround(
+      ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader)
+      throws Throwable {
+    return execute(proceedingJoinPoint, htmxResponseHeader);
+  }
+
+  @Around("@annotation(htmxResponseHeader)")
+  public Object methodAround(
+      ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader)
+      throws Throwable {
+    return execute(proceedingJoinPoint, htmxResponseHeader);
+  }
+
+  private Object execute(
+      ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader)
+      throws Throwable {
+
+    String[] parameterNames =
+        ((MethodSignature) proceedingJoinPoint.getSignature()).getParameterNames();
+    Object[] args = proceedingJoinPoint.getArgs();
+    var map = new HashMap<>();
+    for (int i = 0; i < parameterNames.length; i++) {
+      map.put(parameterNames[i], args[i]);
     }
+    String parseStr = SpelParserUtil.parse(htmxResponseHeader.value(), map);
 
-    @Around("@annotation(htmxResponseHeader)")
-    public Object methodAround(
-            ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader)
-            throws Throwable {
-        return execute(proceedingJoinPoint, htmxResponseHeader);
+    var response =
+        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+    if (response != null) {
+      response.setHeader(htmxResponseHeader.headerName().getHeaderName(), parseStr);
     }
-
-    private Object execute(
-            ProceedingJoinPoint proceedingJoinPoint, HtmxResponseHeader htmxResponseHeader)
-            throws Throwable {
-
-        String[] parameterNames =
-                ((MethodSignature) proceedingJoinPoint.getSignature()).getParameterNames();
-        Object[] args = proceedingJoinPoint.getArgs();
-        var map = new HashMap<>();
-        for (int i = 0; i < parameterNames.length; i++) {
-            map.put(parameterNames[i], args[i]);
-        }
-        String parseStr = SpelParserUtil.parse(htmxResponseHeader.value(), map);
-
-        var response =
-                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                        .getResponse();
-        if (response != null) {
-            response.setHeader(htmxResponseHeader.headerName().getHeaderName(), parseStr);
-        }
-        return proceedingJoinPoint.proceed();
-    }
+    return proceedingJoinPoint.proceed();
+  }
 }

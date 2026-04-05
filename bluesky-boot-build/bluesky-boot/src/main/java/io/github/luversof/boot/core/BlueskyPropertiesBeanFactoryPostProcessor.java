@@ -10,20 +10,20 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  */
 public class BlueskyPropertiesBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
-            throws BeansException {
+  @Override
+  public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+      throws BeansException {
 
-        beanFactory
-                .getBeanDefinition(CoreProperties.BEAN_NAME)
-                .setDependsOn(CoreBaseProperties.BEAN_NAME);
+    beanFactory
+        .getBeanDefinition(CoreProperties.BEAN_NAME)
+        .setDependsOn(CoreBaseProperties.BEAN_NAME);
 
-        for (String beanName : beanFactory.getBeanNamesForType(BlueskyProperties.class)) {
-            if (beanName.equals(CoreBaseProperties.BEAN_NAME)
-                    || beanName.equals(CoreProperties.BEAN_NAME)) {
-                continue;
-            }
-            beanFactory.getBeanDefinition(beanName).setDependsOn(CoreProperties.BEAN_NAME);
-        }
+    for (String beanName : beanFactory.getBeanNamesForType(BlueskyProperties.class)) {
+      if (beanName.equals(CoreBaseProperties.BEAN_NAME)
+          || beanName.equals(CoreProperties.BEAN_NAME)) {
+        continue;
+      }
+      beanFactory.getBeanDefinition(beanName).setDependsOn(CoreProperties.BEAN_NAME);
     }
+  }
 }

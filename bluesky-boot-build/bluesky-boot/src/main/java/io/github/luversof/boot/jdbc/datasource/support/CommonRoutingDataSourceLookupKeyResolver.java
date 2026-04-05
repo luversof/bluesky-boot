@@ -6,4 +6,4 @@ package io.github.luversof.boot.jdbc.datasource.support;
  * @author bluesky
  */
 public interface CommonRoutingDataSourceLookupKeyResolver
-        extends RoutingDataSourceLookupKeyResolver {}
+    extends RoutingDataSourceLookupKeyResolver {}

@@ -19,19 +19,19 @@ import io.github.luversof.boot.web.util.ProblemDetailUtil;
 @Order(Ordered.LOWEST_PRECEDENCE + 10)
 public class SecurityMvcExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(SecurityMvcExceptionHandler.class);
+  private static final Logger log = LoggerFactory.getLogger(SecurityMvcExceptionHandler.class);
 
-    @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-    public ModelAndView preAuthenticatedCredentialsNotFoundException(
-            PreAuthenticatedCredentialsNotFoundException exception) {
-        log.error("PreAuthenticatedCredentialsNotFoundException exception", exception);
-        return new ModelAndView("login");
-    }
+  @ExceptionHandler
+  @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+  public ModelAndView preAuthenticatedCredentialsNotFoundException(
+      PreAuthenticatedCredentialsNotFoundException exception) {
+    log.error("PreAuthenticatedCredentialsNotFoundException exception", exception);
+    return new ModelAndView("login");
+  }
 
-    @ExceptionHandler
-    public ProblemDetail accessDeniedException(AccessDeniedException exception) {
-        log.error("AccessDeniedException exception", exception);
-        return ProblemDetailUtil.getProblemDetail(exception, HttpStatus.UNAUTHORIZED);
-    }
+  @ExceptionHandler
+  public ProblemDetail accessDeniedException(AccessDeniedException exception) {
+    log.error("AccessDeniedException exception", exception);
+    return ProblemDetailUtil.getProblemDetail(exception, HttpStatus.UNAUTHORIZED);
+  }
 }

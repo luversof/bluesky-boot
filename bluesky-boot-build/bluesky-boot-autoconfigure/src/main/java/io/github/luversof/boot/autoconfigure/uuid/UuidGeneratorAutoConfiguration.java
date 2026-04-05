@@ -16,21 +16,20 @@ import io.github.luversof.boot.uuid.UuidGeneratorProperties;
 @AutoConfiguration("blueskyBootUuidGeneratorAutoConfiguration")
 @ConditionalOnClass(GUID.class)
 @EnableConfigurationProperties({
-    UuidGeneratorProperties.class,
-    UuidGeneratorModuleProperties.class,
-    UuidGeneratorGroupProperties.class
+  UuidGeneratorProperties.class,
+  UuidGeneratorModuleProperties.class,
+  UuidGeneratorGroupProperties.class
 })
 public class UuidGeneratorAutoConfiguration {
 
-    @Bean
-    UuidGenerator uuidGenerator() {
-        return () ->
-                switch (BlueskyContextHolder.getProperties(UuidGeneratorProperties.class)
-                        .getVersion()) {
-                    case V1 -> GUID.v1().toUUID();
-                    case V4 -> GUID.v4().toUUID();
-                    case V6 -> GUID.v6().toUUID();
-                    case V7 -> GUID.v7().toUUID();
-                };
-    }
+  @Bean
+  UuidGenerator uuidGenerator() {
+    return () ->
+        switch (BlueskyContextHolder.getProperties(UuidGeneratorProperties.class).getVersion()) {
+          case V1 -> GUID.v1().toUUID();
+          case V4 -> GUID.v4().toUUID();
+          case V6 -> GUID.v6().toUUID();
+          case V7 -> GUID.v7().toUUID();
+        };
+  }
 }

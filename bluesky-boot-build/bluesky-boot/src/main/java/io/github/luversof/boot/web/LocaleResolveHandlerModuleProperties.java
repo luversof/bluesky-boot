@@ -12,83 +12,90 @@ import io.github.luversof.boot.core.AbstractBlueskyModuleProperties;
 
 @ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
 public class LocaleResolveHandlerModuleProperties
-        extends AbstractBlueskyModuleProperties<
-                LocaleResolveHandlerProperties,
-                LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder>
-        implements BeanNameAware {
+    extends AbstractBlueskyModuleProperties<
+        LocaleResolveHandlerProperties,
+        LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder>
+    implements BeanNameAware {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    private String beanName;
+  private String beanName;
 
-    private LocaleResolveHandlerProperties parent;
+  private LocaleResolveHandlerProperties parent;
 
-    private Map<String, LocaleResolveHandlerProperties> modules = new HashMap<>();
+  private Map<String, LocaleResolveHandlerProperties> modules = new HashMap<>();
 
-    public LocaleResolveHandlerModuleProperties(LocaleResolveHandlerProperties parent) {
-        this.parent = parent;
+  public LocaleResolveHandlerModuleProperties(LocaleResolveHandlerProperties parent) {
+    this.parent = parent;
+  }
+
+  @Override
+  public String getBeanName() {
+    return beanName;
+  }
+
+  @Override
+  public void setBeanName(String beanName) {
+    this.beanName = beanName;
+  }
+
+  @Override
+  public LocaleResolveHandlerProperties getParent() {
+    return parent;
+  }
+
+  @Override
+  public void setParent(LocaleResolveHandlerProperties parent) {
+    this.parent = parent;
+  }
+
+  @Override
+  public Map<String, LocaleResolveHandlerProperties> getModules() {
+    return modules;
+  }
+
+  public void setModules(Map<String, LocaleResolveHandlerProperties> modules) {
+    this.modules = modules;
+  }
+
+  @Override
+  protected LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder getBuilder(
+      String moduleName) {
+    var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+    return moduleInfoMap.containsKey(moduleName)
+        ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder()
+        : LocaleResolveHandlerProperties.builder();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public String getBeanName() {
-        return beanName;
+    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
+      return false;
     }
+    LocaleResolveHandlerModuleProperties that = (LocaleResolveHandlerModuleProperties) o;
+    return Objects.equals(beanName, that.beanName)
+        && Objects.equals(parent, that.parent)
+        && Objects.equals(modules, that.modules);
+  }
 
-    @Override
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), beanName, parent, modules);
+  }
 
-    public LocaleResolveHandlerProperties getParent() {
-        return parent;
-    }
-
-    public void setParent(LocaleResolveHandlerProperties parent) {
-        this.parent = parent;
-    }
-
-    public Map<String, LocaleResolveHandlerProperties> getModules() {
-        return modules;
-    }
-
-    public void setModules(Map<String, LocaleResolveHandlerProperties> modules) {
-        this.modules = modules;
-    }
-
-    @Override
-    protected LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder getBuilder(
-            String moduleName) {
-        var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-        return moduleInfoMap.containsKey(moduleName)
-                ? moduleInfoMap.get(moduleName).getLocaleResolveHandlerPropertiesBuilder()
-                : LocaleResolveHandlerProperties.builder();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        LocaleResolveHandlerModuleProperties that = (LocaleResolveHandlerModuleProperties) o;
-        return Objects.equals(beanName, that.beanName)
-                && Objects.equals(parent, that.parent)
-                && Objects.equals(modules, that.modules);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), beanName, parent, modules);
-    }
-
-    @Override
-    public String toString() {
-        return "LocaleResolveHandlerModuleProperties{"
-                + "beanName='"
-                + beanName
-                + '\''
-                + ", parent="
-                + parent
-                + ", modules="
-                + modules
-                + '}';
-    }
+  @Override
+  public String toString() {
+    return "LocaleResolveHandlerModuleProperties{"
+        + "beanName='"
+        + beanName
+        + '\''
+        + ", parent="
+        + parent
+        + ", modules="
+        + modules
+        + '}';
+  }
 }

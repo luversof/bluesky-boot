@@ -13,17 +13,16 @@ import org.springframework.context.ApplicationListener;
  * @author bluesky
  */
 public class ServerPortLogApplicationListener
-        implements ApplicationListener<ApplicationReadyEvent> {
+    implements ApplicationListener<ApplicationReadyEvent> {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(ServerPortLogApplicationListener.class);
+  private static final Logger log = LoggerFactory.getLogger(ServerPortLogApplicationListener.class);
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        if (event.getApplicationContext() instanceof WebServerApplicationContext ctx) {
-            String id = ctx.getId();
-            int port = ctx.getWebServer().getPort();
-            log.info("id: {} started on port: {}", id, port);
-        }
+  @Override
+  public void onApplicationEvent(ApplicationReadyEvent event) {
+    if (event.getApplicationContext() instanceof WebServerApplicationContext ctx) {
+      String id = ctx.getId();
+      int port = ctx.getWebServer().getPort();
+      log.info("id: {} started on port: {}", id, port);
     }
+  }
 }

@@ -13,18 +13,18 @@ import io.github.luversof.cloud.context.refresh.BlueskyPropertiesRefresher;
 @Endpoint(id = "blueskyRefresh")
 public class BlueskyRefreshEndpoint {
 
-    private static final Logger log = LoggerFactory.getLogger(BlueskyRefreshEndpoint.class);
+  private static final Logger log = LoggerFactory.getLogger(BlueskyRefreshEndpoint.class);
 
-    private final BlueskyPropertiesRefresher blueskyPropertiesRefresher;
+  private final BlueskyPropertiesRefresher blueskyPropertiesRefresher;
 
-    public BlueskyRefreshEndpoint(BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
-        this.blueskyPropertiesRefresher = blueskyPropertiesRefresher;
-    }
+  public BlueskyRefreshEndpoint(BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
+    this.blueskyPropertiesRefresher = blueskyPropertiesRefresher;
+  }
 
-    @WriteOperation
-    public Collection<String> refresh() {
-        Set<String> keys = this.blueskyPropertiesRefresher.refresh();
-        log.info("Refreshed keys : {}", keys);
-        return keys;
-    }
+  @WriteOperation
+  public Collection<String> refresh() {
+    Set<String> keys = this.blueskyPropertiesRefresher.refresh();
+    log.info("Refreshed keys : {}", keys);
+    return keys;
+  }
 }

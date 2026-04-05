@@ -8,40 +8,39 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 public class CoreConfiguration {
 
-    @Bean(CoreBaseProperties.BEAN_NAME)
-    CoreBaseProperties coreBaseProperties() {
-        return new CoreBaseProperties();
-    }
+  @Bean(CoreBaseProperties.BEAN_NAME)
+  CoreBaseProperties coreBaseProperties() {
+    return new CoreBaseProperties();
+  }
 
-    @Bean(CoreProperties.BEAN_NAME)
-    CoreProperties coreProperties() {
-        return new CoreProperties();
-    }
+  @Bean(CoreProperties.BEAN_NAME)
+  CoreProperties coreProperties() {
+    return new CoreProperties();
+  }
 
-    @Bean(CoreModuleProperties.BEAN_NAME)
-    CoreModuleProperties coreModuleProperties() {
-        return new CoreModuleProperties();
-    }
+  @Bean(CoreModuleProperties.BEAN_NAME)
+  CoreModuleProperties coreModuleProperties() {
+    return new CoreModuleProperties();
+  }
 
-    @Bean(CoreGroupProperties.BEAN_NAME)
-    CoreGroupProperties coreGroupProperties() {
-        return new CoreGroupProperties();
-    }
+  @Bean(CoreGroupProperties.BEAN_NAME)
+  CoreGroupProperties coreGroupProperties() {
+    return new CoreGroupProperties();
+  }
 
-    @Bean
-    BlueskyPropertiesBeanFactoryPostProcessor blueskyPropertiesBeanFactoryPostProcessor() {
-        return new BlueskyPropertiesBeanFactoryPostProcessor();
-    }
+  @Bean
+  BlueskyPropertiesBeanFactoryPostProcessor blueskyPropertiesBeanFactoryPostProcessor() {
+    return new BlueskyPropertiesBeanFactoryPostProcessor();
+  }
 
-    @Bean
-    BlueskyModulePropertiesBeanFactoryPostProcessor
-            blueskyModulePropertiesBeanFactoryPostProcessor() {
-        return new BlueskyModulePropertiesBeanFactoryPostProcessor();
-    }
+  @Bean
+  BlueskyModulePropertiesBeanFactoryPostProcessor
+      blueskyModulePropertiesBeanFactoryPostProcessor() {
+    return new BlueskyModulePropertiesBeanFactoryPostProcessor();
+  }
 
-    @Bean
-    BlueskyGroupPropertiesBeanFactoryPostProcessor
-            blueskyGroupPropertiesBeanFactoryPostProcessor() {
-        return new BlueskyGroupPropertiesBeanFactoryPostProcessor();
-    }
+  @Bean
+  BlueskyGroupPropertiesBeanFactoryPostProcessor blueskyGroupPropertiesBeanFactoryPostProcessor() {
+    return new BlueskyGroupPropertiesBeanFactoryPostProcessor();
+  }
 }

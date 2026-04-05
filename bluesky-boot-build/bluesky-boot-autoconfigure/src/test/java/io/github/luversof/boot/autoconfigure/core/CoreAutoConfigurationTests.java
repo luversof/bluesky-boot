@@ -15,62 +15,60 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 
 class CoreAutoConfigurationTests {
 
-    private final BlueskyApplicationContextRunner contextRunner =
-            BlueskyApplicationContextRunner.get()
-                    .withPropertyValues(BASE_PROPERTY)
-                    .withPropertyValues(
-                            "bluesky-boot.core.modules.test.domain.web=http://localhost")
-                    .withPropertyValues(
-                            "bluesky-boot.core.modules.test.module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST")
-                    .withUserConfiguration(CORE_USER_CONFIGURATION);
+  private final BlueskyApplicationContextRunner contextRunner =
+      BlueskyApplicationContextRunner.get()
+          .withPropertyValues(BASE_PROPERTY)
+          .withPropertyValues("bluesky-boot.core.modules.test.domain.web=http://localhost")
+          .withPropertyValues(
+              "bluesky-boot.core.modules.test.module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestModuleInfo).TEST")
+          .withUserConfiguration(CORE_USER_CONFIGURATION);
 
-    @AfterEach
-    void afterEach() {
-        BlueskyContextHolder.clearContext();
-    }
+  @AfterEach
+  void afterEach() {
+    BlueskyContextHolder.clearContext();
+  }
 
-    @Test
-    void coreProperties() {
-        this.contextRunner.run(
-                context -> {
-                    CoreModuleProperties coreModuleProperties =
-                            context.getBean(CoreModuleProperties.class);
-                    assertThat(coreModuleProperties).isNotNull();
-                    assertThat(context).hasSingleBean(CoreProperties.class);
-                });
-    }
+  @Test
+  void coreProperties() {
+    this.contextRunner.run(
+        context -> {
+          CoreModuleProperties coreModuleProperties = context.getBean(CoreModuleProperties.class);
+          assertThat(coreModuleProperties).isNotNull();
+          assertThat(context).hasSingleBean(CoreProperties.class);
+        });
+  }
 
-    @Test
-    void blueskyContextHolder() {
-        this.contextRunner.run(
-                _ -> {
-                    var blueskyContext = BlueskyContextHolder.getContext();
-                    assertThat((BlueskyContextHolder.getCoreProperties()).getModuleInfo())
-                            .isEqualTo(TestModuleInfo.TEST);
-                    assertThat(blueskyContext.getModuleName()).isEqualTo("test");
-                });
-    }
+  @Test
+  void blueskyContextHolder() {
+    this.contextRunner.run(
+        _ -> {
+          var blueskyContext = BlueskyContextHolder.getContext();
+          assertThat((BlueskyContextHolder.getCoreProperties()).getModuleInfo())
+              .isEqualTo(TestModuleInfo.TEST);
+          assertThat(blueskyContext.getModuleName()).isEqualTo("test");
+        });
+  }
 
-    @Test
-    void blueskyContextHolderCorePropertiesTest() {
-        this.contextRunner.run(
-                _ -> {
-                    var coreProperties = BlueskyContextHolder.getProperties(CoreProperties.class);
-                    assertThat(coreProperties).isNotNull();
-                });
-    }
+  @Test
+  void blueskyContextHolderCorePropertiesTest() {
+    this.contextRunner.run(
+        _ -> {
+          var coreProperties = BlueskyContextHolder.getProperties(CoreProperties.class);
+          assertThat(coreProperties).isNotNull();
+        });
+  }
 
-    @Test
-    void multiModuleBlueskyContextHolder() {
-        this.contextRunner
-                .withPropertyValues("bluesky-boot.core.modules.test2.domain.web=http://localhost")
-                .run(
-                        _ -> {
-                            BlueskyContextHolder.setContext("test");
-                            var blueskyContext = BlueskyContextHolder.getContext();
-                            assertThat((BlueskyContextHolder.getCoreProperties()).getModuleInfo())
-                                    .isEqualTo(TestModuleInfo.TEST);
-                            assertThat(blueskyContext.getModuleName()).isEqualTo("test");
-                        });
-    }
+  @Test
+  void multiModuleBlueskyContextHolder() {
+    this.contextRunner
+        .withPropertyValues("bluesky-boot.core.modules.test2.domain.web=http://localhost")
+        .run(
+            _ -> {
+              BlueskyContextHolder.setContext("test");
+              var blueskyContext = BlueskyContextHolder.getContext();
+              assertThat((BlueskyContextHolder.getCoreProperties()).getModuleInfo())
+                  .isEqualTo(TestModuleInfo.TEST);
+              assertThat(blueskyContext.getModuleName()).isEqualTo("test");
+            });
+  }
 }

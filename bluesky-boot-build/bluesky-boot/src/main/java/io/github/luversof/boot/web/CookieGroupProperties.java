@@ -15,85 +15,93 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 
 @ConfigurationProperties(prefix = CookieProperties.PREFIX)
 public class CookieGroupProperties
-        extends AbstractBlueskyGroupProperties<
-                CookieProperties, CookieProperties.CookiePropertiesBuilder>
-        implements BeanNameAware {
+    extends AbstractBlueskyGroupProperties<
+        CookieProperties, CookieProperties.CookiePropertiesBuilder>
+    implements BeanNameAware {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    private String beanName;
+  private String beanName;
 
-    private CookieProperties parent;
+  private CookieProperties parent;
 
-    private Map<String, CookieProperties> groups = new HashMap<>();
+  private Map<String, CookieProperties> groups = new HashMap<>();
 
-    @Autowired
-    @Qualifier(CookieProperties.DEFAULT_BEAN_NAME)
-    public void setParent(CookieProperties parent) {
-        this.parent = parent;
+  @Override
+  @Autowired
+  @Qualifier(CookieProperties.DEFAULT_BEAN_NAME)
+  public void setParent(CookieProperties parent) {
+    this.parent = parent;
+  }
+
+  @Override
+  public CookieProperties getParent() {
+    return parent;
+  }
+
+  @Override
+  public String getBeanName() {
+    return beanName;
+  }
+
+  @Override
+  public void setBeanName(String beanName) {
+    this.beanName = beanName;
+  }
+
+  @Override
+  public Map<String, CookieProperties> getGroups() {
+    return groups;
+  }
+
+  public void setGroups(Map<String, CookieProperties> groups) {
+    this.groups = groups;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public CookieProperties getParent() {
-        return parent;
+    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
+      return false;
     }
+    CookieGroupProperties that = (CookieGroupProperties) o;
+    return Objects.equals(beanName, that.beanName)
+        && Objects.equals(parent, that.parent)
+        && Objects.equals(groups, that.groups);
+  }
 
-    public String getBeanName() {
-        return beanName;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), beanName, parent, groups);
+  }
 
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
-    }
+  @Override
+  public String toString() {
+    return "CookieGroupProperties{"
+        + "beanName='"
+        + beanName
+        + '\''
+        + ", parent="
+        + parent
+        + ", groups="
+        + groups
+        + '}';
+  }
 
-    public Map<String, CookieProperties> getGroups() {
-        return groups;
-    }
+  protected SerializableFunction<String, CookieProperties.CookiePropertiesBuilder>
+      getBuilderFunction() {
+    return groupName -> {
+      var groupModuleInfoMap = BlueskyBootContextHolder.getContext().getGroupModuleInfoMap();
+      return groupModuleInfoMap.containsKey(groupName)
+          ? groupModuleInfoMap.get(groupName).getCookiePropertiesBuilder()
+          : CookieProperties.builder();
+    };
+  }
 
-    public void setGroups(Map<String, CookieProperties> groups) {
-        this.groups = groups;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        CookieGroupProperties that = (CookieGroupProperties) o;
-        return Objects.equals(beanName, that.beanName)
-                && Objects.equals(parent, that.parent)
-                && Objects.equals(groups, that.groups);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), beanName, parent, groups);
-    }
-
-    @Override
-    public String toString() {
-        return "CookieGroupProperties{"
-                + "beanName='"
-                + beanName
-                + '\''
-                + ", parent="
-                + parent
-                + ", groups="
-                + groups
-                + '}';
-    }
-
-    protected SerializableFunction<String, CookieProperties.CookiePropertiesBuilder>
-            getBuilderFunction() {
-        return groupName -> {
-            var groupModuleInfoMap = BlueskyBootContextHolder.getContext().getGroupModuleInfoMap();
-            return groupModuleInfoMap.containsKey(groupName)
-                    ? groupModuleInfoMap.get(groupName).getCookiePropertiesBuilder()
-                    : CookieProperties.builder();
-        };
-    }
-
-    @Override
-    protected CookieProperties.CookiePropertiesBuilder getBuilder(String groupName) {
-        return getBuilderFunction().apply(groupName);
-    }
+  @Override
+  protected CookieProperties.CookiePropertiesBuilder getBuilder(String groupName) {
+    return getBuilderFunction().apply(groupName);
+  }
 }

@@ -8,5 +8,5 @@ package io.github.luversof.boot.jdbc.datasource.support;
 @FunctionalInterface
 public interface RoutingDataSourceLookupKeyResolver {
 
-    String getLookupKey();
+  String getLookupKey();
 }

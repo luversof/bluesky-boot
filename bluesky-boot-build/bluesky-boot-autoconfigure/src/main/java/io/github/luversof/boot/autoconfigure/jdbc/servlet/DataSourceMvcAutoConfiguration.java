@@ -24,15 +24,15 @@ import io.github.luversof.boot.jdbc.datasource.support.CommonRoutingDataSourceLo
 @ConditionalOnClass({DataSource.class, EmbeddedDatabaseType.class})
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnProperty(
-        prefix = "bluesky-boot.datasource",
-        name = "enabled",
-        havingValue = "true",
-        matchIfMissing = true)
+    prefix = "bluesky-boot.datasource",
+    name = "enabled",
+    havingValue = "true",
+    matchIfMissing = true)
 public class DataSourceMvcAutoConfiguration {
 
-    @Bean
-    RoutingDataSourceContextHolderFilter routingDataSourceContextHolderFilter(
-            @Nullable CommonRoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
-        return new RoutingDataSourceContextHolderFilter(routingDataSourceLookupKeyResolver);
-    }
+  @Bean
+  RoutingDataSourceContextHolderFilter routingDataSourceContextHolderFilter(
+      @Nullable CommonRoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
+    return new RoutingDataSourceContextHolderFilter(routingDataSourceLookupKeyResolver);
+  }
 }

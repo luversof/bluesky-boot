@@ -7,10 +7,10 @@ import tools.jackson.core.json.PackageVersion;
 import tools.jackson.databind.module.SimpleModule;
 
 public class ObjectIdSerializerModule extends SimpleModule {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public ObjectIdSerializerModule() {
-        super("JacksonXmlModule", PackageVersion.VERSION);
-        this.addSerializer(ObjectId.class, new ObjectIdSerializer());
-    }
+  public ObjectIdSerializerModule() {
+    super("JacksonXmlModule", PackageVersion.VERSION);
+    this.addSerializer(ObjectId.class, new ObjectIdSerializer());
+  }
 }

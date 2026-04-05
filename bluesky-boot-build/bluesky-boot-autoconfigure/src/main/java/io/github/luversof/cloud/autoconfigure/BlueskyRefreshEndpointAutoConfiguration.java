@@ -17,24 +17,22 @@ import io.github.luversof.cloud.endpoint.BlueskyRefreshEndpoint;
 @AutoConfiguration("blueskyCloudRefreshEndpointAutoConfiguration")
 @ConditionalOnClass({RefreshScope.class, EndpointAutoConfiguration.class, Health.class})
 @ConditionalOnProperty(
-        prefix = "bluesky-boot.cloud.refresh",
-        name = "enabled",
-        havingValue = "true",
-        matchIfMissing = true)
+    prefix = "bluesky-boot.cloud.refresh",
+    name = "enabled",
+    havingValue = "true",
+    matchIfMissing = true)
 public class BlueskyRefreshEndpointAutoConfiguration {
 
-    @Bean
-    BlueskyPropertiesRefresher blueskyPropertiesRefresher(
-            ConfigurableApplicationContext context,
-            RefreshScope scope,
-            RefreshProperties properties) {
-        return new BlueskyPropertiesRefresher(context, scope, properties);
-    }
+  @Bean
+  BlueskyPropertiesRefresher blueskyPropertiesRefresher(
+      ConfigurableApplicationContext context, RefreshScope scope, RefreshProperties properties) {
+    return new BlueskyPropertiesRefresher(context, scope, properties);
+  }
 
-    @Bean
-    @ConditionalOnAvailableEndpoint
-    BlueskyRefreshEndpoint blueskyRefreshEndpoint(
-            BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
-        return new BlueskyRefreshEndpoint(blueskyPropertiesRefresher);
-    }
+  @Bean
+  @ConditionalOnAvailableEndpoint
+  BlueskyRefreshEndpoint blueskyRefreshEndpoint(
+      BlueskyPropertiesRefresher blueskyPropertiesRefresher) {
+    return new BlueskyRefreshEndpoint(blueskyPropertiesRefresher);
+  }
 }

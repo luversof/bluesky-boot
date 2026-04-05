@@ -10,21 +10,21 @@ import io.github.luversof.boot.web.CookieProperties.CookiePropertiesBuilder;
 @ConfigurationProperties(prefix = ExternalCookieProperties.PREFIX)
 public class ExternalCookieModuleProperties extends CookieModuleProperties {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /** Dependency 참조 순서 처리를 위해 선언 */
-    @Autowired
-    public void setExternalCookieProperties(ExternalCookieProperties externalCookieProperties) {
-        setParent(externalCookieProperties);
-    }
+  /** Dependency 참조 순서 처리를 위해 선언 */
+  @Autowired
+  public void setExternalCookieProperties(ExternalCookieProperties externalCookieProperties) {
+    setParent(externalCookieProperties);
+  }
 
-    @Override
-    protected SerializableFunction<String, CookiePropertiesBuilder> getBuilderFunction() {
-        return moduleName -> {
-            var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-            return moduleInfoMap.containsKey(moduleName)
-                    ? moduleInfoMap.get(moduleName).getExternalCookiePropertiesBuilder()
-                    : CookieProperties.builder();
-        };
-    }
+  @Override
+  protected SerializableFunction<String, CookiePropertiesBuilder> getBuilderFunction() {
+    return moduleName -> {
+      var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+      return moduleInfoMap.containsKey(moduleName)
+          ? moduleInfoMap.get(moduleName).getExternalCookiePropertiesBuilder()
+          : CookieProperties.builder();
+    };
+  }
 }

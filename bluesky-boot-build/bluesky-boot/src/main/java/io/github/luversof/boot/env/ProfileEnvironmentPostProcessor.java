@@ -21,37 +21,34 @@ import io.github.luversof.boot.exception.BlueskyException;
  */
 public class ProfileEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(ProfileEnvironmentPostProcessor.class);
+  private static final Logger log = LoggerFactory.getLogger(ProfileEnvironmentPostProcessor.class);
 
-    private static final String BLUESKY_BOOT_PROFILE = "bluesky-boot-profile";
+  private static final String BLUESKY_BOOT_PROFILE = "bluesky-boot-profile";
 
-    Properties properties = new Properties();
+  Properties properties = new Properties();
 
-    @Override
-    public void postProcessEnvironment(
-            ConfigurableEnvironment environment, SpringApplication application) {
-        var activeProfiles = environment.getActiveProfiles();
-        if (activeProfiles.length == 0) {
-            log.warn("No active profile configured, defaulting to {}", ProfileInfo.DEFAULT);
-            environment.setActiveProfiles(ProfileInfo.DEFAULT);
-            activeProfiles = environment.getActiveProfiles();
-        }
-        Assert.notEmpty(activeProfiles, "NOT EXIST activeProfiles");
-        log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
-        var profile =
-                Arrays.stream(activeProfiles)
-                        .filter(
-                                x ->
-                                        ProfileInfo.getBlueskyBootProfileList().stream()
-                                                .anyMatch(y -> y.equals(x)))
-                        .findAny()
-                        .orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
-
-        properties.setProperty(BLUESKY_BOOT_PROFILE, profile);
-
-        environment
-                .getPropertySources()
-                .addFirst(new PropertiesPropertySource("blueskyBootProperties", properties));
+  @Override
+  public void postProcessEnvironment(
+      ConfigurableEnvironment environment, SpringApplication application) {
+    var activeProfiles = environment.getActiveProfiles();
+    if (activeProfiles.length == 0) {
+      log.warn("No active profile configured, defaulting to {}", ProfileInfo.DEFAULT);
+      environment.setActiveProfiles(ProfileInfo.DEFAULT);
+      activeProfiles = environment.getActiveProfiles();
     }
+    Assert.notEmpty(activeProfiles, "NOT EXIST activeProfiles");
+    log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
+    var profile =
+        Arrays.stream(activeProfiles)
+            .filter(
+                x -> ProfileInfo.getBlueskyBootProfileList().stream().anyMatch(y -> y.equals(x)))
+            .findAny()
+            .orElseThrow(() -> new BlueskyException("NOT_EXIST_PROFILE"));
+
+    properties.setProperty(BLUESKY_BOOT_PROFILE, profile);
+
+    environment
+        .getPropertySources()
+        .addFirst(new PropertiesPropertySource("blueskyBootProperties", properties));
+  }
 }

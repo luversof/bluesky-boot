@@ -13,42 +13,42 @@ import io.github.luversof.boot.jdbc.datasource.support.RoutingDataSourceLookupKe
 @Aspect
 public class RoutingDataSourceAspect {
 
-    private ApplicationContext applicationContext;
+  private ApplicationContext applicationContext;
 
-    public RoutingDataSourceAspect(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+  public RoutingDataSourceAspect(ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
+
+  @Around("@within(routingDataSource)")
+  public Object classAround(
+      ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
+      throws Throwable {
+    return execute(proceedingJoinPoint, routingDataSource);
+  }
+
+  @Around("@annotation(routingDataSource)")
+  public Object methodAround(
+      ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
+      throws Throwable {
+    return execute(proceedingJoinPoint, routingDataSource);
+  }
+
+  private Object execute(
+      ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
+      throws Throwable {
+    if (StringUtils.hasText(routingDataSource.resolver())) {
+      var resolver =
+          applicationContext.getBean(
+              routingDataSource.resolver(), RoutingDataSourceLookupKeyResolver.class);
+      RoutingDataSourceContextHolder.setContext(resolver::getLookupKey);
+    } else if (StringUtils.hasText(routingDataSource.value())) {
+      RoutingDataSourceContextHolder.setContext(routingDataSource::value);
     }
 
-    @Around("@within(routingDataSource)")
-    public Object classAround(
-            ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
-            throws Throwable {
-        return execute(proceedingJoinPoint, routingDataSource);
+    try {
+      return proceedingJoinPoint.proceed();
+    } finally {
+      RoutingDataSourceContextHolder.clearContext();
     }
-
-    @Around("@annotation(routingDataSource)")
-    public Object methodAround(
-            ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
-            throws Throwable {
-        return execute(proceedingJoinPoint, routingDataSource);
-    }
-
-    private Object execute(
-            ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
-            throws Throwable {
-        if (StringUtils.hasText(routingDataSource.resolver())) {
-            var resolver =
-                    applicationContext.getBean(
-                            routingDataSource.resolver(), RoutingDataSourceLookupKeyResolver.class);
-            RoutingDataSourceContextHolder.setContext(resolver::getLookupKey);
-        } else if (StringUtils.hasText(routingDataSource.value())) {
-            RoutingDataSourceContextHolder.setContext(routingDataSource::value);
-        }
-
-        try {
-            return proceedingJoinPoint.proceed();
-        } finally {
-            RoutingDataSourceContextHolder.clearContext();
-        }
-    }
+  }
 }

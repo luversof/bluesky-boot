@@ -10,19 +10,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record PageResponse<T>(
-        List<T> content,
-        int number,
-        int size,
-        long totalElements,
-        int totalPages,
-        boolean first,
-        boolean last,
-        int numberOfElements,
-        boolean empty) {
+    List<T> content,
+    int number,
+    int size,
+    long totalElements,
+    int totalPages,
+    boolean first,
+    boolean last,
+    int numberOfElements,
+    boolean empty) {
 
-    /** PageResponse → Page (도메인 내부용) */
-    public Page<T> toPage() {
-        return new PageImpl<>(
-                content == null ? List.of() : content, PageRequest.of(number, size), totalElements);
-    }
+  /** PageResponse → Page (도메인 내부용) */
+  public Page<T> toPage() {
+    return new PageImpl<>(
+        content == null ? List.of() : content, PageRequest.of(number, size), totalElements);
+  }
 }

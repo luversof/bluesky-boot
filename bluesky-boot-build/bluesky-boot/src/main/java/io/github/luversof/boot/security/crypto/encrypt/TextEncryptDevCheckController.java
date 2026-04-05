@@ -20,26 +20,26 @@ import io.github.luversof.boot.security.crypto.factory.TextEncryptorFactories;
 @RequestMapping(value = "/blueskyBoot/security/crypto", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TextEncryptDevCheckController {
 
-    public TextEncryptDevCheckController() {}
+  public TextEncryptDevCheckController() {}
 
-    @DevCheckDescription("encrypt")
-    @GetMapping("/encrypt")
-    String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
-        if (textEncryptorId == null) {
-            return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
-        }
-        return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(textEncryptorId, text);
+  @DevCheckDescription("encrypt")
+  @GetMapping("/encrypt")
+  String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
+    if (textEncryptorId == null) {
+      return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(text);
     }
+    return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(textEncryptorId, text);
+  }
 
-    @DevCheckDescription("decrypt")
-    @GetMapping("/decrypt")
-    String decrypt(String text) {
-        return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
-    }
+  @DevCheckDescription("decrypt")
+  @GetMapping("/decrypt")
+  String decrypt(String text) {
+    return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
+  }
 
-    @DevCheckDescription("textEncryptorMapKeySet")
-    @GetMapping("/textEncryptorMapKeySet")
-    Set<String> textEncryptorMapKeySet() {
-        return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
-    }
+  @DevCheckDescription("textEncryptorMapKeySet")
+  @GetMapping("/textEncryptorMapKeySet")
+  Set<String> textEncryptorMapKeySet() {
+    return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
+  }
 }

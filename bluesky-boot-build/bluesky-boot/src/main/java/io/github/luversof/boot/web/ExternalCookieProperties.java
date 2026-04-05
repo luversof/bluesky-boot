@@ -8,17 +8,17 @@ import io.github.luversof.boot.util.function.SerializableSupplier;
 @ConfigurationProperties(prefix = ExternalCookieProperties.PREFIX)
 public class ExternalCookieProperties extends CookieProperties {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public static final String PREFIX = "bluesky-boot.web.external-cookie";
+  public static final String PREFIX = "bluesky-boot.web.external-cookie";
 
-    @Override
-    protected SerializableSupplier<CookiePropertiesBuilder> getBuilderSupplier() {
-        return () -> {
-            var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-            return parentModuleInfo == null
-                    ? CookieProperties.builder()
-                    : parentModuleInfo.getExternalCookiePropertiesBuilder();
-        };
-    }
+  @Override
+  protected SerializableSupplier<CookiePropertiesBuilder> getBuilderSupplier() {
+    return () -> {
+      var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+      return parentModuleInfo == null
+          ? CookieProperties.builder()
+          : parentModuleInfo.getExternalCookiePropertiesBuilder();
+    };
+  }
 }

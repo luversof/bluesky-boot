@@ -13,8 +13,8 @@ import io.github.luversof.boot.htmx.aspect.HtmxResponseHeaderAspect;
 @ConditionalOnProperty(prefix = "bluesky-boot.htmx", name = "enabled", havingValue = "true")
 public class HtmxAutoConfiguration {
 
-    @Bean
-    HtmxResponseHeaderAspect htmxResponseHeaderAspect() {
-        return new HtmxResponseHeaderAspect();
-    }
+  @Bean
+  HtmxResponseHeaderAspect htmxResponseHeaderAspect() {
+    return new HtmxResponseHeaderAspect();
+  }
 }

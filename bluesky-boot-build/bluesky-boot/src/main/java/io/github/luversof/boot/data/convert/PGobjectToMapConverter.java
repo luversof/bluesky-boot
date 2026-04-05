@@ -13,18 +13,17 @@ import tools.jackson.databind.json.JsonMapper;
 @ReadingConverter
 public class PGobjectToMapConverter implements Converter<PGobject, Map<String, Object>> {
 
-    private final JsonMapper jsonMapper = new JsonMapper();
+  private final JsonMapper jsonMapper = new JsonMapper();
 
-    @Override
-    public Map<String, Object> convert(PGobject source) {
-        if (source == null || source.getValue() == null) {
-            return null;
-        }
-        try {
-            return jsonMapper.readValue(
-                    source.getValue(), new TypeReference<Map<String, Object>>() {});
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error converting PGobject JSONB to Map", e);
-        }
+  @Override
+  public Map<String, Object> convert(PGobject source) {
+    if (source == null || source.getValue() == null) {
+      return null;
     }
+    try {
+      return jsonMapper.readValue(source.getValue(), new TypeReference<Map<String, Object>>() {});
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Error converting PGobject JSONB to Map", e);
+    }
+  }
 }

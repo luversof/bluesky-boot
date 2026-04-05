@@ -11,100 +11,104 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
 public class CoreModuleProperties implements BlueskyModuleProperties<CoreProperties> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /** Bean 생성 시 지정할 이름 */
-    public static final String BEAN_NAME = "blueskyCoreModuleProperties";
+  /** Bean 생성 시 지정할 이름 */
+  public static final String BEAN_NAME = "blueskyCoreModuleProperties";
 
-    private CoreProperties parent;
+  private CoreProperties parent;
 
-    private Map<String, CoreProperties> modules = new HashMap<>();
+  private Map<String, CoreProperties> modules = new HashMap<>();
 
-    @Autowired
-    public void setParent(CoreProperties parent) {
-        this.parent = parent;
+  @Override
+  @Autowired
+  public void setParent(CoreProperties parent) {
+    this.parent = parent;
+  }
+
+  @Override
+  public CoreProperties getParent() {
+    return parent;
+  }
+
+  @Override
+  public Map<String, CoreProperties> getModules() {
+    return modules;
+  }
+
+  public void setModules(Map<String, CoreProperties> modules) {
+    this.modules = modules;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public CoreProperties getParent() {
-        return parent;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    CoreModuleProperties that = (CoreModuleProperties) o;
+    return (parent != null ? parent.equals(that.parent) : that.parent == null)
+        && (modules != null ? modules.equals(that.modules) : that.modules == null);
+  }
 
-    public Map<String, CoreProperties> getModules() {
-        return modules;
-    }
+  @Override
+  public int hashCode() {
+    int result = parent != null ? parent.hashCode() : 0;
+    result = 31 * result + (modules != null ? modules.hashCode() : 0);
+    return result;
+  }
 
-    public void setModules(Map<String, CoreProperties> modules) {
-        this.modules = modules;
-    }
+  @Override
+  public String toString() {
+    return "CoreModuleProperties{" + "parent=" + parent + ", modules=" + modules + '}';
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CoreModuleProperties that = (CoreModuleProperties) o;
-        return (parent != null ? parent.equals(that.parent) : that.parent == null)
-                && (modules != null ? modules.equals(that.modules) : that.modules == null);
-    }
+  @Override
+  public void load() {
+    parentReload();
+    var blueskyBootContext = BlueskyBootContextHolder.getContext();
+    var moduleNameSet = blueskyBootContext.getModuleNameSet();
+    var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
 
-    @Override
-    public int hashCode() {
-        int result = parent != null ? parent.hashCode() : 0;
-        result = 31 * result + (modules != null ? modules.hashCode() : 0);
-        return result;
-    }
+    // coreProperties의 경우 moduleNameSet과 modules의 key를 병합한다.
+    moduleNameSet.addAll(getModules().keySet());
 
-    @Override
-    public String toString() {
-        return "CoreModuleProperties{" + "parent=" + parent + ", modules=" + modules + '}';
-    }
+    moduleNameSet.forEach(
+        moduleName -> {
+          if (!getModules().containsKey(moduleName)) {
+            getModules()
+                .put(
+                    moduleName,
+                    getParent().getModuleInfo() == null
+                        ? CoreProperties.builder().build()
+                        : getParent().getModuleInfo().getCorePropertiesBuilder().build());
+          }
+        });
 
-    @Override
-    public void load() {
-        parentReload();
-        var blueskyBootContext = BlueskyBootContextHolder.getContext();
-        var moduleNameSet = blueskyBootContext.getModuleNameSet();
-        var moduleInfoMap = blueskyBootContext.getModuleInfoMap();
+    moduleNameSet.forEach(
+        moduleName -> {
+          // blueskyBootContext moduleInfoMap에 추가
+          if (getModules().get(moduleName).getModuleInfo() != null) {
+            moduleInfoMap.put(moduleName, getModules().get(moduleName).getModuleInfo());
+          }
 
-        // coreProperties의 경우 moduleNameSet과 modules의 key를 병합한다.
-        moduleNameSet.addAll(getModules().keySet());
+          var builder =
+              moduleInfoMap.containsKey(moduleName)
+                  ? moduleInfoMap.get(moduleName).getCorePropertiesBuilder()
+                  : CoreProperties.builder();
 
-        moduleNameSet.forEach(
-                moduleName -> {
-                    if (!getModules().containsKey(moduleName)) {
-                        getModules()
-                                .put(
-                                        moduleName,
-                                        getParent().getModuleInfo() == null
-                                                ? CoreProperties.builder().build()
-                                                : getParent()
-                                                        .getModuleInfo()
-                                                        .getCorePropertiesBuilder()
-                                                        .build());
-                    }
-                });
+          if (!getModules().containsKey(moduleName)) {
+            getModules().put(moduleName, builder.build());
+          }
 
-        moduleNameSet.forEach(
-                moduleName -> {
-                    // blueskyBootContext moduleInfoMap에 추가
-                    if (getModules().get(moduleName).getModuleInfo() != null) {
-                        moduleInfoMap.put(moduleName, getModules().get(moduleName).getModuleInfo());
-                    }
+          var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+          propertyMapperConsumer.accept(getParent(), builder);
+          propertyMapperConsumer.accept(getGroup(moduleName), builder);
+          propertyMapperConsumer.accept(getModules().get(moduleName), builder);
 
-                    var builder =
-                            moduleInfoMap.containsKey(moduleName)
-                                    ? moduleInfoMap.get(moduleName).getCorePropertiesBuilder()
-                                    : CoreProperties.builder();
-
-                    if (!getModules().containsKey(moduleName)) {
-                        getModules().put(moduleName, builder.build());
-                    }
-
-                    var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-                    propertyMapperConsumer.accept(getParent(), builder);
-                    propertyMapperConsumer.accept(getGroup(moduleName), builder);
-                    propertyMapperConsumer.accept(getModules().get(moduleName), builder);
-
-                    getModules().put(moduleName, builder.build());
-                });
-    }
+          getModules().put(moduleName, builder.build());
+        });
+  }
 }

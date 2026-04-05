@@ -8,21 +8,21 @@ import org.springframework.context.ApplicationContext;
  */
 public final class ApplicationContextUtil {
 
-    /** Handling utility class constructors */
-    private ApplicationContextUtil() {}
+  /** Handling utility class constructors */
+  private ApplicationContextUtil() {}
 
-    private static ApplicationContext applicationContext;
+  private static ApplicationContext applicationContext;
 
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        ApplicationContextUtil.applicationContext = applicationContext;
-    }
+  public static void setApplicationContext(ApplicationContext applicationContext) {
+    ApplicationContextUtil.applicationContext = applicationContext;
+  }
 
-    /**
-     * Obtaining applicationContext
-     *
-     * @return ApplicationContext
-     */
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
+  /**
+   * Obtaining applicationContext
+   *
+   * @return ApplicationContext
+   */
+  public static ApplicationContext getApplicationContext() {
+    return applicationContext;
+  }
 }

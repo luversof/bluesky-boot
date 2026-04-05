@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @ConditionalOnClass(JpaRepository.class)
 @PropertySource(value = "classpath:data/jpa/data-jpa.properties", ignoreResourceNotFound = true)
 @PropertySource(
-        value = "classpath:data/jpa/data-jpa-${bluesky-boot-profile}.properties",
-        ignoreResourceNotFound = true)
+    value = "classpath:data/jpa/data-jpa-${bluesky-boot-profile}.properties",
+    ignoreResourceNotFound = true)
 @EnableJpaAuditing
 public class JpaRepositoriesAutoConfiguration {}

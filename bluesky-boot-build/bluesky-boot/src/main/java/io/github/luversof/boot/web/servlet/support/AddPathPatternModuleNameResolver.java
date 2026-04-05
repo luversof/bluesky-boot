@@ -13,27 +13,25 @@ import jakarta.servlet.http.HttpServletRequest;
 /** Resolver that resolves moduleName based on AddPathPattern */
 public class AddPathPatternModuleNameResolver extends AbstractModuleNameResolver {
 
-    private final PathMatcher pathMatcher = new AntPathMatcher();
-    private final Comparator<Entry<String, DomainProperties>> comparator =
-            (o1, o2) ->
-                    Integer.compare(
-                            o1.getValue().getAddPathPatternList().get(0).length(),
-                            o2.getValue().getAddPathPatternList().get(0).length());
+  private final PathMatcher pathMatcher = new AntPathMatcher();
+  private final Comparator<Entry<String, DomainProperties>> comparator =
+      (o1, o2) ->
+          Integer.compare(
+              o1.getValue().getAddPathPatternList().get(0).length(),
+              o2.getValue().getAddPathPatternList().get(0).length());
 
-    @Override
-    protected Entry<String, DomainProperties> getModulePropertiesEntry(
-            HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
-        return domainModuleProperties.getModules().entrySet().stream()
-                .filter(
-                        moduleEntry ->
-                                moduleEntry.getValue().getAddPathPatternList().stream()
-                                        .anyMatch(
-                                                addPathPattern ->
-                                                        pathMatcher.match(
-                                                                addPathPattern,
-                                                                request.getServletPath())))
-                .sorted(comparator.reversed())
-                .findFirst()
-                .orElse(null);
-    }
+  @Override
+  protected Entry<String, DomainProperties> getModulePropertiesEntry(
+      HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
+    return domainModuleProperties.getModules().entrySet().stream()
+        .filter(
+            moduleEntry ->
+                moduleEntry.getValue().getAddPathPatternList().stream()
+                    .anyMatch(
+                        addPathPattern ->
+                            pathMatcher.match(addPathPattern, request.getServletPath())))
+        .sorted(comparator.reversed())
+        .findFirst()
+        .orElse(null);
+  }
 }

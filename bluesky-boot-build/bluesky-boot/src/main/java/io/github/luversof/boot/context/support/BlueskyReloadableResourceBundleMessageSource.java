@@ -11,9 +11,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
  * @author bluesky
  */
 public class BlueskyReloadableResourceBundleMessageSource
-        extends ReloadableResourceBundleMessageSource {
+    extends ReloadableResourceBundleMessageSource {
 
-    public Properties getProperties() {
-        return getMergedProperties(LocaleContextHolder.getLocale()).getProperties();
-    }
+  public Properties getProperties() {
+    return getMergedProperties(LocaleContextHolder.getLocale()).getProperties();
+  }
 }

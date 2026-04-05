@@ -6,9 +6,9 @@ import io.github.luversof.boot.context.ApplicationContextUtil;
 
 public final class UuidGeneratorUtil {
 
-    private UuidGeneratorUtil() {}
+  private UuidGeneratorUtil() {}
 
-    public static UUID getUuid() {
-        return ApplicationContextUtil.getApplicationContext().getBean(UuidGenerator.class).create();
-    }
+  public static UUID getUuid() {
+    return ApplicationContextUtil.getApplicationContext().getBean(UuidGenerator.class).create();
+  }
 }

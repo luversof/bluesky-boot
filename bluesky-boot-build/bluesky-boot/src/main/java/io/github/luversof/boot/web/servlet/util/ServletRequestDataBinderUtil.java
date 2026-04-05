@@ -27,84 +27,81 @@ import tools.jackson.databind.json.JsonMapper;
  */
 public final class ServletRequestDataBinderUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletRequestDataBinderUtil.class);
+  private static final Logger log = LoggerFactory.getLogger(ServletRequestDataBinderUtil.class);
 
-    private ServletRequestDataBinderUtil() {}
+  private ServletRequestDataBinderUtil() {}
 
-    public static <T> T getObject(String objectName, Class<T> clazz, Object... validationHints) {
-        var requestAttributes = RequestContextHolder.currentRequestAttributes();
-        Assert.notNull(requestAttributes, "requestAttributes must exist");
-        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+  public static <T> T getObject(String objectName, Class<T> clazz, Object... validationHints) {
+    var requestAttributes = RequestContextHolder.currentRequestAttributes();
+    Assert.notNull(requestAttributes, "requestAttributes must exist");
+    HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
 
-        T instantiateClass = BeanUtils.instantiateClass(clazz);
+    T instantiateClass = BeanUtils.instantiateClass(clazz);
 
-        ServletRequestDataBinder servletRequestDataBinder =
-                objectName == null
-                        ? new ExtendedServletRequestDataBinder(instantiateClass)
-                        : new ExtendedServletRequestDataBinder(instantiateClass, objectName);
-        servletRequestDataBinder.setConversionService(
-                ApplicationContextUtil.getApplicationContext()
-                        .getBean(FormattingConversionService.class));
-        servletRequestDataBinder.bind(request);
+    ServletRequestDataBinder servletRequestDataBinder =
+        objectName == null
+            ? new ExtendedServletRequestDataBinder(instantiateClass)
+            : new ExtendedServletRequestDataBinder(instantiateClass, objectName);
+    servletRequestDataBinder.setConversionService(
+        ApplicationContextUtil.getApplicationContext().getBean(FormattingConversionService.class));
+    servletRequestDataBinder.bind(request);
 
-        @SuppressWarnings("unchecked")
-        T target = (T) servletRequestDataBinder.getTarget();
+    @SuppressWarnings("unchecked")
+    T target = (T) servletRequestDataBinder.getTarget();
 
-        if (validationHints != null) {
-            ValidationUtil.validate(target, validationHints);
-        }
-
-        return target;
+    if (validationHints != null) {
+      ValidationUtil.validate(target, validationHints);
     }
 
-    public static <T> T getObject(Class<T> clazz) {
-        return getObject(null, clazz, (Object[]) null);
+    return target;
+  }
+
+  public static <T> T getObject(Class<T> clazz) {
+    return getObject(null, clazz, (Object[]) null);
+  }
+
+  public static <T> T getObject(String objectName, Class<T> clazz) {
+    return getObject(objectName, clazz, (Object[]) null);
+  }
+
+  public static <T> T getObject(Class<T> clazz, Object... validationHints) {
+    return getObject(null, clazz, validationHints);
+  }
+
+  public static <T> T getRequestBodyObject(
+      JsonMapper jsonMapper, Class<T> clazz, Object... validationHints) {
+    try {
+      var request =
+          ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+      var inputMessage = new ServletServerHttpRequest(request);
+      var inputStream = StreamUtils.nonClosing(inputMessage.getBody());
+
+      if (jsonMapper == null) {
+        jsonMapper = ApplicationContextUtil.getApplicationContext().getBean(JsonMapper.class);
+      }
+
+      T target = jsonMapper.readValue(inputStream, clazz);
+
+      if (validationHints != null) {
+        ValidationUtil.validate(target, validationHints);
+      }
+      return target;
+    } catch (IOException e) {
+      log.error("failed to read request body", e);
     }
 
-    public static <T> T getObject(String objectName, Class<T> clazz) {
-        return getObject(objectName, clazz, (Object[]) null);
-    }
+    return null;
+  }
 
-    public static <T> T getObject(Class<T> clazz, Object... validationHints) {
-        return getObject(null, clazz, validationHints);
-    }
+  public static <T> T getRequestBodyObject(Class<T> clazz, Object... validationHints) {
+    return getRequestBodyObject(null, clazz, validationHints);
+  }
 
-    public static <T> T getRequestBodyObject(
-            JsonMapper jsonMapper, Class<T> clazz, Object... validationHints) {
-        try {
-            var request =
-                    ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                            .getRequest();
-            var inputMessage = new ServletServerHttpRequest(request);
-            var inputStream = StreamUtils.nonClosing(inputMessage.getBody());
+  public static <T> T getRequestBodyObject(JsonMapper jsonMapper, Class<T> clazz) {
+    return getRequestBodyObject(jsonMapper, clazz, (Object[]) null);
+  }
 
-            if (jsonMapper == null) {
-                jsonMapper =
-                        ApplicationContextUtil.getApplicationContext().getBean(JsonMapper.class);
-            }
-
-            T target = jsonMapper.readValue(inputStream, clazz);
-
-            if (validationHints != null) {
-                ValidationUtil.validate(target, validationHints);
-            }
-            return target;
-        } catch (IOException e) {
-            log.error("failed to read request body", e);
-        }
-
-        return null;
-    }
-
-    public static <T> T getRequestBodyObject(Class<T> clazz, Object... validationHints) {
-        return getRequestBodyObject(null, clazz, validationHints);
-    }
-
-    public static <T> T getRequestBodyObject(JsonMapper jsonMapper, Class<T> clazz) {
-        return getRequestBodyObject(jsonMapper, clazz, (Object[]) null);
-    }
-
-    public static <T> T getRequestBodyObject(Class<T> clazz) {
-        return getRequestBodyObject(clazz, (Object[]) null);
-    }
+  public static <T> T getRequestBodyObject(Class<T> clazz) {
+    return getRequestBodyObject(clazz, (Object[]) null);
+  }
 }

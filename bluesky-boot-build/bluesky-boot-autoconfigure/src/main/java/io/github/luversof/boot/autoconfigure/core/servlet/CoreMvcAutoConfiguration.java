@@ -18,16 +18,16 @@ import jakarta.servlet.Servlet;
  * @author bluesky
  */
 @AutoConfiguration(
-        value = "blueskyBootCoreMvcAutoConfiguration",
-        after = CoreAutoConfiguration.class)
+    value = "blueskyBootCoreMvcAutoConfiguration",
+    after = CoreAutoConfiguration.class)
 @ConditionalOnClass({Servlet.class, DispatcherServlet.class})
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class CoreMvcAutoConfiguration {
 
-    //    @ConditionalOnProperty(prefix = "bluesky-boot.dev-check", name = "enabled", havingValue =
-    // "true")
-    @Bean
-    CoreDevCheckController coreDevCheckController() {
-        return new CoreDevCheckController();
-    }
+  //    @ConditionalOnProperty(prefix = "bluesky-boot.dev-check", name = "enabled", havingValue =
+  // "true")
+  @Bean
+  CoreDevCheckController coreDevCheckController() {
+    return new CoreDevCheckController();
+  }
 }

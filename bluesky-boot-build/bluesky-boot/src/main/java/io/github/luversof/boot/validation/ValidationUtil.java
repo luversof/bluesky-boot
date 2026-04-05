@@ -15,21 +15,21 @@ import io.github.luversof.boot.context.ApplicationContextUtil;
  */
 public final class ValidationUtil {
 
-    private ValidationUtil() {}
+  private ValidationUtil() {}
 
-    public static void validate(Object object, Object... validationHints) {
-        try {
-            var validator = ApplicationContextUtil.getApplicationContext().getBean(Validator.class);
-            BeanPropertyBindingResult beanPropertyBindingResult =
-                    new BeanPropertyBindingResult(
-                            object, StringUtils.uncapitalize(object.getClass().getSimpleName()));
-            ValidationUtils.invokeValidator(
-                    validator, object, beanPropertyBindingResult, validationHints);
-            if (beanPropertyBindingResult.hasErrors()) {
-                throw new BindException(beanPropertyBindingResult);
-            }
-        } catch (BindException e) {
-            throw new RuntimeException(e);
-        }
+  public static void validate(Object object, Object... validationHints) {
+    try {
+      var validator = ApplicationContextUtil.getApplicationContext().getBean(Validator.class);
+      BeanPropertyBindingResult beanPropertyBindingResult =
+          new BeanPropertyBindingResult(
+              object, StringUtils.uncapitalize(object.getClass().getSimpleName()));
+      ValidationUtils.invokeValidator(
+          validator, object, beanPropertyBindingResult, validationHints);
+      if (beanPropertyBindingResult.hasErrors()) {
+        throw new BindException(beanPropertyBindingResult);
+      }
+    } catch (BindException e) {
+      throw new RuntimeException(e);
     }
+  }
 }

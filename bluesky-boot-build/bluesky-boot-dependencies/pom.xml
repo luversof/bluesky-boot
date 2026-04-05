@@ -251,7 +251,7 @@
 						<java>
 							<googleJavaFormat>
 								<version>${google-java-format.version}</version>
-								<style>AOSP</style>
+								<style>GOOGLE</style>
 							</googleJavaFormat>
 							
 							<!-- import 자동 정리 -->

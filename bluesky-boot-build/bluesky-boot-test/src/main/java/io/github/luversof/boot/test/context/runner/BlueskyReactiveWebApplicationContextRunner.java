@@ -14,39 +14,36 @@ import io.github.luversof.boot.env.ProfileEnvironmentPostProcessor;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
 
 public class BlueskyReactiveWebApplicationContextRunner
-        extends AbstractApplicationContextRunner<
-                BlueskyReactiveWebApplicationContextRunner,
-                ConfigurableReactiveWebApplicationContext,
-                AssertableReactiveWebApplicationContext> {
+    extends AbstractApplicationContextRunner<
+        BlueskyReactiveWebApplicationContextRunner,
+        ConfigurableReactiveWebApplicationContext,
+        AssertableReactiveWebApplicationContext> {
 
-    public static BlueskyReactiveWebApplicationContextRunner get() {
-        return new BlueskyReactiveWebApplicationContextRunner()
-                .withInitializer(
-                        ConditionEvaluationReportLoggingListener.forLogLevel(LogLevel.INFO))
-                .withInitializer(new BlueskyApplicationContextInitializer())
-                .withInitializer(
-                        applicationContext ->
-                                new ProfileEnvironmentPostProcessor()
-                                        .postProcessEnvironment(
-                                                applicationContext.getEnvironment(), null))
-                .withInitializer(
-                        applicationContext ->
-                                new DecryptEnvironmentPostProcessor()
-                                        .postProcessEnvironment(
-                                                applicationContext.getEnvironment(), null));
-    }
+  public static BlueskyReactiveWebApplicationContextRunner get() {
+    return new BlueskyReactiveWebApplicationContextRunner()
+        .withInitializer(ConditionEvaluationReportLoggingListener.forLogLevel(LogLevel.INFO))
+        .withInitializer(new BlueskyApplicationContextInitializer())
+        .withInitializer(
+            applicationContext ->
+                new ProfileEnvironmentPostProcessor()
+                    .postProcessEnvironment(applicationContext.getEnvironment(), null))
+        .withInitializer(
+            applicationContext ->
+                new DecryptEnvironmentPostProcessor()
+                    .postProcessEnvironment(applicationContext.getEnvironment(), null));
+  }
 
-    private BlueskyReactiveWebApplicationContextRunner() {
-        this(AnnotationConfigReactiveWebApplicationContext::new);
-    }
+  private BlueskyReactiveWebApplicationContextRunner() {
+    this(AnnotationConfigReactiveWebApplicationContext::new);
+  }
 
-    private BlueskyReactiveWebApplicationContextRunner(
-            Supplier<ConfigurableReactiveWebApplicationContext> contextFactory) {
-        super(BlueskyReactiveWebApplicationContextRunner::new, contextFactory);
-    }
+  private BlueskyReactiveWebApplicationContextRunner(
+      Supplier<ConfigurableReactiveWebApplicationContext> contextFactory) {
+    super(BlueskyReactiveWebApplicationContextRunner::new, contextFactory);
+  }
 
-    private BlueskyReactiveWebApplicationContextRunner(
-            RunnerConfiguration<ConfigurableReactiveWebApplicationContext> configuration) {
-        super(configuration, BlueskyReactiveWebApplicationContextRunner::new);
-    }
+  private BlueskyReactiveWebApplicationContextRunner(
+      RunnerConfiguration<ConfigurableReactiveWebApplicationContext> configuration) {
+    super(configuration, BlueskyReactiveWebApplicationContextRunner::new);
+  }
 }

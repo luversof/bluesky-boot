@@ -22,166 +22,163 @@ import jakarta.servlet.http.HttpServletResponse;
 /** 설정된 LocaleModuleProperties와 CookieModuleProperties를 기준으로 locale을 처리 */
 public class CookieLocaleResolveHandler extends AbstractLocaleResolveHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(CookieLocaleResolveHandler.class);
+  private static final Logger log = LoggerFactory.getLogger(CookieLocaleResolveHandler.class);
 
-    public static final String DEFAULT_BEAN_NAME = "cookieLocaleResolveHandler";
-    public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieLocaleResolveHandler";
+  public static final String DEFAULT_BEAN_NAME = "cookieLocaleResolveHandler";
+  public static final String EXTERNAL_COOKIE_BEAN_NAME = "externalCookieLocaleResolveHandler";
 
-    private final String cookiePropertiesBeanName;
+  private final String cookiePropertiesBeanName;
 
-    public String getLocaleRequestAttributeName() {
-        return cookiePropertiesBeanName + ".LOCALE";
+  public String getLocaleRequestAttributeName() {
+    return cookiePropertiesBeanName + ".LOCALE";
+  }
+
+  public String getTimeZoneRequestAttributeName() {
+    return cookiePropertiesBeanName + ".TIME_ZONE";
+  }
+
+  public CookieLocaleResolveHandler(
+      String localePropertiesBeanName,
+      String cookiePropertiesBeanName,
+      String localeResolveHandlerPropertiesBeanName) {
+    super(localePropertiesBeanName, localeResolveHandlerPropertiesBeanName);
+    this.cookiePropertiesBeanName = cookiePropertiesBeanName;
+  }
+
+  @Override
+  public void resolveLocale(
+      HttpServletRequest request, LocaleResolveInfoContainer localeResolveInfoContainer) {
+    var localeResolveInfo = createLocaleResolveInfo();
+    var requestLocale = getRequestLocale(request);
+    localeResolveInfo.setRequestLocale(requestLocale);
+
+    setResolveLocale(localeResolveInfo, localeResolveInfoContainer);
+
+    var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
+    var localeResolveInfoCondition = localeResolveHandlerProperties.getLocaleResolveInfoCondition();
+    var requestAttributes = RequestContextHolder.getRequestAttributes();
+    if (localeResolveInfoCondition != null
+        && localeResolveInfoCondition.isResolveLocaleCookieCreate()
+        && requestAttributes != null) {
+      HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
+      createCookie(response, localeResolveInfo);
     }
 
-    public String getTimeZoneRequestAttributeName() {
-        return cookiePropertiesBeanName + ".TIME_ZONE";
+    setRepresenatativeSupplier(localeResolveInfoContainer, localeResolveInfo);
+    addLocaleResolveInfo(localeResolveInfoContainer, localeResolveInfo);
+  }
+
+  @Override
+  public void setLocale(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Locale locale,
+      LocaleResolveInfoContainer localeResolveInfoContainer) {
+    var localeResolveInfo = createLocaleResolveInfo();
+    // 해당 locale이 허용되었는지 체크하는 과정
+    localeResolveInfo.setRequestLocale(locale);
+    setResolveLocale(localeResolveInfo, localeResolveInfoContainer);
+
+    var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
+    var localeResolveInfoCondition = localeResolveHandlerProperties.getLocaleResolveInfoCondition();
+    if (localeResolveInfoCondition != null
+        && localeResolveInfoCondition.isSetLocaleCookieCreate()) {
+      createCookie(response, localeResolveInfo);
     }
 
-    public CookieLocaleResolveHandler(
-            String localePropertiesBeanName,
-            String cookiePropertiesBeanName,
-            String localeResolveHandlerPropertiesBeanName) {
-        super(localePropertiesBeanName, localeResolveHandlerPropertiesBeanName);
-        this.cookiePropertiesBeanName = cookiePropertiesBeanName;
+    setRepresenatativeSupplier(localeResolveInfoContainer, localeResolveInfo);
+    addLocaleResolveInfo(localeResolveInfoContainer, localeResolveInfo);
+  }
+
+  /**
+   * request cookie에서 Locale을 구함
+   *
+   * @param request
+   */
+  private Locale getRequestLocale(HttpServletRequest request) {
+    if (request.getAttribute(getLocaleRequestAttributeName()) != null) {
+      return (Locale) request.getAttribute(getLocaleRequestAttributeName());
     }
 
-    @Override
-    public void resolveLocale(
-            HttpServletRequest request, LocaleResolveInfoContainer localeResolveInfoContainer) {
-        var localeResolveInfo = createLocaleResolveInfo();
-        var requestLocale = getRequestLocale(request);
-        localeResolveInfo.setRequestLocale(requestLocale);
-
-        setResolveLocale(localeResolveInfo, localeResolveInfoContainer);
-
-        var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
-        var localeResolveInfoCondition =
-                localeResolveHandlerProperties.getLocaleResolveInfoCondition();
-        var requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (localeResolveInfoCondition != null
-                && localeResolveInfoCondition.isResolveLocaleCookieCreate()
-                && requestAttributes != null) {
-            HttpServletResponse response =
-                    ((ServletRequestAttributes) requestAttributes).getResponse();
-            createCookie(response, localeResolveInfo);
-        }
-
-        setRepresenatativeSupplier(localeResolveInfoContainer, localeResolveInfo);
-        addLocaleResolveInfo(localeResolveInfoContainer, localeResolveInfo);
+    // 쿠키 조회
+    var cookieProperties = getCookieProperties();
+    String cookieName = cookieProperties.getName();
+    if (cookieName == null) {
+      return null;
     }
 
-    @Override
-    public void setLocale(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Locale locale,
-            LocaleResolveInfoContainer localeResolveInfoContainer) {
-        var localeResolveInfo = createLocaleResolveInfo();
-        // 해당 locale이 허용되었는지 체크하는 과정
-        localeResolveInfo.setRequestLocale(locale);
-        setResolveLocale(localeResolveInfo, localeResolveInfoContainer);
-
-        var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
-        var localeResolveInfoCondition =
-                localeResolveHandlerProperties.getLocaleResolveInfoCondition();
-        if (localeResolveInfoCondition != null
-                && localeResolveInfoCondition.isSetLocaleCookieCreate()) {
-            createCookie(response, localeResolveInfo);
-        }
-
-        setRepresenatativeSupplier(localeResolveInfoContainer, localeResolveInfo);
-        addLocaleResolveInfo(localeResolveInfoContainer, localeResolveInfo);
+    var cookie = WebUtils.getCookie(request, cookieName);
+    if (cookie == null) {
+      return null;
     }
 
-    /**
-     * request cookie에서 Locale을 구함
-     *
-     * @param request
-     */
-    private Locale getRequestLocale(HttpServletRequest request) {
-        if (request.getAttribute(getLocaleRequestAttributeName()) != null) {
-            return (Locale) request.getAttribute(getLocaleRequestAttributeName());
-        }
+    Locale locale = null;
+    TimeZone timeZone = null;
 
-        // 쿠키 조회
-        var cookieProperties = getCookieProperties();
-        String cookieName = cookieProperties.getName();
-        if (cookieName == null) {
-            return null;
-        }
-
-        var cookie = WebUtils.getCookie(request, cookieName);
-        if (cookie == null) {
-            return null;
-        }
-
-        Locale locale = null;
-        TimeZone timeZone = null;
-
-        String value = cookie.getValue();
-        String localePart = value;
-        String timeZonePart = null;
-        int separatorIndex = localePart.indexOf('/');
-        if (separatorIndex == -1) {
-            // Leniently accept older cookies separated by a space...
-            separatorIndex = localePart.indexOf(' ');
-        }
-        if (separatorIndex >= 0) {
-            localePart = value.substring(0, separatorIndex);
-            timeZonePart = value.substring(separatorIndex + 1);
-        }
-        try {
-            locale = (!"-".equals(localePart) ? StringUtils.parseLocale(localePart) : null);
-            if (timeZonePart != null) {
-                timeZone = StringUtils.parseTimeZoneString(timeZonePart);
-            }
-        } catch (IllegalArgumentException ex) {
-            log.debug(
-                    "Ignoring invalid locale cookie '"
-                            + cookieName
-                            + "': ["
-                            + value
-                            + "] due to: "
-                            + ex.getMessage());
-        }
-
-        if (locale == null) {
-            return null;
-        }
-
-        request.setAttribute(getLocaleRequestAttributeName(), locale);
-        request.setAttribute(getTimeZoneRequestAttributeName(), timeZone);
-        return locale;
+    String value = cookie.getValue();
+    String localePart = value;
+    String timeZonePart = null;
+    int separatorIndex = localePart.indexOf('/');
+    if (separatorIndex == -1) {
+      // Leniently accept older cookies separated by a space...
+      separatorIndex = localePart.indexOf(' ');
+    }
+    if (separatorIndex >= 0) {
+      localePart = value.substring(0, separatorIndex);
+      timeZonePart = value.substring(separatorIndex + 1);
+    }
+    try {
+      locale = (!"-".equals(localePart) ? StringUtils.parseLocale(localePart) : null);
+      if (timeZonePart != null) {
+        timeZone = StringUtils.parseTimeZoneString(timeZonePart);
+      }
+    } catch (IllegalArgumentException ex) {
+      log.debug(
+          "Ignoring invalid locale cookie '"
+              + cookieName
+              + "': ["
+              + value
+              + "] due to: "
+              + ex.getMessage());
     }
 
-    private void createCookie(HttpServletResponse response, LocaleResolveInfo localeResolveResult) {
-        if (response == null) {
-            log.debug("response is null");
-            return;
-        }
-
-        // resolveLocale을 기준으로 쿠키를 굽는 처리
-        // 변경을 요청한 경우이므로 무조건 구우면 된다.
-        var resolveLocale = localeResolveResult.getResolveLocale();
-        if (resolveLocale == null) {
-            return;
-        }
-
-        var cookieProperties = getCookieProperties();
-
-        var cookie =
-                ResponseCookie.from(cookieProperties.getName(), resolveLocale.toLanguageTag())
-                        .maxAge(cookieProperties.getMaxAge())
-                        .domain(cookieProperties.getDomain())
-                        .path(cookieProperties.getPath())
-                        .secure(Boolean.TRUE.equals(cookieProperties.getSecure()))
-                        .httpOnly(Boolean.TRUE.equals(cookieProperties.getHttpOnly()))
-                        .sameSite(cookieProperties.getSameSite())
-                        .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    if (locale == null) {
+      return null;
     }
 
-    protected CookieProperties getCookieProperties() {
-        return BlueskyContextHolder.getProperties(CookieProperties.class, cookiePropertiesBeanName);
+    request.setAttribute(getLocaleRequestAttributeName(), locale);
+    request.setAttribute(getTimeZoneRequestAttributeName(), timeZone);
+    return locale;
+  }
+
+  private void createCookie(HttpServletResponse response, LocaleResolveInfo localeResolveResult) {
+    if (response == null) {
+      log.debug("response is null");
+      return;
     }
+
+    // resolveLocale을 기준으로 쿠키를 굽는 처리
+    // 변경을 요청한 경우이므로 무조건 구우면 된다.
+    var resolveLocale = localeResolveResult.getResolveLocale();
+    if (resolveLocale == null) {
+      return;
+    }
+
+    var cookieProperties = getCookieProperties();
+
+    var cookie =
+        ResponseCookie.from(cookieProperties.getName(), resolveLocale.toLanguageTag())
+            .maxAge(cookieProperties.getMaxAge())
+            .domain(cookieProperties.getDomain())
+            .path(cookieProperties.getPath())
+            .secure(Boolean.TRUE.equals(cookieProperties.getSecure()))
+            .httpOnly(Boolean.TRUE.equals(cookieProperties.getHttpOnly()))
+            .sameSite(cookieProperties.getSameSite())
+            .build();
+    response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+  }
+
+  protected CookieProperties getCookieProperties() {
+    return BlueskyContextHolder.getProperties(CookieProperties.class, cookiePropertiesBeanName);
+  }
 }

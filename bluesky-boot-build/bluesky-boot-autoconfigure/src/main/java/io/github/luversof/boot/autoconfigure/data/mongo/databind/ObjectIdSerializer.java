@@ -8,10 +8,10 @@ import tools.jackson.databind.ValueSerializer;
 
 public class ObjectIdSerializer extends ValueSerializer<ObjectId> {
 
-    @Override
-    public void serialize(
-            ObjectId value, tools.jackson.core.JsonGenerator gen, SerializationContext ctxt)
-            throws JacksonException {
-        gen.writeString(value.toString());
-    }
+  @Override
+  public void serialize(
+      ObjectId value, tools.jackson.core.JsonGenerator gen, SerializationContext ctxt)
+      throws JacksonException {
+    gen.writeString(value.toString());
+  }
 }

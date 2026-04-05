@@ -8,17 +8,17 @@ import io.github.luversof.boot.util.function.SerializableSupplier;
 @ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleProperties extends LocaleProperties {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public static final String PREFIX = "bluesky-boot.external-locale";
+  public static final String PREFIX = "bluesky-boot.external-locale";
 
-    @Override
-    protected SerializableSupplier<LocalePropertiesBuilder> getBuilderSupplier() {
-        return () -> {
-            var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-            return parentModuleInfo == null
-                    ? LocaleProperties.builder()
-                    : parentModuleInfo.getExternalLocalePropertiesBuilder();
-        };
-    }
+  @Override
+  protected SerializableSupplier<LocalePropertiesBuilder> getBuilderSupplier() {
+    return () -> {
+      var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
+      return parentModuleInfo == null
+          ? LocaleProperties.builder()
+          : parentModuleInfo.getExternalLocalePropertiesBuilder();
+    };
+  }
 }

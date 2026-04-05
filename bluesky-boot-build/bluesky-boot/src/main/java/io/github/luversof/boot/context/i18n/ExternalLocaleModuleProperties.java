@@ -10,21 +10,21 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 @ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleModuleProperties extends LocaleModuleProperties {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /** Dependency 참조 순서 처리를 위해 선언 */
-    @Autowired
-    public void setExternalLocaleProperties(ExternalLocaleProperties externalLocaleProperties) {
-        setParent(externalLocaleProperties);
-    }
+  /** Dependency 참조 순서 처리를 위해 선언 */
+  @Autowired
+  public void setExternalLocaleProperties(ExternalLocaleProperties externalLocaleProperties) {
+    setParent(externalLocaleProperties);
+  }
 
-    @Override
-    protected SerializableFunction<String, LocalePropertiesBuilder> getBuilderFunction() {
-        return moduleName -> {
-            var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-            return moduleInfoMap.containsKey(moduleName)
-                    ? moduleInfoMap.get(moduleName).getExternalLocalePropertiesBuilder()
-                    : LocaleProperties.builder();
-        };
-    }
+  @Override
+  protected SerializableFunction<String, LocalePropertiesBuilder> getBuilderFunction() {
+    return moduleName -> {
+      var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
+      return moduleInfoMap.containsKey(moduleName)
+          ? moduleInfoMap.get(moduleName).getExternalLocalePropertiesBuilder()
+          : LocaleProperties.builder();
+    };
+  }
 }

@@ -4,10 +4,10 @@ package io.github.luversof.boot.context;
 @FunctionalInterface
 public interface BlueskyContext {
 
-    /**
-     * Get module name
-     *
-     * @return moduleName
-     */
-    String getModuleName();
+  /**
+   * Get module name
+   *
+   * @return moduleName
+   */
+  String getModuleName();
 }

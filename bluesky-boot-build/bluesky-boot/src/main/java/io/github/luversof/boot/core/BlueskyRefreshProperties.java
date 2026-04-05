@@ -13,34 +13,33 @@ import io.github.luversof.boot.exception.BlueskyException;
 /** Provides refresh/reset functions for refreshScope target properties */
 public interface BlueskyRefreshProperties extends Serializable {
 
-    /**
-     * If you use multiple beans in the same class, you need to specify the beanName through
-     * beanNameAware implementation.
-     *
-     * @return
-     */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    default String getBeanName() {
-        return null;
+  /**
+   * If you use multiple beans in the same class, you need to specify the beanName through
+   * beanNameAware implementation.
+   *
+   * @return
+   */
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  default String getBeanName() {
+    return null;
+  }
+
+  /** Store the values ​​of the first properties */
+  default void storeInitialProperties() {
+
+    String beanName = getBeanName();
+
+    if (beanName == null) {
+      String[] beanNames =
+          ApplicationContextUtil.getApplicationContext().getBeanNamesForType(this.getClass());
+      if (beanNames.length > 1) {
+        throw new BlueskyException("properties beanName must be set");
+      }
+      beanName = beanNames[0];
     }
 
-    /** Store the values ​​of the first properties */
-    default void storeInitialProperties() {
-
-        String beanName = getBeanName();
-
-        if (beanName == null) {
-            String[] beanNames =
-                    ApplicationContextUtil.getApplicationContext()
-                            .getBeanNamesForType(this.getClass());
-            if (beanNames.length > 1) {
-                throw new BlueskyException("properties beanName must be set");
-            }
-            beanName = beanNames[0];
-        }
-
-        BlueskyBootContextHolder.getContext()
-                .getInitialBlueskyResfreshPropertiesMap()
-                .computeIfAbsent(beanName, _ -> SerializationUtils.clone(this));
-    }
+    BlueskyBootContextHolder.getContext()
+        .getInitialBlueskyResfreshPropertiesMap()
+        .computeIfAbsent(beanName, _ -> SerializationUtils.clone(this));
+  }
 }

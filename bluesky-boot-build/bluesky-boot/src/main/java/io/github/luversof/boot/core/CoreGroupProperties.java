@@ -11,107 +11,108 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
 public class CoreGroupProperties implements BlueskyGroupProperties<CoreProperties> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /** Bean 생성 시 지정할 이름 */
-    public static final String BEAN_NAME = "blueskyCoreGroupProperties";
+  /** Bean 생성 시 지정할 이름 */
+  public static final String BEAN_NAME = "blueskyCoreGroupProperties";
 
-    private CoreProperties parent;
+  private CoreProperties parent;
 
-    private Map<String, CoreProperties> groups = new HashMap<>();
+  private Map<String, CoreProperties> groups = new HashMap<>();
 
-    @Autowired
-    public void setParent(CoreProperties parent) {
-        this.parent = parent;
+  @Override
+  @Autowired
+  public void setParent(CoreProperties parent) {
+    this.parent = parent;
+  }
+
+  @Override
+  public CoreProperties getParent() {
+    return parent;
+  }
+
+  @Override
+  public Map<String, CoreProperties> getGroups() {
+    return groups;
+  }
+
+  public void setGroups(Map<String, CoreProperties> groups) {
+    this.groups = groups;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public CoreProperties getParent() {
-        return parent;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    CoreGroupProperties that = (CoreGroupProperties) o;
+    return (parent != null ? parent.equals(that.parent) : that.parent == null)
+        && (groups != null ? groups.equals(that.groups) : that.groups == null);
+  }
 
-    public Map<String, CoreProperties> getGroups() {
-        return groups;
-    }
+  @Override
+  public int hashCode() {
+    int result = parent != null ? parent.hashCode() : 0;
+    result = 31 * result + (groups != null ? groups.hashCode() : 0);
+    return result;
+  }
 
-    public void setGroups(Map<String, CoreProperties> groups) {
-        this.groups = groups;
-    }
+  @Override
+  public String toString() {
+    return "CoreGroupProperties{" + "parent=" + parent + ", groups=" + groups + '}';
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CoreGroupProperties that = (CoreGroupProperties) o;
-        return (parent != null ? parent.equals(that.parent) : that.parent == null)
-                && (groups != null ? groups.equals(that.groups) : that.groups == null);
-    }
+  @Override
+  public void load() {
+    parentReload();
+    var blueskyBootContext = BlueskyBootContextHolder.getContext();
+    var moduleGroups = blueskyBootContext.getModuleGroups();
+    var groupModuleInfoMap = blueskyBootContext.getGroupModuleInfoMap();
 
-    @Override
-    public int hashCode() {
-        int result = parent != null ? parent.hashCode() : 0;
-        result = 31 * result + (groups != null ? groups.hashCode() : 0);
-        return result;
-    }
+    // 설정된 group의 module을 기준으로 groupModuleInfoMap 생성
+    // group에 moduleInfo 정보가 없으면 상위 moduleInfo(CoreProperties) 정보로 설정
+    // Core의 moduleInfo를 blueskyBootContext에 담아 여러 GroupProperties 생성 시 참고하기 위함
+    moduleGroups
+        .keySet()
+        .forEach(
+            groupName -> {
+              // group이 없는 경우 기본 설정 추가
+              if (!getGroups().containsKey(groupName)) {
+                getGroups()
+                    .put(
+                        groupName,
+                        getParent().getModuleInfo() == null
+                            ? CoreProperties.builder().build()
+                            : getParent().getModuleInfo().getCorePropertiesBuilder().build());
+              }
 
-    @Override
-    public String toString() {
-        return "CoreGroupProperties{" + "parent=" + parent + ", groups=" + groups + '}';
-    }
+              // blueskyBootContext에 groupModuleInfo 정보 추가
+              if (getGroups().get(groupName).getModuleInfo() != null) {
+                groupModuleInfoMap.put(groupName, getGroups().get(groupName).getModuleInfo());
+              }
+            });
 
-    @Override
-    public void load() {
-        parentReload();
-        var blueskyBootContext = BlueskyBootContextHolder.getContext();
-        var moduleGroups = blueskyBootContext.getModuleGroups();
-        var groupModuleInfoMap = blueskyBootContext.getGroupModuleInfoMap();
+    moduleGroups
+        .keySet()
+        .forEach(
+            groupName -> {
+              var builder =
+                  groupModuleInfoMap.containsKey(groupName)
+                      ? groupModuleInfoMap.get(groupName).getCorePropertiesBuilder()
+                      : CoreProperties.builder();
 
-        // 설정된 group의 module을 기준으로 groupModuleInfoMap 생성
-        // group에 moduleInfo 정보가 없으면 상위 moduleInfo(CoreProperties) 정보로 설정
-        // Core의 moduleInfo를 blueskyBootContext에 담아 여러 GroupProperties 생성 시 참고하기 위함
-        moduleGroups
-                .keySet()
-                .forEach(
-                        groupName -> {
-                            // group이 없는 경우 기본 설정 추가
-                            if (!getGroups().containsKey(groupName)) {
-                                getGroups()
-                                        .put(
-                                                groupName,
-                                                getParent().getModuleInfo() == null
-                                                        ? CoreProperties.builder().build()
-                                                        : getParent()
-                                                                .getModuleInfo()
-                                                                .getCorePropertiesBuilder()
-                                                                .build());
-                            }
+              if (!getGroups().containsKey(groupName)) {
+                getGroups().put(groupName, builder.build());
+              }
 
-                            // blueskyBootContext에 groupModuleInfo 정보 추가
-                            if (getGroups().get(groupName).getModuleInfo() != null) {
-                                groupModuleInfoMap.put(
-                                        groupName, getGroups().get(groupName).getModuleInfo());
-                            }
-                        });
+              var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+              propertyMapperConsumer.accept(getParent(), builder);
+              propertyMapperConsumer.accept(getGroups().get(groupName), builder);
 
-        moduleGroups
-                .keySet()
-                .forEach(
-                        groupName -> {
-                            var builder =
-                                    groupModuleInfoMap.containsKey(groupName)
-                                            ? groupModuleInfoMap
-                                                    .get(groupName)
-                                                    .getCorePropertiesBuilder()
-                                            : CoreProperties.builder();
-
-                            if (!getGroups().containsKey(groupName)) {
-                                getGroups().put(groupName, builder.build());
-                            }
-
-                            var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-                            propertyMapperConsumer.accept(getParent(), builder);
-                            propertyMapperConsumer.accept(getGroups().get(groupName), builder);
-
-                            getGroups().put(groupName, builder.build());
-                        });
-    }
+              getGroups().put(groupName, builder.build());
+            });
+  }
 }

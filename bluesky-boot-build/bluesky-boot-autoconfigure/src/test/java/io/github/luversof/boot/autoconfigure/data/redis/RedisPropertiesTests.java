@@ -32,12 +32,12 @@ import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
  */
 class RedisPropertiesTests {
 
-    @Test
-    void lettuceDefaultsAreConsistent() {
-        Lettuce lettuce = new DataRedisProperties().getLettuce();
-        ClusterTopologyRefreshOptions defaultClusterTopologyRefreshOptions =
-                ClusterTopologyRefreshOptions.builder().build();
-        assertThat(lettuce.getCluster().getRefresh().isDynamicRefreshSources())
-                .isEqualTo(defaultClusterTopologyRefreshOptions.useDynamicRefreshSources());
-    }
+  @Test
+  void lettuceDefaultsAreConsistent() {
+    Lettuce lettuce = new DataRedisProperties().getLettuce();
+    ClusterTopologyRefreshOptions defaultClusterTopologyRefreshOptions =
+        ClusterTopologyRefreshOptions.builder().build();
+    assertThat(lettuce.getCluster().getRefresh().isDynamicRefreshSources())
+        .isEqualTo(defaultClusterTopologyRefreshOptions.useDynamicRefreshSources());
+  }
 }

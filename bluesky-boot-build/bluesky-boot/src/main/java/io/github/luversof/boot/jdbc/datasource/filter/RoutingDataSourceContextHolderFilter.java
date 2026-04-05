@@ -16,25 +16,25 @@ import jakarta.servlet.http.HttpServletResponse;
 @Order(-103)
 public class RoutingDataSourceContextHolderFilter extends OncePerRequestFilter {
 
-    private RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver;
+  private RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver;
 
-    public RoutingDataSourceContextHolderFilter(
-            @Nullable RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
-        this.routingDataSourceLookupKeyResolver = routingDataSourceLookupKeyResolver;
-    }
+  public RoutingDataSourceContextHolderFilter(
+      @Nullable RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {
+    this.routingDataSourceLookupKeyResolver = routingDataSourceLookupKeyResolver;
+  }
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        try {
-            if (routingDataSourceLookupKeyResolver != null) {
-                RoutingDataSourceContextHolder.setContext(
-                        () -> routingDataSourceLookupKeyResolver.getLookupKey());
-            }
-            filterChain.doFilter(request, response);
-        } finally {
-            RoutingDataSourceContextHolder.clearContext();
-        }
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+    try {
+      if (routingDataSourceLookupKeyResolver != null) {
+        RoutingDataSourceContextHolder.setContext(
+            () -> routingDataSourceLookupKeyResolver.getLookupKey());
+      }
+      filterChain.doFilter(request, response);
+    } finally {
+      RoutingDataSourceContextHolder.clearContext();
     }
+  }
 }

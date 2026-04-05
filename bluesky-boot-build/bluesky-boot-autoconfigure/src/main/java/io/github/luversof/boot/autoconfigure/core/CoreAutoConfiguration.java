@@ -18,10 +18,10 @@ import io.github.luversof.boot.core.CoreConfiguration;
 @Import(CoreConfiguration.class)
 public class CoreAutoConfiguration {
 
-    @Bean
-    @ConditionalOnClass(
-            name = "org.springframework.boot.web.server.context.WebServerApplicationContext")
-    ServerPortLogApplicationListener serverPortLogApplicationListener() {
-        return new ServerPortLogApplicationListener();
-    }
+  @Bean
+  @ConditionalOnClass(
+      name = "org.springframework.boot.web.server.context.WebServerApplicationContext")
+  ServerPortLogApplicationListener serverPortLogApplicationListener() {
+    return new ServerPortLogApplicationListener();
+  }
 }

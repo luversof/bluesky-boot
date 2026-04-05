@@ -10,10 +10,8 @@ import org.springframework.data.convert.ReadingConverter;
 @ReadingConverter
 public class TimestampToOffsetDateTimeConverter implements Converter<Timestamp, OffsetDateTime> {
 
-    @Override
-    public OffsetDateTime convert(Timestamp source) {
-        return source == null
-                ? null
-                : source.toInstant().atOffset(OffsetDateTime.now().getOffset());
-    }
+  @Override
+  public OffsetDateTime convert(Timestamp source) {
+    return source == null ? null : source.toInstant().atOffset(OffsetDateTime.now().getOffset());
+  }
 }

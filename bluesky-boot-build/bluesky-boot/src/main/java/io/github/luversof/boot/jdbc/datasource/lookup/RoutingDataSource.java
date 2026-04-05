@@ -6,8 +6,8 @@ import io.github.luversof.boot.jdbc.datasource.context.RoutingDataSourceContextH
 
 public class RoutingDataSource extends AbstractRoutingDataSource {
 
-    @Override
-    protected Object determineCurrentLookupKey() {
-        return RoutingDataSourceContextHolder.getContext().getLookupKey();
-    }
+  @Override
+  protected Object determineCurrentLookupKey() {
+    return RoutingDataSourceContextHolder.getContext().getLookupKey();
+  }
 }

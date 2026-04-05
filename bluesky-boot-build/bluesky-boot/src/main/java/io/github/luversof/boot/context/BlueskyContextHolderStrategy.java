@@ -2,11 +2,11 @@ package io.github.luversof.boot.context;
 
 public interface BlueskyContextHolderStrategy {
 
-    void clearContext();
+  void clearContext();
 
-    BlueskyContext getContext();
+  BlueskyContext getContext();
 
-    void setContext(BlueskyContext context);
+  void setContext(BlueskyContext context);
 
-    BlueskyContext createEmptyContext();
+  BlueskyContext createEmptyContext();
 }

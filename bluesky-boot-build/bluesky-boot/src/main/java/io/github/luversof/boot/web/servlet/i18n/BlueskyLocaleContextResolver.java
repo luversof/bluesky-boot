@@ -12,42 +12,39 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class BlueskyLocaleContextResolver implements LocaleContextResolver {
 
-    public static final String LOCALE_REQUEST_ATTRIBUTE_NAME =
-            LocaleContextResolver.class.getName() + ".LOCALE";
+  public static final String LOCALE_REQUEST_ATTRIBUTE_NAME =
+      LocaleContextResolver.class.getName() + ".LOCALE";
 
-    @Override
-    public LocaleContext resolveLocaleContext(HttpServletRequest request) {
-        return () -> {
-            if (request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME) != null) {
-                return (Locale) request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME);
-            }
+  @Override
+  public LocaleContext resolveLocaleContext(HttpServletRequest request) {
+    return () -> {
+      if (request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME) != null) {
+        return (Locale) request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME);
+      }
 
-            var localeResolveInfoContainer = new LocaleResolveInfoContainer();
-            BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class)
-                    .getLocaleResolveHandlerList()
-                    .forEach(x -> x.resolveLocale(request, localeResolveInfoContainer));
+      var localeResolveInfoContainer = new LocaleResolveInfoContainer();
+      BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class)
+          .getLocaleResolveHandlerList()
+          .forEach(x -> x.resolveLocale(request, localeResolveInfoContainer));
 
-            var locale = localeResolveInfoContainer.getLocale();
-            request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME, locale);
+      var locale = localeResolveInfoContainer.getLocale();
+      request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME, locale);
 
-            return locale;
-        };
-    }
+      return locale;
+    };
+  }
 
-    @Override
-    public void setLocaleContext(
-            HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext) {
-        var localeResolveInfoContainer = new LocaleResolveInfoContainer();
-        BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class)
-                .getLocaleResolveHandlerList()
-                .forEach(
-                        x ->
-                                x.setLocale(
-                                        request,
-                                        response,
-                                        localeContext.getLocale(),
-                                        localeResolveInfoContainer));
+  @Override
+  public void setLocaleContext(
+      HttpServletRequest request, HttpServletResponse response, LocaleContext localeContext) {
+    var localeResolveInfoContainer = new LocaleResolveInfoContainer();
+    BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class)
+        .getLocaleResolveHandlerList()
+        .forEach(
+            x ->
+                x.setLocale(
+                    request, response, localeContext.getLocale(), localeResolveInfoContainer));
 
-        request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME, localeResolveInfoContainer.getLocale());
-    }
+    request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME, localeResolveInfoContainer.getLocale());
+  }
 }

@@ -12,14 +12,14 @@ import tools.jackson.databind.json.JsonMapper;
 @WritingConverter
 public class MapToStringConverter implements Converter<Map<String, Object>, String> {
 
-    private final JsonMapper jsonMapper = new JsonMapper();
+  private final JsonMapper jsonMapper = new JsonMapper();
 
-    @Override
-    public String convert(Map<String, Object> source) {
-        try {
-            return jsonMapper.writeValueAsString(source);
-        } catch (JacksonException e) {
-            throw new IllegalArgumentException("Error converting Map to JSON", e);
-        }
+  @Override
+  public String convert(Map<String, Object> source) {
+    try {
+      return jsonMapper.writeValueAsString(source);
+    } catch (JacksonException e) {
+      throw new IllegalArgumentException("Error converting Map to JSON", e);
     }
+  }
 }

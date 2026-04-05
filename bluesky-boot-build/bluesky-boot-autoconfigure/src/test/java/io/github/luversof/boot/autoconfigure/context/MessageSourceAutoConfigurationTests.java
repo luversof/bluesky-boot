@@ -16,35 +16,30 @@ import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunn
 
 class MessageSourceAutoConfigurationTests {
 
-    private final BlueskyApplicationContextRunner contextRunner =
-            BlueskyApplicationContextRunner.get()
-                    .withPropertyValues(BASE_PROPERTY)
-                    .withConfiguration(AutoConfigurations.of(CORE_MESSAGESOURCE_CONFIGURATION))
-                    .withUserConfiguration(CORE_MESSAGESOURCE_USER_CONFIGURATION)
-                    .withUserConfiguration(Config.class);
+  private final BlueskyApplicationContextRunner contextRunner =
+      BlueskyApplicationContextRunner.get()
+          .withPropertyValues(BASE_PROPERTY)
+          .withConfiguration(AutoConfigurations.of(CORE_MESSAGESOURCE_CONFIGURATION))
+          .withUserConfiguration(CORE_MESSAGESOURCE_USER_CONFIGURATION)
+          .withUserConfiguration(Config.class);
 
-    @Test
-    void testDefaultMessageSource() {
-        this.contextRunner.run(
-                context ->
-                        assertThat(context.getMessage("messageKey", null, "Foo message", Locale.UK))
-                                .isEqualTo("messageValue"));
-    }
+  @Test
+  void testDefaultMessageSource() {
+    this.contextRunner.run(
+        context ->
+            assertThat(context.getMessage("messageKey", null, "Foo message", Locale.UK))
+                .isEqualTo("messageValue"));
+  }
 
-    @Test
-    void testExtensionMessageSource() {
-        this.contextRunner.run(
-                context ->
-                        assertThat(
-                                        context.getMessage(
-                                                "messageExtensionKey",
-                                                null,
-                                                "Foo message",
-                                                Locale.UK))
-                                .isEqualTo("messageExtensionValue"));
-    }
+  @Test
+  void testExtensionMessageSource() {
+    this.contextRunner.run(
+        context ->
+            assertThat(context.getMessage("messageExtensionKey", null, "Foo message", Locale.UK))
+                .isEqualTo("messageExtensionValue"));
+  }
 
-    @Configuration
-    @PropertySource("classpath:context/messageTest.properties")
-    protected static class Config {}
+  @Configuration
+  @PropertySource("classpath:context/messageTest.properties")
+  protected static class Config {}
 }

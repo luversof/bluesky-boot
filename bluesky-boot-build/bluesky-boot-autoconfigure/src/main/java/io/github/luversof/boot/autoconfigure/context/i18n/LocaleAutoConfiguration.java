@@ -18,11 +18,11 @@ import io.github.luversof.boot.context.i18n.LocaleProperties;
  */
 @AutoConfiguration(value = "blueskyBootLocaleAutoConfiguration")
 @EnableConfigurationProperties({
-    LocaleProperties.class,
-    LocaleModuleProperties.class,
-    LocaleGroupProperties.class,
-    ExternalLocaleProperties.class,
-    ExternalLocaleModuleProperties.class,
-    ExternalLocaleGroupProperties.class
+  LocaleProperties.class,
+  LocaleModuleProperties.class,
+  LocaleGroupProperties.class,
+  ExternalLocaleProperties.class,
+  ExternalLocaleModuleProperties.class,
+  ExternalLocaleGroupProperties.class
 })
 public class LocaleAutoConfiguration {}

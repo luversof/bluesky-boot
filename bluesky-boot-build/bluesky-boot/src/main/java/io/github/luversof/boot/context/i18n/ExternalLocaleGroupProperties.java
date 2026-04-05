@@ -9,22 +9,22 @@ import io.github.luversof.boot.util.function.SerializableFunction;
 @ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleGroupProperties extends LocaleGroupProperties {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /** Dependency 참조 순서 처리를 위해 선언 */
-    @Autowired
-    public void setExternalLocaleProperties(ExternalLocaleProperties externalLocaleProperties) {
-        setParent(externalLocaleProperties);
-    }
+  /** Dependency 참조 순서 처리를 위해 선언 */
+  @Autowired
+  public void setExternalLocaleProperties(ExternalLocaleProperties externalLocaleProperties) {
+    setParent(externalLocaleProperties);
+  }
 
-    @Override
-    protected SerializableFunction<String, LocaleProperties.LocalePropertiesBuilder>
-            getBuilderFunction() {
-        return groupName -> {
-            var groupModuleInfoMap = BlueskyBootContextHolder.getContext().getGroupModuleInfoMap();
-            return groupModuleInfoMap.containsKey(groupName)
-                    ? groupModuleInfoMap.get(groupName).getExternalLocalePropertiesBuilder()
-                    : LocaleProperties.builder();
-        };
-    }
+  @Override
+  protected SerializableFunction<String, LocaleProperties.LocalePropertiesBuilder>
+      getBuilderFunction() {
+    return groupName -> {
+      var groupModuleInfoMap = BlueskyBootContextHolder.getContext().getGroupModuleInfoMap();
+      return groupModuleInfoMap.containsKey(groupName)
+          ? groupModuleInfoMap.get(groupName).getExternalLocalePropertiesBuilder()
+          : LocaleProperties.builder();
+    };
+  }
 }

@@ -14,11 +14,11 @@ import io.github.luversof.boot.web.WebProperties;
 @AutoConfiguration("blueskyBootWebAutoConfiguration")
 @ConditionalOnWebApplication
 @EnableConfigurationProperties({
-    DomainProperties.class,
-    DomainModuleProperties.class,
-    DomainGroupProperties.class,
-    WebProperties.class,
-    WebModuleProperties.class,
-    WebGroupProperties.class,
+  DomainProperties.class,
+  DomainModuleProperties.class,
+  DomainGroupProperties.class,
+  WebProperties.class,
+  WebModuleProperties.class,
+  WebGroupProperties.class,
 })
 public class WebAutoConfiguration {}

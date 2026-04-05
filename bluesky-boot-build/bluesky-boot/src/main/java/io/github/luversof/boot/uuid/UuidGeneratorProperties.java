@@ -12,92 +12,96 @@ import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 
 @ConfigurationProperties(prefix = UuidGeneratorProperties.PREFIX)
 public class UuidGeneratorProperties
-        extends AbstractBlueskyProperties<
-                UuidGeneratorProperties, UuidGeneratorProperties.UuidGeneratorPropertiesBuilder> {
+    extends AbstractBlueskyProperties<
+        UuidGeneratorProperties, UuidGeneratorProperties.UuidGeneratorPropertiesBuilder> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public static final String PREFIX = "bluesky-boot.uuid-generator";
+  public static final String PREFIX = "bluesky-boot.uuid-generator";
+
+  private UuidVersion version = UuidVersion.V7;
+
+  public UuidGeneratorProperties() {}
+
+  public UuidGeneratorProperties(UuidVersion version) {
+    this.version = version;
+  }
+
+  public UuidVersion getVersion() {
+    return version;
+  }
+
+  public void setVersion(UuidVersion version) {
+    this.version = version;
+  }
+
+  @Override
+  protected BiConsumer<UuidGeneratorProperties, UuidGeneratorPropertiesBuilder>
+      getPropertyMapperConsumer() {
+    return (properties, builder) -> {
+      if (properties == null) {
+        return;
+      }
+      var propertyMapper = PropertyMapper.get();
+      propertyMapper.from(properties::getVersion).to(builder::version);
+    };
+  }
+
+  @Override
+  protected UuidGeneratorPropertiesBuilder getBuilder() {
+    var blueskyBootContext = BlueskyBootContextHolder.getContext();
+    var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
+    return parentModuleInfo == null
+        ? UuidGeneratorProperties.builder()
+        : parentModuleInfo.getUuidGeneratorPropertiesBuilder();
+  }
+
+  public enum UuidVersion {
+    V1,
+    V4,
+    V6,
+    V7
+  }
+
+  public static UuidGeneratorPropertiesBuilder builder() {
+    return new UuidGeneratorPropertiesBuilder();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
+      return false;
+    }
+    UuidGeneratorProperties that = (UuidGeneratorProperties) o;
+    return version == that.version;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), version);
+  }
+
+  @Override
+  public String toString() {
+    return "UuidGeneratorProperties{" + "version=" + version + '}';
+  }
+
+  public static class UuidGeneratorPropertiesBuilder
+      implements BlueskyPropertiesBuilder<UuidGeneratorProperties> {
 
     private UuidVersion version = UuidVersion.V7;
 
-    public UuidGeneratorProperties() {}
-
-    public UuidGeneratorProperties(UuidVersion version) {
-        this.version = version;
-    }
-
-    public UuidVersion getVersion() {
-        return version;
-    }
-
-    public void setVersion(UuidVersion version) {
-        this.version = version;
-    }
-
-    protected BiConsumer<UuidGeneratorProperties, UuidGeneratorPropertiesBuilder>
-            getPropertyMapperConsumer() {
-        return (properties, builder) -> {
-            if (properties == null) {
-                return;
-            }
-            var propertyMapper = PropertyMapper.get();
-            propertyMapper.from(properties::getVersion).to(builder::version);
-        };
+    public UuidGeneratorPropertiesBuilder version(UuidVersion version) {
+      this.version = version;
+      return this;
     }
 
     @Override
-    protected UuidGeneratorPropertiesBuilder getBuilder() {
-        var blueskyBootContext = BlueskyBootContextHolder.getContext();
-        var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-        return parentModuleInfo == null
-                ? UuidGeneratorProperties.builder()
-                : parentModuleInfo.getUuidGeneratorPropertiesBuilder();
+    public UuidGeneratorProperties build() {
+      return new UuidGeneratorProperties(this.version);
     }
-
-    public enum UuidVersion {
-        V1,
-        V4,
-        V6,
-        V7
-    }
-
-    public static UuidGeneratorPropertiesBuilder builder() {
-        return new UuidGeneratorPropertiesBuilder();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        UuidGeneratorProperties that = (UuidGeneratorProperties) o;
-        return version == that.version;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), version);
-    }
-
-    @Override
-    public String toString() {
-        return "UuidGeneratorProperties{" + "version=" + version + '}';
-    }
-
-    public static class UuidGeneratorPropertiesBuilder
-            implements BlueskyPropertiesBuilder<UuidGeneratorProperties> {
-
-        private UuidVersion version = UuidVersion.V7;
-
-        public UuidGeneratorPropertiesBuilder version(UuidVersion version) {
-            this.version = version;
-            return this;
-        }
-
-        @Override
-        public UuidGeneratorProperties build() {
-            return new UuidGeneratorProperties(this.version);
-        }
-    }
+  }
 }

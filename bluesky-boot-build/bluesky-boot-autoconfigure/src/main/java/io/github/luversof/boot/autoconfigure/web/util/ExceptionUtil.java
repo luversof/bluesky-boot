@@ -19,96 +19,91 @@ import jakarta.servlet.http.HttpServletRequest;
 /** Utility for handling responses to exceptions */
 public final class ExceptionUtil {
 
-    /** Handling utility class constructors */
-    private ExceptionUtil() {}
+  /** Handling utility class constructors */
+  private ExceptionUtil() {}
 
-    private static List<ErrorViewResolver> errorViewResolverList;
+  private static List<ErrorViewResolver> errorViewResolverList;
 
-    public static void setErrorViewResolverList(List<ErrorViewResolver> errorViewResolverList) {
-        ExceptionUtil.errorViewResolverList = errorViewResolverList;
+  public static void setErrorViewResolverList(List<ErrorViewResolver> errorViewResolverList) {
+    ExceptionUtil.errorViewResolverList = errorViewResolverList;
+  }
+
+  private static List<ErrorViewResolver> getErrorViewResolverList() {
+    if (errorViewResolverList == null) {
+      errorViewResolverList =
+          ApplicationContextUtil.getApplicationContext()
+              .getBeanProvider(ErrorViewResolver.class)
+              .orderedStream()
+              .toList();
     }
+    return errorViewResolverList;
+  }
 
-    private static List<ErrorViewResolver> getErrorViewResolverList() {
-        if (errorViewResolverList == null) {
-            errorViewResolverList =
-                    ApplicationContextUtil.getApplicationContext()
-                            .getBeanProvider(ErrorViewResolver.class)
-                            .orderedStream()
-                            .toList();
+  /**
+   * If the response is json, return a ProblemDetail object, otherwise return a ModelAndView object
+   * using ErrorViewResolver.
+   *
+   * @param problemDetail problemDetail
+   * @param handler handler
+   * @param nativeWebRequest nativeWebRequest
+   * @return Returns a modelAndView or problemDetail object depending on the situation.
+   */
+  public static Object handleException(
+      ProblemDetail problemDetail, Object handler, NativeWebRequest nativeWebRequest) {
+    if (ExceptionUtil.isJsonResponse(handler, nativeWebRequest)) {
+      return problemDetail;
+    } else {
+      for (ErrorViewResolver resolver : getErrorViewResolverList()) {
+        HttpServletRequest httpServletRequest =
+            nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+        ModelAndView modelAndView =
+            resolver.resolveErrorView(
+                httpServletRequest,
+                HttpStatus.valueOf(problemDetail.getStatus()),
+                problemDetail.getProperties());
+        if (modelAndView != null) {
+          return modelAndView;
         }
-        return errorViewResolverList;
+      }
+      return null;
     }
+  }
 
-    /**
-     * If the response is json, return a ProblemDetail object, otherwise return a ModelAndView
-     * object using ErrorViewResolver.
-     *
-     * @param problemDetail problemDetail
-     * @param handler handler
-     * @param nativeWebRequest nativeWebRequest
-     * @return Returns a modelAndView or problemDetail object depending on the situation.
-     */
-    public static Object handleException(
-            ProblemDetail problemDetail, Object handler, NativeWebRequest nativeWebRequest) {
-        if (ExceptionUtil.isJsonResponse(handler, nativeWebRequest)) {
-            return problemDetail;
-        } else {
-            for (ErrorViewResolver resolver : getErrorViewResolverList()) {
-                HttpServletRequest httpServletRequest =
-                        nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-                ModelAndView modelAndView =
-                        resolver.resolveErrorView(
-                                httpServletRequest,
-                                HttpStatus.valueOf(problemDetail.getStatus()),
-                                problemDetail.getProperties());
-                if (modelAndView != null) {
-                    return modelAndView;
-                }
-            }
-            return null;
-        }
+  /**
+   * Returns whether the request should be processed as a json response.
+   *
+   * @param handler handler
+   * @param request request
+   * @return isJsonResponse
+   */
+  private static boolean isJsonResponse(Object handler, NativeWebRequest request) {
+    try {
+      var contentNegotiationManager =
+          ApplicationContextUtil.getApplicationContext().getBean(ContentNegotiationManager.class);
+      if (contentNegotiationManager
+          .resolveMediaTypes(request)
+          .contains(MediaType.APPLICATION_JSON)) {
+        return true;
+      }
+
+      if (!(handler instanceof HandlerMethod)) {
+        return false;
+      }
+      var handlerMethod = (HandlerMethod) handler;
+
+      var methodAnnotation = handlerMethod.getMethodAnnotation(RequestMapping.class);
+      if (methodAnnotation != null
+          && Arrays.asList(methodAnnotation.produces())
+              .contains(MediaType.APPLICATION_JSON_VALUE)) {
+        return true;
+      }
+
+      var classAnnotation =
+          handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class);
+      return classAnnotation != null
+          && Arrays.asList(classAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-
-    /**
-     * Returns whether the request should be processed as a json response.
-     *
-     * @param handler handler
-     * @param request request
-     * @return isJsonResponse
-     */
-    private static boolean isJsonResponse(Object handler, NativeWebRequest request) {
-        try {
-            var contentNegotiationManager =
-                    ApplicationContextUtil.getApplicationContext()
-                            .getBean(ContentNegotiationManager.class);
-            if (contentNegotiationManager
-                    .resolveMediaTypes(request)
-                    .contains(MediaType.APPLICATION_JSON)) {
-                return true;
-            }
-
-            if (!(handler instanceof HandlerMethod)) {
-                return false;
-            }
-            var handlerMethod = (HandlerMethod) handler;
-
-            var methodAnnotation = handlerMethod.getMethodAnnotation(RequestMapping.class);
-            if (methodAnnotation != null
-                    && Arrays.asList(methodAnnotation.produces())
-                            .contains(MediaType.APPLICATION_JSON_VALUE)) {
-                return true;
-            }
-
-            var classAnnotation =
-                    handlerMethod
-                            .getMethod()
-                            .getDeclaringClass()
-                            .getAnnotation(RequestMapping.class);
-            return classAnnotation != null
-                    && Arrays.asList(classAnnotation.produces())
-                            .contains(MediaType.APPLICATION_JSON_VALUE);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+  }
 }

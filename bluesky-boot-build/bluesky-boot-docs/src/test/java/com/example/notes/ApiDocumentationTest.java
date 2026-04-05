@@ -25,24 +25,24 @@ import io.github.luversof.boot.test.autoconfigure.restdocs.RestDocsTest;
 @ActiveProfiles("localdev")
 class ApiDocumentationTest extends RestDocsTest {
 
-    @Autowired private WebApplicationContext context;
+  @Autowired private WebApplicationContext context;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @BeforeEach
-    void setUp(RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc =
-                MockMvcBuilders.webAppContextSetup(context)
-                        .apply(documentationConfiguration(restDocumentation))
-                        .build();
-    }
+  @BeforeEach
+  void setUp(RestDocumentationContextProvider restDocumentation) {
+    this.mockMvc =
+        MockMvcBuilders.webAppContextSetup(context)
+            .apply(documentationConfiguration(restDocumentation))
+            .build();
+  }
 
-    @Test
-    @Disabled
-    void sample() throws Exception {
-        this.mockMvc
-                .perform(get("/"))
-                .andExpect(status().isOk())
-                .andDo(MockMvcRestDocumentationWrapper.document("sample"));
-    }
+  @Test
+  @Disabled
+  void sample() throws Exception {
+    this.mockMvc
+        .perform(get("/"))
+        .andExpect(status().isOk())
+        .andDo(MockMvcRestDocumentationWrapper.document("sample"));
+  }
 }

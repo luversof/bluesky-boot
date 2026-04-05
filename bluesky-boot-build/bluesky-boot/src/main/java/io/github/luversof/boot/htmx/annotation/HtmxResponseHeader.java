@@ -15,17 +15,17 @@ import io.github.luversof.boot.htmx.constant.HtmxResponseHeaderName;
 @Repeatable(HtmxResponseHeaders.class)
 public @interface HtmxResponseHeader {
 
-    /**
-     * header에 추가할 값 이거 pathVariable 적용 가능한지 확인이 필요함
-     *
-     * @return
-     */
-    String value() default "";
+  /**
+   * header에 추가할 값 이거 pathVariable 적용 가능한지 확인이 필요함
+   *
+   * @return
+   */
+  String value() default "";
 
-    /**
-     * header의 name
-     *
-     * @return
-     */
-    HtmxResponseHeaderName headerName() default HtmxResponseHeaderName.HX_TRIGGER_AFTER_SETTLE;
+  /**
+   * header의 name
+   *
+   * @return
+   */
+  HtmxResponseHeaderName headerName() default HtmxResponseHeaderName.HX_TRIGGER_AFTER_SETTLE;
 }

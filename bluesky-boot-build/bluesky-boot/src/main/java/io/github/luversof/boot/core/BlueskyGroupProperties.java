@@ -9,36 +9,37 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.luversof.boot.context.ApplicationContextUtil;
 
 public interface BlueskyGroupProperties<P extends BlueskyProperties>
-        extends InitializingBean, BlueskyRefreshProperties {
+    extends InitializingBean, BlueskyRefreshProperties {
 
-    P getParent();
+  P getParent();
 
-    void setParent(P parent);
+  void setParent(P parent);
 
-    Map<String, P> getGroups();
+  Map<String, P> getGroups();
 
-    default void load() {
-        parentReload();
+  default void load() {
+    parentReload();
+  }
+
+  @Override
+  default void afterPropertiesSet() throws Exception {
+    storeInitialProperties();
+    load();
+  }
+
+  /**
+   * parent의 beanName을 기준으로 parent 조회 actuator refresh 한 경우 참조된 parent가 갱신되지 않으므로 제공
+   *
+   * @return
+   */
+  @JsonIgnore
+  @SuppressWarnings("unchecked")
+  default void parentReload() {
+    var applicationContext = ApplicationContextUtil.getApplicationContext();
+    var parentBeanName = getParent().getBeanName();
+    if (parentBeanName == null) {
+      parentBeanName = applicationContext.getBeanNamesForType(this.getParent().getClass())[0];
     }
-
-    default void afterPropertiesSet() throws Exception {
-        storeInitialProperties();
-        load();
-    }
-
-    /**
-     * parent의 beanName을 기준으로 parent 조회 actuator refresh 한 경우 참조된 parent가 갱신되지 않으므로 제공
-     *
-     * @return
-     */
-    @JsonIgnore
-    @SuppressWarnings("unchecked")
-    default void parentReload() {
-        var applicationContext = ApplicationContextUtil.getApplicationContext();
-        var parentBeanName = getParent().getBeanName();
-        if (parentBeanName == null) {
-            parentBeanName = applicationContext.getBeanNamesForType(this.getParent().getClass())[0];
-        }
-        setParent((P) applicationContext.getBean(parentBeanName));
-    }
+    setParent((P) applicationContext.getBean(parentBeanName));
+  }
 }

@@ -14,17 +14,17 @@ import tools.jackson.databind.json.JsonMapper;
 @WritingConverter
 public class MapToPGobjectConverter implements Converter<Map<String, Object>, PGobject> {
 
-    private final JsonMapper jsonMapper = new JsonMapper();
+  private final JsonMapper jsonMapper = new JsonMapper();
 
-    @Override
-    public PGobject convert(Map<String, Object> source) {
-        try {
-            PGobject jsonObject = new PGobject();
-            jsonObject.setType("jsonb");
-            jsonObject.setValue(jsonMapper.writeValueAsString(source));
-            return jsonObject;
-        } catch (JacksonException | SQLException e) {
-            throw new IllegalArgumentException("Error converting Map to JSONB", e);
-        }
+  @Override
+  public PGobject convert(Map<String, Object> source) {
+    try {
+      PGobject jsonObject = new PGobject();
+      jsonObject.setType("jsonb");
+      jsonObject.setValue(jsonMapper.writeValueAsString(source));
+      return jsonObject;
+    } catch (JacksonException | SQLException e) {
+      throw new IllegalArgumentException("Error converting Map to JSONB", e);
     }
+  }
 }

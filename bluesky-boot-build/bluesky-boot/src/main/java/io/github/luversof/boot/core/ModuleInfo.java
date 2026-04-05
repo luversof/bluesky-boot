@@ -20,47 +20,47 @@ import io.github.luversof.boot.web.WebProperties;
  */
 public interface ModuleInfo extends Serializable {
 
-    default CoreBaseProperties.CoreBasePropertiesBuilder getCoreBasePropertiesBuilder() {
-        return CoreBaseProperties.builder();
-    }
+  default CoreBaseProperties.CoreBasePropertiesBuilder getCoreBasePropertiesBuilder() {
+    return CoreBaseProperties.builder();
+  }
 
-    default CoreProperties.CorePropertiesBuilder getCorePropertiesBuilder() {
-        return CoreProperties.builder();
-    }
+  default CoreProperties.CorePropertiesBuilder getCorePropertiesBuilder() {
+    return CoreProperties.builder();
+  }
 
-    default LocaleProperties.LocalePropertiesBuilder getLocalePropertiesBuilder() {
-        return LocaleProperties.builder();
-    }
+  default LocaleProperties.LocalePropertiesBuilder getLocalePropertiesBuilder() {
+    return LocaleProperties.builder();
+  }
 
-    default LocaleProperties.LocalePropertiesBuilder getExternalLocalePropertiesBuilder() {
-        return getLocalePropertiesBuilder();
-    }
+  default LocaleProperties.LocalePropertiesBuilder getExternalLocalePropertiesBuilder() {
+    return getLocalePropertiesBuilder();
+  }
 
-    default CookieProperties.CookiePropertiesBuilder getCookiePropertiesBuilder() {
-        return CookieProperties.builder();
-    }
+  default CookieProperties.CookiePropertiesBuilder getCookiePropertiesBuilder() {
+    return CookieProperties.builder();
+  }
 
-    default CookieProperties.CookiePropertiesBuilder getExternalCookiePropertiesBuilder() {
-        return getCookiePropertiesBuilder();
-    }
+  default CookieProperties.CookiePropertiesBuilder getExternalCookiePropertiesBuilder() {
+    return getCookiePropertiesBuilder();
+  }
 
-    default DomainProperties.DomainPropertiesBuilder getDomainPropertiesBuilder() {
-        return DomainProperties.builder();
-    }
+  default DomainProperties.DomainPropertiesBuilder getDomainPropertiesBuilder() {
+    return DomainProperties.builder();
+  }
 
-    default WebProperties.WebPropertiesBuilder getWebPropertiesBuilder() {
-        return WebProperties.builder();
-    }
+  default WebProperties.WebPropertiesBuilder getWebPropertiesBuilder() {
+    return WebProperties.builder();
+  }
 
-    default LocaleResolveHandlerPropertiesBuilder getLocaleResolveHandlerPropertiesBuilder() {
-        return LocaleResolveHandlerProperties.builder();
-    }
+  default LocaleResolveHandlerPropertiesBuilder getLocaleResolveHandlerPropertiesBuilder() {
+    return LocaleResolveHandlerProperties.builder();
+  }
 
-    default LocaleContextResolverPropertiesBuilder getLocaleContextResolverPropertiesBuilder() {
-        return LocaleContextResolverProperties.builder();
-    }
+  default LocaleContextResolverPropertiesBuilder getLocaleContextResolverPropertiesBuilder() {
+    return LocaleContextResolverProperties.builder();
+  }
 
-    default UuidGeneratorPropertiesBuilder getUuidGeneratorPropertiesBuilder() {
-        return UuidGeneratorProperties.builder();
-    }
+  default UuidGeneratorPropertiesBuilder getUuidGeneratorPropertiesBuilder() {
+    return UuidGeneratorProperties.builder();
+  }
 }
