@@ -21,6 +21,7 @@
 		<bluesky-boot-connectioninfo.version>4.0.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
 		<mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>3.0.2</springdoc-openapi.version>
+		<spring-boot-admin.version>4.0.2</spring-boot-admin.version>
 
 		<logback-access-tomcat.version>2.0.12</logback-access-tomcat.version>
 		<uuid-creator.version>6.1.1</uuid-creator.version>
@@ -175,6 +176,19 @@
 				<version>${springdoc-openapi.version}</version>
 			</dependency>
 			<!-- (e) springdoc-openapi -->
+			
+			<!-- (s) spring-boot-admin -->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<!-- (e) spring-boot-admin -->			
 
 			<!-- (s) restdocs-api-spec -->
 			<dependency>
