@@ -20,6 +20,7 @@ import io.github.luversof.boot.core.AbstractBlueskyProperties;
 import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
+import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolveHandler;
 
 /** LocaleContextResovler에서 사용할 localeContextResolveHandler를 설정 */
 @ConfigurationProperties(prefix = LocaleContextResolverProperties.PREFIX)
@@ -116,6 +117,7 @@ public class LocaleContextResolverProperties
   public enum LocaleContextResolveHandlerPreset {
     BASIC(
         List.of("cookieLocaleResolveHandler", AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)),
+    COOKIE(List.of(CookieLocaleResolveHandler.DEFAULT_BEAN_NAME)),
     ACCEPT_HEADER(List.of(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME));
 
     private final List<String> localeContextResolveHandlerBeanNameList;
