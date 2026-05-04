@@ -116,7 +116,9 @@ public class LocaleContextResolverProperties
 
   public enum LocaleContextResolveHandlerPreset {
     BASIC(
-        List.of("cookieLocaleResolveHandler", AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)),
+        List.of(
+            CookieLocaleResolveHandler.DEFAULT_BEAN_NAME,
+            AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)),
     COOKIE(List.of(CookieLocaleResolveHandler.DEFAULT_BEAN_NAME)),
     ACCEPT_HEADER(List.of(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME));
 
