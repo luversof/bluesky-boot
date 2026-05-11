@@ -103,6 +103,7 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
     var localeResolveHandlerProperties = getLocaleResolveHandlerProperties();
     var preLocaleResolveInfoCondition =
         localeResolveHandlerProperties.getPreLocaleResolveInfoCondition();
+    var localeResolveInfoCondition = localeResolveHandlerProperties.getLocaleResolveInfoCondition();
 
     Locale resolveLocale = null;
     // 선행 handler resolveLocale을 먼저 참고하는 경우
@@ -118,7 +119,7 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 
     // 내 자신 로케일 계산하고 있으면 해당 설정
     var requestLocale = localeResolveInfo.getRequestLocale();
-    resolveLocale = getResolveLocale(requestLocale, false);
+    resolveLocale = getResolveLocale(requestLocale, localeResolveInfoCondition.isCheckLanguageMatchOnly());
     if (resolveLocale != null) {
       localeResolveInfo.setResolveLocale(resolveLocale);
       return;
