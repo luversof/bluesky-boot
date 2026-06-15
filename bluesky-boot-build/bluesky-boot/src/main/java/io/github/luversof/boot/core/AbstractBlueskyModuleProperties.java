@@ -18,6 +18,10 @@ public abstract class AbstractBlueskyModuleProperties<
             moduleName -> {
               var builder = getBuilder(moduleName);
 
+              // 모듈별 moduleInfo(ServiceInfo) 기본값. parent/group 적용 이후 다시 얹어
+              // parent > group > 모듈별 moduleInfo > 모듈별 설정 의 우선순위를 보장한다.
+              var moduleInfoDefaults = this.getBuilder(moduleName).build();
+
               if (!getModules().containsKey(moduleName)) {
                 getModules().put(moduleName, builder.build());
               }
@@ -25,13 +29,12 @@ public abstract class AbstractBlueskyModuleProperties<
               var propertyMapperConsumer = getParent().getPropertyMapperConsumer();
               propertyMapperConsumer.accept(getParent(), builder);
               propertyMapperConsumer.accept(getGroup(moduleName), builder);
+              propertyMapperConsumer.accept(moduleInfoDefaults, builder);
               propertyMapperConsumer.accept(getModules().get(moduleName), builder);
 
               getModules().put(moduleName, builder.build());
             });
 
-    // getModules().forEach((key, value) -> value.load());	// 이거 꼭 해야 하나?
-    // LocaleContextResolverModuleProperties에 설정했었음. 확인 필요
   }
 
   protected abstract B getBuilder(String moduleName);
