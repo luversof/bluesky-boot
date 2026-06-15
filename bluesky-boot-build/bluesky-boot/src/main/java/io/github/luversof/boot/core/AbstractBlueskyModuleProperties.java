@@ -34,7 +34,6 @@ public abstract class AbstractBlueskyModuleProperties<
 
               getModules().put(moduleName, builder.build());
             });
-
   }
 
   protected abstract B getBuilder(String moduleName);
