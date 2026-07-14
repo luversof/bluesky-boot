@@ -69,6 +69,10 @@ public final class ExceptionUtil {
     }
   }
 
+  public static boolean isHtmlResponse(HandlerMethod handlerMethod, NativeWebRequest request) {
+    return !isJsonResponse(handlerMethod, request);
+  }
+
   /**
    * Returns whether the request should be processed as a json response.
    *
