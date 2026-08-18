@@ -30,15 +30,12 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
     ModuleNameInfo moduleNameInfo = new ModuleNameInfo();
     BlueskyContextHolder.setContext(
         () -> {
-          if (moduleNameInfo.getModuleName() == null) {
-            var resolvedModuleName =
+          // resolve 결과가 null(= 상위 properties 사용)인 경우에도 캐싱하여 요청당 1회만 resolve 한다.
+          if (!moduleNameInfo.isResolved()) {
+            moduleNameInfo.setModuleName(
                 ApplicationContextUtil.getApplicationContext()
                     .getBean(ModuleNameResolver.class)
-                    .resolve(request);
-            if (resolvedModuleName == null) {
-              return null;
-            }
-            moduleNameInfo.setModuleName(resolvedModuleName);
+                    .resolve(request));
           }
           return moduleNameInfo.getModuleName();
         });
@@ -51,7 +48,13 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
   }
 
   public static class ModuleNameInfo {
+
     private String moduleName;
+
+    /**
+     * resolve 수행 여부. moduleName이 null(= 상위 properties 사용)인 경우와 아직 resolve 하지 않은 경우를 구분하기 위해 사용한다.
+     */
+    private boolean resolved;
 
     public String getModuleName() {
       return moduleName;
@@ -59,28 +62,11 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 
     public void setModuleName(String moduleName) {
       this.moduleName = moduleName;
+      this.resolved = true;
     }
 
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      ModuleNameInfo that = (ModuleNameInfo) o;
-      return moduleName != null ? moduleName.equals(that.moduleName) : that.moduleName == null;
-    }
-
-    @Override
-    public int hashCode() {
-      return moduleName != null ? moduleName.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-      return "ModuleNameInfo{" + "moduleName='" + moduleName + '\'' + '}';
+    public boolean isResolved() {
+      return this.resolved;
     }
   }
 }

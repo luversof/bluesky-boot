@@ -31,19 +31,13 @@ public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
     var applicationContext = exchange.getApplicationContext();
     Assert.notNull(applicationContext, ERROR_MESSAGE_NOT_NULL_APPLICATION_CONTEXT);
     var domainModuleProperties = applicationContext.getBean(DomainModuleProperties.class);
-    Assert.notEmpty(domainModuleProperties.getModules(), "domainModuleProperties is not set");
 
     var modules = domainModuleProperties.getModules();
     if (modules.size() == 1) {
       return modules.entrySet().stream().findAny().orElse(null);
     }
 
-    var module = getModulePropertiesEntry(exchange, domainModuleProperties);
-
-    if (module == null) {
-      module = modules.entrySet().stream().findFirst().orElse(null);
-    }
-    return module;
+    return getModulePropertiesEntry(exchange, domainModuleProperties);
   }
 
   /**
