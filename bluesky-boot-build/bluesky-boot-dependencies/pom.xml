@@ -19,11 +19,11 @@
 		<bluesky-boot-crypto.version>4.1.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>4.1.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<bluesky-boot-connectioninfo.version>4.1.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
-		<mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
-		<springdoc-openapi.version>3.0.3</springdoc-openapi.version>
-		<spring-boot-admin.version>4.1.0</spring-boot-admin.version>
+		<mybatis-spring-boot-starter.version>4.1.0</mybatis-spring-boot-starter.version>
+		<springdoc-openapi.version>3.1.0</springdoc-openapi.version>
+		<spring-boot-admin.version>4.1.2</spring-boot-admin.version>
 
-		<logback-access-tomcat.version>2.0.12</logback-access-tomcat.version>
+		<logback-access-tomcat.version>2.0.15</logback-access-tomcat.version>
 		<uuid-creator.version>6.1.1</uuid-creator.version>
 
 		<!-- tag:asciidoctor-properties[] -->
@@ -40,10 +40,10 @@
 		<restdocs-spec-maven-plugin.version>0.23</restdocs-spec-maven-plugin.version>
 		<!-- end:asciidoctor-properties[] -->
 		<jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
-		<jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
+		<jib-maven-plugin.version>3.5.2</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
-		<spotless-maven-plugin.version>3.6.0</spotless-maven-plugin.version>
-		<google-java-format.version>1.35.0</google-java-format.version>
+		<spotless-maven-plugin.version>3.10.0</spotless-maven-plugin.version>
+		<google-java-format.version>1.36.1</google-java-format.version>
 
 		<!-- (s) build properties -->
 		<build.image>nexus-service:8083/luversof</build.image>
@@ -52,7 +52,7 @@
 		<!-- (e) build properties -->
 
 		<!-- (s) central -->
-		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
+		<central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
 		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 		<!-- (e) central -->
 	</properties>
