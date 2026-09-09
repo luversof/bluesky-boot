@@ -38,6 +38,22 @@ public final class ProblemDetailUtil {
 
   private static MessageSourceAccessor messageSourceAccessor;
 
+  /**
+   * 예외를 상태 코드에 맞는 수준으로 남긴다.
+   *
+   * <p>4xx 는 호출자 쪽 문제(잘못된 파라미터, 남의 리소스 조회 등)라 서버 장애가 아니다. 그런데 예전에는 400 도 ERROR 로 스택 트레이스까지 남겨, 잘못된
+   * 링크 하나나 스캔 몇 번이 진짜 5xx 와 같은 줄에 섞였다(실측 2026-09-09: api-stock 의 당일 ERROR 4 건이 전부 의도된 400 이었다). 4xx
+   * 는 WARN 한 줄 + 스택은 DEBUG, 5xx 이상은 그대로 ERROR 와 스택이다.
+   */
+  static void logException(String what, Throwable exception, int status) {
+    if (status >= 400 && status < 500) {
+      log.warn("{} (client error {}): {}", what, status, exception.toString());
+      log.debug("{} stack trace", what, exception);
+      return;
+    }
+    log.error(what, exception);
+  }
+
   private static MessageSourceAccessor getMessageSourceAccessor() {
     if (messageSourceAccessor == null) {
       messageSourceAccessor =
@@ -88,7 +104,7 @@ public final class ProblemDetailUtil {
 
     var messageCodes = getExceptionErrorCodes(exception);
     log.debug(MESSAGE_CODES, List.of(messageCodes));
-    log.error("BlueskyException occurred", exception);
+    logException("BlueskyException occurred", exception, exception.getStatus());
     var defaultMessageSourceResolvable =
         new DefaultMessageSourceResolvable(
             messageCodes,
@@ -242,7 +258,7 @@ public final class ProblemDetailUtil {
     if (!coreBaseProperties
         .getLogExceptExceptionList()
         .contains(exception.getClass().getSimpleName())) {
-      log.error("Throwable exception : ", exception);
+      logException("Throwable exception", exception, status.value());
     }
 
     var blueskyErrorMessage = new BlueskyErrorMessage();

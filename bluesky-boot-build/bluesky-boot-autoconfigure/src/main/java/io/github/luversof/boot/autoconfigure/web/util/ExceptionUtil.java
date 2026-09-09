@@ -65,7 +65,10 @@ public final class ExceptionUtil {
           return modelAndView;
         }
       }
-      return null;
+      // 그릴 오류 화면이 없으면(HTML 뷰가 없는 API 서비스, 또는 Accept: */*) ProblemDetail 로 떨어진다.
+      // 예전에는 null 을 돌려줬는데 Spring 은 @ExceptionHandler 의 null 을 '처리 끝' 으로 보고 200 빈 응답을 보냈다
+      // (실측 2026-09-09: api-stock 에 Accept 없이 400 예외를 내면 HTTP 200, Content-Length 0).
+      return problemDetail;
     }
   }
 
