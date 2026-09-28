@@ -1,6 +1,16 @@
 package io.github.luversof.boot.context;
 
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -177,11 +187,140 @@ public final class BlueskyContextHolder {
     return getProperties(blueskyModuleProperties);
   }
 
+  /**
+   * (application context, 조회 타입) &rarr; 그 타입 bean 이름들({@code orderedStream} 순서).
+   *
+   * <p>{@code getBeanNamesForType(ResolvableType)} 은 모든 bean 정의의 제네릭 타입을 훑고, Spring 은 {@code Class}
+   * 조회와 달리 이것을 캐시하지 않는다. 그런데 이 경로는 로케일을 물을 때마다(요청 파라미터를 하나 변환할 때마다) 불린다 &mdash; 실측 2026-09-23:
+   * api-stock holdingsSnapshotBatch 의 요청 스레드 표본 48% 가 여기였다(DB 왕복 39%, 계산 6%).
+   *
+   * <p>bean <b>이름</b>만 기억하고 인스턴스는 매번 {@code getBean} 으로 받는다 &mdash; refresh scope 처럼 인스턴스가 바뀌어도
+   * 맞는다. context 가 다 뜬 뒤({@code isRunning})에만 기억하고, context 별로 따로 둔다(시험이 context 를 여럿 띄운다). 이름을
+   * 인스턴스와 1:1 로 되짚지 못하면(싱글톤이 아닌 bean) 기억하지 않고 예전 방식으로 조회한다.
+   *
+   * <p>전역 락이 없는 {@link ConcurrentHashMap} 이다(사용자 요청 2026-09-28: 대량 요청에서 모든 요청 스레드가 락 하나를 지나가는
+   * {@code Collections.synchronizedMap(new WeakHashMap<>())} 를 걷어냄). 키는 context 를 약하게 잡아 버려진
+   * context 를 붙잡지 않고, 거둬진 키는 {@link #STALE_CONTEXT_KEYS} 로 알림 받아 다음 조회 때 지운다({@code WeakHashMap} 이
+   * 하던 일).
+   */
+  static final Map<ContextKey, Map<String, List<String>>> ORDERED_BEAN_NAMES =
+      new ConcurrentHashMap<>();
+
+  private static final ReferenceQueue<ApplicationContext> STALE_CONTEXT_KEYS =
+      new ReferenceQueue<>();
+
+  /**
+   * context 를 약하게 잡는 키. 같은지는 동일성으로 본다({@code equals} 를 재정의한 context 가 있어도 context 별로 따로 둔다). 조회용 키는
+   * 큐 없이 만들어 쓰고 버린다.
+   */
+  static final class ContextKey extends WeakReference<ApplicationContext> {
+
+    private final int hash;
+
+    ContextKey(ApplicationContext applicationContext, ReferenceQueue<ApplicationContext> queue) {
+      super(applicationContext, queue);
+      this.hash = System.identityHashCode(applicationContext);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if (this == other) {
+        return true;
+      }
+      if (!(other instanceof ContextKey key) || key.hash != hash) {
+        return false;
+      }
+      var applicationContext = get();
+      return applicationContext != null && applicationContext == key.get();
+    }
+
+    @Override
+    public int hashCode() {
+      return hash;
+    }
+  }
+
+  private static Map<String, List<String>> namesOf(ApplicationContext applicationContext) {
+    expungeStaleContextKeys();
+    var byType = ORDERED_BEAN_NAMES.get(new ContextKey(applicationContext, null));
+    if (byType != null) {
+      return byType;
+    }
+    return ORDERED_BEAN_NAMES.computeIfAbsent(
+        new ContextKey(applicationContext, STALE_CONTEXT_KEYS), _ -> new ConcurrentHashMap<>());
+  }
+
+  /** 거둬진 context 의 기억을 지운다. 지울 게 없으면 큐를 한 번 들여다보고 끝난다. */
+  private static void expungeStaleContextKeys() {
+    Reference<? extends ApplicationContext> stale;
+    while ((stale = STALE_CONTEXT_KEYS.poll()) != null) {
+      ORDERED_BEAN_NAMES.remove(stale);
+    }
+  }
+
+  /** 기억할 수 없으면 null(호출하는 쪽이 예전 방식으로 조회한다). */
+  static List<String> orderedBeanNames(ApplicationContext applicationContext, ResolvableType type) {
+    boolean settled =
+        applicationContext instanceof ConfigurableApplicationContext configurable
+            && configurable.isRunning();
+    String key = type.toString();
+    if (settled) {
+      var byType = namesOf(applicationContext);
+      var remembered = byType.get(key);
+      if (remembered != null) {
+        return remembered;
+      }
+      var computed = computeOrderedBeanNames(applicationContext, type);
+      if (computed != null) {
+        byType.put(key, computed);
+      }
+      return computed;
+    }
+    return computeOrderedBeanNames(applicationContext, type);
+  }
+
+  private static List<String> computeOrderedBeanNames(
+      ApplicationContext applicationContext, ResolvableType type) {
+    String[] names = applicationContext.getBeanNamesForType(type);
+    if (names.length == 0) {
+      return List.of();
+    }
+    Map<Object, String> nameByInstance = new IdentityHashMap<>();
+    for (String name : names) {
+      nameByInstance.put(applicationContext.getBean(name), name);
+    }
+    ObjectProvider<Object> provider = applicationContext.getBeanProvider(type);
+    List<String> ordered = provider.orderedStream().map(nameByInstance::get).toList();
+    if (ordered.size() != names.length || ordered.contains(null)) {
+      return null;
+    }
+    return ordered;
+  }
+
+  @SuppressWarnings("unchecked")
   private static <T extends BlueskyProperties, U extends BlueskyModuleProperties<T>>
       U getModuleProperties(Class<T> blueskyPropertiesClass, String blueskyPropertiesBeanName) {
     var moduleResolvableType =
         ResolvableType.forClassWithGenerics(BlueskyModuleProperties.class, blueskyPropertiesClass);
     var applicationContext = ApplicationContextUtil.getApplicationContext();
+
+    List<String> names = orderedBeanNames(applicationContext, moduleResolvableType);
+    if (names != null) {
+      if (names.isEmpty()) {
+        return null;
+      }
+      if (blueskyPropertiesBeanName == null) {
+        return (U) applicationContext.getBean(names.get(0));
+      }
+      var parent = applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
+      for (String name : names) {
+        U candidate = (U) applicationContext.getBean(name);
+        if (candidate.getParent() == parent) {
+          return candidate;
+        }
+      }
+      throw new BlueskyException("NOT EXIST TARGET BLUESKY MODULE PROPERTIES");
+    }
 
     String[] moduleBeanNamesForType = applicationContext.getBeanNamesForType(moduleResolvableType);
     if (moduleBeanNamesForType.length == 0) {
@@ -215,6 +354,27 @@ public final class BlueskyContextHolder {
     var groupResolvableType =
         ResolvableType.forClassWithGenerics(BlueskyGroupProperties.class, blueskyPropertiesClass);
     var applicationContext = ApplicationContextUtil.getApplicationContext();
+
+    List<String> names = orderedBeanNames(applicationContext, groupResolvableType);
+    if (names != null) {
+      if (names.isEmpty()) {
+        return null;
+      }
+      if (blueskyPropertiesBeanName == null) {
+        @SuppressWarnings("unchecked")
+        var first = (BlueskyGroupProperties<T>) applicationContext.getBean(names.get(0));
+        return first;
+      }
+      var parent = applicationContext.getBean(blueskyPropertiesBeanName, blueskyPropertiesClass);
+      for (String name : names) {
+        @SuppressWarnings("unchecked")
+        var candidate = (BlueskyGroupProperties<T>) applicationContext.getBean(name);
+        if (candidate.getParent() == parent) {
+          return candidate;
+        }
+      }
+      return null;
+    }
 
     String[] groupBeanNamesForType = applicationContext.getBeanNamesForType(groupResolvableType);
     if (groupBeanNamesForType.length == 0) {
