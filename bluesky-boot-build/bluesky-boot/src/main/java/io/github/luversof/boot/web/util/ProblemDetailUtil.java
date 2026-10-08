@@ -46,12 +46,40 @@ public final class ProblemDetailUtil {
    * 는 WARN 한 줄 + 스택은 DEBUG, 5xx 이상은 그대로 ERROR 와 스택이다.
    */
   static void logException(String what, Throwable exception, int status) {
+    if (isClientAbort(exception)) {
+      // 응답을 쓰는 중에 상대가 끊었다(시간 초과로 포기한 호출자 등) — 서버 오류가 아니라 스택 없이 한 줄(2026-10-02)
+      log.warn("{} (client aborted): {}", what, exception.toString());
+      return;
+    }
     if (status >= 400 && status < 500) {
       log.warn("{} (client error {}): {}", what, status, exception.toString());
       log.debug("{} stack trace", what, exception);
       return;
     }
     log.error(what, exception);
+  }
+
+  /**
+   * 원인 사슬에 "상대가 연결을 끊음"이 있는가 — Spring AsyncRequestNotUsableException, Tomcat ClientAbortException,
+   * 또는 IOException 문구(Connection reset / Broken pipe / connection was aborted).
+   */
+  static boolean isClientAbort(Throwable exception) {
+    for (Throwable t = exception; t != null; t = t.getCause() == t ? null : t.getCause()) {
+      String name = t.getClass().getSimpleName();
+      if ("AsyncRequestNotUsableException".equals(name) || "ClientAbortException".equals(name)) {
+        return true;
+      }
+      String message = t.getMessage();
+      if (t instanceof java.io.IOException && message != null) {
+        String m = message.toLowerCase(java.util.Locale.ROOT);
+        if (m.contains("connection reset")
+            || m.contains("broken pipe")
+            || m.contains("connection was aborted")) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static MessageSourceAccessor getMessageSourceAccessor() {
@@ -247,7 +275,22 @@ public final class ProblemDetailUtil {
   }
 
   public static <T extends Throwable> ProblemDetail getProblemDetail(T exception) {
-    return getProblemDetail(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    return getProblemDetail(exception, statusOf(exception));
+  }
+
+  /**
+   * 예외가 자기 HTTP 상태를 가진 경우(Spring {@link org.springframework.web.ErrorResponse} —
+   * ResponseStatusException, NoResourceFoundException, HttpRequestMethodNotSupportedException 등) 그
+   * 상태, 아니면 500.
+   *
+   * <p>2026-10-02: 예전엔 무조건 500 이라 {@code ResponseStatusException(NOT_FOUND)} 도, 없는 경로도, 잘못된 메서드도
+   * 500 응답 + ERROR 스택이 됐다(api-poe 실측: 없는 젬 조회 · 없는 경로 · DELETE /meta 모두 500).
+   */
+  static HttpStatusCode statusOf(Throwable exception) {
+    if (exception instanceof org.springframework.web.ErrorResponse errorResponse) {
+      return errorResponse.getStatusCode();
+    }
+    return HttpStatus.INTERNAL_SERVER_ERROR;
   }
 
   public static <T extends Throwable> ProblemDetail getProblemDetail(

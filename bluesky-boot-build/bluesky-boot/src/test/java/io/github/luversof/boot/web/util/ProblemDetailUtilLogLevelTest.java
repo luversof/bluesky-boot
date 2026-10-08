@@ -85,4 +85,50 @@ class ProblemDetailUtilLogLevelTest {
     assertThat(ofLevel(Level.WARN)).hasSize(1);
     assertThat(ofLevel(Level.ERROR)).hasSize(2);
   }
+
+  /**
+   * 예외가 가진 HTTP 상태를 쓴다(2026-10-02) — 예전엔 ResponseStatusException(404) · 없는 경로 · 잘못된 메서드가 전부 500 응답
+   * + ERROR 였다.
+   */
+  @Test
+  void 예외가_가진_상태를_쓴다() {
+    assertThat(
+            ProblemDetailUtil.statusOf(
+                    new org.springframework.web.server.ResponseStatusException(
+                        org.springframework.http.HttpStatus.NOT_FOUND, "없음"))
+                .value())
+        .isEqualTo(404);
+    assertThat(
+            ProblemDetailUtil.statusOf(
+                    new org.springframework.web.servlet.resource.NoResourceFoundException(
+                        org.springframework.http.HttpMethod.GET, "/no-such-path", "no-such-path"))
+                .value())
+        .isEqualTo(404);
+    assertThat(
+            ProblemDetailUtil.statusOf(
+                    new org.springframework.web.HttpRequestMethodNotSupportedException("DELETE"))
+                .value())
+        .isEqualTo(405);
+    assertThat(ProblemDetailUtil.statusOf(new IllegalStateException("x")).value()).isEqualTo(500);
+  }
+
+  /** 상대가 끊은 응답은 WARN 한 줄(스택 없음) — 2026-10-02 api-poe 실측: 탐침 시간 초과로 끊긴 응답이 ERROR 스택으로 남았다. */
+  @Test
+  void 상대가_끊은_응답은_WARN_한_줄() {
+    var exception =
+        new org.springframework.http.converter.HttpMessageNotWritableException(
+            "Could not write JSON",
+            new java.io.IOException(
+                "ServletOutputStream failed to write: java.io.IOException: Connection reset by peer"));
+
+    ProblemDetailUtil.logException("Throwable exception", exception, 500);
+
+    assertThat(ofLevel(Level.ERROR)).isEmpty();
+    assertThat(ofLevel(Level.WARN)).hasSize(1);
+    assertThat(ofLevel(Level.WARN).get(0).getFormattedMessage()).contains("client aborted");
+    assertThat(
+            ProblemDetailUtil.isClientAbort(
+                new IllegalStateException("x", new java.io.IOException("disk full"))))
+        .isFalse();
+  }
 }

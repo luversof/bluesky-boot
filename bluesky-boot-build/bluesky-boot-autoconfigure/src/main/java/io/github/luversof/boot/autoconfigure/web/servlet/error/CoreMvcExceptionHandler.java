@@ -90,7 +90,10 @@ public class CoreMvcExceptionHandler {
               try {
                 handlerExecutionChain = x.getHandler(httpServletRequest);
               } catch (Exception e) {
-                log.error("handleException", e);
+                // 응답 형식(화면/JSON)을 고르려고 핸들러를 다시 찾는 것뿐 — 405 처럼 요청 자체가 핸들러에 안 맞으면 여기서 같은 예외가 또 난다.
+                //   이미 처리 중인 예외라 ERROR 로 두 번 남기지 않는다(2026-10-02: DELETE /api/poe2/meta 마다 ERROR 1
+                // 줄).
+                log.debug("handler lookup failed while handling exception", e);
               }
               if (handlerExecutionChain != null) {
                 handlerList.add(handlerExecutionChain.getHandler());
