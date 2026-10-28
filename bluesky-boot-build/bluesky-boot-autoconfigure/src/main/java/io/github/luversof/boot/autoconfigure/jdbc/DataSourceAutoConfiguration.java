@@ -72,6 +72,9 @@ public class DataSourceAutoConfiguration {
 
       var routingDataSource = new RoutingDataSource();
       routingDataSource.setTargetDataSources(targetDataSourceMap);
+      // 모르는 lookupKey 는 오류로 - 기본값(true)이면 오타 난 키가 아무 DB(HashMap 첫 값)로 조용히 갔다(2026-10-28 감사).
+      // 키가 없을 때(null)는 그대로 기본 DataSource 를 쓴다.
+      routingDataSource.setLenientFallback(false);
       // defaultDataSource를 지정하지 않은 경우 첫번째 값 설정
       if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
         routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().toArray()[0]);
@@ -118,6 +121,9 @@ public class DataSourceAutoConfiguration {
               : new RoutingDataSource();
 
       routingDataSource.setTargetDataSources(targetDataSourceMap);
+      // 모르는 lookupKey 는 오류로 - 기본값(true)이면 오타 난 키가 아무 DB(HashMap 첫 값)로 조용히 갔다(2026-10-28 감사).
+      // 키가 없을 때(null)는 그대로 기본 DataSource 를 쓴다.
+      routingDataSource.setLenientFallback(false);
       // defaultDataSource를 지정하지 않은 경우 첫번째 값 설정
       if (dataSourceProperties.getDefaultDatasource() == null && !targetDataSourceMap.isEmpty()) {
         routingDataSource.setDefaultTargetDataSource(targetDataSourceMap.values().toArray()[0]);

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 
@@ -22,7 +23,7 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
 
   private Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap;
 
-  private Map<String, Instant> nonExistLookupKeyMap = new HashMap<>();
+  private final Map<String, Instant> nonExistLookupKeyMap = new ConcurrentHashMap<>();
 
   public LazyLoadRoutingDataSource(
       Map<String, ConnectionInfoLoader<T, C>> connectionInfoLoaderMap) {
@@ -40,34 +41,46 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
     // lookupKey가 등록되어 있는지 확인하여 없으면 lazy load
     DataSource dataSource = getResolvedDataSources().get(lookupKey);
     if (dataSource == null && connectionInfoLoaderMap != null) {
-      checkNonExistLookupKeyMap(lookupKey);
-
-      boolean isLoaded = false;
-
-      for (var connectionInfoLoader : connectionInfoLoaderMap.values()) {
-        var connectionInfoList = connectionInfoLoader.load(List.of(lookupKey));
-        for (var connectionInfo : connectionInfoList) {
-          if (connectionInfo.getKey().connectionKey().equals(lookupKey)) {
-            var targetDataSource = connectionInfo.getConnection();
-
-            var dataSourceMap = new HashMap<>();
-            dataSourceMap.putAll(getResolvedDataSources());
-            dataSourceMap.put(lookupKey, targetDataSource);
-            setTargetDataSources(dataSourceMap);
-            initialize();
-
-            isLoaded = true;
-          }
-        }
-      }
-
-      if (!isLoaded) {
-        nonExistLookupKeyMap.put(lookupKey, Instant.now());
-        throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
-      }
+      loadDataSource(lookupKey);
     }
 
     return RoutingDataSourceContextHolder.getContext().getLookupKey();
+  }
+
+  /**
+   * 처음 보는 lookupKey 의 DataSource 를 만들어 붙인다. 한 번에 한 스레드만 - 예전엔 두 요청이 같은 새 키로 동시에 들어오면 풀을 두 개 만들어 하나가
+   * 참조 없이 열린 채 남았다.
+   */
+  private synchronized void loadDataSource(String lookupKey) {
+    // 기다리는 동안 다른 스레드가 이미 붙였을 수 있다
+    if (getResolvedDataSources().get(lookupKey) != null) {
+      return;
+    }
+    checkNonExistLookupKeyMap(lookupKey);
+
+    boolean isLoaded = false;
+
+    for (var connectionInfoLoader : connectionInfoLoaderMap.values()) {
+      var connectionInfoList = connectionInfoLoader.load(List.of(lookupKey));
+      for (var connectionInfo : connectionInfoList) {
+        if (connectionInfo.getKey().connectionKey().equals(lookupKey)) {
+          var targetDataSource = connectionInfo.getConnection();
+
+          var dataSourceMap = new HashMap<>();
+          dataSourceMap.putAll(getResolvedDataSources());
+          dataSourceMap.put(lookupKey, targetDataSource);
+          setTargetDataSources(dataSourceMap);
+          initialize();
+
+          isLoaded = true;
+        }
+      }
+    }
+
+    if (!isLoaded) {
+      nonExistLookupKeyMap.put(lookupKey, Instant.now());
+      throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
+    }
   }
 
   /**
