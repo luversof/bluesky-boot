@@ -24,12 +24,10 @@ public class AddPathPatternModuleNameResolver extends AbstractModuleNameResolver
   protected Entry<String, DomainProperties> getModulePropertiesEntry(
       HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
     return domainModuleProperties.getModules().entrySet().stream()
-        .filter(
-            moduleEntry ->
-                moduleEntry.getValue().getAddPathPatternList().stream()
-                    .anyMatch(
-                        addPathPattern ->
-                            pathMatcher.match(addPathPattern, request.getServletPath())))
+        .filter(moduleEntry ->
+            moduleEntry.getValue().getAddPathPatternList().stream()
+                .anyMatch(
+                    addPathPattern -> pathMatcher.match(addPathPattern, request.getServletPath())))
         .sorted(comparator.reversed())
         .findFirst()
         .orElse(null);

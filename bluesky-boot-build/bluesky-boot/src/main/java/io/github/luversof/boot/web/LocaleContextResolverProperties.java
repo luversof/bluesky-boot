@@ -103,14 +103,13 @@ public class LocaleContextResolverProperties
         ApplicationContextUtil.getApplicationContext().getBeansOfType(LocaleResolveHandler.class);
 
     List<LocaleResolveHandler> localeResolveHandlerList = new ArrayList<>();
-    localeResolveHandlerBeanNameList.forEach(
-        beanName -> {
-          if (!beansOfType.containsKey(beanName)) {
-            log.warn("LocaleResolveHandler bean {} is not exist", beanName);
-            return;
-          }
-          localeResolveHandlerList.add(beansOfType.get(beanName));
-        });
+    localeResolveHandlerBeanNameList.forEach(beanName -> {
+      if (!beansOfType.containsKey(beanName)) {
+        log.warn("LocaleResolveHandler bean {} is not exist", beanName);
+        return;
+      }
+      localeResolveHandlerList.add(beansOfType.get(beanName));
+    });
     return localeResolveHandlerList;
   }
 

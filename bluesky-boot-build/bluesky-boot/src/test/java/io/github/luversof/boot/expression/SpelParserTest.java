@@ -33,10 +33,10 @@ class SpelParserTest {
       String result = SpelParserUtil.parse(spelParserCase.getStr(), map);
       log.debug(
           """
-					대상 case : {}
-					원본 값 : {}
-					결과 값 : {}
-					""",
+          대상 case : {}
+          원본 값 : {}
+          결과 값 : {}
+          """,
           spelParserCase.name(),
           spelParserCase.getStr(),
           result);

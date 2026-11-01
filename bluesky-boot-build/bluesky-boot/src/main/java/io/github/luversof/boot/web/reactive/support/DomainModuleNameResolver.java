@@ -80,9 +80,8 @@ public class DomainModuleNameResolver extends AbstractModuleNameResolver {
       return false;
     }
     return uriList.stream()
-        .anyMatch(
-            uri ->
-                uri.getHost().equals(exchange.getRequest().getHeaders().getHost().getHostName()));
+        .anyMatch(uri ->
+            uri.getHost().equals(exchange.getRequest().getHeaders().getHost().getHostName()));
   }
 
   private boolean checkDomainWithPath(
@@ -99,16 +98,14 @@ public class DomainModuleNameResolver extends AbstractModuleNameResolver {
     }
 
     return uriList.stream()
-        .anyMatch(
-            uri ->
-                uri.getHost().equals(exchange.getRequest().getHeaders().getHost().getHostName())
-                    && (exchange.getRequest().getURI().getPath().startsWith(uri.getPath())
-                        || (exchange.getRequest().getURI().getPath().length() + 1
-                                == uri.getPath().length()
-                            && (exchange.getRequest().getURI().getPath() + "/")
-                                .equals(
-                                    uri.getPath())) // request sevletPath가 설정된 path보다 length 가 1 짧은
-                    // 경우 / 를 추가하여 동일 여부 체크
-                    ));
+        .anyMatch(uri ->
+            uri.getHost().equals(exchange.getRequest().getHeaders().getHost().getHostName())
+                && (exchange.getRequest().getURI().getPath().startsWith(uri.getPath())
+                    || (exchange.getRequest().getURI().getPath().length() + 1
+                            == uri.getPath().length()
+                        && (exchange.getRequest().getURI().getPath() + "/")
+                            .equals(uri.getPath())) // request sevletPath가 설정된 path보다 length 가 1 짧은
+                // 경우 / 를 추가하여 동일 여부 체크
+                ));
   }
 }

@@ -38,24 +38,22 @@ class BlueskyBootPropertiesMigrationReporter {
   PropertiesMigrationReport getReport() {
     PropertiesMigrationReport report = new PropertiesMigrationReport();
     Map<String, List<PropertyMigration>> properties =
-        getMatchingProperties(
-            configurationMetadataProperty ->
-                configurationMetadataProperty.isDeprecated()
-                    && configurationMetadataProperty.getDeprecation().getReplacement() != null
-                    && configurationMetadataProperty
-                        .getDeprecation()
-                        .getReplacement()
-                        .startsWith("bluesky-boot"));
+        getMatchingProperties(configurationMetadataProperty ->
+            configurationMetadataProperty.isDeprecated()
+                && configurationMetadataProperty.getDeprecation().getReplacement() != null
+                && configurationMetadataProperty
+                    .getDeprecation()
+                    .getReplacement()
+                    .startsWith("bluesky-boot"));
     if (properties.isEmpty()) {
       return report;
     }
-    properties.forEach(
-        (name, candidates) -> {
-          PropertySource<?> propertySource = mapPropertiesWithReplacement(report, name, candidates);
-          if (propertySource != null) {
-            this.environment.getPropertySources().addBefore(name, propertySource);
-          }
-        });
+    properties.forEach((name, candidates) -> {
+      PropertySource<?> propertySource = mapPropertiesWithReplacement(report, name, candidates);
+      if (propertySource != null) {
+        this.environment.getPropertySources().addBefore(name, propertySource);
+      }
+    });
     return report;
   }
 
@@ -99,40 +97,35 @@ class BlueskyBootPropertiesMigrationReporter {
     List<ConfigurationMetadataProperty> candidates =
         this.allProperties.values().stream().filter(filter).toList();
     getPropertySourcesAsMap()
-        .forEach(
-            (propertySourceName, propertySource) ->
-                candidates.forEach(
-                    metadata -> {
-                      ConfigurationPropertyName metadataName =
-                          ConfigurationPropertyName.isValid(metadata.getId())
-                              ? ConfigurationPropertyName.of(metadata.getId())
-                              : ConfigurationPropertyName.adapt(metadata.getId(), '.');
-                      // Direct match
-                      ConfigurationProperty match =
-                          propertySource.getConfigurationProperty(metadataName);
-                      if (match != null) {
-                        result.add(
-                            propertySourceName,
-                            new PropertyMigration(
-                                match, metadata, determineReplacementMetadata(metadata), false));
-                      }
-                      // Prefix match for maps
-                      if (isMapType(metadata)
-                          && propertySource
-                              instanceof IterableConfigurationPropertySource iterableSource) {
-                        iterableSource.stream()
-                            .filter(metadataName::isAncestorOf)
-                            .map(propertySource::getConfigurationProperty)
-                            .forEach(
-                                property -> {
-                                  ConfigurationMetadataProperty replacement =
-                                      determineReplacementMetadata(metadata);
-                                  result.add(
-                                      propertySourceName,
-                                      new PropertyMigration(property, metadata, replacement, true));
-                                });
-                      }
-                    }));
+        .forEach((propertySourceName, propertySource) ->
+            candidates.forEach(metadata -> {
+              ConfigurationPropertyName metadataName =
+                  ConfigurationPropertyName.isValid(metadata.getId())
+                      ? ConfigurationPropertyName.of(metadata.getId())
+                      : ConfigurationPropertyName.adapt(metadata.getId(), '.');
+              // Direct match
+              ConfigurationProperty match = propertySource.getConfigurationProperty(metadataName);
+              if (match != null) {
+                result.add(
+                    propertySourceName,
+                    new PropertyMigration(
+                        match, metadata, determineReplacementMetadata(metadata), false));
+              }
+              // Prefix match for maps
+              if (isMapType(metadata)
+                  && propertySource instanceof IterableConfigurationPropertySource iterableSource) {
+                iterableSource.stream()
+                    .filter(metadataName::isAncestorOf)
+                    .map(propertySource::getConfigurationProperty)
+                    .forEach(property -> {
+                      ConfigurationMetadataProperty replacement =
+                          determineReplacementMetadata(metadata);
+                      result.add(
+                          propertySourceName,
+                          new PropertyMigration(property, metadata, replacement, true));
+                    });
+              }
+            }));
     return result;
   }
 

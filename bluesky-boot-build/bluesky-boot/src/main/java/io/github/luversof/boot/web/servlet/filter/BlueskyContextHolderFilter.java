@@ -28,17 +28,16 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     ModuleNameInfo moduleNameInfo = new ModuleNameInfo();
-    BlueskyContextHolder.setContext(
-        () -> {
-          // resolve 결과가 null(= 상위 properties 사용)인 경우에도 캐싱하여 요청당 1회만 resolve 한다.
-          if (!moduleNameInfo.isResolved()) {
-            moduleNameInfo.setModuleName(
-                ApplicationContextUtil.getApplicationContext()
-                    .getBean(ModuleNameResolver.class)
-                    .resolve(request));
-          }
-          return moduleNameInfo.getModuleName();
-        });
+    BlueskyContextHolder.setContext(() -> {
+      // resolve 결과가 null(= 상위 properties 사용)인 경우에도 캐싱하여 요청당 1회만 resolve 한다.
+      if (!moduleNameInfo.isResolved()) {
+        moduleNameInfo.setModuleName(
+            ApplicationContextUtil.getApplicationContext()
+                .getBean(ModuleNameResolver.class)
+                .resolve(request));
+      }
+      return moduleNameInfo.getModuleName();
+    });
 
     try {
       filterChain.doFilter(request, response);

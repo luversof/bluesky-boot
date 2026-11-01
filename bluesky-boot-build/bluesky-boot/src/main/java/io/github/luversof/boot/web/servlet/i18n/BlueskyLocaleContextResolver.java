@@ -40,10 +40,8 @@ public class BlueskyLocaleContextResolver implements LocaleContextResolver {
     var localeResolveInfoContainer = new LocaleResolveInfoContainer();
     BlueskyContextHolder.getProperties(LocaleContextResolverProperties.class)
         .getLocaleResolveHandlerList()
-        .forEach(
-            x ->
-                x.setLocale(
-                    request, response, localeContext.getLocale(), localeResolveInfoContainer));
+        .forEach(x ->
+            x.setLocale(request, response, localeContext.getLocale(), localeResolveInfoContainer));
 
     request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME, localeResolveInfoContainer.getLocale());
   }

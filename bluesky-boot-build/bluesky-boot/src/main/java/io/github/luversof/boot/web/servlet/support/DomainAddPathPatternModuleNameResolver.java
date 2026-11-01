@@ -81,12 +81,10 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
       HttpServletRequest request, List<Entry<String, DomainProperties>> moduleEntryList) {
     var moduleEntry =
         moduleEntryList.stream()
-            .filter(
-                entry ->
-                    entry.getValue().getAddPathPatternList().stream()
-                        .anyMatch(
-                            addPathPattern ->
-                                pathMatcher.match(addPathPattern, request.getServletPath())))
+            .filter(entry ->
+                entry.getValue().getAddPathPatternList().stream()
+                    .anyMatch(addPathPattern ->
+                        pathMatcher.match(addPathPattern, request.getServletPath())))
             .sorted(addPathPatternComparator.reversed())
             .findFirst()
             .orElse(null);

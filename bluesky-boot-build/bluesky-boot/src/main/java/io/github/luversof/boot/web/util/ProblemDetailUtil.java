@@ -107,12 +107,11 @@ public final class ProblemDetailUtil {
     if (exception.getErrorMessageList() != null) {
       List<BlueskyErrorMessage> errorMessageList = new ArrayList<>();
       exception.getErrorMessageList().stream()
-          .forEach(
-              x -> {
-                BlueskyErrorMessage targetBlueskyErrorMessage = (BlueskyErrorMessage) x;
-                setBlueskyErrorMessage(targetBlueskyErrorMessage);
-                errorMessageList.add(targetBlueskyErrorMessage);
-              });
+          .forEach(x -> {
+            BlueskyErrorMessage targetBlueskyErrorMessage = (BlueskyErrorMessage) x;
+            setBlueskyErrorMessage(targetBlueskyErrorMessage);
+            errorMessageList.add(targetBlueskyErrorMessage);
+          });
       problemDetail.setProperty(EXCEPTION_PARAMETER, errorMessageList);
       return problemDetail;
     }
@@ -178,11 +177,10 @@ public final class ProblemDetailUtil {
     var messageCodeList = new ArrayList<String>();
     messageCodeList.addAll(Arrays.asList(errorCodes));
     messageCodeList.addAll(Arrays.asList(blueskyErrorCodes));
-    messageCodeList.sort(
-        (v1, v2) ->
-            v1.chars().filter(e -> e == '.').count() > v2.chars().filter(e -> e == '.').count()
-                ? -1
-                : 0);
+    messageCodeList.sort((v1, v2) ->
+        v1.chars().filter(e -> e == '.').count() > v2.chars().filter(e -> e == '.').count()
+            ? -1
+            : 0);
     return messageCodeList.toArray(new String[messageCodeList.size()]);
   }
 
@@ -253,23 +251,22 @@ public final class ProblemDetailUtil {
             ? bindingResult.getAllErrors()
             : bindingResult.getFieldErrors();
 
-    objectErrorList.forEach(
-        objectError -> {
-          var blueskyErrorMessage = new BlueskyErrorMessage();
-          blueskyErrorMessage.setExceptionClassName(exception.getClass().getSimpleName());
-          blueskyErrorMessage.setMessage(getMessageSourceAccessor().getMessage(objectError));
-          blueskyErrorMessage.setObject(objectError.getObjectName());
-          blueskyErrorMessage.setDisplayableMessage(true);
-          blueskyErrorMessage.setErrorCode(objectError.getCode());
-          if (objectError instanceof FieldError fieldError) {
-            blueskyErrorMessage.setField(fieldError.getField());
-          }
-          blueskyErrorMessageList.add(blueskyErrorMessage);
-          log.debug(
-              "[MethodArgumentNotValidException error message] code : {}, arguments : {}",
-              Arrays.asList(objectError.getCodes()),
-              Arrays.asList(objectError.getArguments()));
-        });
+    objectErrorList.forEach(objectError -> {
+      var blueskyErrorMessage = new BlueskyErrorMessage();
+      blueskyErrorMessage.setExceptionClassName(exception.getClass().getSimpleName());
+      blueskyErrorMessage.setMessage(getMessageSourceAccessor().getMessage(objectError));
+      blueskyErrorMessage.setObject(objectError.getObjectName());
+      blueskyErrorMessage.setDisplayableMessage(true);
+      blueskyErrorMessage.setErrorCode(objectError.getCode());
+      if (objectError instanceof FieldError fieldError) {
+        blueskyErrorMessage.setField(fieldError.getField());
+      }
+      blueskyErrorMessageList.add(blueskyErrorMessage);
+      log.debug(
+          "[MethodArgumentNotValidException error message] code : {}, arguments : {}",
+          Arrays.asList(objectError.getCodes()),
+          Arrays.asList(objectError.getArguments()));
+    });
 
     return blueskyErrorMessageList;
   }

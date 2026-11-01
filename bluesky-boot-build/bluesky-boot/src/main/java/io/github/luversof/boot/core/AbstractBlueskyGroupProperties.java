@@ -17,26 +17,25 @@ public abstract class AbstractBlueskyGroupProperties<
     BlueskyBootContextHolder.getContext()
         .getModuleGroups()
         .keySet()
-        .forEach(
-            groupName -> {
-              var builder = getBuilder(groupName);
+        .forEach(groupName -> {
+          var builder = getBuilder(groupName);
 
-              // 그룹별 groupModuleInfo(ServiceInfo) 기본값. parent 적용 이후 다시 얹어
-              // parent > 그룹별 groupModuleInfo > 그룹별 설정 의 우선순위를 보장한다.
-              var groupInfoDefaults = this.getBuilder(groupName).build();
+          // 그룹별 groupModuleInfo(ServiceInfo) 기본값. parent 적용 이후 다시 얹어
+          // parent > 그룹별 groupModuleInfo > 그룹별 설정 의 우선순위를 보장한다.
+          var groupInfoDefaults = this.getBuilder(groupName).build();
 
-              // group이 없는 경우 기본 설정 추가
-              if (!getGroups().containsKey(groupName)) {
-                getGroups().put(groupName, builder.build());
-              }
+          // group이 없는 경우 기본 설정 추가
+          if (!getGroups().containsKey(groupName)) {
+            getGroups().put(groupName, builder.build());
+          }
 
-              BiConsumer<P, B> propertyMapperConsumer = getParent().getPropertyMapperConsumer();
-              propertyMapperConsumer.accept(getParent(), builder);
-              propertyMapperConsumer.accept(groupInfoDefaults, builder);
-              propertyMapperConsumer.accept(getGroups().get(groupName), builder);
+          BiConsumer<P, B> propertyMapperConsumer = getParent().getPropertyMapperConsumer();
+          propertyMapperConsumer.accept(getParent(), builder);
+          propertyMapperConsumer.accept(groupInfoDefaults, builder);
+          propertyMapperConsumer.accept(getGroups().get(groupName), builder);
 
-              getGroups().put(groupName, builder.build());
-            });
+          getGroups().put(groupName, builder.build());
+        });
   }
 
   protected abstract B getBuilder(String groupName);

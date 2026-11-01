@@ -24,14 +24,12 @@ public class BlueskyWebApplicationContextRunner
     return new BlueskyWebApplicationContextRunner()
         .withInitializer(ConditionEvaluationReportLoggingListener.forLogLevel(LogLevel.INFO))
         .withInitializer(new BlueskyApplicationContextInitializer())
-        .withInitializer(
-            applicationContext ->
-                new ProfileEnvironmentPostProcessor()
-                    .postProcessEnvironment(applicationContext.getEnvironment(), null))
-        .withInitializer(
-            applicationContext ->
-                new DecryptEnvironmentPostProcessor()
-                    .postProcessEnvironment(applicationContext.getEnvironment(), null));
+        .withInitializer(applicationContext ->
+            new ProfileEnvironmentPostProcessor()
+                .postProcessEnvironment(applicationContext.getEnvironment(), null))
+        .withInitializer(applicationContext ->
+            new DecryptEnvironmentPostProcessor()
+                .postProcessEnvironment(applicationContext.getEnvironment(), null));
   }
 
   private BlueskyWebApplicationContextRunner() {

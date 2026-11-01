@@ -27,13 +27,10 @@ public class AddPathPatternModuleNameResolver extends AbstractModuleNameResolver
     var applicationContext = exchange.getApplicationContext();
     Assert.notNull(applicationContext, ERROR_MESSAGE_NOT_NULL_APPLICATION_CONTEXT);
     return domainModuleProperties.getModules().entrySet().stream()
-        .filter(
-            moduleEntry ->
-                moduleEntry.getValue().getAddPathPatternList().stream()
-                    .anyMatch(
-                        addPathPattern ->
-                            pathMatcher.match(
-                                addPathPattern, exchange.getRequest().getURI().getPath())))
+        .filter(moduleEntry ->
+            moduleEntry.getValue().getAddPathPatternList().stream()
+                .anyMatch(addPathPattern ->
+                    pathMatcher.match(addPathPattern, exchange.getRequest().getURI().getPath())))
         .sorted(comparator.reversed())
         .findFirst()
         .orElse(null);

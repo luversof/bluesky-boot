@@ -164,17 +164,16 @@ class BlueskyBootContextHolderTests {
     var locked = new java.util.concurrent.CountDownLatch(1);
     var release = new java.util.concurrent.CountDownLatch(1);
     var holder =
-        new Thread(
-            () -> {
-              synchronized (BlueskyContextHolder.ORDERED_BEAN_NAMES) {
-                locked.countDown();
-                try {
-                  release.await();
-                } catch (InterruptedException e) {
-                  Thread.currentThread().interrupt();
-                }
-              }
-            });
+        new Thread(() -> {
+          synchronized (BlueskyContextHolder.ORDERED_BEAN_NAMES) {
+            locked.countDown();
+            try {
+              release.await();
+            } catch (InterruptedException e) {
+              Thread.currentThread().interrupt();
+            }
+          }
+        });
     holder.start();
     try {
       locked.await();

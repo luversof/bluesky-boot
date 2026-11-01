@@ -25,18 +25,16 @@ class MessageSourceAutoConfigurationTests {
 
   @Test
   void testDefaultMessageSource() {
-    this.contextRunner.run(
-        context ->
-            assertThat(context.getMessage("messageKey", null, "Foo message", Locale.UK))
-                .isEqualTo("messageValue"));
+    this.contextRunner.run(context ->
+        assertThat(context.getMessage("messageKey", null, "Foo message", Locale.UK))
+            .isEqualTo("messageValue"));
   }
 
   @Test
   void testExtensionMessageSource() {
-    this.contextRunner.run(
-        context ->
-            assertThat(context.getMessage("messageExtensionKey", null, "Foo message", Locale.UK))
-                .isEqualTo("messageExtensionValue"));
+    this.contextRunner.run(context ->
+        assertThat(context.getMessage("messageExtensionKey", null, "Foo message", Locale.UK))
+            .isEqualTo("messageExtensionValue"));
   }
 
   @Configuration

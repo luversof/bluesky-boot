@@ -84,11 +84,10 @@ public class BlueskyPropertiesRefresher
     // 최초 properties 설정 복원
     BlueskyBootContextHolder.getContext()
         .getInitialBlueskyResfreshPropertiesMap()
-        .forEach(
-            (key, value) ->
-                BeanUtils.copyProperties(
-                    SerializationUtils.clone(value),
-                    context.getBean(key, BlueskyRefreshProperties.class)));
+        .forEach((key, value) ->
+            BeanUtils.copyProperties(
+                SerializationUtils.clone(value),
+                context.getBean(key, BlueskyRefreshProperties.class)));
     var keys = this.configDataContextRefresher.refresh();
     reloadPropertiesAll();
     return keys;

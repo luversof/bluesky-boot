@@ -42,10 +42,9 @@ class DataSourceAutoConfigurationTests {
   @Test
   void testWithConnectionInfo() {
     this.contextRunner
-        .withInitializer(
-            applicationContext ->
-                new DecryptEnvironmentPostProcessor()
-                    .postProcessEnvironment(applicationContext.getEnvironment(), null))
+        .withInitializer(applicationContext ->
+            new DecryptEnvironmentPostProcessor()
+                .postProcessEnvironment(applicationContext.getEnvironment(), null))
         .withPropertyValues(
             "bluesky-boot.connection-info.loaders.mariadb-datasource.enabled=true",
             "bluesky-boot.connection-info.loaders.mariadb-datasource.properties.url=jdbc:mariadb://mariadb.bluesky.local:3306/connection_info",
@@ -62,26 +61,24 @@ class DataSourceAutoConfigurationTests {
             "bluesky-boot.core.modules.test.core-module-info=T(io.github.luversof.boot.autoconfigure.core.constant.TestCoreModuleInfo).TEST")
         .withUserConfiguration(CORE_USER_CONFIGURATION)
         .withUserConfiguration(ConnectionInfoAutoConfiguration.class)
-        .run(
-            context -> {
-              DataSource dataSource = context.getBean("routingDataSource", DataSource.class);
-              assertThat(dataSource).isNotNull();
-              if (dataSource
-                  instanceof LazyConnectionDataSourceProxy lazyConnectionDataSourceProxy) {
-                var targetDataSource = lazyConnectionDataSourceProxy.getTargetDataSource();
-                if (targetDataSource instanceof RoutingDataSource routingDataSource) {
-                  var resolvedDataSources = routingDataSource.getResolvedDataSources();
-                  var testDataSource =
-                      DataSourceBuilder.create(null).type(HikariDataSource.class).build();
-                  var newMap = new HashMap<Object, Object>();
-                  newMap.putAll(resolvedDataSources);
-                  newMap.put("aaa", testDataSource);
+        .run(context -> {
+          DataSource dataSource = context.getBean("routingDataSource", DataSource.class);
+          assertThat(dataSource).isNotNull();
+          if (dataSource instanceof LazyConnectionDataSourceProxy lazyConnectionDataSourceProxy) {
+            var targetDataSource = lazyConnectionDataSourceProxy.getTargetDataSource();
+            if (targetDataSource instanceof RoutingDataSource routingDataSource) {
+              var resolvedDataSources = routingDataSource.getResolvedDataSources();
+              var testDataSource =
+                  DataSourceBuilder.create(null).type(HikariDataSource.class).build();
+              var newMap = new HashMap<Object, Object>();
+              newMap.putAll(resolvedDataSources);
+              newMap.put("aaa", testDataSource);
 
-                  routingDataSource.setTargetDataSources(newMap);
-                  routingDataSource.initialize();
-                  assertThat(resolvedDataSources).isNotEmpty();
-                }
-              }
-            });
+              routingDataSource.setTargetDataSources(newMap);
+              routingDataSource.initialize();
+              assertThat(resolvedDataSources).isNotEmpty();
+            }
+          }
+        });
   }
 }

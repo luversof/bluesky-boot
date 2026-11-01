@@ -105,14 +105,13 @@ public class DataSourceAutoConfiguration {
       if (connectionInfoRegistry != null) {
         connectionInfoRegistry
             .getConnectionInfoList()
-            .forEach(
-                connectionInfo -> {
-                  log.debug(
-                      "The connectionInfoRegistry {} is added to the into the blueskyRoutingDataSource",
-                      connectionInfo.getKey().connectionKey());
-                  targetDataSourceMap.put(
-                      connectionInfo.getKey().connectionKey(), connectionInfo.getConnection());
-                });
+            .forEach(connectionInfo -> {
+              log.debug(
+                  "The connectionInfoRegistry {} is added to the into the blueskyRoutingDataSource",
+                  connectionInfo.getKey().connectionKey());
+              targetDataSourceMap.put(
+                  connectionInfo.getKey().connectionKey(), connectionInfo.getConnection());
+            });
       }
 
       var routingDataSource =

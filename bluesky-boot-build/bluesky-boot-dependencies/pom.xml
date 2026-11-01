@@ -43,7 +43,7 @@
 		<jib-maven-plugin.version>3.5.2</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
 		<spotless-maven-plugin.version>3.10.4</spotless-maven-plugin.version>
-		<google-java-format.version>1.37.0</google-java-format.version>
+		<google-java-format.version>2.0.0</google-java-format.version>
 
 		<!-- (s) build properties -->
 		<build.image>nexus-service:8083/luversof</build.image>
