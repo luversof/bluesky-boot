@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -18,7 +19,7 @@ public class StringToMapConverter implements Converter<String, Map<String, Objec
   public Map<String, Object> convert(String source) {
     try {
       return jsonMapper.readValue(source, new TypeReference<Map<String, Object>>() {});
-    } catch (Exception e) {
+    } catch (JacksonException e) {
       throw new IllegalArgumentException("Error converting JSON to Map", e);
     }
   }

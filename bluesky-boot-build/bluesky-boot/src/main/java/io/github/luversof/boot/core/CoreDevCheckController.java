@@ -83,10 +83,10 @@ public class CoreDevCheckController {
     return ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
   }
 
-  @DevCheckDescription("initialBlueskyResfreshPropertiesMapKeySet 조회")
-  @GetMapping("/initialBlueskyResfreshPropertiesMapKeySet")
-  Set<String> initialBlueskyResfreshPropertiesMapKeySet() {
-    return BlueskyBootContextHolder.getContext().getInitialBlueskyResfreshPropertiesMap().keySet();
+  @DevCheckDescription("initialBlueskyRefreshPropertiesMapKeySet 조회")
+  @GetMapping("/initialBlueskyRefreshPropertiesMapKeySet")
+  Set<String> initialBlueskyRefreshPropertiesMapKeySet() {
+    return BlueskyBootContextHolder.getContext().getInitialBlueskyRefreshPropertiesMap().keySet();
   }
 
   @DevCheckDescription("currentLocale 값 확인.")

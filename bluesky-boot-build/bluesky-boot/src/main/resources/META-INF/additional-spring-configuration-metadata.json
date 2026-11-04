@@ -8,6 +8,140 @@
 				"replacement": "bluesky-boot.core.resolve-type",
 				"level": "error"
 			}
+		},
+		{
+			"name": "bluesky-boot.uuid-generator.version",
+			"defaultValue": "v7"
+		},
+		{
+			"name": "bluesky-boot.web.check-not-supported-browser",
+			"defaultValue": true
+		},
+		{
+			"name": "bluesky-boot.web.not-supported-browser-reg-patterns",
+			"defaultValue": [
+				".*(MSIE [5-9]).*"
+			]
+		},
+		{
+			"name": "bluesky-boot.web.domain.request-path",
+			"defaultValue": "/"
+		},
+		{
+			"name": "bluesky-boot.web.domain.forward-path",
+			"defaultValue": "/"
+		},
+		{
+			"name": "bluesky-boot.locale.enable-locale-list",
+			"type": "java.util.List<java.util.Locale>",
+			"deprecation": {
+				"replacement": "bluesky-boot.locale.enabled-locales",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.external-locale.enable-locale-list",
+			"type": "java.util.List<java.util.Locale>",
+			"deprecation": {
+				"replacement": "bluesky-boot.external-locale.enabled-locales",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.core.module-name-set",
+			"type": "java.util.Set<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.core.module-names",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.core.log-except-exception-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.core.log-excluded-exceptions",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.domain.add-path-pattern-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.domain.add-path-patterns",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.domain.exclude-path-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.domain.exclude-paths",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.domain.static-path-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.domain.static-paths",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.domain.dev-domain-list",
+			"type": "java.util.List<java.net.URI>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.domain.dev-domains",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.domain.web-list",
+			"type": "java.util.List<java.net.URI>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.domain.web-urls",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.domain.mobile-web-list",
+			"type": "java.util.List<java.net.URI>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.domain.mobile-web-urls",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.not-supported-browser-exclude-path-pattern-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.not-supported-browser-exclude-path-patterns",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.locale-context-resolver.preset",
+			"type": "io.github.luversof.boot.web.LocaleContextResolverProperties$LocaleContextResolveHandlerPreset",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.locale.context-resolver.preset",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.locale-context-resolver.locale-resolve-handler-bean-name-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.locale.context-resolver.locale-resolve-handler-bean-names",
+				"level": "error"
+			}
+		},
+		{
+			"name": "bluesky-boot.web.not-supported-browser-reg-pattern-list",
+			"type": "java.util.List<java.lang.String>",
+			"deprecation": {
+				"replacement": "bluesky-boot.web.not-supported-browser-reg-patterns",
+				"level": "error"
+			}
 		}
 	]
 }

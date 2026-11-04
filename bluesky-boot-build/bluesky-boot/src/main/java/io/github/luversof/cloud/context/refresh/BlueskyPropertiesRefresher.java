@@ -83,7 +83,7 @@ public class BlueskyPropertiesRefresher
   public Set<String> refresh() {
     // 최초 properties 설정 복원
     BlueskyBootContextHolder.getContext()
-        .getInitialBlueskyResfreshPropertiesMap()
+        .getInitialBlueskyRefreshPropertiesMap()
         .forEach((key, value) ->
             BeanUtils.copyProperties(
                 SerializationUtils.clone(value),

@@ -252,3 +252,7 @@ buildNumber.properties
 .asciidoctor/
 .flattened-pom.xml
 logs/
+
+# Claude Code 관련 파일 및 디렉토리
+.claude/
+claude_session/

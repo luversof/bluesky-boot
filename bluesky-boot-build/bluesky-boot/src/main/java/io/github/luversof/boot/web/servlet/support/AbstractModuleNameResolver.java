@@ -2,7 +2,6 @@ package io.github.luversof.boot.web.servlet.support;
 
 import java.util.Map.Entry;
 
-import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.DomainProperties;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +11,13 @@ import jakarta.servlet.http.HttpServletRequest;
  * AddPathPatternModuleNameResolver
  */
 public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
+
+  /** refresh 는 같은 인스턴스를 다시 초기화하므로 한 번 받아 두어도 최신 값을 본다. */
+  private final DomainModuleProperties domainModuleProperties;
+
+  protected AbstractModuleNameResolver(DomainModuleProperties domainModuleProperties) {
+    this.domainModuleProperties = domainModuleProperties;
+  }
 
   @Override
   public String resolve(HttpServletRequest request) {
@@ -26,8 +32,6 @@ public abstract class AbstractModuleNameResolver implements ModuleNameResolver {
    * @return Entry of DomainProperties
    */
   private Entry<String, DomainProperties> getModulePropertiesEntry(HttpServletRequest request) {
-    var domainModuleProperties =
-        ApplicationContextUtil.getApplicationContext().getBean(DomainModuleProperties.class);
     var modules = domainModuleProperties.getModules();
     if (modules.isEmpty()) {
       return null;

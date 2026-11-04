@@ -115,7 +115,7 @@ public class DataSourceAutoConfiguration {
       }
 
       var routingDataSource =
-          dataSourceProperties.isUseLazyLoadRoutingDataSource()
+          dataSourceProperties.getLazyLoadRouting().isEnabled()
               ? new LazyLoadRoutingDataSource<>(connectionInfoLoaderMap)
               : new RoutingDataSource();
 
@@ -146,6 +146,7 @@ public class DataSourceAutoConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "bluesky-boot.dev-check", name = "enabled", havingValue = "true")
   DataSourceDevCheckController dataSourceDevCheckController(
       @Qualifier("routingDataSource") DataSource blueskyRoutingDataSource) {
     return new DataSourceDevCheckController(blueskyRoutingDataSource);

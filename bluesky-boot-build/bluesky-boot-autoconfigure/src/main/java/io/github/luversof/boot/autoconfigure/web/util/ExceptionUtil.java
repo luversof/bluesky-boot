@@ -7,6 +7,7 @@ import org.springframework.boot.webmvc.autoconfigure.error.ErrorViewResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -22,7 +23,7 @@ public final class ExceptionUtil {
   /** Handling utility class constructors */
   private ExceptionUtil() {}
 
-  private static List<ErrorViewResolver> errorViewResolverList;
+  private static volatile List<ErrorViewResolver> errorViewResolverList;
 
   public static void setErrorViewResolverList(List<ErrorViewResolver> errorViewResolverList) {
     ExceptionUtil.errorViewResolverList = errorViewResolverList;
@@ -84,33 +85,31 @@ public final class ExceptionUtil {
    * @return isJsonResponse
    */
   private static boolean isJsonResponse(Object handler, NativeWebRequest request) {
+    var contentNegotiationManager =
+        ApplicationContextUtil.getApplicationContext().getBean(ContentNegotiationManager.class);
     try {
-      var contentNegotiationManager =
-          ApplicationContextUtil.getApplicationContext().getBean(ContentNegotiationManager.class);
       if (contentNegotiationManager
           .resolveMediaTypes(request)
           .contains(MediaType.APPLICATION_JSON)) {
         return true;
       }
-
-      if (!(handler instanceof HandlerMethod)) {
-        return false;
-      }
-      var handlerMethod = (HandlerMethod) handler;
-
-      var methodAnnotation = handlerMethod.getMethodAnnotation(RequestMapping.class);
-      if (methodAnnotation != null
-          && Arrays.asList(methodAnnotation.produces())
-              .contains(MediaType.APPLICATION_JSON_VALUE)) {
-        return true;
-      }
-
-      var classAnnotation =
-          handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class);
-      return classAnnotation != null
-          && Arrays.asList(classAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    } catch (HttpMediaTypeNotAcceptableException e) {
+      // 깨진 Accept 헤더 때문에 오류 처리 자체가 500 이 되지 않게, Accept 없이 판단을 이어간다.
     }
+
+    if (!(handler instanceof HandlerMethod handlerMethod)) {
+      return false;
+    }
+
+    var methodAnnotation = handlerMethod.getMethodAnnotation(RequestMapping.class);
+    if (methodAnnotation != null
+        && Arrays.asList(methodAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE)) {
+      return true;
+    }
+
+    var classAnnotation =
+        handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class);
+    return classAnnotation != null
+        && Arrays.asList(classAnnotation.produces()).contains(MediaType.APPLICATION_JSON_VALUE);
   }
 }

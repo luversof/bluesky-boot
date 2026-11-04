@@ -2,8 +2,7 @@ package io.github.luversof.boot.context.i18n;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.util.function.SerializableSupplier;
+import io.github.luversof.boot.core.ModuleInfo;
 
 @ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleProperties extends LocaleProperties {
@@ -13,12 +12,7 @@ public class ExternalLocaleProperties extends LocaleProperties {
   public static final String PREFIX = "bluesky-boot.external-locale";
 
   @Override
-  protected SerializableSupplier<LocalePropertiesBuilder> getBuilderSupplier() {
-    return () -> {
-      var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-      return parentModuleInfo == null
-          ? LocaleProperties.builder()
-          : parentModuleInfo.getExternalLocalePropertiesBuilder();
-    };
+  protected LocaleProperties presetOf(ModuleInfo moduleInfo) {
+    return moduleInfo.getExternalLocaleProperties();
   }
 }

@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.web.servlet.support.ModuleNameResolver;
 import jakarta.servlet.FilterChain;
@@ -22,6 +21,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @Order(-104)
 public class BlueskyContextHolderFilter extends OncePerRequestFilter {
 
+  private final ModuleNameResolver moduleNameResolver;
+
+  public BlueskyContextHolderFilter(ModuleNameResolver moduleNameResolver) {
+    this.moduleNameResolver = moduleNameResolver;
+  }
+
   @Override
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -31,10 +36,7 @@ public class BlueskyContextHolderFilter extends OncePerRequestFilter {
     BlueskyContextHolder.setContext(() -> {
       // resolve 결과가 null(= 상위 properties 사용)인 경우에도 캐싱하여 요청당 1회만 resolve 한다.
       if (!moduleNameInfo.isResolved()) {
-        moduleNameInfo.setModuleName(
-            ApplicationContextUtil.getApplicationContext()
-                .getBean(ModuleNameResolver.class)
-                .resolve(request));
+        moduleNameInfo.setModuleName(moduleNameResolver.resolve(request));
       }
       return moduleNameInfo.getModuleName();
     });

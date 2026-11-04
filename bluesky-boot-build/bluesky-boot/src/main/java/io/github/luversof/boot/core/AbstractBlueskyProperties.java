@@ -1,41 +1,56 @@
 package io.github.luversof.boot.core;
 
-import java.util.function.BiConsumer;
-
 import org.springframework.beans.BeanUtils;
 
+import io.github.luversof.boot.context.BlueskyBootContextHolder;
+
 /**
- * BlueskyProperties를 구현하는 properties가 properties에 설정된 값과 builder가 제공하는 기본 값을 병합하여 재설정할 수 있도록 지원.
+ * parent properties 의 공통 부분: ModuleInfo 프리셋 위에 설정 값을 얹고, 그래도 비어 있는 값만 기본값으로 채운다.
+ *
+ * <p>합치는 규칙은 {@link BlueskyPropertiesOverlay} 하나다. 기본값은 {@link #applyDefaults()} 에서 맨 마지막에만 채운다 -
+ * 예전에는 기본값을 담은 builder 를 parent 값 위에 다시 덮어, parent 에 준 값이 모듈에서 기본값으로 돌아갔다.
  *
  * @param <P> properties 타입
- * @param <B> builder 타입
  */
-public abstract class AbstractBlueskyProperties<
-        P extends BlueskyProperties, B extends BlueskyPropertiesBuilder<P>>
+public abstract class AbstractBlueskyProperties<P extends AbstractBlueskyProperties<P>>
     implements BlueskyProperties {
 
   private static final long serialVersionUID = 1L;
 
-  /** builer가 제공하는 기본 값과 properties에 설정된 값을 병합한 후 병합된 값을 재설정. */
-  @SuppressWarnings("unchecked")
   @Override
   public void load() {
-    var builder = getBuilder();
-    getPropertyMapperConsumer().accept((P) this, builder);
-    BeanUtils.copyProperties(builder.build(), this);
+    loadCoreFirst();
+    var merged = newInstance();
+    BlueskyPropertiesOverlay.overlay(
+        preset(BlueskyBootContextHolder.getContext().getParentModuleInfo()), merged);
+    BlueskyPropertiesOverlay.overlay(this, merged);
+    merged.applyDefaults();
+    // merged 는 this 를 다 담고 있으므로 null 아닌 값만 되돌려 넣으면 된다
+    BlueskyPropertiesOverlay.overlay(merged, this);
   }
 
   /**
-   * properties의 값을 builder로 맵핑하는 consumer.
+   * ModuleInfo 가 이 properties 에 주는 프리셋.
    *
-   * @return properties의 값을 builder로 맵핑하는 consumer
+   * @param moduleInfo moduleInfo
+   * @return 프리셋(설정한 값만 채운 객체), 없으면 null
    */
-  protected abstract BiConsumer<P, B> getPropertyMapperConsumer();
+  protected abstract P presetOf(ModuleInfo moduleInfo);
 
-  /**
-   * Builder instance.
-   *
-   * @return Builder instance
-   */
-  protected abstract B getBuilder();
+  /** 비어 있는(null) 값을 기본값으로 채운다. 합치기가 끝난 뒤 한 번 부른다. */
+  protected void applyDefaults() {}
+
+  /** parent 의 ModuleInfo 는 {@link CoreProperties} 가 등록한다. */
+  void loadCoreFirst() {
+    CoreLoadOrder.loadFirst(CoreProperties.class);
+  }
+
+  P preset(ModuleInfo moduleInfo) {
+    return moduleInfo == null ? null : presetOf(moduleInfo);
+  }
+
+  @SuppressWarnings("unchecked")
+  P newInstance() {
+    return (P) BeanUtils.instantiateClass(getClass());
+  }
 }

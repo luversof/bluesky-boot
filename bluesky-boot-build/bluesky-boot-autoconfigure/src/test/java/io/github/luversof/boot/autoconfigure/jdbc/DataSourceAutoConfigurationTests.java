@@ -23,7 +23,6 @@ import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 import io.github.luversof.boot.security.crypto.env.DecryptEnvironmentPostProcessor;
 import io.github.luversof.boot.test.context.runner.BlueskyApplicationContextRunner;
 
-@Disabled
 class DataSourceAutoConfigurationTests {
 
   private final BlueskyApplicationContextRunner contextRunner =
@@ -40,6 +39,7 @@ class DataSourceAutoConfigurationTests {
   }
 
   @Test
+  @Disabled("needs the mariadb/mssql connection_info servers at *.bluesky.local")
   void testWithConnectionInfo() {
     this.contextRunner
         .withInitializer(applicationContext ->

@@ -19,7 +19,6 @@
 		<bluesky-boot-crypto.version>4.1.0-SNAPSHOT</bluesky-boot-crypto.version>
 		<bluesky-boot-devcheck.version>4.1.0-SNAPSHOT</bluesky-boot-devcheck.version>
 		<bluesky-boot-connectioninfo.version>4.1.0-SNAPSHOT</bluesky-boot-connectioninfo.version>
-		<mybatis-spring-boot-starter.version>4.1.0</mybatis-spring-boot-starter.version>
 		<springdoc-openapi.version>3.2.0</springdoc-openapi.version>
 		<spring-boot-admin.version>4.1.4</spring-boot-admin.version>
 
@@ -62,11 +61,6 @@
 			<dependency>
 				<groupId>io.github.luversof</groupId>
 				<artifactId>bluesky-boot</artifactId>
-				<version>${bluesky-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.luversof</groupId>
-				<artifactId>bluesky-boot-test</artifactId>
 				<version>${bluesky-boot.version}</version>
 			</dependency>
 			<dependency>
@@ -155,14 +149,6 @@
 				<scope>import</scope>
 			</dependency>
 			<!-- (e) spring cloud -->
-
-			<!-- (s) mybatis -->
-			<dependency>
-				<groupId>org.mybatis.spring.boot</groupId>
-				<artifactId>mybatis-spring-boot-starter</artifactId>
-				<version>${mybatis-spring-boot-starter.version}</version>
-			</dependency>
-			<!-- (e) mybatis -->
 
 			<!-- (s) springdoc-openapi -->
 			<dependency>
@@ -286,9 +272,9 @@
 
 					<executions>
 						<execution>
+							<!-- apply has no default phase, so it never ran here; format with `mvn spotless:apply` -->
 							<goals>
 								<goal>check</goal>
-								<goal>apply</goal>
 							</goals>
 						</execution>
 					</executions>
@@ -462,22 +448,14 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 	<profiles>
-		<profile>
-			<id>local</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-	                    <groupId>com.diffplug.spotless</groupId>
-						<artifactId>spotless-maven-plugin</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 		<profile>
 			<id>sonarqube</id>
 			<build>

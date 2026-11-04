@@ -1,30 +1,19 @@
 package io.github.luversof.boot.context.i18n;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
-import io.github.luversof.boot.context.i18n.LocaleProperties.LocalePropertiesBuilder;
-import io.github.luversof.boot.util.function.SerializableFunction;
 
 @ConfigurationProperties(prefix = ExternalLocaleProperties.PREFIX)
 public class ExternalLocaleModuleProperties extends LocaleModuleProperties {
 
   private static final long serialVersionUID = 1L;
 
-  /** Dependency 참조 순서 처리를 위해 선언 */
-  @Autowired
-  public void setExternalLocaleProperties(ExternalLocaleProperties externalLocaleProperties) {
-    setParent(externalLocaleProperties);
-  }
-
+  /** parent 는 external 빈 하나로만 주입한다 - 상위 클래스의 기본 빈 주입과 따로 두면 실행마다 이기는 쪽이 달랐다. */
   @Override
-  protected SerializableFunction<String, LocalePropertiesBuilder> getBuilderFunction() {
-    return moduleName -> {
-      var moduleInfoMap = BlueskyBootContextHolder.getContext().getModuleInfoMap();
-      return moduleInfoMap.containsKey(moduleName)
-          ? moduleInfoMap.get(moduleName).getExternalLocalePropertiesBuilder()
-          : LocaleProperties.builder();
-    };
+  @Autowired
+  public void setParent(
+      @Qualifier(LocaleProperties.EXTERNAL_LOCALE_BEAN_NAME) LocaleProperties parent) {
+    super.setParent(parent);
   }
 }

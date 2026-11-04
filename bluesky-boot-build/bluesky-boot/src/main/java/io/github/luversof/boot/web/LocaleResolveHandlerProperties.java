@@ -1,33 +1,27 @@
 package io.github.luversof.boot.web;
 
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
+import io.github.luversof.boot.core.ModuleInfo;
 
 /** localeContextResolveHandler 별 설정 관리 Cookie / AcceptHeader 별 설정 분리가 필요할까? */
 @ConfigurationProperties(prefix = LocaleResolveHandlerProperties.PREFIX)
 public class LocaleResolveHandlerProperties
-    extends AbstractBlueskyProperties<
-        LocaleResolveHandlerProperties,
-        LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder>
-    implements BeanNameAware {
+    extends AbstractBlueskyProperties<LocaleResolveHandlerProperties> implements BeanNameAware {
 
   private static final long serialVersionUID = 1L;
 
-  public static final String PREFIX = "bluesky-boot.web.locale-resolve-handler";
+  public static final String PREFIX = "bluesky-boot.web.locale.resolve-handler";
 
   public static final String ACCEPT_HEADER_PREFIX =
-      "bluesky-boot.web.locale-resolve-handler.accept-header";
-  public static final String COOKIE_PREFIX = "bluesky-boot.web.locale-resolve-handler.cookie";
+      "bluesky-boot.web.locale.resolve-handler.accept-header";
+  public static final String COOKIE_PREFIX = "bluesky-boot.web.locale.resolve-handler.cookie";
   public static final String EXTERNAL_COOKIE_PREFIX =
-      "bluesky-boot.web.locale-resolve-handler.external-cookie";
+      "bluesky-boot.web.locale.resolve-handler.external-cookie";
 
   public static final String ACCEPT_HEADER_BEAN_NAME = "acceptHeaderLocaleResolveHandlerProperties";
   public static final String COOKIE_BEAN_NAME = "cookieLocaleResolveHandlerProperties";
@@ -57,17 +51,6 @@ public class LocaleResolveHandlerProperties
   private PreLocaleResolveInfoCondition preLocaleResolveInfoCondition;
 
   public LocaleResolveHandlerProperties() {}
-
-  public LocaleResolveHandlerProperties(
-      String beanName,
-      LocaleResolveInfoCondition localeResolveInfoCondition,
-      SetRepresentativeCondition setRepresentativeCondition,
-      PreLocaleResolveInfoCondition preLocaleResolveInfoCondition) {
-    this.beanName = beanName;
-    this.localeResolveInfoCondition = localeResolveInfoCondition;
-    this.setRepresentativeCondition = setRepresentativeCondition;
-    this.preLocaleResolveInfoCondition = preLocaleResolveInfoCondition;
-  }
 
   @Override
   public String getBeanName() {
@@ -171,39 +154,6 @@ public class LocaleResolveHandlerProperties
   }
 
   @Override
-  protected BiConsumer<LocaleResolveHandlerProperties, LocaleResolveHandlerPropertiesBuilder>
-      getPropertyMapperConsumer() {
-    return (properties, builder) -> {
-      if (properties == null) {
-        return;
-      }
-      var propertyMapper = PropertyMapper.get();
-      propertyMapper
-          .from(properties::getLocaleResolveInfoCondition)
-          .to(builder::localeResolveInfoCondition);
-      propertyMapper
-          .from(properties::getSetRepresentativeCondition)
-          .to(builder::setRepresentativeCondition);
-      propertyMapper
-          .from(properties::getPreLocaleResolveInfoCondition)
-          .to(builder::preLocaleResolveInfoCondition);
-    };
-  }
-
-  @Override
-  protected LocaleResolveHandlerPropertiesBuilder getBuilder() {
-    var blueskyBootContext = BlueskyBootContextHolder.getContext();
-    var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-    return parentModuleInfo == null
-        ? LocaleResolveHandlerProperties.builder()
-        : parentModuleInfo.getLocaleResolveHandlerPropertiesBuilder();
-  }
-
-  public static LocaleResolveHandlerPropertiesBuilder builder() {
-    return new LocaleResolveHandlerPropertiesBuilder();
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -243,47 +193,8 @@ public class LocaleResolveHandlerProperties
         + '}';
   }
 
-  public static class LocaleResolveHandlerPropertiesBuilder
-      implements BlueskyPropertiesBuilder<LocaleResolveHandlerProperties> {
-
-    private String beanName;
-
-    private LocaleResolveInfoCondition localeResolveInfoCondition;
-
-    private SetRepresentativeCondition setRepresentativeCondition;
-
-    private PreLocaleResolveInfoCondition preLocaleResolveInfoCondition;
-
-    public LocaleResolveHandlerPropertiesBuilder beanName(String beanName) {
-      this.beanName = beanName;
-      return this;
-    }
-
-    public LocaleResolveHandlerPropertiesBuilder localeResolveInfoCondition(
-        LocaleResolveInfoCondition localeResolveInfoCondition) {
-      this.localeResolveInfoCondition = localeResolveInfoCondition;
-      return this;
-    }
-
-    public LocaleResolveHandlerPropertiesBuilder setRepresentativeCondition(
-        SetRepresentativeCondition setRepresentativeCondition) {
-      this.setRepresentativeCondition = setRepresentativeCondition;
-      return this;
-    }
-
-    public LocaleResolveHandlerPropertiesBuilder preLocaleResolveInfoCondition(
-        PreLocaleResolveInfoCondition preLocaleResolveInfoCondition) {
-      this.preLocaleResolveInfoCondition = preLocaleResolveInfoCondition;
-      return this;
-    }
-
-    @Override
-    public LocaleResolveHandlerProperties build() {
-      return new LocaleResolveHandlerProperties(
-          this.beanName,
-          this.localeResolveInfoCondition,
-          this.setRepresentativeCondition,
-          this.preLocaleResolveInfoCondition);
-    }
+  @Override
+  protected LocaleResolveHandlerProperties presetOf(ModuleInfo moduleInfo) {
+    return moduleInfo.getLocaleResolveHandlerProperties();
   }
 }

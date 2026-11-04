@@ -11,7 +11,7 @@ public final class ApplicationContextUtil {
   /** Handling utility class constructors */
   private ApplicationContextUtil() {}
 
-  private static ApplicationContext applicationContext;
+  private static volatile ApplicationContext applicationContext;
 
   public static void setApplicationContext(ApplicationContext applicationContext) {
     ApplicationContextUtil.applicationContext = applicationContext;

@@ -7,7 +7,7 @@ public final class MessageUtil {
 
   private MessageUtil() {}
 
-  private static MessageSourceAccessor messageSourceAccessor;
+  private static volatile MessageSourceAccessor messageSourceAccessor;
 
   public static void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
     MessageUtil.messageSourceAccessor = messageSourceAccessor;

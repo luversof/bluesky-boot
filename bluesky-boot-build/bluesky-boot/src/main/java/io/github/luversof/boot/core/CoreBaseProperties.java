@@ -33,23 +33,12 @@ public class CoreBaseProperties implements BlueskyProperties {
   private CoreResolveType resolveType = CoreResolveType.DOMAIN;
 
   /**
-   * 별다른 설정 없이 moduleName만 지정하고자 하는 경우 사용 CoreProperties의 module 설정과 이 moduleNameSet 설정을 병합하여
+   * 별다른 설정 없이 moduleName만 지정하고자 하는 경우 사용 CoreProperties의 module 설정과 이 moduleNames 설정을 병합하여
    * moduleNameSet을 관리함
    */
-  private Set<String> moduleNameSet = new HashSet<>();
+  private Set<String> moduleNames = new HashSet<>();
 
   public CoreBaseProperties() {}
-
-  public CoreBaseProperties(
-      CoreResolveType resolveType,
-      Set<String> moduleNameSet,
-      Map<String, List<String>> moduleGroups,
-      List<String> logExceptExceptionList) {
-    this.resolveType = resolveType;
-    this.moduleNameSet = moduleNameSet;
-    this.moduleGroups = moduleGroups;
-    this.logExceptExceptionList = logExceptExceptionList;
-  }
 
   public CoreResolveType getResolveType() {
     return resolveType;
@@ -59,12 +48,12 @@ public class CoreBaseProperties implements BlueskyProperties {
     this.resolveType = resolveType;
   }
 
-  public Set<String> getModuleNameSet() {
-    return moduleNameSet;
+  public Set<String> getModuleNames() {
+    return moduleNames;
   }
 
-  public void setModuleNameSet(Set<String> moduleNameSet) {
-    this.moduleNameSet = moduleNameSet;
+  public void setModuleNames(Set<String> moduleNames) {
+    this.moduleNames = moduleNames;
   }
 
   public Map<String, List<String>> getModuleGroups() {
@@ -75,8 +64,8 @@ public class CoreBaseProperties implements BlueskyProperties {
     this.moduleGroups = moduleGroups;
   }
 
-  public List<String> getLogExceptExceptionList() {
-    return logExceptExceptionList;
+  public List<String> getLogExcludedExceptions() {
+    return logExcludedExceptions;
   }
 
   @Override
@@ -89,23 +78,21 @@ public class CoreBaseProperties implements BlueskyProperties {
     }
     CoreBaseProperties that = (CoreBaseProperties) o;
     return resolveType == that.resolveType
-        && (moduleNameSet != null
-            ? moduleNameSet.equals(that.moduleNameSet)
-            : that.moduleNameSet == null)
+        && (moduleNames != null ? moduleNames.equals(that.moduleNames) : that.moduleNames == null)
         && (moduleGroups != null
             ? moduleGroups.equals(that.moduleGroups)
             : that.moduleGroups == null)
-        && (logExceptExceptionList != null
-            ? logExceptExceptionList.equals(that.logExceptExceptionList)
-            : that.logExceptExceptionList == null);
+        && (logExcludedExceptions != null
+            ? logExcludedExceptions.equals(that.logExcludedExceptions)
+            : that.logExcludedExceptions == null);
   }
 
   @Override
   public int hashCode() {
     int result = resolveType != null ? resolveType.hashCode() : 0;
-    result = 31 * result + (moduleNameSet != null ? moduleNameSet.hashCode() : 0);
+    result = 31 * result + (moduleNames != null ? moduleNames.hashCode() : 0);
     result = 31 * result + (moduleGroups != null ? moduleGroups.hashCode() : 0);
-    result = 31 * result + (logExceptExceptionList != null ? logExceptExceptionList.hashCode() : 0);
+    result = 31 * result + (logExcludedExceptions != null ? logExcludedExceptions.hashCode() : 0);
     return result;
   }
 
@@ -114,12 +101,12 @@ public class CoreBaseProperties implements BlueskyProperties {
     return "CoreBaseProperties{"
         + "resolveType="
         + resolveType
-        + ", moduleNameSet="
-        + moduleNameSet
+        + ", moduleNames="
+        + moduleNames
         + ", moduleGroups="
         + moduleGroups
-        + ", logExceptExceptionList="
-        + logExceptExceptionList
+        + ", logExcludedExceptions="
+        + logExcludedExceptions
         + '}';
   }
 
@@ -133,19 +120,19 @@ public class CoreBaseProperties implements BlueskyProperties {
    * Exception log 제외 대상 목록 로그 확인이 불필요한 에러 항목에 대해 exception log 제외 처리 목록을 추가하고자 하는 경우
    * bluesky-boot.core.log-except-exception-additional-list로 설정하면 합산처리 됨.
    */
-  private List<String> logExceptExceptionList = new ArrayList<>();
+  private List<String> logExcludedExceptions = new ArrayList<>();
 
-  public void setLogExceptExceptionList(List<String> list) {
+  public void setLogExcludedExceptions(List<String> list) {
     for (String value : list) {
-      if (!this.logExceptExceptionList.contains(value)) {
-        this.logExceptExceptionList.add(value);
+      if (!this.logExcludedExceptions.contains(value)) {
+        this.logExcludedExceptions.add(value);
       }
     }
   }
 
-  /** logExceptExceptionList에 추가하고자 하는 경우 사용 */
+  /** logExcludedExceptions 에 추가하고자 하는 경우 사용 */
   public void setLogExceptExceptionAdditionalList(String... values) {
-    setLogExceptExceptionList(Arrays.asList(values));
+    setLogExcludedExceptions(Arrays.asList(values));
   }
 
   public String[] getLogExceptExceptionAdditionalList() {
@@ -157,54 +144,7 @@ public class CoreBaseProperties implements BlueskyProperties {
   public void load() {
     var blueskyBootContext = BlueskyBootContextHolder.getContext();
     blueskyBootContext.clear();
-    blueskyBootContext.getModuleNameSet().addAll(getModuleNameSet());
+    blueskyBootContext.getModuleNames().addAll(getModuleNames());
     blueskyBootContext.getModuleGroups().putAll(getModuleGroups());
-  }
-
-  public static CoreBasePropertiesBuilder builder() {
-    return new CoreBasePropertiesBuilder();
-  }
-
-  public static class CoreBasePropertiesBuilder
-      implements BlueskyPropertiesBuilder<CoreBaseProperties> {
-
-    private CoreResolveType resolveType = CoreResolveType.DOMAIN;
-
-    private Set<String> moduleNameSet = new HashSet<>();
-
-    private Map<String, List<String>> moduleGroups = new HashMap<>();
-
-    private List<String> logExceptExceptionList = new ArrayList<>();
-
-    private CoreBasePropertiesBuilder() {}
-
-    public CoreBasePropertiesBuilder resolveType(CoreResolveType resolveType) {
-      this.resolveType = resolveType;
-      return this;
-    }
-
-    public CoreBasePropertiesBuilder moduleNameSet(Set<String> moduleNameSet) {
-      this.moduleNameSet = moduleNameSet;
-      return this;
-    }
-
-    public CoreBasePropertiesBuilder moduleGroups(Map<String, List<String>> moduleGroups) {
-      this.moduleGroups = moduleGroups;
-      return this;
-    }
-
-    public CoreBasePropertiesBuilder logExceptExceptionList(List<String> logExceptExceptionList) {
-      this.logExceptExceptionList = logExceptExceptionList;
-      return this;
-    }
-
-    @Override
-    public CoreBaseProperties build() {
-      return new CoreBaseProperties(
-          this.resolveType == null ? CoreResolveType.DOMAIN : this.resolveType,
-          this.moduleNameSet == null ? new HashSet<>() : this.moduleNameSet,
-          this.moduleGroups == null ? new HashMap<>() : this.moduleGroups,
-          this.logExceptExceptionList == null ? new ArrayList<>() : this.logExceptExceptionList);
-    }
   }
 }

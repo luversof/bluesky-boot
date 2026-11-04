@@ -18,6 +18,5 @@
 		<module>bluesky-boot</module>
 		<module>bluesky-boot-test-autoconfigure</module>
 		<module>bluesky-boot-properties-migrator</module>
-		<module>bluesky-boot-test</module>
 	</modules>
 </project>

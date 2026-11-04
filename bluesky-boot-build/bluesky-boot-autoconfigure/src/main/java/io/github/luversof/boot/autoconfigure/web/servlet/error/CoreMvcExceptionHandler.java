@@ -1,25 +1,18 @@
 package io.github.luversof.boot.autoconfigure.web.servlet.error;
 
-import java.util.ArrayList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerExecutionChain;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.HandlerMapping;
 
 import io.github.luversof.boot.autoconfigure.web.util.ExceptionUtil;
-import io.github.luversof.boot.context.ApplicationContextUtil;
 import io.github.luversof.boot.exception.BlueskyException;
 import io.github.luversof.boot.web.util.ProblemDetailUtil;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * servlet common error handling handlers
@@ -29,8 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class CoreMvcExceptionHandler {
-
-  private static final Logger log = LoggerFactory.getLogger(CoreMvcExceptionHandler.class);
 
   /**
    * BlueskyException handling
@@ -70,37 +61,17 @@ public class CoreMvcExceptionHandler {
    * @param <T> Exception extension type
    * @param exception exception
    * @param nativeWebRequest nativeWebRequest
-   * @param servletRequest servletRequest
    * @return Returns a modelAndView or problemDetail object depending on the situation.
    */
   @ExceptionHandler
   public <T extends Exception> Object handleException(
-      T exception, NativeWebRequest nativeWebRequest, ServletRequest servletRequest) {
-
-    var requestMappingHandlerMappingMap =
-        ApplicationContextUtil.getApplicationContext()
-            .getBeansOfType(RequestMappingHandlerMapping.class);
-    var httpServletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-
-    var handlerList = new ArrayList<>();
-    requestMappingHandlerMappingMap.values().stream()
-        .forEach(x -> {
-          HandlerExecutionChain handlerExecutionChain = null;
-          try {
-            handlerExecutionChain = x.getHandler(httpServletRequest);
-          } catch (Exception e) {
-            // 응답 형식(화면/JSON)을 고르려고 핸들러를 다시 찾는 것뿐 — 405 처럼 요청 자체가 핸들러에 안 맞으면 여기서 같은 예외가 또 난다.
-            //   이미 처리 중인 예외라 ERROR 로 두 번 남기지 않는다(2026-10-02: DELETE /api/poe2/meta 마다 ERROR 1
-            // 줄).
-            log.debug("handler lookup failed while handling exception", e);
-          }
-          if (handlerExecutionChain != null) {
-            handlerList.add(handlerExecutionChain.getHandler());
-          }
-        });
+      T exception, NativeWebRequest nativeWebRequest) {
+    // 응답 형식(화면/JSON)을 고를 핸들러는 매핑이 찾을 때 요청에 남겨 둔 것을 쓴다. 예전에는 예외마다 매핑 전체로 다시 찾았다.
+    // 405 처럼 핸들러를 못 찾은 요청이면 null 이다(예전에도 다시 찾다 실패해 null 이었다).
+    var handler =
+        nativeWebRequest.getAttribute(
+            HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
     return ExceptionUtil.handleException(
-        ProblemDetailUtil.getProblemDetail(exception),
-        handlerList.isEmpty() ? null : handlerList.get(0),
-        nativeWebRequest);
+        ProblemDetailUtil.getProblemDetail(exception), handler, nativeWebRequest);
   }
 }

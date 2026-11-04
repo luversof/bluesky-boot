@@ -2,52 +2,29 @@ package io.github.luversof.boot.web;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
+import io.github.luversof.boot.core.ModuleInfo;
 
 @ConfigurationProperties(prefix = WebProperties.PREFIX)
-public class WebProperties
-    extends AbstractBlueskyProperties<WebProperties, WebProperties.WebPropertiesBuilder> {
+public class WebProperties extends AbstractBlueskyProperties<WebProperties> {
 
   private static final long serialVersionUID = 1L;
 
   public static final String PREFIX = "bluesky-boot.web";
 
   /** Whether to check unsupported browsers */
-  private Boolean checkNotSupportedBrowser = true;
+  private Boolean checkNotSupportedBrowser;
 
   /** Unsupported browser check pattern list */
-  private List<String> notSupportedBrowserRegPatternList = List.of(".*(MSIE [5-9]).*");
+  private List<String> notSupportedBrowserRegPatterns;
 
   /** Registering an exception list address pattern when checking for unsupported browser */
-  private List<String> notSupportedBrowserExcludePathPatternList =
-      List.of(
-          "/css/**",
-          "/html/**",
-          "/js/**",
-          "/img/**",
-          "/message/**",
-          "/favicon.ico",
-          "/monitor/**",
-          "/support/**",
-          "/error/**");
+  private List<String> notSupportedBrowserExcludePathPatterns;
 
   public WebProperties() {}
-
-  public WebProperties(
-      Boolean checkNotSupportedBrowser,
-      List<String> notSupportedBrowserRegPatternList,
-      List<String> notSupportedBrowserExcludePathPatternList) {
-    this.checkNotSupportedBrowser = checkNotSupportedBrowser;
-    this.notSupportedBrowserRegPatternList = notSupportedBrowserRegPatternList;
-    this.notSupportedBrowserExcludePathPatternList = notSupportedBrowserExcludePathPatternList;
-  }
 
   public Boolean getCheckNotSupportedBrowser() {
     return checkNotSupportedBrowser;
@@ -57,53 +34,21 @@ public class WebProperties
     this.checkNotSupportedBrowser = checkNotSupportedBrowser;
   }
 
-  public List<String> getNotSupportedBrowserRegPatternList() {
-    return notSupportedBrowserRegPatternList;
+  public List<String> getNotSupportedBrowserRegPatterns() {
+    return notSupportedBrowserRegPatterns;
   }
 
-  public void setNotSupportedBrowserRegPatternList(List<String> notSupportedBrowserRegPatternList) {
-    this.notSupportedBrowserRegPatternList = notSupportedBrowserRegPatternList;
+  public void setNotSupportedBrowserRegPatterns(List<String> notSupportedBrowserRegPatterns) {
+    this.notSupportedBrowserRegPatterns = notSupportedBrowserRegPatterns;
   }
 
-  public List<String> getNotSupportedBrowserExcludePathPatternList() {
-    return notSupportedBrowserExcludePathPatternList;
+  public List<String> getNotSupportedBrowserExcludePathPatterns() {
+    return notSupportedBrowserExcludePathPatterns;
   }
 
-  public void setNotSupportedBrowserExcludePathPatternList(
-      List<String> notSupportedBrowserExcludePathPatternList) {
-    this.notSupportedBrowserExcludePathPatternList = notSupportedBrowserExcludePathPatternList;
-  }
-
-  @Override
-  protected BiConsumer<WebProperties, WebPropertiesBuilder> getPropertyMapperConsumer() {
-    return (properties, builder) -> {
-      if (properties == null) {
-        return;
-      }
-      var propertyMapper = PropertyMapper.get();
-      propertyMapper
-          .from(properties::getCheckNotSupportedBrowser)
-          .to(builder::checkNotSupportedBrowser);
-      propertyMapper
-          .from(properties::getNotSupportedBrowserRegPatternList)
-          .to(builder::notSupportedBrowserRegPatternList);
-      propertyMapper
-          .from(properties::getNotSupportedBrowserExcludePathPatternList)
-          .to(builder::notSupportedBrowserExcludePathPatternList);
-    };
-  }
-
-  @Override
-  protected WebPropertiesBuilder getBuilder() {
-    var blueskyBootContext = BlueskyBootContextHolder.getContext();
-    var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-    return parentModuleInfo == null
-        ? WebProperties.builder()
-        : parentModuleInfo.getWebPropertiesBuilder();
-  }
-
-  public static WebPropertiesBuilder builder() {
-    return new WebPropertiesBuilder();
+  public void setNotSupportedBrowserExcludePathPatterns(
+      List<String> notSupportedBrowserExcludePathPatterns) {
+    this.notSupportedBrowserExcludePathPatterns = notSupportedBrowserExcludePathPatterns;
   }
 
   @Override
@@ -116,10 +61,9 @@ public class WebProperties
     }
     WebProperties that = (WebProperties) o;
     return Objects.equals(checkNotSupportedBrowser, that.checkNotSupportedBrowser)
-        && Objects.equals(notSupportedBrowserRegPatternList, that.notSupportedBrowserRegPatternList)
+        && Objects.equals(notSupportedBrowserRegPatterns, that.notSupportedBrowserRegPatterns)
         && Objects.equals(
-            notSupportedBrowserExcludePathPatternList,
-            that.notSupportedBrowserExcludePathPatternList);
+            notSupportedBrowserExcludePathPatterns, that.notSupportedBrowserExcludePathPatterns);
   }
 
   @Override
@@ -127,8 +71,8 @@ public class WebProperties
     return Objects.hash(
         super.hashCode(),
         checkNotSupportedBrowser,
-        notSupportedBrowserRegPatternList,
-        notSupportedBrowserExcludePathPatternList);
+        notSupportedBrowserRegPatterns,
+        notSupportedBrowserExcludePathPatterns);
   }
 
   @Override
@@ -136,54 +80,38 @@ public class WebProperties
     return "WebProperties{"
         + "checkNotSupportedBrowser="
         + checkNotSupportedBrowser
-        + ", notSupportedBrowserRegPatternList="
-        + notSupportedBrowserRegPatternList
-        + ", notSupportedBrowserExcludePathPatternList="
-        + notSupportedBrowserExcludePathPatternList
+        + ", notSupportedBrowserRegPatterns="
+        + notSupportedBrowserRegPatterns
+        + ", notSupportedBrowserExcludePathPatterns="
+        + notSupportedBrowserExcludePathPatterns
         + '}';
   }
 
-  public static class WebPropertiesBuilder implements BlueskyPropertiesBuilder<WebProperties> {
+  @Override
+  protected WebProperties presetOf(ModuleInfo moduleInfo) {
+    return moduleInfo.getWebProperties();
+  }
 
-    private Boolean checkNotSupportedBrowser = true;
-
-    private List<String> notSupportedBrowserRegPatternList = List.of(".*(MSIE [5-9]).*");
-
-    private List<String> notSupportedBrowserExcludePathPatternList =
-        List.of(
-            "/css/**",
-            "/html/**",
-            "/js/**",
-            "/img/**",
-            "/message/**",
-            "/favicon.ico",
-            "/monitor/**",
-            "/support/**",
-            "/error/**");
-
-    public WebPropertiesBuilder checkNotSupportedBrowser(Boolean checkNotSupportedBrowser) {
-      this.checkNotSupportedBrowser = checkNotSupportedBrowser;
-      return this;
+  @Override
+  protected void applyDefaults() {
+    if (checkNotSupportedBrowser == null) {
+      checkNotSupportedBrowser = true;
     }
-
-    public WebPropertiesBuilder notSupportedBrowserRegPatternList(
-        List<String> notSupportedBrowserRegPatternList) {
-      this.notSupportedBrowserRegPatternList = notSupportedBrowserRegPatternList;
-      return this;
+    if (notSupportedBrowserRegPatterns == null) {
+      notSupportedBrowserRegPatterns = List.of(".*(MSIE [5-9]).*");
     }
-
-    public WebPropertiesBuilder notSupportedBrowserExcludePathPatternList(
-        List<String> notSupportedBrowserExcludePathPatternList) {
-      this.notSupportedBrowserExcludePathPatternList = notSupportedBrowserExcludePathPatternList;
-      return this;
-    }
-
-    @Override
-    public WebProperties build() {
-      return new WebProperties(
-          checkNotSupportedBrowser,
-          notSupportedBrowserRegPatternList,
-          notSupportedBrowserExcludePathPatternList);
+    if (notSupportedBrowserExcludePathPatterns == null) {
+      notSupportedBrowserExcludePathPatterns =
+          List.of(
+              "/css/**",
+              "/html/**",
+              "/js/**",
+              "/img/**",
+              "/message/**",
+              "/favicon.ico",
+              "/monitor/**",
+              "/support/**",
+              "/error/**");
     }
   }
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -72,6 +73,7 @@ public class MessageSourceAutoConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "bluesky-boot.dev-check", name = "enabled", havingValue = "true")
   MessageSourceDevCheckController messageSourceDevCheckController(
       BlueskyReloadableResourceBundleMessageSource messageSource) {
     return new MessageSourceDevCheckController(messageSource);

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AcceptHeaderLocaleResolveHandler extends AbstractLocaleResolveHandler {
 
   /** default bean name of AcceptHeaderLocaleResolveHandler */
-  public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleResolverHandler";
+  public static final String DEFAULT_BEAN_NAME = "acceptHeaderLocaleResolveHandler";
 
   /**
    * When creating an AcceptHeaderLocaleResolveHandler, localePropertiesBeanName and

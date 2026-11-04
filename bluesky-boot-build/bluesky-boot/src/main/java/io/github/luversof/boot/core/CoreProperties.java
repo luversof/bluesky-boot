@@ -2,10 +2,8 @@ package io.github.luversof.boot.core;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -16,8 +14,7 @@ import io.github.luversof.boot.context.BlueskyBootContextHolder;
  * @author bluesky
  */
 @ConfigurationProperties(prefix = CoreProperties.PREFIX)
-public class CoreProperties
-    extends AbstractBlueskyProperties<CoreProperties, CoreProperties.CorePropertiesBuilder> {
+public class CoreProperties extends AbstractBlueskyProperties<CoreProperties> {
 
   private static final long serialVersionUID = 1L;
 
@@ -32,14 +29,9 @@ public class CoreProperties
    * 개별적으로 선언해서 사용하고자 하는 변수가 있는 경우 저장하는 map <br>
    * parent의 값을 module이 상속받아 사용함
    */
-  private Map<String, String> properties = new HashMap<>();
+  private Map<String, String> properties;
 
   public CoreProperties() {}
-
-  public CoreProperties(ModuleInfo moduleInfo, Map<String, String> properties) {
-    this.moduleInfo = moduleInfo;
-    this.properties = properties;
-  }
 
   public ModuleInfo getModuleInfo() {
     return moduleInfo;
@@ -95,58 +87,26 @@ public class CoreProperties
   }
 
   @Override
-  protected BiConsumer<CoreProperties, CorePropertiesBuilder> getPropertyMapperConsumer() {
-    return (prop, builder) -> {
-      if (prop == null) {
-        return;
-      }
-      var propertyMapper = PropertyMapper.get();
-      propertyMapper.from(prop::getModuleInfo).to(builder::moduleInfo);
-      propertyMapper.from(prop::getProperties).to(builder::properties);
-    };
-  }
-
-  @Override
   public void load() {
+    loadCoreFirst();
     BlueskyBootContextHolder.getContext().setParentModuleInfo(getModuleInfo());
     super.load();
   }
 
   @Override
-  protected CorePropertiesBuilder getBuilder() {
-    var blueskyBootContext = BlueskyBootContextHolder.getContext();
-    var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-    return parentModuleInfo == null
-        ? CoreProperties.builder()
-        : parentModuleInfo.getCorePropertiesBuilder();
+  void loadCoreFirst() {
+    CoreLoadOrder.loadFirst(CoreBaseProperties.class);
   }
 
-  public static CorePropertiesBuilder builder() {
-    return new CorePropertiesBuilder();
+  @Override
+  protected CoreProperties presetOf(ModuleInfo moduleInfo) {
+    return moduleInfo.getCoreProperties();
   }
 
-  public static class CorePropertiesBuilder implements BlueskyPropertiesBuilder<CoreProperties> {
-
-    private ModuleInfo moduleInfo;
-
-    private Map<String, String> properties = new HashMap<>();
-
-    private CorePropertiesBuilder() {}
-
-    public CorePropertiesBuilder moduleInfo(ModuleInfo moduleInfo) {
-      this.moduleInfo = moduleInfo;
-      return this;
-    }
-
-    public CorePropertiesBuilder properties(Map<String, String> properties) {
-      this.properties.putAll(properties);
-      return this;
-    }
-
-    @Override
-    public CoreProperties build() {
-      return new CoreProperties(
-          this.moduleInfo, this.properties == null ? new HashMap<>() : this.properties);
+  @Override
+  protected void applyDefaults() {
+    if (properties == null) {
+      properties = new HashMap<>();
     }
   }
 }

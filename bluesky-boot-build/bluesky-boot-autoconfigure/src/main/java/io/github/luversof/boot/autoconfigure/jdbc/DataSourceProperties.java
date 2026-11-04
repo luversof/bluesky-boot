@@ -12,7 +12,8 @@ public class DataSourceProperties {
 
   private String defaultDatasource;
 
-  private boolean useLazyLoadRoutingDataSource;
+  /** 처음 보는 lookupKey 의 DataSource 를 connection-info 로더로 그때 만든다. */
+  private final LazyLoadRouting lazyLoadRouting = new LazyLoadRouting();
 
   public boolean isEnabled() {
     return enabled;
@@ -30,12 +31,8 @@ public class DataSourceProperties {
     this.defaultDatasource = defaultDatasource;
   }
 
-  public boolean isUseLazyLoadRoutingDataSource() {
-    return useLazyLoadRoutingDataSource;
-  }
-
-  public void setUseLazyLoadRoutingDataSource(boolean useLazyLoadRoutingDataSource) {
-    this.useLazyLoadRoutingDataSource = useLazyLoadRoutingDataSource;
+  public LazyLoadRouting getLazyLoadRouting() {
+    return lazyLoadRouting;
   }
 
   @Override
@@ -44,13 +41,13 @@ public class DataSourceProperties {
     if (o == null || getClass() != o.getClass()) return false;
     DataSourceProperties that = (DataSourceProperties) o;
     return enabled == that.enabled
-        && useLazyLoadRoutingDataSource == that.useLazyLoadRoutingDataSource
+        && lazyLoadRouting.enabled == that.lazyLoadRouting.enabled
         && Objects.equals(defaultDatasource, that.defaultDatasource);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, defaultDatasource, useLazyLoadRoutingDataSource);
+    return Objects.hash(enabled, defaultDatasource, lazyLoadRouting.enabled);
   }
 
   @Override
@@ -61,8 +58,21 @@ public class DataSourceProperties {
         + ", defaultDatasource='"
         + defaultDatasource
         + '\''
-        + ", useLazyLoadRoutingDataSource="
-        + useLazyLoadRoutingDataSource
+        + ", lazyLoadRouting.enabled="
+        + lazyLoadRouting.enabled
         + '}';
+  }
+
+  public static class LazyLoadRouting {
+
+    private boolean enabled;
+
+    public boolean isEnabled() {
+      return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
+    }
   }
 }

@@ -1,0 +1,450 @@
+{
+  "acceptHeaderLocaleResolveHandlerGroupProperties" : {
+    "g1" : {
+      "beanName" : "acceptHeaderLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    }
+  },
+  "acceptHeaderLocaleResolveHandlerModuleProperties" : {
+    "alpha" : {
+      "beanName" : "acceptHeaderLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    },
+    "beta" : {
+      "beanName" : "acceptHeaderLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    },
+    "gamma" : {
+      "beanName" : "acceptHeaderLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    }
+  },
+  "acceptHeaderLocaleResolveHandlerProperties" : {
+    "beanName" : "acceptHeaderLocaleResolveHandlerProperties",
+    "localeResolveInfoCondition" : null,
+    "preLocaleResolveInfoCondition" : null,
+    "setRepresentativeCondition" : null
+  },
+  "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleGroupProperties" : {
+    "g1" : {
+      "beanName" : "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
+      "defaultLocale" : "en-CA",
+      "enabledLocales" : [ "en-CA" ]
+    }
+  },
+  "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleModuleProperties" : {
+    "alpha" : {
+      "beanName" : "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
+      "defaultLocale" : "fr-FR",
+      "enabledLocales" : [ "fr-FR" ]
+    },
+    "beta" : {
+      "beanName" : "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
+      "defaultLocale" : "zh-TW",
+      "enabledLocales" : [ "zh-TW" ]
+    },
+    "gamma" : {
+      "beanName" : "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
+      "defaultLocale" : "en-CA",
+      "enabledLocales" : [ "en-CA" ]
+    }
+  },
+  "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties" : {
+    "beanName" : "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
+    "defaultLocale" : "ko-KR",
+    "enabledLocales" : [ ]
+  },
+  "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleGroupProperties" : {
+    "g1" : {
+      "beanName" : "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties",
+      "defaultLocale" : "en-CA",
+      "enabledLocales" : [ "en-CA" ]
+    }
+  },
+  "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleModuleProperties" : {
+    "alpha" : {
+      "beanName" : "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties",
+      "defaultLocale" : "ko-KR",
+      "enabledLocales" : [ "ko-KR" ]
+    },
+    "beta" : {
+      "beanName" : "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties",
+      "defaultLocale" : "en-CA",
+      "enabledLocales" : [ "en-CA" ]
+    },
+    "gamma" : {
+      "beanName" : "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties",
+      "defaultLocale" : "en-US",
+      "enabledLocales" : [ "en-US", "ja-JP" ]
+    }
+  },
+  "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties" : {
+    "beanName" : "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleProperties",
+    "defaultLocale" : "ko-KR",
+    "enabledLocales" : [ "ko-KR" ]
+  },
+  "bluesky-boot.uuid-generator-io.github.luversof.boot.uuid.UuidGeneratorGroupProperties" : {
+    "g1" : {
+      "version" : "V4"
+    }
+  },
+  "bluesky-boot.uuid-generator-io.github.luversof.boot.uuid.UuidGeneratorModuleProperties" : {
+    "alpha" : {
+      "version" : "V6"
+    },
+    "beta" : {
+      "version" : "V4"
+    },
+    "gamma" : {
+      "version" : "V4"
+    }
+  },
+  "bluesky-boot.uuid-generator-io.github.luversof.boot.uuid.UuidGeneratorProperties" : {
+    "version" : "V4"
+  },
+  "bluesky-boot.web-io.github.luversof.boot.web.WebGroupProperties" : {
+    "g1" : {
+      "checkNotSupportedBrowser" : false,
+      "notSupportedBrowserExcludePathPatterns" : [ "/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**" ],
+      "notSupportedBrowserRegPatterns" : [ ".*(MSIE [5-9]).*" ]
+    }
+  },
+  "bluesky-boot.web-io.github.luversof.boot.web.WebModuleProperties" : {
+    "alpha" : {
+      "checkNotSupportedBrowser" : false,
+      "notSupportedBrowserExcludePathPatterns" : [ "/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**" ],
+      "notSupportedBrowserRegPatterns" : [ ".*(MSIE [5-9]).*" ]
+    },
+    "beta" : {
+      "checkNotSupportedBrowser" : false,
+      "notSupportedBrowserExcludePathPatterns" : [ "/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**" ],
+      "notSupportedBrowserRegPatterns" : [ ".*(MSIE [5-9]).*" ]
+    },
+    "gamma" : {
+      "checkNotSupportedBrowser" : true,
+      "notSupportedBrowserExcludePathPatterns" : [ "/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**" ],
+      "notSupportedBrowserRegPatterns" : [ ".*(MSIE [5-9]).*" ]
+    }
+  },
+  "bluesky-boot.web-io.github.luversof.boot.web.WebProperties" : {
+    "checkNotSupportedBrowser" : false,
+    "notSupportedBrowserExcludePathPatterns" : [ "/css/**", "/html/**", "/js/**", "/img/**", "/message/**", "/favicon.ico", "/monitor/**", "/support/**", "/error/**" ],
+    "notSupportedBrowserRegPatterns" : [ ".*(MSIE [5-9]).*" ]
+  },
+  "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieGroupProperties" : {
+    "g1" : {
+      "beanName" : "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : "PT1M",
+      "name" : "PARENT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : true
+    }
+  },
+  "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieModuleProperties" : {
+    "alpha" : {
+      "beanName" : "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : "PT1M",
+      "name" : "PARENT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : true
+    },
+    "beta" : {
+      "beanName" : "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : "PT1M",
+      "name" : "BETA",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : true
+    },
+    "gamma" : {
+      "beanName" : "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : "PT1M",
+      "name" : "PARENT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : null
+    }
+  },
+  "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties" : {
+    "beanName" : "bluesky-boot.web.cookie-io.github.luversof.boot.web.CookieProperties",
+    "domain" : null,
+    "httpOnly" : null,
+    "maxAge" : "PT1M",
+    "name" : "PARENT",
+    "path" : null,
+    "sameSite" : null,
+    "secure" : null
+  },
+  "bluesky-boot.web.domain-io.github.luversof.boot.web.DomainGroupProperties" : {
+    "g1" : {
+      "addPathPatterns" : [ ],
+      "devDomains" : [ ],
+      "excludePaths" : [ "/UiDev/", "/_check" ],
+      "forwardPath" : "/",
+      "mobileWeb" : "https://m.bluesky.local/",
+      "mobileWebUrls" : [ "https://m.bluesky.local/" ],
+      "requestPath" : "/",
+      "staticPaths" : [ "/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/" ],
+      "web" : "https://parent.bluesky.local/",
+      "webUrls" : [ "https://parent.bluesky.local/" ]
+    }
+  },
+  "bluesky-boot.web.domain-io.github.luversof.boot.web.DomainModuleProperties" : {
+    "alpha" : {
+      "addPathPatterns" : [ ],
+      "devDomains" : [ ],
+      "excludePaths" : [ "/UiDev/", "/_check" ],
+      "forwardPath" : "/",
+      "mobileWeb" : "https://m.bluesky.local/",
+      "mobileWebUrls" : [ "https://m.bluesky.local/" ],
+      "requestPath" : "/",
+      "staticPaths" : [ "/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/" ],
+      "web" : "https://alpha.bluesky.local/",
+      "webUrls" : [ "https://alpha.bluesky.local/" ]
+    },
+    "beta" : {
+      "addPathPatterns" : [ "/beta/**" ],
+      "devDomains" : [ ],
+      "excludePaths" : [ "/UiDev/", "/_check" ],
+      "forwardPath" : "/",
+      "mobileWeb" : "https://m.bluesky.local/",
+      "mobileWebUrls" : [ "https://m.bluesky.local/" ],
+      "requestPath" : "/",
+      "staticPaths" : [ "/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/" ],
+      "web" : "https://parent.bluesky.local/",
+      "webUrls" : [ "https://parent.bluesky.local/" ]
+    },
+    "gamma" : {
+      "addPathPatterns" : [ ],
+      "devDomains" : [ ],
+      "excludePaths" : [ "/UiDev/", "/_check" ],
+      "forwardPath" : "/",
+      "mobileWeb" : "https://parent.bluesky.local/",
+      "mobileWebUrls" : [ ],
+      "requestPath" : "/",
+      "staticPaths" : [ "/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/" ],
+      "web" : "https://parent.bluesky.local/",
+      "webUrls" : [ "https://parent.bluesky.local/" ]
+    }
+  },
+  "bluesky-boot.web.domain-io.github.luversof.boot.web.DomainProperties" : {
+    "addPathPatterns" : [ ],
+    "devDomains" : [ ],
+    "excludePaths" : [ "/UiDev/", "/_check" ],
+    "forwardPath" : "/",
+    "mobileWeb" : "https://parent.bluesky.local/",
+    "mobileWebUrls" : [ ],
+    "requestPath" : "/",
+    "staticPaths" : [ "/css/", "/html/", "/js/", "/img/", "/message/", "/favicon.ico", "/monitor/", "/support/" ],
+    "web" : "https://parent.bluesky.local/",
+    "webUrls" : [ "https://parent.bluesky.local/" ]
+  },
+  "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieGroupProperties" : {
+    "g1" : {
+      "beanName" : "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : null,
+      "name" : "EXT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : null
+    }
+  },
+  "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieModuleProperties" : {
+    "alpha" : {
+      "beanName" : "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : "PT10S",
+      "name" : "EXT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : null
+    },
+    "beta" : {
+      "beanName" : "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : null,
+      "name" : "EXT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : null
+    },
+    "gamma" : {
+      "beanName" : "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties",
+      "domain" : null,
+      "httpOnly" : null,
+      "maxAge" : null,
+      "name" : "EXT",
+      "path" : null,
+      "sameSite" : null,
+      "secure" : null
+    }
+  },
+  "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties" : {
+    "beanName" : "bluesky-boot.web.external-cookie-io.github.luversof.boot.web.ExternalCookieProperties",
+    "domain" : null,
+    "httpOnly" : null,
+    "maxAge" : null,
+    "name" : "EXT",
+    "path" : null,
+    "sameSite" : null,
+    "secure" : null
+  },
+  "bluesky-boot.web.locale.context-resolver-io.github.luversof.boot.web.LocaleContextResolverGroupProperties" : {
+    "g1" : {
+      "localeResolveHandlerBeanNames" : null,
+      "preset" : "COOKIE"
+    }
+  },
+  "bluesky-boot.web.locale.context-resolver-io.github.luversof.boot.web.LocaleContextResolverModuleProperties" : {
+    "alpha" : {
+      "localeResolveHandlerBeanNames" : null,
+      "preset" : "COOKIE"
+    },
+    "beta" : {
+      "localeResolveHandlerBeanNames" : [ "acceptHeaderLocaleResolveHandler" ],
+      "preset" : "COOKIE"
+    },
+    "gamma" : {
+      "localeResolveHandlerBeanNames" : null,
+      "preset" : "COOKIE"
+    }
+  },
+  "bluesky-boot.web.locale.context-resolver-io.github.luversof.boot.web.LocaleContextResolverProperties" : {
+    "localeResolveHandlerBeanNames" : null,
+    "preset" : "COOKIE"
+  },
+  "blueskyCoreBaseProperties" : {
+    "logExceptExceptionAdditionalList" : [ ],
+    "logExcludedExceptions" : [ ],
+    "moduleGroups" : {
+      "g1" : [ "alpha", "beta" ]
+    },
+    "moduleNames" : [ "beta", "gamma", "alpha" ],
+    "resolveType" : "DOMAIN"
+  },
+  "blueskyCoreGroupProperties" : {
+    "g1" : {
+      "moduleInfo" : "TEST2",
+      "properties" : {
+        "a" : "parent-a"
+      }
+    }
+  },
+  "blueskyCoreModuleProperties" : {
+    "alpha" : {
+      "moduleInfo" : "TEST",
+      "properties" : {
+        "a" : "parent-a"
+      }
+    },
+    "beta" : {
+      "moduleInfo" : "TEST2",
+      "properties" : {
+        "a" : "parent-a",
+        "b" : "beta-b"
+      }
+    },
+    "gamma" : {
+      "moduleInfo" : "TEST2",
+      "properties" : {
+        "a" : "parent-a"
+      }
+    }
+  },
+  "blueskyCoreProperties" : {
+    "moduleInfo" : null,
+    "properties" : {
+      "a" : "parent-a"
+    }
+  },
+  "cookieLocaleResolveHandlerGroupProperties" : {
+    "g1" : {
+      "beanName" : "cookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : "COOKIE",
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : "OVERWRITE_IF_NOT_EXISTS"
+    }
+  },
+  "cookieLocaleResolveHandlerModuleProperties" : {
+    "alpha" : {
+      "beanName" : "cookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : "COOKIE",
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : "OVERWRITE_IF_NOT_EXISTS"
+    },
+    "beta" : {
+      "beanName" : "cookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : "COOKIE",
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : "OVERWRITE_IF_NOT_EXISTS"
+    },
+    "gamma" : {
+      "beanName" : "cookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : "COOKIE",
+      "preLocaleResolveInfoCondition" : "USE_FIRST",
+      "setRepresentativeCondition" : "OVERWRITE_IF_NOT_EXISTS"
+    }
+  },
+  "cookieLocaleResolveHandlerProperties" : {
+    "beanName" : "cookieLocaleResolveHandlerProperties",
+    "localeResolveInfoCondition" : "COOKIE",
+    "preLocaleResolveInfoCondition" : null,
+    "setRepresentativeCondition" : "OVERWRITE_IF_NOT_EXISTS"
+  },
+  "externalCookieLocaleResolveHandlerGroupProperties" : {
+    "g1" : {
+      "beanName" : "externalCookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    }
+  },
+  "externalCookieLocaleResolveHandlerModuleProperties" : {
+    "alpha" : {
+      "beanName" : "externalCookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    },
+    "beta" : {
+      "beanName" : "externalCookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    },
+    "gamma" : {
+      "beanName" : "externalCookieLocaleResolveHandlerProperties",
+      "localeResolveInfoCondition" : null,
+      "preLocaleResolveInfoCondition" : null,
+      "setRepresentativeCondition" : null
+    }
+  },
+  "externalCookieLocaleResolveHandlerProperties" : {
+    "beanName" : "externalCookieLocaleResolveHandlerProperties",
+    "localeResolveInfoCondition" : null,
+    "preLocaleResolveInfoCondition" : null,
+    "setRepresentativeCondition" : null
+  }
+}

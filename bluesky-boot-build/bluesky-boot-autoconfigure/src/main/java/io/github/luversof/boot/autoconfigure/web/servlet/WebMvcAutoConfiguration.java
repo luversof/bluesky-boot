@@ -1,5 +1,7 @@
 package io.github.luversof.boot.autoconfigure.web.servlet;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,6 +22,7 @@ import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.web.CookieGroupProperties;
 import io.github.luversof.boot.web.CookieModuleProperties;
 import io.github.luversof.boot.web.CookieProperties;
+import io.github.luversof.boot.web.DomainModuleProperties;
 import io.github.luversof.boot.web.ExternalCookieGroupProperties;
 import io.github.luversof.boot.web.ExternalCookieModuleProperties;
 import io.github.luversof.boot.web.ExternalCookieProperties;
@@ -31,6 +34,7 @@ import io.github.luversof.boot.web.LocaleResolveHandlerModuleProperties;
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
 import io.github.luversof.boot.web.servlet.filter.BlueskyContextHolderFilter;
 import io.github.luversof.boot.web.servlet.i18n.BlueskyLocaleContextResolver;
+import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.support.AddPathPatternModuleNameResolver;
@@ -60,8 +64,8 @@ public class WebMvcAutoConfiguration {
   }
 
   @Bean
-  BlueskyContextHolderFilter blueskyContextHolderFilter() {
-    return new BlueskyContextHolderFilter();
+  BlueskyContextHolderFilter blueskyContextHolderFilter(ModuleNameResolver moduleNameResolver) {
+    return new BlueskyContextHolderFilter(moduleNameResolver);
   }
 
   @Bean
@@ -71,8 +75,8 @@ public class WebMvcAutoConfiguration {
       name = "resolve-type",
       havingValue = "domain",
       matchIfMissing = true)
-  ModuleNameResolver domainModuleNameResolver() {
-    return new DomainModuleNameResolver();
+  ModuleNameResolver domainModuleNameResolver(DomainModuleProperties domainModuleProperties) {
+    return new DomainModuleNameResolver(domainModuleProperties);
   }
 
   @Bean
@@ -81,8 +85,9 @@ public class WebMvcAutoConfiguration {
       prefix = "bluesky-boot.core",
       name = "resolve-type",
       havingValue = "add-path-pattern")
-  ModuleNameResolver addPathPatternModuleNameResolver() {
-    return new AddPathPatternModuleNameResolver();
+  ModuleNameResolver addPathPatternModuleNameResolver(
+      DomainModuleProperties domainModuleProperties) {
+    return new AddPathPatternModuleNameResolver(domainModuleProperties);
   }
 
   @Bean
@@ -91,8 +96,9 @@ public class WebMvcAutoConfiguration {
       prefix = "bluesky-boot.core",
       name = "resolve-type",
       havingValue = "domain-add-path-pattern")
-  ModuleNameResolver domainAddPathPatternModuleNameResolver() {
-    return new DomainAddPathPatternModuleNameResolver();
+  ModuleNameResolver domainAddPathPatternModuleNameResolver(
+      DomainModuleProperties domainModuleProperties) {
+    return new DomainAddPathPatternModuleNameResolver(domainModuleProperties);
   }
 
   @Bean
@@ -124,7 +130,7 @@ public class WebMvcAutoConfiguration {
   }
 
   @Bean(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME)
-  AcceptHeaderLocaleResolveHandler acceptHeaderLocaleResolverHandler() {
+  AcceptHeaderLocaleResolveHandler acceptHeaderLocaleResolveHandler() {
     return new AcceptHeaderLocaleResolveHandler(
         LocaleProperties.DEFAULT_BEAN_NAME, LocaleResolveHandlerProperties.ACCEPT_HEADER_BEAN_NAME);
   }
@@ -213,7 +219,7 @@ public class WebMvcAutoConfiguration {
 
   @Bean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
   @ConditionalOnMissingBean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
-  LocaleResolver localeResolver() {
-    return new BlueskyLocaleContextResolver();
+  LocaleResolver localeResolver(Map<String, LocaleResolveHandler> localeResolveHandlers) {
+    return new BlueskyLocaleContextResolver(localeResolveHandlers);
   }
 }

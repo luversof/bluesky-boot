@@ -4,20 +4,25 @@ import java.util.List;
 import java.util.Locale;
 
 import io.github.luversof.boot.context.i18n.LocaleProperties;
-import io.github.luversof.boot.context.i18n.LocaleProperties.LocalePropertiesBuilder;
 import io.github.luversof.boot.core.ModuleInfo;
 
 public enum TestModuleInfo implements ModuleInfo {
   TEST {
     @Override
-    public LocalePropertiesBuilder getLocalePropertiesBuilder() {
-      return LocaleProperties.builder().enableLocaleList(List.of(Locale.KOREA));
+    public LocaleProperties getLocaleProperties() {
+      return locales(Locale.KOREA);
     }
   },
   TEST2 {
     @Override
-    public LocalePropertiesBuilder getLocalePropertiesBuilder() {
-      return LocaleProperties.builder().enableLocaleList(List.of(Locale.CANADA));
+    public LocaleProperties getLocaleProperties() {
+      return locales(Locale.CANADA);
     }
   };
+
+  private static LocaleProperties locales(Locale... locales) {
+    var localeProperties = new LocaleProperties();
+    localeProperties.setEnabledLocales(List.of(locales));
+    return localeProperties;
+  }
 }

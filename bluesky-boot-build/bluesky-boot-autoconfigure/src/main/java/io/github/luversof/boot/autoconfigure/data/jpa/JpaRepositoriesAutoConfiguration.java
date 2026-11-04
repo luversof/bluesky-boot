@@ -3,6 +3,8 @@ package io.github.luversof.boot.autoconfigure.data.jpa;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -18,5 +20,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @PropertySource(
     value = "classpath:data/jpa/data-jpa-${bluesky-boot-profile}.properties",
     ignoreResourceNotFound = true)
-@EnableJpaAuditing
-public class JpaRepositoriesAutoConfiguration {}
+public class JpaRepositoriesAutoConfiguration {
+
+  /** Turn off when the application declares its own {@code @EnableJpaAuditing}. */
+  @Configuration(proxyBeanMethods = false)
+  @ConditionalOnProperty(
+      prefix = "bluesky-boot.jpa.auditing",
+      name = "enabled",
+      havingValue = "true",
+      matchIfMissing = true)
+  @EnableJpaAuditing
+  static class JpaAuditingConfiguration {}
+}

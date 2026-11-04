@@ -90,12 +90,12 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
   protected void setResolveLocale(
       LocaleResolveInfo localeResolveInfo, LocaleResolveInfoContainer localeResolveInfoContainer) {
     var localeProperties = getLocaleProperties();
-    if (localeProperties.getEnableLocaleList().isEmpty()) {
+    if (localeProperties.getEnabledLocales().isEmpty()) {
       return;
     }
 
     // locale이 단일이면 해당 로케일로 지정 처리
-    if (localeProperties.getEnableLocaleList().size() == 1) {
+    if (localeProperties.getEnabledLocales().size() == 1) {
       localeResolveInfo.setResolveLocale(localeProperties.getDefaultLocale());
       return;
     }
@@ -194,18 +194,18 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
     }
 
     var localeProperties = getLocaleProperties();
-    var enableLocaleList = localeProperties.getEnableLocaleList();
+    var enabledLocales = localeProperties.getEnabledLocales();
 
-    if (CollectionUtils.isEmpty(enableLocaleList)) {
+    if (CollectionUtils.isEmpty(enabledLocales)) {
       return null;
     }
 
-    if (enableLocaleList.contains(targetLocale)) {
+    if (enabledLocales.contains(targetLocale)) {
       return targetLocale;
     }
 
     if (checkLanguageMatchOnly) {
-      for (var enableLocale : enableLocaleList) {
+      for (var enableLocale : enabledLocales) {
         if (targetLocale.getLanguage().equals(enableLocale.getLanguage())) {
           return enableLocale;
         }

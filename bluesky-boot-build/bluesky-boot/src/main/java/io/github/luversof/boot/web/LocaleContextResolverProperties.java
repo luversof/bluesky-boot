@@ -5,19 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.github.luversof.boot.context.ApplicationContextUtil;
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
+import io.github.luversof.boot.core.ModuleInfo;
 import io.github.luversof.boot.web.servlet.i18n.LocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.AcceptHeaderLocaleResolveHandler;
 import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolveHandler;
@@ -25,29 +21,21 @@ import io.github.luversof.boot.web.servlet.i18n.handler.CookieLocaleResolveHandl
 /** LocaleContextResovler에서 사용할 localeContextResolveHandler를 설정 */
 @ConfigurationProperties(prefix = LocaleContextResolverProperties.PREFIX)
 public class LocaleContextResolverProperties
-    extends AbstractBlueskyProperties<
-        LocaleContextResolverProperties,
-        LocaleContextResolverProperties.LocaleContextResolverPropertiesBuilder> {
+    extends AbstractBlueskyProperties<LocaleContextResolverProperties> {
 
   private static final Logger log = LoggerFactory.getLogger(LocaleContextResolverProperties.class);
 
   private static final long serialVersionUID = 1L;
 
-  public static final String PREFIX = "bluesky-boot.web.locale-context-resolver";
+  public static final String PREFIX = "bluesky-boot.web.locale.context-resolver";
 
   /** 목록에 대한 preset 제공 */
   private LocaleContextResolveHandlerPreset preset;
 
-  /** 사용할 localeResolverHandler beanName 목록, 순서대로 수행됨 */
-  private List<String> localeResolveHandlerBeanNameList = new ArrayList<>();
+  /** 사용할 localeResolveHandler beanName 목록, 순서대로 수행됨 */
+  private List<String> localeResolveHandlerBeanNames;
 
   public LocaleContextResolverProperties() {}
-
-  public LocaleContextResolverProperties(
-      LocaleContextResolveHandlerPreset preset, List<String> localeResolveHandlerBeanNameList) {
-    this.preset = preset;
-    this.localeResolveHandlerBeanNameList = localeResolveHandlerBeanNameList;
-  }
 
   public LocaleContextResolveHandlerPreset getPreset() {
     return preset;
@@ -57,12 +45,12 @@ public class LocaleContextResolverProperties
     this.preset = preset;
   }
 
-  public List<String> getLocaleResolveHandlerBeanNameList() {
-    return localeResolveHandlerBeanNameList;
+  public List<String> getLocaleResolveHandlerBeanNames() {
+    return localeResolveHandlerBeanNames;
   }
 
-  public void setLocaleResolveHandlerBeanNameList(List<String> localeResolveHandlerBeanNameList) {
-    this.localeResolveHandlerBeanNameList = localeResolveHandlerBeanNameList;
+  public void setLocaleResolveHandlerBeanNames(List<String> localeResolveHandlerBeanNames) {
+    this.localeResolveHandlerBeanNames = localeResolveHandlerBeanNames;
   }
 
   @Override
@@ -75,12 +63,12 @@ public class LocaleContextResolverProperties
     }
     LocaleContextResolverProperties that = (LocaleContextResolverProperties) o;
     return preset == that.preset
-        && Objects.equals(localeResolveHandlerBeanNameList, that.localeResolveHandlerBeanNameList);
+        && Objects.equals(localeResolveHandlerBeanNames, that.localeResolveHandlerBeanNames);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), preset, localeResolveHandlerBeanNameList);
+    return Objects.hash(super.hashCode(), preset, localeResolveHandlerBeanNames);
   }
 
   @Override
@@ -88,27 +76,35 @@ public class LocaleContextResolverProperties
     return "LocaleContextResolverProperties{"
         + "preset="
         + preset
-        + ", localeResolveHandlerBeanNameList="
-        + localeResolveHandlerBeanNameList
+        + ", localeResolveHandlerBeanNames="
+        + localeResolveHandlerBeanNames
         + '}';
   }
 
+  /**
+   * 설정된 이름 순서대로 handler 를 고른다. 없는 이름은 건너뛴다. 목록을 주지 않았으면 preset 의 목록을 쓴다(명시한 목록이 preset 보다 이긴다).
+   *
+   * @param localeResolveHandlers bean 이름 &rarr; handler (resolver 가 만들어질 때 한 번 받은 것)
+   */
   @JsonIgnore
-  public List<LocaleResolveHandler> getLocaleResolveHandlerList() {
-    if (localeResolveHandlerBeanNameList == null) {
+  public List<LocaleResolveHandler> getLocaleResolveHandlerList(
+      Map<String, LocaleResolveHandler> localeResolveHandlers) {
+    var beanNames =
+        localeResolveHandlerBeanNames != null
+            ? localeResolveHandlerBeanNames
+            : preset != null ? preset.getLocaleResolveHandlerBeanNames() : null;
+    if (beanNames == null) {
       return Collections.emptyList();
     }
 
-    Map<String, LocaleResolveHandler> beansOfType =
-        ApplicationContextUtil.getApplicationContext().getBeansOfType(LocaleResolveHandler.class);
-
     List<LocaleResolveHandler> localeResolveHandlerList = new ArrayList<>();
-    localeResolveHandlerBeanNameList.forEach(beanName -> {
-      if (!beansOfType.containsKey(beanName)) {
+    beanNames.forEach(beanName -> {
+      var localeResolveHandler = localeResolveHandlers.get(beanName);
+      if (localeResolveHandler == null) {
         log.warn("LocaleResolveHandler bean {} is not exist", beanName);
         return;
       }
-      localeResolveHandlerList.add(beansOfType.get(beanName));
+      localeResolveHandlerList.add(localeResolveHandler);
     });
     return localeResolveHandlerList;
   }
@@ -121,79 +117,31 @@ public class LocaleContextResolverProperties
     COOKIE(List.of(CookieLocaleResolveHandler.DEFAULT_BEAN_NAME)),
     ACCEPT_HEADER(List.of(AcceptHeaderLocaleResolveHandler.DEFAULT_BEAN_NAME));
 
-    private final List<String> localeContextResolveHandlerBeanNameList;
+    private final List<String> localeResolveHandlerBeanNames;
 
-    LocaleContextResolveHandlerPreset(List<String> localeContextResolveHandlerBeanNameList) {
-      this.localeContextResolveHandlerBeanNameList = localeContextResolveHandlerBeanNameList;
+    LocaleContextResolveHandlerPreset(List<String> localeResolveHandlerBeanNames) {
+      this.localeResolveHandlerBeanNames = localeResolveHandlerBeanNames;
     }
 
-    public List<String> getLocaleContextResolveHandlerBeanNameList() {
-      return localeContextResolveHandlerBeanNameList;
+    public List<String> getLocaleResolveHandlerBeanNames() {
+      return localeResolveHandlerBeanNames;
     }
   }
 
   /**
-   * preset이 지정되어 있는 경우 별도 설정이 없으면 preset을 localeResolverHandlerBeanNameList에 설정 모듈별 properties는 그럼
-   * 어떻게 동작하나?
+   * preset이 지정되어 있는 경우 별도 설정이 없으면 preset을 localeResolveHandlerBeanNames에 설정 모듈별 properties는 그럼 어떻게
+   * 동작하나?
    */
   @Override
-  protected BiConsumer<LocaleContextResolverProperties, LocaleContextResolverPropertiesBuilder>
-      getPropertyMapperConsumer() {
-    return (properties, builder) -> {
-      if (properties == null) {
-        return;
-      }
-      var propertyMapper = PropertyMapper.get();
-      propertyMapper.from(properties::getPreset).to(builder::preset);
-      if (properties.getLocaleResolveHandlerBeanNameList() != null
-          && !localeResolveHandlerBeanNameList.isEmpty()) {
-        propertyMapper
-            .from(properties::getLocaleResolveHandlerBeanNameList)
-            .to(builder::localeResolveHandlerBeanNameList);
-      } else if (properties.preset != null) {
-        propertyMapper
-            .from(properties.getPreset().getLocaleContextResolveHandlerBeanNameList())
-            .to(builder::localeResolveHandlerBeanNameList);
-      }
-    };
+  protected LocaleContextResolverProperties presetOf(ModuleInfo moduleInfo) {
+    return moduleInfo.getLocaleContextResolverProperties();
   }
 
   @Override
-  protected LocaleContextResolverPropertiesBuilder getBuilder() {
-    var blueskyBootContext = BlueskyBootContextHolder.getContext();
-    var parentModuleInfo = blueskyBootContext.getParentModuleInfo();
-    return parentModuleInfo == null
-        ? LocaleContextResolverProperties.builder()
-        : parentModuleInfo.getLocaleContextResolverPropertiesBuilder();
-  }
-
-  public static LocaleContextResolverPropertiesBuilder builder() {
-    return new LocaleContextResolverPropertiesBuilder();
-  }
-
-  public static class LocaleContextResolverPropertiesBuilder
-      implements BlueskyPropertiesBuilder<LocaleContextResolverProperties> {
-
-    private LocaleContextResolveHandlerPreset preset;
-
-    private List<String> localeResolveHandlerBeanNameList = new ArrayList<>();
-
-    private LocaleContextResolverPropertiesBuilder() {}
-
-    public LocaleContextResolverPropertiesBuilder preset(LocaleContextResolveHandlerPreset preset) {
-      this.preset = preset;
-      return this;
-    }
-
-    public LocaleContextResolverPropertiesBuilder localeResolveHandlerBeanNameList(
-        List<String> localeResolveHandlerBeanNameList) {
-      this.localeResolveHandlerBeanNameList = localeResolveHandlerBeanNameList;
-      return this;
-    }
-
-    @Override
-    public LocaleContextResolverProperties build() {
-      return new LocaleContextResolverProperties(preset, localeResolveHandlerBeanNameList);
+  protected void applyDefaults() {
+    // preset 만 준 경우 목록은 비워 둔다 - 고를 때 preset 으로 정한다(모듈이 preset 만 바꿔도 먹게)
+    if (localeResolveHandlerBeanNames == null && preset == null) {
+      localeResolveHandlerBeanNames = new ArrayList<>();
     }
   }
 }

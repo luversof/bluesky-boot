@@ -4,63 +4,59 @@ import java.io.Serializable;
 
 import io.github.luversof.boot.context.i18n.LocaleProperties;
 import io.github.luversof.boot.uuid.UuidGeneratorProperties;
-import io.github.luversof.boot.uuid.UuidGeneratorProperties.UuidGeneratorPropertiesBuilder;
 import io.github.luversof.boot.web.CookieProperties;
 import io.github.luversof.boot.web.DomainProperties;
 import io.github.luversof.boot.web.LocaleContextResolverProperties;
-import io.github.luversof.boot.web.LocaleContextResolverProperties.LocaleContextResolverPropertiesBuilder;
 import io.github.luversof.boot.web.LocaleResolveHandlerProperties;
-import io.github.luversof.boot.web.LocaleResolveHandlerProperties.LocaleResolveHandlerPropertiesBuilder;
 import io.github.luversof.boot.web.WebProperties;
 
 /**
- * enum to provide builders with a convenient way to provide coreProperties settings
+ * 모듈(또는 그룹, parent)에 미리 정해 둔 설정 묶음. 주로 enum 으로 구현한다.
+ *
+ * <p>각 메서드는 그 properties 의 프리셋을 돌려준다 - 정할 값만 채우고 나머지는 null 로 둔 새 객체, 정할 게 없으면 null. 프리셋은 parent 와
+ * 그룹 값 위에, 모듈(그룹) 설정 아래에 겹쳐진다.
  *
  * @author bluesky
  */
 public interface ModuleInfo extends Serializable {
 
-  default CoreBaseProperties.CoreBasePropertiesBuilder getCoreBasePropertiesBuilder() {
-    return CoreBaseProperties.builder();
+  default CoreProperties getCoreProperties() {
+    return null;
   }
 
-  default CoreProperties.CorePropertiesBuilder getCorePropertiesBuilder() {
-    return CoreProperties.builder();
+  default LocaleProperties getLocaleProperties() {
+    return null;
   }
 
-  default LocaleProperties.LocalePropertiesBuilder getLocalePropertiesBuilder() {
-    return LocaleProperties.builder();
+  default LocaleProperties getExternalLocaleProperties() {
+    return getLocaleProperties();
   }
 
-  default LocaleProperties.LocalePropertiesBuilder getExternalLocalePropertiesBuilder() {
-    return getLocalePropertiesBuilder();
+  default CookieProperties getCookieProperties() {
+    return null;
   }
 
-  default CookieProperties.CookiePropertiesBuilder getCookiePropertiesBuilder() {
-    return CookieProperties.builder();
+  default CookieProperties getExternalCookieProperties() {
+    return getCookieProperties();
   }
 
-  default CookieProperties.CookiePropertiesBuilder getExternalCookiePropertiesBuilder() {
-    return getCookiePropertiesBuilder();
+  default DomainProperties getDomainProperties() {
+    return null;
   }
 
-  default DomainProperties.DomainPropertiesBuilder getDomainPropertiesBuilder() {
-    return DomainProperties.builder();
+  default WebProperties getWebProperties() {
+    return null;
   }
 
-  default WebProperties.WebPropertiesBuilder getWebPropertiesBuilder() {
-    return WebProperties.builder();
+  default LocaleResolveHandlerProperties getLocaleResolveHandlerProperties() {
+    return null;
   }
 
-  default LocaleResolveHandlerPropertiesBuilder getLocaleResolveHandlerPropertiesBuilder() {
-    return LocaleResolveHandlerProperties.builder();
+  default LocaleContextResolverProperties getLocaleContextResolverProperties() {
+    return null;
   }
 
-  default LocaleContextResolverPropertiesBuilder getLocaleContextResolverPropertiesBuilder() {
-    return LocaleContextResolverProperties.builder();
-  }
-
-  default UuidGeneratorPropertiesBuilder getUuidGeneratorPropertiesBuilder() {
-    return UuidGeneratorProperties.builder();
+  default UuidGeneratorProperties getUuidGeneratorProperties() {
+    return null;
   }
 }

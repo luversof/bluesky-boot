@@ -12,6 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 /** Resolver that resolves moduleName based on domain */
 public class DomainModuleNameResolver extends AbstractModuleNameResolver {
 
+  public DomainModuleNameResolver(DomainModuleProperties domainModuleProperties) {
+    super(domainModuleProperties);
+  }
+
   /** 2개 이상 매칭되는 경우 requestPath가 더 긴 경우를 우선함 */
   private final Comparator<Entry<String, DomainProperties>> comparator =
       (Entry<String, DomainProperties> o1, Entry<String, DomainProperties> o2) -> {
@@ -74,9 +78,9 @@ public class DomainModuleNameResolver extends AbstractModuleNameResolver {
     }
 
     return domainProperties != null
-        && (checkDomain(request, domainProperties.getWebList())
-            || checkDomain(request, domainProperties.getMobileWebList())
-            || checkDomain(request, domainProperties.getDevDomainList()));
+        && (checkDomain(request, domainProperties.getWebUrls())
+            || checkDomain(request, domainProperties.getMobileWebUrls())
+            || checkDomain(request, domainProperties.getDevDomains()));
   }
 
   private boolean checkDomain(HttpServletRequest request, List<URI> uriList) {
@@ -93,9 +97,9 @@ public class DomainModuleNameResolver extends AbstractModuleNameResolver {
     }
 
     return domainProperties != null
-        && (checkDomainWithPath(request, domainProperties.getWebList())
-            || checkDomainWithPath(request, domainProperties.getMobileWebList())
-            || checkDomainWithPath(request, domainProperties.getDevDomainList()));
+        && (checkDomainWithPath(request, domainProperties.getWebUrls())
+            || checkDomainWithPath(request, domainProperties.getMobileWebUrls())
+            || checkDomainWithPath(request, domainProperties.getDevDomains()));
   }
 
   private boolean checkDomainWithPath(HttpServletRequest request, List<URI> uriList) {

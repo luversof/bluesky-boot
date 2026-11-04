@@ -53,13 +53,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>io.github.luversof</groupId>
-			<artifactId>bluesky-boot-test</artifactId>
+			<artifactId>bluesky-boot-properties-migrator</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<!-- (e) test -->
@@ -80,14 +75,6 @@
 		</dependency>
 		<!-- (e) jdbc -->
 
-		<!-- (s) mybatis -->
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) mybatis -->
-		
 		<!-- (s) data-jdbc -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -168,14 +155,6 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- (e) servlet web -->
-
-		<!-- (s) reactive web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- (e) reactive web -->
 
 		<!-- (s) kafka -->
 		<dependency>

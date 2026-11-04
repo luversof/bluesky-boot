@@ -33,8 +33,14 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties>
 
   Map<String, T> getModules();
 
+  /**
+   * 그룹 properties 는 parent 가 같은 것을 고른다. 예전에는 null 을 넘겨 타입이 같은 첫 그룹을 집었다 - cookie 모듈이
+   * external-cookie 그룹을, LocaleResolveHandler 모듈들이 서로의 그룹을 잡았고, 어느 쪽이 첫째인지도 실행마다 달랐다.
+   *
+   * @return parent 의 bean 이름(없으면 null &rarr; 타입이 같은 첫 그룹)
+   */
   default String getGroupPropertiesBeanName() {
-    return null;
+    return getParent() == null ? null : getParent().getBeanName();
   }
 
   @SuppressWarnings("unchecked")

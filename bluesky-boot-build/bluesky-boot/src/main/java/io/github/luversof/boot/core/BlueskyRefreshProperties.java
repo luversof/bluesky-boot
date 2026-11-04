@@ -39,7 +39,7 @@ public interface BlueskyRefreshProperties extends Serializable {
     }
 
     BlueskyBootContextHolder.getContext()
-        .getInitialBlueskyResfreshPropertiesMap()
+        .getInitialBlueskyRefreshPropertiesMap()
         .computeIfAbsent(beanName, _ -> SerializationUtils.clone(this));
   }
 }

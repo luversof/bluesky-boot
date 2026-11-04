@@ -3,21 +3,16 @@ package io.github.luversof.boot.context.i18n;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.BiConsumer;
 
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
 
-import io.github.luversof.boot.context.BlueskyBootContextHolder;
 import io.github.luversof.boot.core.AbstractBlueskyProperties;
-import io.github.luversof.boot.core.BlueskyPropertiesBuilder;
-import io.github.luversof.boot.util.function.SerializableSupplier;
+import io.github.luversof.boot.core.ModuleInfo;
 
 /** 기본적인 Locale 관련 설정을 관리 */
 @ConfigurationProperties(prefix = LocaleProperties.PREFIX)
-public class LocaleProperties
-    extends AbstractBlueskyProperties<LocaleProperties, LocaleProperties.LocalePropertiesBuilder>
+public class LocaleProperties extends AbstractBlueskyProperties<LocaleProperties>
     implements BeanNameAware {
 
   private static final long serialVersionUID = 1L;
@@ -32,14 +27,9 @@ public class LocaleProperties
   private String beanName;
 
   /** 사용 가능 로케일 목록, 배열의 첫번째 로케일이 defaultLocale로 처리되며 만약 설정하지 않은 경우 Locale.default()를 사용 */
-  private List<Locale> enableLocaleList = new ArrayList<>();
+  private List<Locale> enabledLocales;
 
   public LocaleProperties() {}
-
-  public LocaleProperties(String beanName, List<Locale> enableLocaleList) {
-    this.beanName = beanName;
-    this.enableLocaleList = enableLocaleList;
-  }
 
   @Override
   public void setBeanName(String beanName) {
@@ -51,12 +41,12 @@ public class LocaleProperties
     return beanName;
   }
 
-  public List<Locale> getEnableLocaleList() {
-    return enableLocaleList;
+  public List<Locale> getEnabledLocales() {
+    return enabledLocales;
   }
 
-  public void setEnableLocaleList(List<Locale> enableLocaleList) {
-    this.enableLocaleList = enableLocaleList;
+  public void setEnabledLocales(List<Locale> enabledLocales) {
+    this.enabledLocales = enabledLocales;
   }
 
   @Override
@@ -69,16 +59,16 @@ public class LocaleProperties
     }
     LocaleProperties that = (LocaleProperties) o;
     return (beanName != null ? beanName.equals(that.beanName) : that.beanName == null)
-        && (enableLocaleList != null
-            ? enableLocaleList.equals(that.enableLocaleList)
-            : that.enableLocaleList == null);
+        && (enabledLocales != null
+            ? enabledLocales.equals(that.enabledLocales)
+            : that.enabledLocales == null);
   }
 
   @Override
   public int hashCode() {
     int result = super.hashCode();
     result = 31 * result + (beanName != null ? beanName.hashCode() : 0);
-    result = 31 * result + (enableLocaleList != null ? enableLocaleList.hashCode() : 0);
+    result = 31 * result + (enabledLocales != null ? enabledLocales.hashCode() : 0);
     return result;
   }
 
@@ -88,74 +78,27 @@ public class LocaleProperties
         + "beanName='"
         + beanName
         + '\''
-        + ", enableLocaleList="
-        + enableLocaleList
+        + ", enabledLocales="
+        + enabledLocales
         + '}';
   }
 
   public Locale getDefaultLocale() {
-    if (enableLocaleList == null || enableLocaleList.isEmpty()) {
+    if (enabledLocales == null || enabledLocales.isEmpty()) {
       return Locale.getDefault();
     }
-    return enableLocaleList.get(0);
-  }
-
-  protected SerializableSupplier<LocaleProperties.LocalePropertiesBuilder> getBuilderSupplier() {
-    return () -> {
-      var parentModuleInfo = BlueskyBootContextHolder.getContext().getParentModuleInfo();
-      return parentModuleInfo == null
-          ? LocaleProperties.builder()
-          : parentModuleInfo.getLocalePropertiesBuilder();
-    };
+    return enabledLocales.get(0);
   }
 
   @Override
-  protected BiConsumer<LocaleProperties, LocalePropertiesBuilder> getPropertyMapperConsumer() {
-    return (properties, builder) -> {
-      if (properties == null) {
-        return;
-      }
-      var propertyMapper = PropertyMapper.get();
-      propertyMapper.from(properties::getBeanName).to(builder::beanName);
-      propertyMapper
-          .from(properties::getEnableLocaleList)
-          .whenNot(x -> x == null || x.isEmpty())
-          .to(builder::enableLocaleList);
-    };
+  protected LocaleProperties presetOf(ModuleInfo moduleInfo) {
+    return moduleInfo.getLocaleProperties();
   }
 
   @Override
-  protected LocalePropertiesBuilder getBuilder() {
-    return getBuilderSupplier().get();
-  }
-
-  public static LocalePropertiesBuilder builder() {
-    return new LocalePropertiesBuilder();
-  }
-
-  public static class LocalePropertiesBuilder
-      implements BlueskyPropertiesBuilder<LocaleProperties> {
-
-    private String beanName;
-
-    private List<Locale> enableLocaleList = new ArrayList<>();
-
-    private LocalePropertiesBuilder() {}
-
-    public LocalePropertiesBuilder beanName(String beanName) {
-      this.beanName = beanName;
-      return this;
-    }
-
-    public LocalePropertiesBuilder enableLocaleList(List<Locale> enableLocaleList) {
-      this.enableLocaleList = enableLocaleList;
-      return this;
-    }
-
-    @Override
-    public LocaleProperties build() {
-      return new LocaleProperties(
-          this.beanName, this.enableLocaleList == null ? new ArrayList<>() : this.enableLocaleList);
+  protected void applyDefaults() {
+    if (enabledLocales == null) {
+      enabledLocales = new ArrayList<>();
     }
   }
 }

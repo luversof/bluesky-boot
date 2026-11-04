@@ -36,7 +36,7 @@ public final class ProblemDetailUtil {
 
   private static MessageCodesResolver messageCodesResolver = new DefaultMessageCodesResolver();
 
-  private static MessageSourceAccessor messageSourceAccessor;
+  private static volatile MessageSourceAccessor messageSourceAccessor;
 
   /**
    * 예외를 상태 코드에 맞는 수준으로 남긴다.
@@ -296,7 +296,7 @@ public final class ProblemDetailUtil {
     var coreBaseProperties =
         ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
     if (!coreBaseProperties
-        .getLogExceptExceptionList()
+        .getLogExcludedExceptions()
         .contains(exception.getClass().getSimpleName())) {
       logException("Throwable exception", exception, status.value());
     }

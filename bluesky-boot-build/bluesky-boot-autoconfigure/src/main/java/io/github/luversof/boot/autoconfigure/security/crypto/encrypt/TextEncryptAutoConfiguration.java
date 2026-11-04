@@ -17,11 +17,7 @@ import io.github.luversof.boot.security.crypto.encrypt.TextEncryptDevCheckContro
  */
 @AutoConfiguration("blueskyBootTextEncryptAutoConfiguration")
 @ConditionalOnClass({DelegatingTextEncryptor.class, DevCheckController.class})
-@ConditionalOnProperty(
-    prefix = "bluesky-boot.dev-check",
-    name = "enabled",
-    havingValue = "true",
-    matchIfMissing = true)
+@ConditionalOnProperty(prefix = "bluesky-boot.dev-check", name = "enabled", havingValue = "true")
 public class TextEncryptAutoConfiguration {
 
   @Bean

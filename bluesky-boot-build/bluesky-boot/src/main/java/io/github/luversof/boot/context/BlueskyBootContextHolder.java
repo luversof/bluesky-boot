@@ -6,7 +6,7 @@ public final class BlueskyBootContextHolder {
   /** Handling utility class constructors */
   private BlueskyBootContextHolder() {}
 
-  private static BlueskyBootContext contextHolder;
+  private static final BlueskyBootContext CONTEXT = new BlueskyBootContext();
 
   /**
    * Return BlueskyBootContext
@@ -14,9 +14,6 @@ public final class BlueskyBootContextHolder {
    * @return BlueskyBootContext
    */
   public static BlueskyBootContext getContext() {
-    if (contextHolder == null) {
-      contextHolder = new BlueskyBootContext();
-    }
-    return contextHolder;
+    return CONTEXT;
   }
 }

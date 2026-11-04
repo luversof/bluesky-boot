@@ -11,7 +11,7 @@ public final class ProfileInfo {
   public static final String K8S_DEV = "k8sdev";
   public static final String LIVE = "live";
 
-  private static List<String> blueskyBootProfileList;
+  private static volatile List<String> blueskyBootProfileList;
 
   private ProfileInfo() {}
 
