@@ -41,6 +41,7 @@
 		<jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
 		<jib-maven-plugin.version>3.5.2</jib-maven-plugin.version>
 		<filecopy-maven-plugin.version>1.0.2</filecopy-maven-plugin.version>
+		<sonar-maven-plugin.version>5.8.0.7211</sonar-maven-plugin.version>
 		<spotless-maven-plugin.version>3.10.4</spotless-maven-plugin.version>
 		<google-java-format.version>2.0.0</google-java-format.version>
 
@@ -162,7 +163,7 @@
 				<version>${springdoc-openapi.version}</version>
 			</dependency>
 			<!-- (e) springdoc-openapi -->
-			
+
 			<!-- (s) spring-boot-admin -->
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -174,7 +175,7 @@
 				<artifactId>spring-boot-admin-starter-client</artifactId>
 				<version>${spring-boot-admin.version}</version>
 			</dependency>
-			<!-- (e) spring-boot-admin -->			
+			<!-- (e) spring-boot-admin -->
 
 			<!-- (s) restdocs-api-spec -->
 			<dependency>
@@ -253,7 +254,7 @@
 								<version>${google-java-format.version}</version>
 								<style>GOOGLE</style>
 							</googleJavaFormat>
-							
+
 							<!-- import 자동 정리 -->
 							<removeUnusedImports />
 
@@ -272,7 +273,8 @@
 
 					<executions>
 						<execution>
-							<!-- apply has no default phase, so it never ran here; format with `mvn spotless:apply` -->
+							<!-- apply has no default phase, so it never ran
+							here; format with `mvn spotless:apply` -->
 							<goals>
 								<goal>check</goal>
 							</goals>
@@ -290,6 +292,11 @@
 							<include>**/*Tests.java</include>
 						</includes>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar-maven-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
