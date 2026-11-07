@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
+import org.springframework.core.env.StandardEnvironment;
 
 import io.github.luversof.boot.autoconfigure.context.i18n.LocaleAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
@@ -117,7 +118,13 @@ class BlueskyPropertiesMergeCharacterizationTests {
 
   @Test
   void mergedPropertiesStayTheSame() {
-    contextRunner.run(context -> {
+	  
+    contextRunner
+    .withInitializer(ctx -> {
+        var sources = ctx.getEnvironment().getPropertySources();
+        sources.remove(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME);
+        sources.remove(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME);
+      }).run(context -> {
       assertThat(context).hasNotFailed();
       Map<String, Object> merged = new TreeMap<>();
       context.getBeansOfType(BlueskyProperties.class).forEach(merged::put);
