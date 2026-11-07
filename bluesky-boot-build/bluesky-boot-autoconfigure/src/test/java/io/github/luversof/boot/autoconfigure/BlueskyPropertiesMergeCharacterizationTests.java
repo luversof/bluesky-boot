@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
-import org.springframework.core.env.StandardEnvironment;
 
 import io.github.luversof.boot.autoconfigure.context.i18n.LocaleAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
@@ -71,6 +70,7 @@ class BlueskyPropertiesMergeCharacterizationTests {
               "bluesky-boot.locale.enabled-locales=ko_KR",
               "bluesky-boot.locale.modules.gamma.enabled-locales=en_US,ja_JP",
               // alpha 의 ModuleInfo(TEST) 프리셋은 ko_KR - 모듈 설정이 이겨야 한다
+              "bluesky-boot.external-locale.enabled-locales=ko_KR",
               "bluesky-boot.external-locale.modules.alpha.enabled-locales=fr_FR",
               "bluesky-boot.external-locale.modules.beta.enabled-locales=zh_TW",
               // domain
@@ -119,12 +119,7 @@ class BlueskyPropertiesMergeCharacterizationTests {
   @Test
   void mergedPropertiesStayTheSame() {
 	  
-    contextRunner
-    .withInitializer(ctx -> {
-        var sources = ctx.getEnvironment().getPropertySources();
-        sources.remove(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME);
-        sources.remove(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME);
-      }).run(context -> {
+    contextRunner.run(context -> {
       assertThat(context).hasNotFailed();
       Map<String, Object> merged = new TreeMap<>();
       context.getBeansOfType(BlueskyProperties.class).forEach(merged::put);
