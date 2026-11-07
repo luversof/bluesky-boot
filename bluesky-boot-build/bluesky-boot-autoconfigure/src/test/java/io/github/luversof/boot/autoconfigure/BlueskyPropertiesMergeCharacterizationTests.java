@@ -70,7 +70,6 @@ class BlueskyPropertiesMergeCharacterizationTests {
               "bluesky-boot.locale.enabled-locales=ko_KR",
               "bluesky-boot.locale.modules.gamma.enabled-locales=en_US,ja_JP",
               // alpha 의 ModuleInfo(TEST) 프리셋은 ko_KR - 모듈 설정이 이겨야 한다
-              "bluesky-boot.external-locale.enabled-locales=ko_KR",
               "bluesky-boot.external-locale.modules.alpha.enabled-locales=fr_FR",
               "bluesky-boot.external-locale.modules.beta.enabled-locales=zh_TW",
               // domain
