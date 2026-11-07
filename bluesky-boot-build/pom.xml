@@ -19,4 +19,16 @@
 		<module>bluesky-boot-test-autoconfigure</module>
 		<module>bluesky-boot-properties-migrator</module>
 	</modules>
+
+	<profiles>
+		<profile>
+			<id>sonarqube</id>
+			<properties>
+				<sonar.projectKey>bluesky-boot</sonar.projectKey>
+				<sonar.projectName>bluesky boot project</sonar.projectName>
+				<sonar.ws.timeout>300</sonar.ws.timeout>
+				<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+			</properties>
+		</profile>
+	</profiles>
 </project>
