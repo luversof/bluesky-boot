@@ -60,7 +60,7 @@
   "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties" : {
     "beanName" : "bluesky-boot.external-locale-io.github.luversof.boot.context.i18n.ExternalLocaleProperties",
     "defaultLocale" : "ko-KR",
-    "enabledLocales" : [ ]
+    "enabledLocales" : [ "ko-KR" ]
   },
   "bluesky-boot.locale-io.github.luversof.boot.context.i18n.LocaleGroupProperties" : {
     "g1" : {

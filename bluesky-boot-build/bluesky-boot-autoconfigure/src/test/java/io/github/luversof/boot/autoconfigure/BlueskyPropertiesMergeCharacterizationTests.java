@@ -69,6 +69,8 @@ class BlueskyPropertiesMergeCharacterizationTests {
               // locale
               "bluesky-boot.locale.enabled-locales=ko_KR",
               "bluesky-boot.locale.modules.gamma.enabled-locales=en_US,ja_JP",
+              // external-locale 은 locale 을 상속하지 않는다 - 비워 두면 defaultLocale 이 JVM locale 을 따라 환경마다 달라진다
+              "bluesky-boot.external-locale.enabled-locales=ko_KR",
               // alpha 의 ModuleInfo(TEST) 프리셋은 ko_KR - 모듈 설정이 이겨야 한다
               "bluesky-boot.external-locale.modules.alpha.enabled-locales=fr_FR",
               "bluesky-boot.external-locale.modules.beta.enabled-locales=zh_TW",
