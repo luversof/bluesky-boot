@@ -1,5 +1,7 @@
 package io.github.luversof.boot.autoconfigure.web.servlet.error;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -72,6 +74,15 @@ class CoreMvcExceptionHandlerTests {
         .perform(get("/json").accept(MediaType.ALL))
         .andExpect(status().isInternalServerError())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON));
+  }
+
+  /** 5xx 원문 메시지는 SQL · 경로 같은 내부 구조를 담을 수 있어 응답에 싣지 않는다. */
+  @Test
+  void serverErrorResponseHidesRawExceptionMessage() throws Exception {
+    mockMvc
+        .perform(get("/json").accept(MediaType.ALL))
+        .andExpect(status().isInternalServerError())
+        .andExpect(content().string(not(containsString("json handler failed"))));
   }
 
   @Test

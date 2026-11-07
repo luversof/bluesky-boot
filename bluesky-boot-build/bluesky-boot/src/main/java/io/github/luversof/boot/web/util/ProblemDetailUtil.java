@@ -301,14 +301,15 @@ public final class ProblemDetailUtil {
       logException("Throwable exception", exception, status.value());
     }
 
+    // 5xx 의 원문 메시지는 SQL · 경로 같은 내부 구조를 담으므로 응답에 싣지 않는다(로그에는 남는다)
+    var rawMessage = status.is4xxClientError() ? exception.getMessage() : null;
     var blueskyErrorMessage = new BlueskyErrorMessage();
-    blueskyErrorMessage.setMessage(exception.getMessage());
+    blueskyErrorMessage.setMessage(rawMessage);
     blueskyErrorMessage.setExceptionClassName(exception.getClass().getSimpleName());
 
     var localizedMessage =
-        getMessageSourceAccessor()
-            .getMessage(exception.getClass().getSimpleName(), exception.getMessage());
-    if (!localizedMessage.equals(blueskyErrorMessage.getMessage())) {
+        getMessageSourceAccessor().getMessage(exception.getClass().getSimpleName(), rawMessage);
+    if (StringUtils.hasLength(localizedMessage) && !localizedMessage.equals(rawMessage)) {
       blueskyErrorMessage.setMessage(localizedMessage);
       blueskyErrorMessage.setDisplayableMessage(true);
     }
