@@ -70,8 +70,7 @@ class BlueskyPropertiesRefresherTests {
 
     try (var context = run()) {
       var modules = context.getBean(CoreModuleProperties.class);
-      assertThat(modules.getModules().get("alpha").getProperties())
-          .containsEntry("key", "before");
+      assertThat(modules.getModules().get("alpha").getProperties()).containsEntry("key", "before");
 
       config.put(CORE_GROUP_KEY, "after");
       context.getBean(BlueskyPropertiesRefresher.class).refresh();
