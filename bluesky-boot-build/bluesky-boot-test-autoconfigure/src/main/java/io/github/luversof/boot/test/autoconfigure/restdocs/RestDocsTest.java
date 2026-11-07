@@ -67,10 +67,11 @@ public abstract class RestDocsTest {
     }
   }
 
-  @SuppressWarnings("unchecked")
   protected <T> List<T> getMockList(String path, Class<T> valueType) {
     try {
-      return jsonMapper.readValue(getMockString(path), List.class);
+      return jsonMapper.readValue(
+          getMockString(path),
+          jsonMapper.getTypeFactory().constructCollectionType(List.class, valueType));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

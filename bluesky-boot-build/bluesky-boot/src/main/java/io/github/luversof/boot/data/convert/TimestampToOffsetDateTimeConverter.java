@@ -2,6 +2,7 @@ package io.github.luversof.boot.data.convert;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
@@ -12,6 +13,8 @@ public class TimestampToOffsetDateTimeConverter implements Converter<Timestamp, 
 
   @Override
   public OffsetDateTime convert(Timestamp source) {
-    return source == null ? null : source.toInstant().atOffset(OffsetDateTime.now().getOffset());
+    return source == null
+        ? null
+        : source.toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime();
   }
 }
