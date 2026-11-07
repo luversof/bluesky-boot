@@ -14,6 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.SerializationUtils;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
+import io.github.luversof.boot.core.BlueskyGroupProperties;
 import io.github.luversof.boot.core.BlueskyModuleProperties;
 import io.github.luversof.boot.core.BlueskyProperties;
 import io.github.luversof.boot.core.BlueskyRefreshProperties;
@@ -103,6 +104,7 @@ public class BlueskyPropertiesRefresher
     beanNameList.forEach(this::reloadProperties);
 
     reloadProperties(BlueskyProperties.class);
+    reloadProperties(BlueskyGroupProperties.class);
     reloadProperties(BlueskyModuleProperties.class);
   }
 

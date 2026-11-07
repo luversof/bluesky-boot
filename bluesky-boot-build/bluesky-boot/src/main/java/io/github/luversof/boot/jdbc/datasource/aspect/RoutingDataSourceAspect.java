@@ -36,6 +36,9 @@ public class RoutingDataSourceAspect {
   private Object execute(
       ProceedingJoinPoint proceedingJoinPoint, RoutingDataSource routingDataSource)
       throws Throwable {
+    // 끝나면 지우지 않고 되돌린다 - 지우면 바깥 호출(또는 필터)의 lookupKey 가 사라져 남은 쿼리가 기본 DB 로 간다
+    var previousContext = RoutingDataSourceContextHolder.getContext();
+
     if (StringUtils.hasText(routingDataSource.resolver())) {
       var resolver =
           applicationContext.getBean(
@@ -48,7 +51,7 @@ public class RoutingDataSourceAspect {
     try {
       return proceedingJoinPoint.proceed();
     } finally {
-      RoutingDataSourceContextHolder.clearContext();
+      RoutingDataSourceContextHolder.setContext(previousContext);
     }
   }
 }
