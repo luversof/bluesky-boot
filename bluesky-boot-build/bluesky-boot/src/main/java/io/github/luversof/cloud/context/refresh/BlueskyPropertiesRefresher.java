@@ -121,7 +121,6 @@ public class BlueskyPropertiesRefresher
   private void reloadProperties(String beanName) {
     var targetPropertiesBean = context.getBean(beanName, BlueskyRefreshProperties.class);
     var beanFactory = context.getAutowireCapableBeanFactory();
-    // beanFactory.destroyBean(targetPropertiesBean);
     beanFactory.autowireBean(targetPropertiesBean);
     beanFactory.initializeBean(targetPropertiesBean, beanName);
   }

@@ -93,7 +93,7 @@ public final class ExceptionUtil {
           .contains(MediaType.APPLICATION_JSON)) {
         return true;
       }
-    } catch (HttpMediaTypeNotAcceptableException e) {
+    } catch (HttpMediaTypeNotAcceptableException _) {
       // 깨진 Accept 헤더 때문에 오류 처리 자체가 500 이 되지 않게, Accept 없이 판단을 이어간다.
     }
 

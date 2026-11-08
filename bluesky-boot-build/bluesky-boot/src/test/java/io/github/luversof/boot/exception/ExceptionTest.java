@@ -1,17 +1,14 @@
 package io.github.luversof.boot.exception;
 
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
 
 class ExceptionTest {
 
-  private static final Logger log = LoggerFactory.getLogger(ExceptionTest.class);
-
+  /** 오류 메시지 키는 모듈 전용 → 공통 → 예외 이름 순으로 찾는다. */
   @Test
   void messageResolverTest() {
     var exception = new BlueskyException("SOME_ERROR_CODE");
@@ -23,18 +20,10 @@ class ExceptionTest {
         messageCodesResolver.resolveMessageCodes(
             exception.getClass().getSimpleName(), moduleName, exception.getErrorCode(), null);
 
-    log.debug("messageCodes : {}", List.of(messageCodes));
-
-    // fieldType null 인 경우
-    // BlueskyException.someModule.SOME_ERROR_CODE
-    // BlueskyException.SOME_ERROR_CODE
-    // BlueskyException
-
-    // fieldType exception.getClass() 인 경우
-    // BlueskyException.someModule.SOME_ERROR_CODE
-    // BlueskyException.SOME_ERROR_CODE
-    // BlueskyException.io.github.luversof.boot.exception.BlueskyException
-    // BlueskyException
-
+    assertThat(messageCodes)
+        .containsExactly(
+            "BlueskyException.someModule.SOME_ERROR_CODE",
+            "BlueskyException.SOME_ERROR_CODE",
+            "BlueskyException");
   }
 }

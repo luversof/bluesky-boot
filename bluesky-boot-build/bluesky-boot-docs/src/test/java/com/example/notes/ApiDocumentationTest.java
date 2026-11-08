@@ -38,7 +38,7 @@ class ApiDocumentationTest extends RestDocsTest {
   }
 
   @Test
-  @Disabled
+  @Disabled("docs 모듈에는 컨트롤러가 없어 GET / 가 404 다 - restdocs 설정 예시로만 남긴다")
   void sample() throws Exception {
     this.mockMvc
         .perform(get("/"))

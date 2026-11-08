@@ -128,7 +128,7 @@ class LazyLoadRoutingDataSourceTest {
       try {
         // 다른 스레드가 같은 키로 겹쳐 들어올 시간을 준다
         Thread.sleep(50);
-      } catch (InterruptedException e) {
+      } catch (InterruptedException _) {
         Thread.currentThread().interrupt();
       }
       return connectionList.stream()
