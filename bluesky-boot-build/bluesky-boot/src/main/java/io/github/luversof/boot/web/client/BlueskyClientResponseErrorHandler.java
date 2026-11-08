@@ -68,7 +68,7 @@ public class BlueskyClientResponseErrorHandler implements ResponseErrorHandler {
       return jsonMapper.readValue(responseBody, Map.class) instanceof Map<?, ?> resultMap
           ? resultMap.get("result")
           : null;
-    } catch (JacksonException e) {
+    } catch (JacksonException _) {
       return null;
     }
   }
