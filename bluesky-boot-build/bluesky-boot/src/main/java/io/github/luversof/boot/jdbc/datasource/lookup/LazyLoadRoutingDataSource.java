@@ -30,6 +30,8 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
 
   private final Map<String, DataSource> loadedDataSources = new ConcurrentHashMap<>();
 
+  private static final int MAX_NON_EXIST_LOOKUP_KEYS = 10_000;
+
   private final Map<String, Instant> nonExistLookupKeyMap = new ConcurrentHashMap<>();
 
   public LazyLoadRoutingDataSource(
@@ -68,6 +70,10 @@ public class LazyLoadRoutingDataSource<T extends DataSource, C extends Connectio
       }
     }
 
+    // 요청 값에서 온 키는 끝없이 다양할 수 있어 한도를 넘으면 비운다(비워도 다시 한 번 조회할 뿐이다)
+    if (nonExistLookupKeyMap.size() >= MAX_NON_EXIST_LOOKUP_KEYS) {
+      nonExistLookupKeyMap.clear();
+    }
     nonExistLookupKeyMap.put(lookupKey, Instant.now());
     throw new BlueskyException("NOT_EXIST_DATASOURCE_LOOKUPKEY", lookupKey);
   }

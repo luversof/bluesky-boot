@@ -1,9 +1,8 @@
 package io.github.luversof.boot.web.servlet.util;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -26,8 +25,6 @@ import tools.jackson.databind.json.JsonMapper;
  * @author bluesky
  */
 public final class ServletRequestDataBinderUtil {
-
-  private static final Logger log = LoggerFactory.getLogger(ServletRequestDataBinderUtil.class);
 
   private ServletRequestDataBinderUtil() {}
 
@@ -87,10 +84,9 @@ public final class ServletRequestDataBinderUtil {
       }
       return target;
     } catch (IOException e) {
-      log.error("failed to read request body", e);
+      // null 을 돌려주면 호출자는 검증된 객체로 믿고 넘긴다
+      throw new UncheckedIOException("failed to read request body", e);
     }
-
-    return null;
   }
 
   public static <T> T getRequestBodyObject(Class<T> clazz, Object... validationHints) {
