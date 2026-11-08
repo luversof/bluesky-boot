@@ -37,4 +37,9 @@ class TimestampToOffsetDateTimeConverterTest {
     assertThat(convertedSummer.getOffset()).isEqualTo(ZoneOffset.ofHours(-4));
     assertThat(convertedSummer.toInstant()).isEqualTo(summer);
   }
+
+  @Test
+  void nullStaysNull() {
+    assertThat(converter.convert(null)).isNull();
+  }
 }
