@@ -119,8 +119,12 @@ public abstract class AbstractLocaleResolveHandler implements LocaleResolveHandl
 
     // 내 자신 로케일 계산하고 있으면 해당 설정
     var requestLocale = localeResolveInfo.getRequestLocale();
+    // condition 은 기본값이 없다 - 주지 않았으면 정확히 맞는 locale 만 고른다
     resolveLocale =
-        getResolveLocale(requestLocale, localeResolveInfoCondition.isCheckLanguageMatchOnly());
+        getResolveLocale(
+            requestLocale,
+            localeResolveInfoCondition != null
+                && localeResolveInfoCondition.isCheckLanguageMatchOnly());
     if (resolveLocale != null) {
       localeResolveInfo.setResolveLocale(resolveLocale);
       return;

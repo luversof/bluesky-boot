@@ -172,7 +172,7 @@ public class WebMvcAutoConfiguration {
       return new CookieLocaleResolveHandler(
           LocaleProperties.DEFAULT_BEAN_NAME,
           CookieProperties.DEFAULT_BEAN_NAME,
-          "cookieLocaleContextResolveHandlerProperties");
+          LocaleResolveHandlerProperties.COOKIE_BEAN_NAME);
     }
   }
 
