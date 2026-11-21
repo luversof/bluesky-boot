@@ -24,7 +24,7 @@ public class BlueskyClientResponseErrorHandler implements ResponseErrorHandler {
   private static final Logger log =
       LoggerFactory.getLogger(BlueskyClientResponseErrorHandler.class);
 
-  private JsonMapper jsonMapper;
+  private final JsonMapper jsonMapper;
 
   public BlueskyClientResponseErrorHandler(JsonMapper jsonMapper) {
     this.jsonMapper = jsonMapper;

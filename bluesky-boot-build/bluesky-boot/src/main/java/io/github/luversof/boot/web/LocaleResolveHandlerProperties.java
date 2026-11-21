@@ -90,9 +90,9 @@ public class LocaleResolveHandlerProperties
     EXTERNAL_COOKIE(false, false, true),
     ACCEPT_HEADER(true, false, false);
 
-    private boolean checkLanguageMatchOnly;
-    private boolean resolveLocaleCookieCreate;
-    private boolean setLocaleCookieCreate;
+    private final boolean checkLanguageMatchOnly;
+    private final boolean resolveLocaleCookieCreate;
+    private final boolean setLocaleCookieCreate;
 
     LocaleResolveInfoCondition(
         boolean checkLanguageMatchOnly,
@@ -131,10 +131,10 @@ public class LocaleResolveHandlerProperties
     ;
 
     /** 선행 handler의 결과를 우선 참조 */
-    private boolean usePreResolveLocaleFirst;
+    private final boolean usePreResolveLocaleFirst;
 
     /** language 일치 체크의 경우 */
-    private boolean checkLanguageMatchOnly;
+    private final boolean checkLanguageMatchOnly;
 
     PreLocaleResolveInfoCondition(
         boolean usePreResolveLocaleFirst, boolean checkLanguageMatchOnly) {

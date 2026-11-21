@@ -92,7 +92,7 @@ public class CoreBaseProperties implements BlueskyProperties {
    * Exception log 제외 대상 목록 로그 확인이 불필요한 에러 항목에 대해 exception log 제외 처리 목록을 추가하고자 하는 경우
    * bluesky-boot.core.log-except-exception-additional-list로 설정하면 합산처리 됨.
    */
-  private List<String> logExcludedExceptions = new ArrayList<>();
+  private final List<String> logExcludedExceptions = new ArrayList<>();
 
   public void setLogExcludedExceptions(List<String> list) {
     for (String value : list) {

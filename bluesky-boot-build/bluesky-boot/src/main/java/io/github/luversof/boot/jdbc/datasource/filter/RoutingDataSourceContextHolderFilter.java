@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Order(-103)
 public class RoutingDataSourceContextHolderFilter extends OncePerRequestFilter {
 
-  private RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver;
+  private final RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver;
 
   public RoutingDataSourceContextHolderFilter(
       @Nullable RoutingDataSourceLookupKeyResolver routingDataSourceLookupKeyResolver) {

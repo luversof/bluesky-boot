@@ -88,8 +88,7 @@ class BlueskyBootContextHolderTests {
     var names = BlueskyContextHolder.orderedBeanNames(context, type);
     assertThat(names).isNotNull().isNotEmpty();
 
-    var other = new AnnotationConfigApplicationContext();
-    try {
+    try (var other = new AnnotationConfigApplicationContext()) {
       new ConfigurationWarningsApplicationContextInitializer().initialize(other);
       new BlueskyApplicationContextInitializer().initialize(other);
       other.register(TestConfiguration.class);
@@ -101,7 +100,6 @@ class BlueskyBootContextHolderTests {
           .getBeanNamesForType(
               org.mockito.ArgumentMatchers.any(org.springframework.core.ResolvableType.class));
     } finally {
-      other.close();
       ApplicationContextUtil.setApplicationContext(context);
     }
   }
@@ -223,14 +221,11 @@ class BlueskyBootContextHolderTests {
   @Test
   void 키는_같은_context_일_때만_같다() {
     load();
-    var other = new AnnotationConfigApplicationContext();
-    try {
+    try (var other = new AnnotationConfigApplicationContext()) {
       var stored = new BlueskyContextHolder.ContextKey(context, null);
       var lookup = new BlueskyContextHolder.ContextKey(context, null);
       assertThat(lookup).isEqualTo(stored).hasSameHashCodeAs(stored);
       assertThat(new BlueskyContextHolder.ContextKey(other, null)).isNotEqualTo(stored);
-    } finally {
-      other.close();
     }
   }
 

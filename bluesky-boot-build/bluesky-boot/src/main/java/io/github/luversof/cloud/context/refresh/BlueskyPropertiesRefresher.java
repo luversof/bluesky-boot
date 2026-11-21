@@ -34,13 +34,13 @@ public class BlueskyPropertiesRefresher
 
   private ContextRefreshedWithApplicationEvent event;
 
-  private ConfigDataContextRefresher configDataContextRefresher;
+  private final ConfigDataContextRefresher configDataContextRefresher;
 
   /**
    * refresh는 dependency 참조를 기준으로 수행하지 않아 참조된 bean이 먼저 생성되는 보장이 없음 우선 호출해야 할 대상 목록을 지정하여 먼저 refresh
    * 처리
    */
-  private List<String> beanNameList =
+  private final List<String> beanNameList =
       List.of(
           CoreBaseProperties.BEAN_NAME,
           CoreProperties.BEAN_NAME,

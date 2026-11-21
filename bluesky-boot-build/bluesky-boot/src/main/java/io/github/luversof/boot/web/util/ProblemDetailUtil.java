@@ -106,7 +106,8 @@ public final class ProblemDetailUtil {
     // BlueskyErrorMessageList 고정임
     if (exception.getErrorMessageList() != null) {
       List<BlueskyErrorMessage> errorMessageList = new ArrayList<>();
-      exception.getErrorMessageList().stream()
+      exception
+          .getErrorMessageList()
           .forEach(x -> {
             BlueskyErrorMessage targetBlueskyErrorMessage = (BlueskyErrorMessage) x;
             setBlueskyErrorMessage(targetBlueskyErrorMessage);

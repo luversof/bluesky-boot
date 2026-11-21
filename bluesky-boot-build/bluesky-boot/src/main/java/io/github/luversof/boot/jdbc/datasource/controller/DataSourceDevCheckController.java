@@ -23,7 +23,7 @@ import io.github.luversof.boot.jdbc.datasource.lookup.RoutingDataSource;
 @RequestMapping(value = "/blueskyBoot/jdbc", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataSourceDevCheckController {
 
-  private DataSource blueskyRoutingDataSource;
+  private final DataSource blueskyRoutingDataSource;
 
   public DataSourceDevCheckController(DataSource blueskyRoutingDataSource) {
     this.blueskyRoutingDataSource = blueskyRoutingDataSource;

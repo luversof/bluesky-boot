@@ -48,8 +48,7 @@ public class MessageSourceAutoConfiguration {
       baseNameList.addAll(messageSourceProperties.getBasename());
     }
 
-    messageSourceExtensionProperties.getMessageSource().values().stream()
-        .forEach(baseNameList::addAll);
+    messageSourceExtensionProperties.getMessageSource().values().forEach(baseNameList::addAll);
     messageSource.setBasenames(baseNameList.toArray(new String[0]));
     if (messageSourceProperties.getEncoding() != null) {
       messageSource.setDefaultEncoding(messageSourceProperties.getEncoding().name());

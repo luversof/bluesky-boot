@@ -9,26 +9,24 @@ import io.github.luversof.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 public class AutoConfigurationTestInfo {
 
-  public static final String[] BASE_PROPERTY = new String[] {"spring.profiles.active=localdev"};
+  public static final String[] BASE_PROPERTY = {"spring.profiles.active=localdev"};
 
-  public static final Class<?>[] CORE_USER_CONFIGURATION =
-      new Class<?>[] {CoreAutoConfiguration.class, LocaleAutoConfiguration.class};
+  public static final Class<?>[] CORE_USER_CONFIGURATION = {
+    CoreAutoConfiguration.class, LocaleAutoConfiguration.class
+  };
 
-  public static final Class<?>[] CORE_MESSAGESOURCE_CONFIGURATION =
-      new Class<?>[] {
-        org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class
-      };
+  public static final Class<?>[] CORE_MESSAGESOURCE_CONFIGURATION = {
+    org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class
+  };
 
   public static final Class<?>[] CORE_MESSAGESOURCE_USER_CONFIGURATION =
       addClassAll(CORE_USER_CONFIGURATION, MessageSourceAutoConfiguration.class);
 
-  public static final Class<?>[] JDBC_CONFIGURATION =
-      new Class<?>[] {
-        org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration.class
-      };
+  public static final Class<?>[] JDBC_CONFIGURATION = {
+    org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration.class
+  };
 
-  public static final Class<?>[] JDBC_USER_CONFIGURATION =
-      new Class<?>[] {DataSourceAutoConfiguration.class};
+  public static final Class<?>[] JDBC_USER_CONFIGURATION = {DataSourceAutoConfiguration.class};
 
   @SuppressWarnings("unused")
   private static String[] addAll(String[] target, String... strings) {

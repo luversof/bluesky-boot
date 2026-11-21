@@ -70,10 +70,10 @@ public class LocaleContextResolverProperties
   @JsonIgnore
   public List<LocaleResolveHandler> getLocaleResolveHandlerList(
       Map<String, LocaleResolveHandler> localeResolveHandlers) {
-    var beanNames =
-        localeResolveHandlerBeanNames != null
-            ? localeResolveHandlerBeanNames
-            : preset != null ? preset.getLocaleResolveHandlerBeanNames() : null;
+    var beanNames = localeResolveHandlerBeanNames;
+    if (beanNames == null && preset != null) {
+      beanNames = preset.getLocaleResolveHandlerBeanNames();
+    }
     if (beanNames == null) {
       return Collections.emptyList();
     }

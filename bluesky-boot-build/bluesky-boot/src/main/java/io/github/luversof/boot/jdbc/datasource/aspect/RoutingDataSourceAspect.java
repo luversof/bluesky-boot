@@ -13,7 +13,7 @@ import io.github.luversof.boot.jdbc.datasource.support.RoutingDataSourceLookupKe
 @Aspect
 public class RoutingDataSourceAspect {
 
-  private ApplicationContext applicationContext;
+  private final ApplicationContext applicationContext;
 
   public RoutingDataSourceAspect(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;

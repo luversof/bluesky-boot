@@ -23,7 +23,7 @@ import io.github.luversof.boot.devcheck.annotation.DevCheckDescription;
 @RequestMapping(value = "/blueskyBoot/messageSource", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MessageSourceDevCheckController {
 
-  private BlueskyReloadableResourceBundleMessageSource messageSource;
+  private final BlueskyReloadableResourceBundleMessageSource messageSource;
 
   public MessageSourceDevCheckController(
       BlueskyReloadableResourceBundleMessageSource messageSource) {

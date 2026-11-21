@@ -128,18 +128,16 @@ public class CookieLocaleResolveHandler extends AbstractLocaleResolveHandler {
       timeZonePart = value.substring(separatorIndex + 1);
     }
     try {
-      locale = (!"-".equals(localePart) ? StringUtils.parseLocale(localePart) : null);
+      locale = ("-".equals(localePart) ? null : StringUtils.parseLocale(localePart));
       if (timeZonePart != null) {
         timeZone = StringUtils.parseTimeZoneString(timeZonePart);
       }
     } catch (IllegalArgumentException ex) {
       log.debug(
-          "Ignoring invalid locale cookie '"
-              + cookieName
-              + "': ["
-              + value
-              + "] due to: "
-              + ex.getMessage());
+          "Ignoring invalid locale cookie '{}': [{}] due to: {}",
+          cookieName,
+          value,
+          ex.getMessage());
     }
 
     if (locale == null) {

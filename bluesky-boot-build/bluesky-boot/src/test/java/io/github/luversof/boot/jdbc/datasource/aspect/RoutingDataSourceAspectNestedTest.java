@@ -50,7 +50,7 @@ class RoutingDataSourceAspectNestedTest {
     return (T) factory.getProxy();
   }
 
-  private static void record(List<Object> lookupKeys) {
+  private static void recordLookupKey(List<Object> lookupKeys) {
     lookupKeys.add(RoutingDataSourceContextHolder.getContext().getLookupKey());
   }
 
@@ -67,9 +67,9 @@ class RoutingDataSourceAspectNestedTest {
 
     @RoutingDataSource("outer")
     public void call() {
-      record(lookupKeys);
+      recordLookupKey(lookupKeys);
       inner.call();
-      record(lookupKeys);
+      recordLookupKey(lookupKeys);
     }
   }
 
@@ -83,7 +83,7 @@ class RoutingDataSourceAspectNestedTest {
 
     @RoutingDataSource("inner")
     public void call() {
-      record(lookupKeys);
+      recordLookupKey(lookupKeys);
     }
   }
 }
