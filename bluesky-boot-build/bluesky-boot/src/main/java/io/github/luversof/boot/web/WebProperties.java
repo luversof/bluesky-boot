@@ -1,7 +1,6 @@
 package io.github.luversof.boot.web;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -49,30 +48,6 @@ public class WebProperties extends AbstractBlueskyProperties<WebProperties> {
   public void setNotSupportedBrowserExcludePathPatterns(
       List<String> notSupportedBrowserExcludePathPatterns) {
     this.notSupportedBrowserExcludePathPatterns = notSupportedBrowserExcludePathPatterns;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    WebProperties that = (WebProperties) o;
-    return Objects.equals(checkNotSupportedBrowser, that.checkNotSupportedBrowser)
-        && Objects.equals(notSupportedBrowserRegPatterns, that.notSupportedBrowserRegPatterns)
-        && Objects.equals(
-            notSupportedBrowserExcludePathPatterns, that.notSupportedBrowserExcludePathPatterns);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        super.hashCode(),
-        checkNotSupportedBrowser,
-        notSupportedBrowserRegPatterns,
-        notSupportedBrowserExcludePathPatterns);
   }
 
   @Override

@@ -45,22 +45,18 @@ public class DomainModuleNameResolver extends AbstractModuleNameResolver {
         .orElse(null);
   }
 
-  private boolean checkDomain(HttpServletRequest request, DomainProperties domainProperties) {
-    if (request == null) {
+  /** 요청 host 가 모듈의 webUrls · mobileWebUrls · devDomains 중 하나와 같은지. */
+  static boolean checkDomain(HttpServletRequest request, DomainProperties domainProperties) {
+    if (request == null || domainProperties == null) {
       return false;
     }
-
-    return domainProperties != null
-        && (checkDomain(request, domainProperties.getWebUrls())
-            || checkDomain(request, domainProperties.getMobileWebUrls())
-            || checkDomain(request, domainProperties.getDevDomains()));
-  }
-
-  private boolean checkDomain(HttpServletRequest request, List<URI> uriList) {
-    if (request == null) {
-      return false;
-    }
-    return uriList.stream().anyMatch(uri -> uri.getHost().equals(request.getServerName()));
+    return Stream.of(
+            domainProperties.getWebUrls(),
+            domainProperties.getMobileWebUrls(),
+            domainProperties.getDevDomains())
+        .flatMap(List::stream)
+        .map(URI::getHost)
+        .anyMatch(request.getServerName()::equals);
   }
 
   /**

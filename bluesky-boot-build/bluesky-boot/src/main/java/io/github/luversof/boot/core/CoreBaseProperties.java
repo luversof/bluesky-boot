@@ -69,34 +69,6 @@ public class CoreBaseProperties implements BlueskyProperties {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    CoreBaseProperties that = (CoreBaseProperties) o;
-    return resolveType == that.resolveType
-        && (moduleNames != null ? moduleNames.equals(that.moduleNames) : that.moduleNames == null)
-        && (moduleGroups != null
-            ? moduleGroups.equals(that.moduleGroups)
-            : that.moduleGroups == null)
-        && (logExcludedExceptions != null
-            ? logExcludedExceptions.equals(that.logExcludedExceptions)
-            : that.logExcludedExceptions == null);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = resolveType != null ? resolveType.hashCode() : 0;
-    result = 31 * result + (moduleNames != null ? moduleNames.hashCode() : 0);
-    result = 31 * result + (moduleGroups != null ? moduleGroups.hashCode() : 0);
-    result = 31 * result + (logExcludedExceptions != null ? logExcludedExceptions.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     return "CoreBaseProperties{"
         + "resolveType="

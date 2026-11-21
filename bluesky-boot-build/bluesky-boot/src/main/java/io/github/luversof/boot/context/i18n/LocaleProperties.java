@@ -50,29 +50,6 @@ public class LocaleProperties extends AbstractBlueskyProperties<LocaleProperties
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    LocaleProperties that = (LocaleProperties) o;
-    return (beanName != null ? beanName.equals(that.beanName) : that.beanName == null)
-        && (enabledLocales != null
-            ? enabledLocales.equals(that.enabledLocales)
-            : that.enabledLocales == null);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (beanName != null ? beanName.hashCode() : 0);
-    result = 31 * result + (enabledLocales != null ? enabledLocales.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     return "LocaleProperties{"
         + "beanName='"

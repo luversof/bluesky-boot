@@ -46,27 +46,6 @@ public class CoreProperties extends AbstractBlueskyProperties<CoreProperties> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    CoreProperties that = (CoreProperties) o;
-    return (moduleInfo != null ? moduleInfo.equals(that.moduleInfo) : that.moduleInfo == null)
-        && (properties != null ? properties.equals(that.properties) : that.properties == null);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (moduleInfo != null ? moduleInfo.hashCode() : 0);
-    result = 31 * result + (properties != null ? properties.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     return "CoreProperties{" + "moduleInfo=" + moduleInfo + ", properties=" + properties + '}';
   }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,24 +50,6 @@ public class LocaleContextResolverProperties
 
   public void setLocaleResolveHandlerBeanNames(List<String> localeResolveHandlerBeanNames) {
     this.localeResolveHandlerBeanNames = localeResolveHandlerBeanNames;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    LocaleContextResolverProperties that = (LocaleContextResolverProperties) o;
-    return preset == that.preset
-        && Objects.equals(localeResolveHandlerBeanNames, that.localeResolveHandlerBeanNames);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(super.hashCode(), preset, localeResolveHandlerBeanNames);
   }
 
   @Override

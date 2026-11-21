@@ -2,7 +2,6 @@ package io.github.luversof.boot.web;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
 
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -107,31 +106,6 @@ public class CookieProperties extends AbstractBlueskyProperties<CookieProperties
 
   public void setSameSite(String sameSite) {
     this.sameSite = sameSite;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    CookieProperties that = (CookieProperties) o;
-    return Objects.equals(beanName, that.beanName)
-        && Objects.equals(name, that.name)
-        && Objects.equals(maxAge, that.maxAge)
-        && Objects.equals(domain, that.domain)
-        && Objects.equals(path, that.path)
-        && Objects.equals(secure, that.secure)
-        && Objects.equals(httpOnly, that.httpOnly)
-        && Objects.equals(sameSite, that.sameSite);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        super.hashCode(), beanName, name, maxAge, domain, path, secure, httpOnly, sameSite);
   }
 
   @Override

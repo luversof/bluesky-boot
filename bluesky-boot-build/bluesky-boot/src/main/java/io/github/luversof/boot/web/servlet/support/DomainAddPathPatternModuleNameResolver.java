@@ -1,6 +1,5 @@
 package io.github.luversof.boot.web.servlet.support;
 
-import java.net.URI;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -23,62 +22,26 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
               o1.getValue().getAddPathPatterns().get(0).length(),
               o2.getValue().getAddPathPatterns().get(0).length());
 
-  /**
-   * 도메인을 먼저 체크한 후 addPathPattern을 체크 그 반대의 경우로 쓰는 경우 현재 구현 상 domain은 체크하지 않고 addPathPattern만 체크함 이
-   * 부분은 추후 필요에 따라 개선 검토
-   */
-  private boolean isDomainFirst = true;
-
   public DomainAddPathPatternModuleNameResolver(DomainModuleProperties domainModuleProperties) {
     super(domainModuleProperties);
-  }
-
-  public DomainAddPathPatternModuleNameResolver(
-      DomainModuleProperties domainModuleProperties, boolean isDomainFirst) {
-    super(domainModuleProperties);
-    this.isDomainFirst = isDomainFirst;
   }
 
   @Override
   protected Entry<String, DomainProperties> getModulePropertiesEntry(
       HttpServletRequest request, DomainModuleProperties domainModuleProperties) {
-    // 해당 도메인에 해당하는 모듈 entry list 확인
+    // 도메인으로 먼저 거르고, 2개 이상 남으면 addPathPattern 으로 하나를 고른다
+    var moduleEntryList =
+        domainModuleProperties.getModules().entrySet().stream()
+            .filter(moduleEntry ->
+                DomainModuleNameResolver.checkDomain(request, moduleEntry.getValue()))
+            .toList();
 
-    var moduleEntryList = List.copyOf(domainModuleProperties.getModules().entrySet());
-
-    moduleEntryList =
-        isDomainFirst
-            ? getEntryListFilterByDomain(request, moduleEntryList)
-            : getEntryListFilterByAddPathPattern(request, moduleEntryList);
-
-    if (moduleEntryList.isEmpty()) {
-      return null;
-    }
-
-    // 대상 entry List가 2개 이상인 경우 다음 체크
     if (moduleEntryList.size() > 1) {
-      moduleEntryList =
-          !isDomainFirst
-              ? getEntryListFilterByDomain(request, moduleEntryList)
-              : getEntryListFilterByAddPathPattern(request, moduleEntryList);
+      moduleEntryList = getEntryListFilterByAddPathPattern(request, moduleEntryList);
     }
 
-    if (moduleEntryList.isEmpty()) {
-      return null;
-    }
-
-    if (moduleEntryList.size() == 1) {
-      return moduleEntryList.get(0);
-    }
     // addPathPattern은 단일 또는 빈 목록을 반환하므로 2개 이상이 있을 가능성은 없음
-    return null;
-  }
-
-  private List<Entry<String, DomainProperties>> getEntryListFilterByDomain(
-      HttpServletRequest request, List<Entry<String, DomainProperties>> moduleEntryList) {
-    return moduleEntryList.stream()
-        .filter(moduleEntry -> checkDomain(request, moduleEntry.getValue()))
-        .toList();
+    return moduleEntryList.size() == 1 ? moduleEntryList.get(0) : null;
   }
 
   private List<Entry<String, DomainProperties>> getEntryListFilterByAddPathPattern(
@@ -93,23 +56,5 @@ public class DomainAddPathPatternModuleNameResolver extends AbstractModuleNameRe
             .findFirst()
             .orElse(null);
     return moduleEntry == null ? Collections.emptyList() : List.of(moduleEntry);
-  }
-
-  private boolean checkDomain(HttpServletRequest request, DomainProperties domainProperties) {
-    if (request == null) {
-      return false;
-    }
-
-    return domainProperties != null
-        && (checkDomain(request, domainProperties.getWebUrls())
-            || checkDomain(request, domainProperties.getMobileWebUrls())
-            || checkDomain(request, domainProperties.getDevDomains()));
-  }
-
-  private boolean checkDomain(HttpServletRequest request, List<URI> uriList) {
-    if (request == null) {
-      return false;
-    }
-    return uriList.stream().anyMatch(uri -> uri.getHost().equals(request.getServerName()));
   }
 }

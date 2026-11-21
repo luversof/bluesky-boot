@@ -1,7 +1,5 @@
 package io.github.luversof.boot.uuid;
 
-import java.util.Objects;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.luversof.boot.core.AbstractBlueskyProperties;
@@ -31,23 +29,6 @@ public class UuidGeneratorProperties extends AbstractBlueskyProperties<UuidGener
     V4,
     V6,
     V7
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    UuidGeneratorProperties that = (UuidGeneratorProperties) o;
-    return version == that.version;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(super.hashCode(), version);
   }
 
   @Override

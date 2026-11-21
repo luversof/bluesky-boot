@@ -1,7 +1,5 @@
 package io.github.luversof.boot.web;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -151,31 +149,6 @@ public class LocaleResolveHandlerProperties
     public boolean isCheckLanguageMatchOnly() {
       return checkLanguageMatchOnly;
     }
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    LocaleResolveHandlerProperties that = (LocaleResolveHandlerProperties) o;
-    return Objects.equals(beanName, that.beanName)
-        && localeResolveInfoCondition == that.localeResolveInfoCondition
-        && setRepresentativeCondition == that.setRepresentativeCondition
-        && preLocaleResolveInfoCondition == that.preLocaleResolveInfoCondition;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        super.hashCode(),
-        beanName,
-        localeResolveInfoCondition,
-        setRepresentativeCondition,
-        preLocaleResolveInfoCondition);
   }
 
   @Override

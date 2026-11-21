@@ -3,7 +3,6 @@ package io.github.luversof.boot.web;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -132,39 +131,6 @@ public class DomainProperties extends AbstractBlueskyProperties<DomainProperties
 
   public void setForwardPath(String forwardPath) {
     this.forwardPath = forwardPath;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass() || !super.equals(o)) {
-      return false;
-    }
-    DomainProperties that = (DomainProperties) o;
-    return Objects.equals(addPathPatterns, that.addPathPatterns)
-        && Objects.equals(webUrls, that.webUrls)
-        && Objects.equals(mobileWebUrls, that.mobileWebUrls)
-        && Objects.equals(devDomains, that.devDomains)
-        && Objects.equals(staticPaths, that.staticPaths)
-        && Objects.equals(excludePaths, that.excludePaths)
-        && Objects.equals(requestPath, that.requestPath)
-        && Objects.equals(forwardPath, that.forwardPath);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        super.hashCode(),
-        addPathPatterns,
-        webUrls,
-        mobileWebUrls,
-        devDomains,
-        staticPaths,
-        excludePaths,
-        requestPath,
-        forwardPath);
   }
 
   @Override
