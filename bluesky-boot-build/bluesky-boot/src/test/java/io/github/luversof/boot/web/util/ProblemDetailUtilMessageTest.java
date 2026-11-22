@@ -2,8 +2,10 @@ package io.github.luversof.boot.web.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Locale;
 
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,7 @@ import io.github.luversof.boot.context.BlueskyContextHolder;
 import io.github.luversof.boot.core.CoreBaseProperties;
 import io.github.luversof.boot.exception.BlueskyErrorMessage;
 import io.github.luversof.boot.exception.BlueskyException;
+import io.github.luversof.boot.exception.ErrorMessage;
 
 /** 5xx 의 예외 원문은 SQL · 경로 같은 내부 구조를 담을 수 있어 응답에 싣지 않는다. 4xx 원문과 등록된 메시지는 싣는다. */
 class ProblemDetailUtilMessageTest {
@@ -32,6 +35,7 @@ class ProblemDetailUtilMessageTest {
     var messageSource = new StaticMessageSource();
     messageSource.addMessage("UnsupportedOperationException", Locale.ROOT, "지원하지 않는 요청");
     messageSource.addMessage("BlueskyException.NOT_EXIST_BLOG", Locale.ROOT, "존재하지 않는 블로그");
+    messageSource.addMessage("REMOTE_CODE", Locale.ROOT, "원격 오류");
     var context = new GenericApplicationContext();
     context.getBeanFactory().registerSingleton("coreBaseProperties", new CoreBaseProperties());
     context
@@ -102,5 +106,55 @@ class ProblemDetailUtilMessageTest {
     assertThat(problemDetail.getStatus()).isEqualTo(404);
     assertThat(message.getMessage()).isEqualTo("존재하지 않는 블로그");
     assertThat(message.isDisplayableMessage()).isTrue();
+  }
+
+  /** 하위 예외는 자기 코드에 메시지가 없으면 BlueskyException 코드의 메시지를 쓴다. */
+  @Test
+  void subclassFallsBackToBlueskyExceptionMessage() {
+    var message = blueskyErrorMessage(new BlogException("NOT_EXIST_BLOG"));
+
+    assertThat(message.getMessage()).isEqualTo("존재하지 않는 블로그");
+    assertThat(message.getExceptionClassName()).isEqualTo("BlogException");
+  }
+
+  /** api 호출로 받은 오류 목록은 이 앱에 등록된 메시지로 덮는다. */
+  @Test
+  void remoteErrorMessageListIsLocalized() {
+    var remote = new BlueskyErrorMessage();
+    remote.setErrorCode("REMOTE_CODE");
+    remote.setMessage("remote message");
+
+    BlueskyContextHolder.setContext(() -> null);
+    ProblemDetail problemDetail;
+    try {
+      problemDetail =
+          ProblemDetailUtil.getProblemDetail(new BlueskyException(List.<ErrorMessage>of(remote)));
+    } finally {
+      BlueskyContextHolder.clearContext();
+    }
+
+    assertThat(problemDetail.getProperties().get("result"))
+        .asInstanceOf(InstanceOfAssertFactories.list(BlueskyErrorMessage.class))
+        .singleElement()
+        .satisfies(m -> {
+          assertThat(m.getMessage()).isEqualTo("원격 오류");
+          assertThat(m.isDisplayableMessage()).isTrue();
+        });
+  }
+
+  private static BlueskyErrorMessage blueskyErrorMessage(BlueskyException exception) {
+    BlueskyContextHolder.setContext(() -> null);
+    try {
+      return (BlueskyErrorMessage)
+          ProblemDetailUtil.getProblemDetail(exception).getProperties().get("result");
+    } finally {
+      BlueskyContextHolder.clearContext();
+    }
+  }
+
+  static class BlogException extends BlueskyException {
+    BlogException(String errorCode) {
+      super(errorCode, 404);
+    }
   }
 }
