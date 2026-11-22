@@ -2,6 +2,7 @@ package io.github.luversof.boot.web.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -145,7 +146,9 @@ public final class ProblemDetailUtil {
     errorMessage.setErrorMessageArgs(exception.getErrorMessageArgs());
     if (StringUtils.hasLength(localizedMessage)
         && !localizedMessage.equals(exception.getErrorCode())
-        && !localizedMessage.equals(getMessageSourceAccessor().getMessage("BlueskyException"))) {
+        // 앱이 "BlueskyException" 키를 두지 않을 수 있다 - 없으면 비교할 문구도 없다
+        && !localizedMessage.equals(
+            getMessageSourceAccessor().getMessage("BlueskyException", (String) null))) {
       errorMessage.setMessage(localizedMessage);
       errorMessage.setDisplayableMessage(true);
     } else {
@@ -178,10 +181,8 @@ public final class ProblemDetailUtil {
     var messageCodeList = new ArrayList<String>();
     messageCodeList.addAll(Arrays.asList(errorCodes));
     messageCodeList.addAll(Arrays.asList(blueskyErrorCodes));
-    messageCodeList.sort((v1, v2) ->
-        v1.chars().filter(e -> e == '.').count() > v2.chars().filter(e -> e == '.').count()
-            ? -1
-            : 0);
+    messageCodeList.sort(
+        Comparator.comparingLong((String v) -> v.chars().filter(e -> e == '.').count()).reversed());
     return messageCodeList.toArray(new String[messageCodeList.size()]);
   }
 
