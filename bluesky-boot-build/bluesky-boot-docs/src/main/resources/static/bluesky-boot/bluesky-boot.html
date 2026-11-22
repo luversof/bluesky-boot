@@ -32,12 +32,22 @@
 <div id="toctitle">Table of Contents</div>
 <span id="back-to-index"><a href="index.html">Back to index</a></span><ul class="sectlevel1">
 <li><a href="#소개">1. 소개</a></li>
-<li><a href="#상세-기능">2. 상세 기능</a>
+<li><a href="#profile">2. profile</a></li>
+<li><a href="#모듈">3. 모듈</a>
 <ul class="sectlevel2">
-<li><a href="#spring-multi-profile-지원">2.1. spring multi profile 지원</a></li>
-<li><a href="#multi-module-지원">2.2. multi module 지원</a></li>
+<li><a href="#모듈-선언">3.1. 모듈 선언</a></li>
+<li><a href="#요청의-모듈-고르기">3.2. 요청의 모듈 고르기</a></li>
 </ul>
 </li>
+<li><a href="#properties">4. properties</a>
+<ul class="sectlevel2">
+<li><a href="#세-가지-bean">4.1. 세 가지 bean</a></li>
+<li><a href="#병합-순서">4.2. 병합 순서</a></li>
+<li><a href="#현재-모듈의-설정-쓰기">4.3. 현재 모듈의 설정 쓰기</a></li>
+<li><a href="#다시-읽기">4.4. 다시 읽기</a></li>
+</ul>
+</li>
+<li><a href="#autoconfiguration">5. AutoConfiguration</a></li>
 </ul>
 </div>
 </div>
@@ -46,72 +56,274 @@
 <h2 id="소개"><a class="anchor" href="#소개"></a>1. 소개</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>bluesky-boot는 spring-boot를 기반으로 multi module 프로젝트를 사용하기 위한 기능들을 추가하여 관리하는 프로젝트입니다.<br>
-이 모듈의 기능을 기반으로 bluesky-boot-autoconfigure가 제공되며 autoconfigure를 사용하지 않고 직접 구현하여 사용할 수 있습니다.</p>
+<p>bluesky-boot 는 Spring Boot 위에서 하나의 애플리케이션이 여러 "모듈" 을 서비스할 때 필요한 기능을 모은 라이브러리입니다.<br>
+여기서 모듈은 maven module 이 아니라, 요청에 따라 설정을 달리 써야 하는 서비스 단위입니다.<br>
+예를 들어 웹 서버 하나가 도메인별로 여러 사이트를 제공하면, 사이트마다 cookie · locale · 도메인 설정이 다릅니다.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>bluesky-boot</code>: 모듈 · properties · context 같은 핵심 기능</p>
+</li>
+<li>
+<p><code>bluesky-boot-autoconfigure</code>: 위 기능을 Spring Boot AutoConfiguration 으로 등록</p>
+</li>
+<li>
+<p><code>bluesky-boot-test-autoconfigure</code>: REST Docs 등 시험 지원</p>
+</li>
+<li>
+<p><code>bluesky-boot-properties-migrator</code>: 이름이 바뀐 property 를 알려 주는 migrator</p>
+</li>
+<li>
+<p><code>bluesky-boot-dependencies</code>, <code>bluesky-boot-parent</code>: 의존성 · 빌드 설정 (Java 25, Spring Boot 4)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="상세-기능"><a class="anchor" href="#상세-기능"></a>2. 상세 기능</h2>
+<h2 id="profile"><a class="anchor" href="#profile"></a>2. profile</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>ProfileEnvironmentPostProcessor</code> 가 <code>spring.profiles.active</code> 중 bluesky-boot 가 아는 profile 하나를 골라 <code>bluesky-boot-profile</code> property 로 등록합니다.<br>
+profile 을 여러 개 켜도 설정 파일은 이 값으로 고릅니다(예: <code>classpath:data/jpa/data-jpa-${bluesky-boot-profile}.properties</code>).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>아는 profile: <code>default</code>, <code>opdev</code>, <code>localdev</code>, <code>dockerdev</code>, <code>k8sdev</code>, <code>live</code> (<code>ProfileInfo</code>)</p>
+</li>
+<li>
+<p>active profile 이 없으면 <code>default</code> 를 켭니다.</p>
+</li>
+<li>
+<p>아는 profile 이 하나도 없으면 <code>NOT_EXIST_PROFILE</code> 로 시작에 실패합니다.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="모듈"><a class="anchor" href="#모듈"></a>3. 모듈</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="spring-multi-profile-지원"><a class="anchor" href="#spring-multi-profile-지원"></a>2.1. spring multi profile 지원</h3>
+<h3 id="모듈-선언"><a class="anchor" href="#모듈-선언"></a>3.1. 모듈 선언</h3>
 <div class="paragraph">
-<p>스프링의 <code>spring.profiles.active</code> 설정을 복수로 사용하여도 <code>blueksy-boot-autoconfigure</code> 의 설정 파일 관리에 영향이 없도록 하기 위해 <code>BlueskyEnvironmentPostProcessor</code> 를 통해 지정된 profile을 사용하여 관리하도록 합니다.</p>
+<p>모듈 이름은 <code>bluesky-boot.core.modules.&lt;모듈&gt;</code> 에 설정을 두거나, 설정 없이 이름만 <code>bluesky-boot.core.module-names</code> 에 적어 선언합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-properties" data-lang="properties">bluesky-boot.core.module-names=main,shop,admin</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="multi-module-지원"><a class="anchor" href="#multi-module-지원"></a>2.2. multi module 지원</h3>
+<h3 id="요청의-모듈-고르기"><a class="anchor" href="#요청의-모듈-고르기"></a>3.2. 요청의 모듈 고르기</h3>
 <div class="paragraph">
-<p>여기에서 module은 maven의 module이 아닙니다.<br>
-하나의 웹 또는 앱 서비스가 실행되면 해당 서비스에서 요청에 따라 분기 처리가 필요한 경우가 있습니다.<br>
-예를 들어 웹서버 하나에서 도메인 별로 여러 웹을 제공해 줄 수 있습니다.<br>
-이런 경우 여러 웹에 대해 각각의 웹에 대해 다른 설정을 관리해야 합니다.</p>
+<p>웹 요청이 오면 <code>BlueskyContextHolderFilter</code> 가 <code>ModuleNameResolver</code> 로 모듈을 고르고, 요청이 끝날 때까지 <code>BlueskyContextHolder</code> 에 둡니다.<br>
+어떤 resolver 를 쓸지는 <code>bluesky-boot.core.resolve-type</code> 으로 정합니다.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">resolve-type</th>
+<th class="tableblock halign-left valign-top">기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DOMAIN</code> (기본)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 host 가 <code>bluesky-boot.web.domain.modules.&lt;모듈&gt;</code> 의 <code>web-urls</code> · <code>mobile-web-urls</code> · <code>dev-domains</code> 중 하나와 같은 모듈. 같은 host 의 모듈이 여럿이면 URL 경로가 요청 경로에 가장 길게 맞는 모듈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ADD_PATH_PATTERN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 경로가 <code>add-path-patterns</code> 에 맞는 모듈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DOMAIN_ADD_PATH_PATTERN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도메인으로 먼저 거르고, 여럿이면 가장 긴 <code>add-path-patterns</code> 가 맞는 모듈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MODULE_NAME_RESOLVER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">앱이 직접 등록한 <code>ModuleNameResolver</code> bean (도메인을 쓰지 않는 API 서버 등)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-properties" data-lang="properties">bluesky-boot.web.domain.modules.main.web-urls=https://a.com
+bluesky-boot.web.domain.modules.shop.web-urls=https://a.com/shop
+bluesky-boot.web.domain.modules.admin.web-urls=https://admin.com</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>bluesky-boot에서는 BlueskyProperties 를 제공합니다.<br>
-해당 interface의 내용은 다음과 같습니다.</p>
+<p>고른 모듈이 없으면 모듈 이름은 <code>null</code> 이고, 상위(parent) 설정을 씁니다.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="properties"><a class="anchor" href="#properties"></a>4. properties</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="세-가지-bean"><a class="anchor" href="#세-가지-bean"></a>4.1. 세 가지 bean</h3>
+<div class="paragraph">
+<p>기능마다 properties bean 이 세 개 있습니다.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>XxxProperties</code>: 모든 모듈의 기본값(parent). <code>bluesky-boot.&lt;기능&gt;</code> 에 바인딩합니다.</p>
+</li>
+<li>
+<p><code>XxxGroupProperties</code>: 여러 모듈이 같이 쓰는 설정. <code>bluesky-boot.&lt;기능&gt;.groups.&lt;그룹&gt;</code></p>
+</li>
+<li>
+<p><code>XxxModuleProperties</code>: 모듈별 설정. <code>bluesky-boot.&lt;기능&gt;.modules.&lt;모듈&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>모듈이 어느 그룹에 속하는지는 <code>bluesky-boot.core.module-groups.&lt;그룹&gt;=&lt;모듈 목록&gt;</code> 으로 정합니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface BlueskyProperties&lt;T&gt; {
-
-    Map&lt;String, T&gt; getModules();
-
-}
+<pre class="highlight"><code class="language-properties" data-lang="properties">bluesky-boot.core.module-groups.store=main,shop
+bluesky-boot.web.cookie.groups.store.domain=a.com
+bluesky-boot.web.cookie.modules.admin.domain=admin.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="병합-순서"><a class="anchor" href="#병합-순서"></a>4.2. 병합 순서</h3>
+<div class="paragraph">
+<p>모듈 설정은 아래 순서로 합칩니다. 뒤가 앞을 덮습니다.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>parent (<code>XxxProperties</code>)</p>
+</li>
+<li>
+<p>그룹 (<code>XxxGroupProperties</code>, 모듈이 그룹에 속할 때)</p>
+</li>
+<li>
+<p><code>ModuleInfo</code> preset (모듈 enum 등에 미리 정한 기본값)</p>
+</li>
+<li>
+<p>모듈 설정 (<code>XxxModuleProperties</code>)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>그 뒤 <code>applyDefaults()</code> 가 아직 <code>null</code> 인 값만 채웁니다.<br>
+값을 덮을 때(<code>BlueskyPropertiesOverlay</code>) <code>null</code> 은 건너뛰고, <code>Map</code> 은 key 별로 합치고, <code>List</code> · <code>Set</code> 은 통째로 바꿉니다. 그래서 빈 목록도 "설정함" 으로 칩니다.</p>
+</div>
+<div class="paragraph">
+<p><code>external-locale</code> · <code>external-cookie</code> 는 <code>locale</code> · <code>cookie</code> 와 같은 클래스를 쓰지만 값을 물려받지 않습니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="현재-모듈의-설정-쓰기"><a class="anchor" href="#현재-모듈의-설정-쓰기"></a>4.3. 현재 모듈의 설정 쓰기</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">CookieProperties cookieProperties = BlueskyContextHolder.getProperties(CookieProperties.class);
 </code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Spring Boot에서 관리하는 ConfigurationProperties를 만드는 객체 interface이며 이 interface를 확장하여 modules map을 만들어 여러 개의 모듈을 관리할 수 있습니다.<br>
-또한 BlueskyProperties를 확장한 객체도 여러 개 만들 수 있습니다.</p>
+<p><code>BlueskyContextHolder</code> 는 현재 요청의 모듈 이름으로 모듈 설정을 돌려줍니다. 모듈이 없으면 parent 를 돌려줍니다.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="다시-읽기"><a class="anchor" href="#다시-읽기"></a>4.4. 다시 읽기</h3>
 <div class="paragraph">
-<p>이 중 가장 핵심이 되는 기능을 제공하기 위해 BlueskyCoreProperties와 BlueskyCoreModuleProperties를 제공합니다.<br>
-bluesky-boot를 bluesky-boot-autoconfigure 없이 사용하고자 하는 경우 해당 interface의 구현이 필수입니다.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface BlueskyCoreProperties&lt;T extends BlueskyCoreModuleProperties&gt; extends BlueskyProperties&lt;T&gt; {
-
-    /**
-     * module 호출 처리 방식 정의 &lt;br /&gt;
-     * [domain , addPathPattern, moduleNameResolver]
-     */
-    CoreModulePropertiesResolveType getResolveType();
-    void setResolveType(CoreModulePropertiesResolveType resolveType);
-
-}
-</code></pre>
+<p>설정이 바뀌면 actuator endpoint <code>bluesky-refresh</code> 로 properties 를 다시 읽습니다(<code>BlueskyPropertiesRefresher</code>).</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="autoconfiguration"><a class="anchor" href="#autoconfiguration"></a>5. AutoConfiguration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>bluesky-boot-autoconfigure</code> 가 등록하는 구성입니다.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">AutoConfiguration</th>
+<th class="tableblock halign-left valign-top">내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CoreAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">core properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CoreMvcAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개발 확인용 <code>CoreDevCheckController</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocaleAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">locale · external-locale properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WebAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">web · domain properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WebMvcAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모듈 resolver · <code>BlueskyContextHolderFilter</code>, 공통 예외 처리(<code>ProblemDetail</code>), cookie properties, locale resolve handler (accept-header · cookie · external-cookie)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MessageSourceAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여러 message basename 을 합친 <code>MessageSource</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DataSourceAutoConfiguration</code>, <code>DataSourceMvcAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여러 DataSource 와 routing DataSource (<code>bluesky-boot.datasource</code>, 요청 시 만드는 <code>lazy-load-routing</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JpaRepositoriesAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">profile 별 JPA 설정, JPA auditing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UuidGeneratorAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모듈별 UUID 생성기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HtmxAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">htmx 응답 header 지원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TextEncryptAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TextEncryptor</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BlueskyRefreshEndpointAutoConfiguration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bluesky-refresh</code> actuator endpoint</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>전체 property 목록은 <a href="bluesky-boot-properties.html">bluesky-boot-properties</a> 에 있습니다.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-12 00:05:03 +0900
+Last updated 2026-11-22 18:02:12 +0900
 </div>
 </div>
 </div>

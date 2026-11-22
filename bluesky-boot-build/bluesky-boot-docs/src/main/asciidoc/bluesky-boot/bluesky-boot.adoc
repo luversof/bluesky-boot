@@ -3,54 +3,126 @@ include::{docdir}/_attributes.adoc[]
 
 == 소개
 
-bluesky-boot는 spring-boot를 기반으로 multi module 프로젝트를 사용하기 위한 기능들을 추가하여 관리하는 프로젝트입니다.
-이 모듈의 기능을 기반으로 bluesky-boot-autoconfigure가 제공되며 autoconfigure를 사용하지 않고 직접 구현하여 사용할 수 있습니다.
+bluesky-boot 는 Spring Boot 위에서 하나의 애플리케이션이 여러 "모듈" 을 서비스할 때 필요한 기능을 모은 라이브러리입니다.
+여기서 모듈은 maven module 이 아니라, 요청에 따라 설정을 달리 써야 하는 서비스 단위입니다.
+예를 들어 웹 서버 하나가 도메인별로 여러 사이트를 제공하면, 사이트마다 cookie · locale · 도메인 설정이 다릅니다.
 
+* `bluesky-boot`: 모듈 · properties · context 같은 핵심 기능
+* `bluesky-boot-autoconfigure`: 위 기능을 Spring Boot AutoConfiguration 으로 등록
+* `bluesky-boot-test-autoconfigure`: REST Docs 등 시험 지원
+* `bluesky-boot-properties-migrator`: 이름이 바뀐 property 를 알려 주는 migrator
+* `bluesky-boot-dependencies`, `bluesky-boot-parent`: 의존성 · 빌드 설정 (Java {java-version}, Spring Boot 4)
 
-== 상세 기능
+== profile
 
-=== spring multi profile 지원
+`ProfileEnvironmentPostProcessor` 가 `spring.profiles.active` 중 bluesky-boot 가 아는 profile 하나를 골라 `bluesky-boot-profile` property 로 등록합니다.
+profile 을 여러 개 켜도 설정 파일은 이 값으로 고릅니다(예: `classpath:data/jpa/data-jpa-${bluesky-boot-profile}.properties`).
 
-스프링의 `spring.profiles.active` 설정을 복수로 사용하여도 `blueksy-boot-autoconfigure` 의 설정 파일 관리에 영향이 없도록 하기 위해 `BlueskyEnvironmentPostProcessor` 를 통해 지정된 profile을 사용하여 관리하도록 합니다.
+* 아는 profile: `default`, `opdev`, `localdev`, `dockerdev`, `k8sdev`, `live` (`ProfileInfo`)
+* active profile 이 없으면 `default` 를 켭니다.
+* 아는 profile 이 하나도 없으면 `NOT_EXIST_PROFILE` 로 시작에 실패합니다.
 
+== 모듈
 
-=== multi module 지원
+=== 모듈 선언
 
-여기에서 module은 maven의 module이 아닙니다.
-하나의 웹 또는 앱 서비스가 실행되면 해당 서비스에서 요청에 따라 분기 처리가 필요한 경우가 있습니다.
-예를 들어 웹서버 하나에서 도메인 별로 여러 웹을 제공해 줄 수 있습니다.
-이런 경우 여러 웹에 대해 각각의 웹에 대해 다른 설정을 관리해야 합니다.
+모듈 이름은 `bluesky-boot.core.modules.<모듈>` 에 설정을 두거나, 설정 없이 이름만 `bluesky-boot.core.module-names` 에 적어 선언합니다.
 
-bluesky-boot에서는 BlueskyProperties 를 제공합니다.
-해당 interface의 내용은 다음과 같습니다.
+[source,properties]
+----
+bluesky-boot.core.module-names=main,shop,admin
+----
 
-```java
-public interface BlueskyProperties<T> {
+=== 요청의 모듈 고르기
 
-	Map<String, T> getModules();
+웹 요청이 오면 `BlueskyContextHolderFilter` 가 `ModuleNameResolver` 로 모듈을 고르고, 요청이 끝날 때까지 `BlueskyContextHolder` 에 둡니다.
+어떤 resolver 를 쓸지는 `bluesky-boot.core.resolve-type` 으로 정합니다.
 
-}
-```
+[cols="1,3"]
+|===
+| resolve-type | 기준
 
-Spring Boot에서 관리하는 ConfigurationProperties를 만드는 객체 interface이며 이 interface를 확장하여 modules map을 만들어 여러 개의 모듈을 관리할 수 있습니다.
-또한 BlueskyProperties를 확장한 객체도 여러 개 만들 수 있습니다.
+| `DOMAIN` (기본) | 요청 host 가 `bluesky-boot.web.domain.modules.<모듈>` 의 `web-urls` · `mobile-web-urls` · `dev-domains` 중 하나와 같은 모듈. 같은 host 의 모듈이 여럿이면 URL 경로가 요청 경로에 가장 길게 맞는 모듈
+| `ADD_PATH_PATTERN` | 요청 경로가 `add-path-patterns` 에 맞는 모듈
+| `DOMAIN_ADD_PATH_PATTERN` | 도메인으로 먼저 거르고, 여럿이면 가장 긴 `add-path-patterns` 가 맞는 모듈
+| `MODULE_NAME_RESOLVER` | 앱이 직접 등록한 `ModuleNameResolver` bean (도메인을 쓰지 않는 API 서버 등)
+|===
 
-이 중 가장 핵심이 되는 기능을 제공하기 위해 BlueskyCoreProperties와 BlueskyCoreModuleProperties를 제공합니다.
-bluesky-boot를 bluesky-boot-autoconfigure 없이 사용하고자 하는 경우 해당 interface의 구현이 필수입니다.
+[source,properties]
+----
+bluesky-boot.web.domain.modules.main.web-urls=https://a.com
+bluesky-boot.web.domain.modules.shop.web-urls=https://a.com/shop
+bluesky-boot.web.domain.modules.admin.web-urls=https://admin.com
+----
 
+고른 모듈이 없으면 모듈 이름은 `null` 이고, 상위(parent) 설정을 씁니다.
 
-```java
-public interface BlueskyCoreProperties<T extends BlueskyCoreModuleProperties> extends BlueskyProperties<T> {
-	
-	/**
-	 * module 호출 처리 방식 정의 <br />
-	 * [domain , addPathPattern, moduleNameResolver]
-	 */
-	CoreModulePropertiesResolveType getResolveType();
-	void setResolveType(CoreModulePropertiesResolveType resolveType);
-	
-}
-```
+== properties
 
+=== 세 가지 bean
 
+기능마다 properties bean 이 세 개 있습니다.
 
+* `XxxProperties`: 모든 모듈의 기본값(parent). `bluesky-boot.<기능>` 에 바인딩합니다.
+* `XxxGroupProperties`: 여러 모듈이 같이 쓰는 설정. `bluesky-boot.<기능>.groups.<그룹>`
+* `XxxModuleProperties`: 모듈별 설정. `bluesky-boot.<기능>.modules.<모듈>`
+
+모듈이 어느 그룹에 속하는지는 `bluesky-boot.core.module-groups.<그룹>=<모듈 목록>` 으로 정합니다.
+
+[source,properties]
+----
+bluesky-boot.core.module-groups.store=main,shop
+bluesky-boot.web.cookie.groups.store.domain=a.com
+bluesky-boot.web.cookie.modules.admin.domain=admin.com
+----
+
+=== 병합 순서
+
+모듈 설정은 아래 순서로 합칩니다. 뒤가 앞을 덮습니다.
+
+. parent (`XxxProperties`)
+. 그룹 (`XxxGroupProperties`, 모듈이 그룹에 속할 때)
+. `ModuleInfo` preset (모듈 enum 등에 미리 정한 기본값)
+. 모듈 설정 (`XxxModuleProperties`)
+
+그 뒤 `applyDefaults()` 가 아직 `null` 인 값만 채웁니다.
+값을 덮을 때(`BlueskyPropertiesOverlay`) `null` 은 건너뛰고, `Map` 은 key 별로 합치고, `List` · `Set` 은 통째로 바꿉니다. 그래서 빈 목록도 "설정함" 으로 칩니다.
+
+`external-locale` · `external-cookie` 는 `locale` · `cookie` 와 같은 클래스를 쓰지만 값을 물려받지 않습니다.
+
+=== 현재 모듈의 설정 쓰기
+
+[source,java]
+----
+CookieProperties cookieProperties = BlueskyContextHolder.getProperties(CookieProperties.class);
+----
+
+`BlueskyContextHolder` 는 현재 요청의 모듈 이름으로 모듈 설정을 돌려줍니다. 모듈이 없으면 parent 를 돌려줍니다.
+
+=== 다시 읽기
+
+설정이 바뀌면 actuator endpoint `bluesky-refresh` 로 properties 를 다시 읽습니다(`BlueskyPropertiesRefresher`).
+
+== AutoConfiguration
+
+`bluesky-boot-autoconfigure` 가 등록하는 구성입니다.
+
+[cols="1,3"]
+|===
+| AutoConfiguration | 내용
+
+| `CoreAutoConfiguration` | core properties
+| `CoreMvcAutoConfiguration` | 개발 확인용 `CoreDevCheckController`
+| `LocaleAutoConfiguration` | locale · external-locale properties
+| `WebAutoConfiguration` | web · domain properties
+| `WebMvcAutoConfiguration` | 모듈 resolver · `BlueskyContextHolderFilter`, 공통 예외 처리(`ProblemDetail`), cookie properties, locale resolve handler (accept-header · cookie · external-cookie)
+| `MessageSourceAutoConfiguration` | 여러 message basename 을 합친 `MessageSource`
+| `DataSourceAutoConfiguration`, `DataSourceMvcAutoConfiguration` | 여러 DataSource 와 routing DataSource (`bluesky-boot.datasource`, 요청 시 만드는 `lazy-load-routing`)
+| `JpaRepositoriesAutoConfiguration` | profile 별 JPA 설정, JPA auditing
+| `UuidGeneratorAutoConfiguration` | 모듈별 UUID 생성기
+| `HtmxAutoConfiguration` | htmx 응답 header 지원
+| `TextEncryptAutoConfiguration` | `TextEncryptor`
+| `BlueskyRefreshEndpointAutoConfiguration` | `bluesky-refresh` actuator endpoint
+|===
+
+전체 property 목록은 link:bluesky-boot-properties.html[bluesky-boot-properties] 에 있습니다.
