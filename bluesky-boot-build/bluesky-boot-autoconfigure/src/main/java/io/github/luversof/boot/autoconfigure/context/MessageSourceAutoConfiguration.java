@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -27,14 +26,12 @@ import io.github.luversof.boot.context.support.MessageUtil;
     value = "blueskyBootMessageSourceAutoConfiguration",
     before = org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration.class)
 // @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@EnableConfigurationProperties(MessageSourceExtensionProperties.class)
+// Boot 4.2 registers MessageSourceProperties the same way; sharing the bean name keeps one bean
+@EnableConfigurationProperties({
+  MessageSourceProperties.class,
+  MessageSourceExtensionProperties.class
+})
 public class MessageSourceAutoConfiguration {
-
-  @Bean
-  @ConfigurationProperties(prefix = "spring.messages")
-  MessageSourceProperties messageSourceProperties() {
-    return new MessageSourceProperties();
-  }
 
   @Bean
   MessageSource messageSource(
