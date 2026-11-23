@@ -1,10 +1,7 @@
 package io.github.luversof.boot.core;
 
-import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.ResolvableType;
 
@@ -24,8 +21,6 @@ import io.github.luversof.boot.context.BlueskyContextHolder;
  */
 public interface BlueskyModuleProperties<T extends BlueskyProperties>
     extends InitializingBean, BlueskyRefreshProperties {
-
-  Logger LOGGER = LoggerFactory.getLogger(BlueskyModuleProperties.class);
 
   T getParent();
 
@@ -54,23 +49,12 @@ public interface BlueskyModuleProperties<T extends BlueskyProperties>
       return null;
     }
 
-    List<String> groupNameList =
-        BlueskyBootContextHolder.getContext().getModuleGroups().entrySet().stream()
-            .filter(entry -> entry.getValue().contains(moduleName))
-            .map(Map.Entry::getKey)
-            .toList();
-
-    if (groupNameList.isEmpty()) {
-      return null;
-    }
-
-    if (groupNameList.size() > 1) {
-      LOGGER.debug(
-          "Module names are declared multiple times in multiple groups. moduleName : {}",
-          moduleName);
-    }
-
-    return blueskyGroupProperties.getGroups().get(groupNameList.get(0));
+    // 모듈은 그룹 하나에만 속한다 - CoreBaseProperties 가 시작할 때 확인한다
+    return BlueskyBootContextHolder.getContext().getModuleGroups().entrySet().stream()
+        .filter(entry -> entry.getValue().contains(moduleName))
+        .findFirst()
+        .map(entry -> blueskyGroupProperties.getGroups().get(entry.getKey()))
+        .orElse(null);
   }
 
   default void load() {

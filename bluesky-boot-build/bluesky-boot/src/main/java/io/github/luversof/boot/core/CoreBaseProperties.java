@@ -117,6 +117,28 @@ public class CoreBaseProperties implements BlueskyProperties {
     var blueskyBootContext = BlueskyBootContextHolder.getContext();
     blueskyBootContext.clear();
     blueskyBootContext.getModuleNames().addAll(getModuleNames());
+    checkOneGroupPerModule();
     blueskyBootContext.getModuleGroups().putAll(getModuleGroups());
+  }
+
+  /** 모듈이 여러 그룹에 있으면 어느 그룹 설정을 쓸지 정할 수 없다(그룹 순서는 실행마다 다르다). */
+  private void checkOneGroupPerModule() {
+    var groupOfModule = new HashMap<String, String>();
+    getModuleGroups()
+        .forEach((groupName, moduleNames) ->
+            moduleNames.forEach(moduleName -> {
+              var otherGroupName = groupOfModule.putIfAbsent(moduleName, groupName);
+              if (otherGroupName != null && !otherGroupName.equals(groupName)) {
+                throw new IllegalStateException(
+                    "Module '"
+                        + moduleName
+                        + "' is declared in more than one group in "
+                        + PREFIX
+                        + ".module-groups: "
+                        + otherGroupName
+                        + ", "
+                        + groupName);
+              }
+            }));
   }
 }

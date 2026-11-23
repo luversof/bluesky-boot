@@ -3,6 +3,8 @@ package io.github.luversof.boot.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -19,6 +21,8 @@ public abstract class AbstractBlueskyModuleProperties<P extends AbstractBlueskyP
     implements BlueskyModuleProperties<P>, BeanNameAware {
 
   private static final long serialVersionUID = 1L;
+
+  private static final Logger log = LoggerFactory.getLogger(AbstractBlueskyModuleProperties.class);
 
   private String beanName;
 
@@ -71,6 +75,13 @@ public abstract class AbstractBlueskyModuleProperties<P extends AbstractBlueskyP
       merged.applyDefaults();
       getModules().put(moduleName, merged);
     }
+    getModules().keySet().stream()
+        .filter(moduleName -> !context.getModuleNames().contains(moduleName))
+        .forEach(moduleName ->
+            log.warn(
+                "{}: module '{}' is not declared (bluesky-boot.core.module-names), its settings are ignored",
+                beanName,
+                moduleName));
   }
 
   /** 모듈 이름 목록과 모듈별 ModuleInfo 는 {@link CoreModuleProperties} 가 등록한다. */

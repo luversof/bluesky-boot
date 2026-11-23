@@ -3,6 +3,8 @@ package io.github.luversof.boot.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
 
 import io.github.luversof.boot.context.BlueskyBootContextHolder;
@@ -18,6 +20,8 @@ public abstract class AbstractBlueskyGroupProperties<P extends AbstractBlueskyPr
     implements BlueskyGroupProperties<P>, BeanNameAware {
 
   private static final long serialVersionUID = 1L;
+
+  private static final Logger log = LoggerFactory.getLogger(AbstractBlueskyGroupProperties.class);
 
   private String beanName;
 
@@ -69,6 +73,13 @@ public abstract class AbstractBlueskyGroupProperties<P extends AbstractBlueskyPr
       merged.applyDefaults();
       getGroups().put(groupName, merged);
     }
+    getGroups().keySet().stream()
+        .filter(groupName -> !context.getModuleGroups().containsKey(groupName))
+        .forEach(groupName ->
+            log.warn(
+                "{}: group '{}' is not declared (bluesky-boot.core.module-groups), its settings are ignored",
+                beanName,
+                groupName));
   }
 
   /** 그룹별 ModuleInfo 는 {@link CoreGroupProperties} 가 등록한다. */
