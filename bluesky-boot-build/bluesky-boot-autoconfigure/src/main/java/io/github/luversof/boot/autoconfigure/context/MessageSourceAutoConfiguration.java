@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
+import org.springframework.boot.autoconfigure.context.ResourceBasedMessageSourceConfigurer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -36,8 +37,11 @@ public class MessageSourceAutoConfiguration {
   @Bean
   MessageSource messageSource(
       MessageSourceProperties messageSourceProperties,
-      MessageSourceExtensionProperties messageSourceExtensionProperties) {
+      MessageSourceExtensionProperties messageSourceExtensionProperties,
+      ResourceBasedMessageSourceConfigurer configurer) {
     var messageSource = new BlueskyReloadableResourceBundleMessageSource();
+    // spring.messages.* 전체(common-messages 포함)는 Boot 가 적용하고, basename 만 확장분을 합쳐 다시 넣는다
+    configurer.configure(messageSource);
 
     var baseNameList = new ArrayList<>();
 
@@ -47,16 +51,6 @@ public class MessageSourceAutoConfiguration {
 
     messageSourceExtensionProperties.getMessageSource().values().forEach(baseNameList::addAll);
     messageSource.setBasenames(baseNameList.toArray(new String[0]));
-    if (messageSourceProperties.getEncoding() != null) {
-      messageSource.setDefaultEncoding(messageSourceProperties.getEncoding().name());
-    }
-    messageSource.setFallbackToSystemLocale(messageSourceProperties.isFallbackToSystemLocale());
-    var cacheDuration = messageSourceProperties.getCacheDuration();
-    if (cacheDuration != null) {
-      messageSource.setCacheMillis(cacheDuration.toMillis());
-    }
-    messageSource.setAlwaysUseMessageFormat(messageSourceProperties.isAlwaysUseMessageFormat());
-    messageSource.setUseCodeAsDefaultMessage(messageSourceProperties.isUseCodeAsDefaultMessage());
     return messageSource;
   }
 

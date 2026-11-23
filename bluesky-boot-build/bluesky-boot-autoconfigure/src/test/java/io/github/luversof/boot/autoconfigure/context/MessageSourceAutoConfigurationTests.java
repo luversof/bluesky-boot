@@ -37,6 +37,16 @@ class MessageSourceAutoConfigurationTests {
             .isEqualTo("messageExtensionValue"));
   }
 
+  @Test
+  void commonMessagesAreApplied() {
+    this.contextRunner
+        .withPropertyValues(
+            "spring.messages.common-messages=classpath:context/messages-common.properties")
+        .run(context ->
+            assertThat(context.getMessage("commonKey", null, "Foo message", Locale.UK))
+                .isEqualTo("commonValue"));
+  }
+
   @Configuration
   @PropertySource("classpath:context/messageTest.properties")
   protected static class Config {}

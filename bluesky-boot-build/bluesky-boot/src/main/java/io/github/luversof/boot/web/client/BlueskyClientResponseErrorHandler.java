@@ -1,7 +1,6 @@
 package io.github.luversof.boot.web.client;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.ResponseErrorHandler;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 
 import io.github.luversof.boot.exception.BlueskyErrorMessage;
@@ -19,7 +18,8 @@ import io.github.luversof.boot.exception.BlueskyException;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
 
-public class BlueskyClientResponseErrorHandler implements ResponseErrorHandler {
+/** {@code RestClient.Builder.defaultStatusHandler(HttpStatusCode::isError, handler)} 로 등록한다. */
+public class BlueskyClientResponseErrorHandler implements RestClient.ResponseSpec.ErrorHandler {
 
   private static final Logger log =
       LoggerFactory.getLogger(BlueskyClientResponseErrorHandler.class);
@@ -31,13 +31,9 @@ public class BlueskyClientResponseErrorHandler implements ResponseErrorHandler {
   }
 
   @Override
-  public boolean hasError(ClientHttpResponse response) throws IOException {
-    return response.getStatusCode().isError();
-  }
-
-  @Override
-  public void handleError(URI url, HttpMethod method, ClientHttpResponse response)
-      throws IOException {
+  public void handle(HttpRequest request, ClientHttpResponse response) throws IOException {
+    var method = request.getMethod();
+    var url = request.getURI();
 
     var responseBody = response.getBody().readAllBytes();
     var result = readResult(responseBody);

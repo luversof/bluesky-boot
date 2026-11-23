@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.mock.http.client.MockClientHttpRequest;
 import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.web.client.RestClientResponseException;
 
@@ -24,9 +25,8 @@ class BlueskyClientResponseErrorHandlerTest {
   private final URI url = URI.create("http://api.local/item");
 
   private void handle(String body, HttpStatus status) throws Exception {
-    handler.handleError(
-        url,
-        HttpMethod.GET,
+    handler.handle(
+        new MockClientHttpRequest(HttpMethod.GET, url),
         new MockClientHttpResponse(body.getBytes(StandardCharsets.UTF_8), status));
   }
 
