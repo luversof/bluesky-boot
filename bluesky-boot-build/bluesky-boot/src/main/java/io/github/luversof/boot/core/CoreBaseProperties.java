@@ -125,8 +125,8 @@ public class CoreBaseProperties implements BlueskyProperties {
   private void checkOneGroupPerModule() {
     var groupOfModule = new HashMap<String, String>();
     getModuleGroups()
-        .forEach((groupName, moduleNames) ->
-            moduleNames.forEach(moduleName -> {
+        .forEach((groupName, groupModuleNames) ->
+            groupModuleNames.forEach(moduleName -> {
               var otherGroupName = groupOfModule.putIfAbsent(moduleName, groupName);
               if (otherGroupName != null && !otherGroupName.equals(groupName)) {
                 throw new IllegalStateException(

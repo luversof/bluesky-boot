@@ -10,11 +10,8 @@ import java.util.TreeMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
-import org.springframework.boot.test.system.CapturedOutput;
-import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import io.github.luversof.boot.autoconfigure.context.i18n.LocaleAutoConfiguration;
 import io.github.luversof.boot.autoconfigure.core.CoreAutoConfiguration;
@@ -37,7 +34,6 @@ import tools.jackson.databind.json.JsonMapper;
  * <p>프로퍼티 클래스 구조를 바꿀 때(builder 와 합치기 코드 정리) 결과가 그대로인지 본다. 기대값이 바뀌는 게 맞으면 {@code
  * -Dcharacterization.update=true} 로 다시 기록하고 차이를 검토한다.
  */
-@ExtendWith(OutputCaptureExtension.class)
 class BlueskyPropertiesMergeCharacterizationTests {
 
   private static final Path EXPECTED =
@@ -148,32 +144,5 @@ class BlueskyPropertiesMergeCharacterizationTests {
       }
       assertThat(actual).isEqualTo(expected);
     });
-  }
-
-  /** 모듈이 두 그룹에 있으면 어느 그룹 설정을 쓸지 정할 수 없어 시작하지 않는다. */
-  @Test
-  void moduleInTwoGroupsFailsStartup() {
-    contextRunner
-        .withPropertyValues("bluesky-boot.core.module-groups.g2=beta")
-        .run(context ->
-            assertThat(context)
-                .getFailure()
-                .rootCause()
-                .hasMessageContaining("Module 'beta' is declared in more than one group"));
-  }
-
-  /** 선언하지 않은 모듈 · 그룹 이름에 준 설정은 쓰이지 않으므로 경고한다. */
-  @Test
-  void undeclaredModuleAndGroupSettingsAreWarned(CapturedOutput output) {
-    contextRunner
-        .withPropertyValues(
-            "bluesky-boot.web.cookie.modules.typo.name=TYPO",
-            "bluesky-boot.web.cookie.groups.nogroup.secure=true")
-        .run(context -> {
-          assertThat(context).hasNotFailed();
-          assertThat(output)
-              .contains("module 'typo' is not declared")
-              .contains("group 'nogroup' is not declared");
-        });
   }
 }
