@@ -29,7 +29,7 @@ public class DataSourceDevCheckController {
     this.blueskyRoutingDataSource = blueskyRoutingDataSource;
   }
 
-  @DevCheckDescription("blueskyRoutingDataSourceKeySet 조회")
+  @DevCheckDescription("routing DataSource 키 목록 조회")
   @GetMapping("/blueskyRoutingDataSourceKeySet")
   Set<Object> blueskyRoutingDataSourceKeySet() {
     if (blueskyRoutingDataSource instanceof RoutingDataSource routingDataSource) {

@@ -30,12 +30,13 @@ public class MessageSourceDevCheckController {
     this.messageSource = messageSource;
   }
 
+  @DevCheckDescription("메시지 소스 조회")
   @GetMapping("/messageSource")
   MessageSource messageSource() {
     return messageSource;
   }
 
-  @DevCheckDescription("다국어 메세지 전체 목록 조회")
+  @DevCheckDescription("다국어 메시지 목록 조회")
   @GetMapping("/messageSources")
   Map<Object, Object> getMessageSources(@RequestParam(required = false) String searchKeyword) {
     var map = new LinkedHashMap<>();
@@ -51,7 +52,7 @@ public class MessageSourceDevCheckController {
     return map;
   }
 
-  @DevCheckDescription("다국어 메세지 Locale별 전체 목록 조회")
+  @DevCheckDescription("locale별 다국어 메시지 목록 조회")
   @GetMapping("/messageSourcesByLocale")
   Map<Object, Object> getMessageSourcesByLocale(
       @RequestParam(required = false) Locale locale,

@@ -31,26 +31,26 @@ public class CoreDevCheckController {
 
   public CoreDevCheckController() {}
 
-  @DevCheckDescription("Spring activeProfiles 조회")
+  @DevCheckDescription("활성 프로필 조회")
   @GetMapping("/activeProfiles")
   String[] activeProfiles() {
     return ApplicationContextUtil.getApplicationContext().getEnvironment().getActiveProfiles();
   }
 
-  @DevCheckDescription("Spring activeProfiles 조회")
+  @DevCheckDescription("property 값 조회")
   @GetMapping("/property")
   String property(String key) {
     return ApplicationContextUtil.getApplicationContext().getEnvironment().getProperty(key);
   }
 
-  @DevCheckDescription("blueskyPropertiesMap 조회")
+  @DevCheckDescription("BlueskyProperties 빈 목록 조회")
   @GetMapping("/blueskyPropertiesMap")
   Map<String, BlueskyProperties> blueskyPropertiesMap() {
     return ApplicationContextUtil.getApplicationContext().getBeansOfType(BlueskyProperties.class);
   }
 
   @SuppressWarnings("rawtypes")
-  @DevCheckDescription("blueskyModulePropertiesMap 조회")
+  @DevCheckDescription("BlueskyModuleProperties 빈 목록 조회")
   @GetMapping("/blueskyModulePropertiesMap")
   Map<String, BlueskyModuleProperties> blueskyModulePropertiesMap() {
     return ApplicationContextUtil.getApplicationContext()
@@ -58,68 +58,68 @@ public class CoreDevCheckController {
   }
 
   @SuppressWarnings("rawtypes")
-  @DevCheckDescription("blueskyGroupPropertiesMap 조회")
+  @DevCheckDescription("BlueskyGroupProperties 빈 목록 조회")
   @GetMapping("/blueskyGroupPropertiesMap")
   Map<String, BlueskyGroupProperties> blueskyGroupPropertiesMap() {
     return ApplicationContextUtil.getApplicationContext()
         .getBeansOfType(BlueskyGroupProperties.class);
   }
 
-  @DevCheckDescription("coreProperties 조회")
+  @DevCheckDescription("CoreProperties 조회")
   @GetMapping("/coreProperties")
   CoreProperties coreProperties() {
     return ApplicationContextUtil.getApplicationContext().getBean(CoreProperties.class);
   }
 
-  @DevCheckDescription("coreBaseProperties 조회")
+  @DevCheckDescription("CoreBaseProperties 조회")
   @GetMapping("/coreBaseProperties")
   CoreBaseProperties coreBaseProperties() {
     return ApplicationContextUtil.getApplicationContext().getBean(CoreBaseProperties.class);
   }
 
-  @DevCheckDescription("coreModuleProperties 조회")
+  @DevCheckDescription("CoreModuleProperties 조회")
   @GetMapping("/coreModuleProperties")
   CoreModuleProperties coreModuleProperties() {
     return ApplicationContextUtil.getApplicationContext().getBean(CoreModuleProperties.class);
   }
 
-  @DevCheckDescription("initialBlueskyRefreshPropertiesMapKeySet 조회")
+  @DevCheckDescription("초기 refresh properties 키 목록 조회")
   @GetMapping("/initialBlueskyRefreshPropertiesMapKeySet")
   Set<String> initialBlueskyRefreshPropertiesMapKeySet() {
     return BlueskyBootContextHolder.getContext().getInitialBlueskyRefreshPropertiesMap().keySet();
   }
 
-  @DevCheckDescription("currentLocale 값 확인.")
+  @DevCheckDescription("현재 locale 조회")
   @GetMapping("/currentLocale")
   Locale currentLocale() {
     return LocaleContextHolder.getLocale();
   }
 
-  @DevCheckDescription("systemDefaultZone 값 확인.")
+  @DevCheckDescription("시스템 기본 시간대 조회")
   @GetMapping("/systemDefaultZone")
   Clock systemDefaultZone() {
     return Clock.systemDefaultZone();
   }
 
-  @DevCheckDescription("localeDateTime now 값 확인.")
+  @DevCheckDescription("현재 LocalDateTime 조회")
   @GetMapping("/localDateTimeNow")
   LocalDateTime localDateTimeNow() {
     return LocalDateTime.now();
   }
 
-  @DevCheckDescription("zonedDateTime now 값 확인.")
+  @DevCheckDescription("현재 ZonedDateTime 조회")
   @GetMapping("/zonedDateTimeNow")
   ZonedDateTime zonedDateTimeNow() {
     return ZonedDateTime.now();
   }
 
-  @DevCheckDescription("blueskyContext 확인")
+  @DevCheckDescription("BlueskyContext 조회")
   @GetMapping("/blueskyContext")
   BlueskyContext blueskyContext() {
     return BlueskyContextHolder.getContext();
   }
 
-  @DevCheckDescription("blueskyBootContext 확인")
+  @DevCheckDescription("BlueskyBootContext 조회")
   @GetMapping("/blueskyBootContext")
   BlueskyBootContext blueskyBootContext() {
     return BlueskyBootContextHolder.getContext();

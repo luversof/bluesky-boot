@@ -22,7 +22,7 @@ public class TextEncryptDevCheckController {
 
   public TextEncryptDevCheckController() {}
 
-  @DevCheckDescription("encrypt")
+  @DevCheckDescription("텍스트 암호화")
   @GetMapping("/encrypt")
   String encrypt(@RequestParam(required = false) String textEncryptorId, String text) {
     if (textEncryptorId == null) {
@@ -31,13 +31,13 @@ public class TextEncryptDevCheckController {
     return TextEncryptorFactories.getDelegatingTextEncryptor().encrypt(textEncryptorId, text);
   }
 
-  @DevCheckDescription("decrypt")
+  @DevCheckDescription("텍스트 복호화")
   @GetMapping("/decrypt")
   String decrypt(String text) {
     return TextEncryptorFactories.getDelegatingTextEncryptor().decrypt(text);
   }
 
-  @DevCheckDescription("textEncryptorMapKeySet")
+  @DevCheckDescription("TextEncryptor id 목록 조회")
   @GetMapping("/textEncryptorMapKeySet")
   Set<String> textEncryptorMapKeySet() {
     return TextEncryptorFactories.getDelegatingTextEncryptor().textEncryptorMapKeySet();
